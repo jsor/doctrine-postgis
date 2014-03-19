@@ -1,6 +1,8 @@
 PostGIS extension for Doctrine
 ==============================
 
+[![Build Status](https://secure.travis-ci.org/jsor/doctrine-postgis.png)](http://travis-ci.org/jsor/doctrine-postgis)
+
 This library allows you to use Doctrine with the PostGIS extension for
 PostgreSQL.
 
