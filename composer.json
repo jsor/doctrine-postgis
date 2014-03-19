@@ -1,0 +1,38 @@
+{
+    "name": "jsor/doctrine-spatial-postgis",
+    "description": "PostGIS extension for Doctrine",
+    "keywords": [
+        "spatial",
+        "doctrine",
+        "dbal",
+        "orm",
+        "gis",
+        "postgis",
+        "database"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Sorgalla",
+            "email": "jsorgalla@googlemail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "doctrine/dbal": "~2.4"
+    },
+    "require-dev": {
+        "doctrine/orm": "~2.4",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jsor\\Doctrine\\PostGIS\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

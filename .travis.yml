@@ -1,0 +1,38 @@
+language: php
+
+php:
+    - 5.3.3
+    - 5.3
+    - 5.4
+    - 5.5
+    - 5.6
+
+env:
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.0
+
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.0
+
+before_install:
+    - ./travis/before_install.sh
+
+before_script:
+    - ./travis/before_script.sh
+    - composer self-update
+    - composer install --dev --prefer-source
+    - composer require doctrine/orm:${DOCTRINE_VERSION}
+
+script:
+  - phpunit -c ./travis/phpunit.travis.postgis$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis$POSTGIS_VERSION.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
