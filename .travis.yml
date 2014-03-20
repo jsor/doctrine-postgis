@@ -23,10 +23,10 @@ env:
     - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.0
 
 before_script:
-    - psql -c 'create database doctrine_postgis_tests;' -U postgres
-    - psql -c 'create extension postgis;' -U postgres -d doctrine_postgis_tests
     - sudo service postgresql stop
     - sudo service postgresql start $POSTGRESQL_VERSION
+    - psql -c 'create database doctrine_postgis_tests;' -U postgres
+    - psql -c 'create extension postgis;' -U postgres -d doctrine_postgis_tests
     - composer self-update
     - composer install --dev --prefer-source
     - composer require doctrine/dbal:${DOCTRINE_VERSION}
