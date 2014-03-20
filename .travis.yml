@@ -29,6 +29,7 @@ before_script:
     - sudo service postgresql start $POSTGRESQL_VERSION
     - composer self-update
     - composer install --dev --prefer-source
+    - composer require doctrine/dbal:${DOCTRINE_VERSION}
     - composer require doctrine/orm:${DOCTRINE_VERSION}
 
 script:
