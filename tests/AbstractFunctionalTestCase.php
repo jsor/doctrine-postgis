@@ -39,21 +39,15 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
      */
     private $_schemaTool;
 
-    protected function setUp()
-    {
-    }
-
-    protected function tearDown()
-    {
-    }
-
     protected function _setUpEntitySchema($classNames)
     {
+        $em = $this->_getEntityManager();
+
         $classes = array();
         foreach ((array) $classNames as $className) {
-            if (!isset(static::$_entityTablesCreated[$className])) {
-                static::$_entityTablesCreated[$className] = true;
-                $classes[] = $this->_em->getClassMetadata($className);
+            if (!isset(self::$_entityTablesCreated[$className])) {
+                self::$_entityTablesCreated[$className] = true;
+                $classes[] = $em->getClassMetadata($className);
             }
         }
 
@@ -122,7 +116,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         $mockMethods = array();
 
         foreach ($methods as $method) {
-            if (!in_array($method->name, ['addFilter', 'getFilterClassName', 'addCustomNumericFunction', 'getCustomNumericFunction'])) {
+            if (!in_array($method->name, array('addFilter', 'getFilterClassName', 'addCustomNumericFunction', 'getCustomNumericFunction'))) {
                 $mockMethods[] = $method->name;
             }
         }

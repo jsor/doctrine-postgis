@@ -10,15 +10,11 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
     public function testEntity()
     {
+        $this->_setUpEntitySchema(array(
+            'Jsor\Doctrine\PostGIS\PointsEntity'
+        ));
+
         $em = $this->_getEntityManager();
-
-        $schema = array(
-            $em->getClassMetadata('Jsor\Doctrine\PostGIS\PointsEntity'),
-        );
-
-        $schemaTool = new SchemaTool($em);
-        $schemaTool->dropSchema($schema);
-        $schemaTool->createSchema($schema);
 
         $sm = $em->getConnection()->getSchemaManager();
         $table = $sm->listTableDetails('points');
@@ -55,7 +51,5 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals('POINT(1 1)', $entity->getPoint2DNoSrid());
         $this->assertEquals('SRID=4326;POINT(1 1)', $entity->getPointGeography2d());
         $this->assertEquals('SRID=4326;POINT(1 1)', $entity->getPointGeography2dSrid());
-
-        $schemaTool->dropSchema($schema);
     }
 }
