@@ -17,8 +17,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_drop.sql');
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_create.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_create.sql');
 
         $this->sm = $this->_getConnection()->getSchemaManager();
     }
@@ -27,7 +27,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         parent::tearDown();
 
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_drop.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
     }
 
     protected function createTableSchema()

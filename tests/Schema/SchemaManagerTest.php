@@ -10,15 +10,15 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_drop.sql');
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_create.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_create.sql');
     }
 
     protected function tearDown()
     {
         parent::tearDown();
 
-        $this->_execFile('postgis' . $_ENV['POSTGIS_VERSION'] . '_points_drop.sql');
+        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
     }
 
     public function testListSpatialIndexes()
