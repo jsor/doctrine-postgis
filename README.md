@@ -139,7 +139,7 @@ In practice, the ORM doesn't support flags yet (but there is a
 [pull request](https://github.com/doctrine/doctrine2/pull/973) open to add
 support for it).
 
-In the meatime you can use the following workaround to define spatial indexes.
+In the meantime you can use the following workaround to define spatial indexes.
 
 ```php
 /**
