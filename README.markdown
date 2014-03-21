@@ -50,7 +50,7 @@ Usage
 ### Property Mapping
 
 Once the event subscriber is registered, you can use the columns types
-`geometry` and `geography` in your property mappings (Please read the
+`geometry` and `geography` in your property mappings (please read the
 [PostGIS docs](http://postgis.net/docs/manual-2.1/using_postgis_dbmanagement.html#PostGIS_Geography)
 to understand the difference between these two types).
 
@@ -111,9 +111,9 @@ to retain as much information as possible (like SRID's). Read more in the
 ```php
 $entity = new MyEntity();
 
-$entity->setPoint('POINT(37.4220761, -122.0845187)');
+$entity->setPoint('POINT(37.4220761 -122.0845187)');
 $entity->setPoint4D('POINT(1 2 3 4)');
-$entity->setPointWithSRID('SRID=3785;POINT(37.4220761, -122.0845187)');
+$entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 ```
 
 ### Spatial Indexes
