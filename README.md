@@ -71,7 +71,7 @@ class MyEntity
 There are 2 options you can set to define the geometry.
 
 * `spatial_type`
-   This defines the type of the geometry, like POINT, LINSTRING etc.
+   This defines the type of the geometry, like POINT, LINESTRING etc.
 * `spatial_srid`
   This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
