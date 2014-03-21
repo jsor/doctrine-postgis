@@ -10,15 +10,15 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_create.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_create.sql');
     }
 
     protected function tearDown()
     {
         parent::tearDown();
 
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
     }
 
     public function testListSpatialIndexes()
@@ -157,9 +157,9 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis15
+     * @group postgis-1.5
      */
-    public function testIsPostGis2OnPostGis15()
+    public function testIsPostGis2OnPostGIS15()
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -167,9 +167,9 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis20
+     * @group postgis-2.x
      */
-    public function testIsPostGis2OnPostGis20()
+    public function testIsPostGis2OnPostGIS2x()
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 

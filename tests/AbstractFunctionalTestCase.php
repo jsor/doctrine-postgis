@@ -39,6 +39,24 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
      */
     private $_schemaTool;
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        if (!self::$_entityTablesCreated) {
+            return;
+        }
+
+        $em = $this->_getEntityManager();
+
+        $classes = array();
+        foreach (self::$_entityTablesCreated as $className => $flag) {
+            $classes[] = $em->getClassMetadata($className);
+        }
+
+        $this->_getSchemaTool()->dropSchema($classes);
+    }
+
     protected function _setUpEntitySchema($classNames)
     {
         $em = $this->_getEntityManager();

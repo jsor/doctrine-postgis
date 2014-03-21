@@ -1,10 +1,10 @@
 CREATE SEQUENCE points_id_seq INCREMENT BY 1 MINVALUE 1 START 1;
 CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TSVECTOR NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id));
 
-SELECT AddGeometryColumn('points', 'geometry', 0, 'GEOMETRY', 2);
+SELECT AddGeometryColumn('points', 'geometry', -1, 'GEOMETRY', 2);
 ALTER TABLE points ALTER geometry SET NOT NULL;
 
-SELECT AddGeometryColumn('points', 'point', 0, 'POINT', 2);
+SELECT AddGeometryColumn('points', 'point', -1, 'POINT', 2);
 ALTER TABLE points ALTER point SET NOT NULL;
 
 SELECT AddGeometryColumn('points', 'point_2d', 3785, 'POINT', 2);
@@ -21,7 +21,7 @@ ALTER TABLE points ALTER point_4d SET NOT NULL;
 
 SELECT AddGeometryColumn('points', 'point_2d_nullable', 3785, 'POINT', 2);
 
-SELECT AddGeometryColumn('points', 'point_2d_nosrid', 0, 'POINT', 2);
+SELECT AddGeometryColumn('points', 'point_2d_nosrid', -1, 'POINT', 2);
 ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL;
 
 CREATE INDEX idx_text ON points (text);

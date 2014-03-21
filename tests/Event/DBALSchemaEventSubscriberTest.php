@@ -17,8 +17,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_create.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_create.sql');
 
         $this->sm = $this->_getConnection()->getSchemaManager();
     }
@@ -27,7 +27,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         parent::tearDown();
 
-        $this->_execFile('postgis' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
     }
 
     protected function createTableSchema()
@@ -286,9 +286,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis20
+     * @group postgis-2.x
      */
-    public function testGetCreateTableSqlPostgis20()
+    public function testGetCreateTableSqlPostGIS2x()
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -315,9 +315,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis15
+     * @group postgis-1.5
      */
-    public function testGetCreateTableSqlPostgis15()
+    public function testGetCreateTableSqlPostGIS15()
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -327,9 +327,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertContains($expected, $sql);
 
         $columns = array(
-            "SELECT AddGeometryColumn('points', 'geometry', 0, 'GEOMETRY', 2)",
+            "SELECT AddGeometryColumn('points', 'geometry', -1, 'GEOMETRY', 2)",
             "ALTER TABLE points ALTER point SET NOT NULL",
-            "SELECT AddGeometryColumn('points', 'point', 0, 'POINT', 2)",
+            "SELECT AddGeometryColumn('points', 'point', -1, 'POINT', 2)",
             "ALTER TABLE points ALTER point SET NOT NULL",
             "SELECT AddGeometryColumn('points', 'point_2d', 3785, 'POINT', 2)",
             "ALTER TABLE points ALTER point_2d SET NOT NULL",
@@ -340,7 +340,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             "SELECT AddGeometryColumn('points', 'point_4d', 3785, 'POINT', 4)",
             "ALTER TABLE points ALTER point_4d SET NOT NULL",
             "SELECT AddGeometryColumn('points', 'point_2d_nullable', 3785, 'POINT', 2)",
-            "SELECT AddGeometryColumn('points', 'point_2d_nosrid', 0, 'POINT', 2)",
+            "SELECT AddGeometryColumn('points', 'point_2d_nosrid', -1, 'POINT', 2)",
             "ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL",
         );
 
@@ -366,9 +366,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis20
+     * @group postgis-2.x
      */
-    public function testGetDropTableSqlPostgis20()
+    public function testGetDropTableSqlPostGIS2x()
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -378,9 +378,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis15
+     * @group postgis-1.5
      */
-    public function testGetDropTableSqlPostgis15()
+    public function testGetDropTableSqlPostGIS15()
     {
         $table = $this->sm->listTableDetails('points');
 

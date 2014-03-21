@@ -7,33 +7,40 @@ php:
     - 5.5
     - 5.6
 
+# PostGIS Support Matrix: https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
 env:
-    #- DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
     - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
-    #- DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
-    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
-    #- DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=1.5
-    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
 
-    #- DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
+
+    - DOCTRINE_VERSION=2.4.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
+
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
     - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
-    #- DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
+
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=1.5
     - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
-    #- DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=1.5
-    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.0
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
+
+    - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
+
+install:
+  - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
 
 before_script:
-    - sudo service postgresql stop
-    - sudo service postgresql start $POSTGRESQL_VERSION
-    - psql -c 'create database doctrine_postgis_tests;' -U postgres
-    - psql -c 'create extension postgis;' -U postgres -d doctrine_postgis_tests
+    - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
     - composer self-update
     - composer install --dev --prefer-source
     - composer require doctrine/dbal:${DOCTRINE_VERSION}
     - composer require doctrine/orm:${DOCTRINE_VERSION}
 
 script:
-  - phpunit -c ./travis/phpunit.travis.postgis$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis$POSTGIS_VERSION.xml
+  - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
 
 after_script:
   - php vendor/bin/coveralls -v

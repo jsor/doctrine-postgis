@@ -146,7 +146,7 @@ class SchemaManager
 
         return array(
             'type' => $type,
-            'srid' => (int) $row['srid']
+            'srid' => max((int) $row['srid'], 0)
         );
     }
 }

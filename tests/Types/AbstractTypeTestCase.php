@@ -92,7 +92,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
     {
         $this->assertTrue($this->type->canRequireSQLConversion());
 
-        $this->assertEquals('ST_AsEWKT(foo)', $this->type->convertToPHPValueSQL('foo', $this->getPlatformMock()));
+        $this->assertEquals('ST_AsEWKT(foo::geometry)', $this->type->convertToPHPValueSQL('foo', $this->getPlatformMock()));
     }
 
     public function testConvertToDatabaseValueSQL()
