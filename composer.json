@@ -25,6 +25,9 @@
         "doctrine/orm": "~2.4",
         "satooshi/php-coveralls": "dev-master"
     },
+    "suggest": {
+        "doctrine/orm": "For using with the Doctrine ORM"
+    },
     "autoload": {
         "psr-4": {
             "Jsor\\Doctrine\\PostGIS\\": "src/"
