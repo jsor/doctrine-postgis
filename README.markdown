@@ -8,8 +8,6 @@ extension for PostgreSQL.
 
 Both PostGIS 1.5 and 2.x are supported as well as GiST-based spatial indexes.
 
-You can use
-
 Installation
 ------------
 
