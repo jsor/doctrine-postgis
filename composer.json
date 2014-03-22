@@ -1,6 +1,6 @@
 {
     "name": "jsor/doctrine-postgis",
-    "description": "PostGIS extension for Doctrine",
+    "description": "Spatial and Geographic Data with PostGIS and Doctrine.",
     "keywords": [
         "spatial",
         "doctrine",
