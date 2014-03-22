@@ -47,7 +47,7 @@ Usage
 
 ### Property Mapping
 
-Once the event subscriber is registered, you can use the columns types
+Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
 [PostGIS docs](http://postgis.net/docs/manual-2.1/using_postgis_dbmanagement.html#PostGIS_Geography)
 to understand the difference between these two types).
