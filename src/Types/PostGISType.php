@@ -41,7 +41,7 @@ abstract class PostGISType extends Type
     }
 
     /**
-     * @param array $options
+     * @param  array $options
      * @return mixed
      */
     abstract public function getNormalizedSpatialOptions(array $options = array());

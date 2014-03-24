@@ -4,7 +4,6 @@ namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\ORM\Tools\ToolEvents;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
-use Jsor\Doctrine\PostGIS\Types\GeographyType;
 
 class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
 {
