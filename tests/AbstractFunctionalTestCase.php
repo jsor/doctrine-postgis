@@ -9,9 +9,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\DefaultQuoteStrategy;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Repository\DefaultRepositoryFactory;
 use Doctrine\ORM\Tools\SchemaTool;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 
@@ -55,6 +53,8 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         }
 
         $this->_getSchemaTool()->dropSchema($classes);
+
+        self::$_entityTablesCreated = array();
     }
 
     protected function _setUpEntitySchema($classNames)
@@ -87,7 +87,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
                 'port' => $GLOBALS['db_port']
             );
 
-            self::$_conn = DriverManager::getConnection($dbParams);
+            self::$_conn = DriverManager::getConnection($dbParams, new Configuration());
 
             self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 
@@ -108,8 +108,15 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
             return $this->_em;
         }
 
-        $config = is_null($config) ? $this->_getConfiguration() : $config;
-        $em = EntityManager::create($this->_getConnection(), $config);
+        $connection = $this->_getConnection();
+
+        if (!$config) {
+            $config = $connection->getConfiguration();
+        }
+
+        $this->_setupConfiguration($config);
+
+        $em = EntityManager::create($connection, $config);
 
         return $this->_em = $em;
     }
@@ -123,73 +130,13 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return $this->_schemaTool = new SchemaTool($this->_getEntityManager());
     }
 
-    protected function _getConfiguration()
+    protected function _setupConfiguration(Configuration $config)
     {
-        // We need to mock every method except the ones which
-        // handle the filters
-        $configurationClass = 'Doctrine\ORM\Configuration';
-        $refl = new \ReflectionClass($configurationClass);
-        $methods = $refl->getMethods();
-
-        $mockMethods = array();
-
-        foreach ($methods as $method) {
-            if (!in_array($method->name, array('addFilter', 'getFilterClassName', 'addCustomNumericFunction', 'getCustomNumericFunction'))) {
-                $mockMethods[] = $method->name;
-            }
-        }
-
-        $config = $this->getMock($configurationClass, $mockMethods);
-
-        $config
-            ->expects($this->once())
-            ->method('getProxyDir')
-            ->will($this->returnValue($GLOBALS['TESTS_TEMP_DIR']))
-        ;
-
-        $config
-            ->expects($this->once())
-            ->method('getProxyNamespace')
-            ->will($this->returnValue('Proxy'))
-        ;
-
-        $config
-            ->expects($this->once())
-            ->method('getAutoGenerateProxyClasses')
-            ->will($this->returnValue(true))
-        ;
-
-        $config
-            ->expects($this->once())
-            ->method('getClassMetadataFactoryName')
-            ->will($this->returnValue('Doctrine\\ORM\\Mapping\\ClassMetadataFactory'))
-        ;
-
-        $mappingDriver = $this->_getMappingDriver();
-
-        $config
-            ->expects($this->any())
-            ->method('getMetadataDriverImpl')
-            ->will($this->returnValue($mappingDriver))
-        ;
-
-        $config
-            ->expects($this->any())
-            ->method('getDefaultRepositoryClassName')
-            ->will($this->returnValue('Doctrine\\ORM\\EntityRepository'))
-        ;
-
-        $config
-            ->expects($this->any())
-            ->method('getQuoteStrategy')
-            ->will($this->returnValue(new DefaultQuoteStrategy()))
-        ;
-
-        $config
-            ->expects($this->any())
-            ->method('getRepositoryFactory')
-            ->will($this->returnValue(new DefaultRepositoryFactory()))
-        ;
+        $config->setMetadataCacheImpl(new ArrayCache());
+        $config->setQueryCacheImpl(new ArrayCache());
+        $config->setProxyDir($GLOBALS['TESTS_TEMP_DIR']);
+        $config->setProxyNamespace('Proxy');
+        $config->setMetadataDriverImpl($this->_getMappingDriver());
 
         return $config;
     }
@@ -197,7 +144,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     /**
      * Creates default mapping driver
      *
-     * @return \Doctrine\ORM\Mapping\Driver\Driver
+     * @return \Doctrine\Common\Persistence\Mapping\Driver\MappingDriver
      */
     protected function _getMappingDriver()
     {

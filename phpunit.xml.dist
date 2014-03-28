@@ -26,11 +26,12 @@
     <groups>
         <exclude>
             <group>postgis-1.5</group>
+            <group>postgis-2.0</group>
         </exclude>
     </groups>
 
     <php>
-        <env name="POSTGIS_VERSION" value="2.0"/>
+        <env name="POSTGIS_VERSION" value="2.1"/>
 
         <var name="db_type" value="pdo_pgsql"/>
         <var name="db_host" value="localhost"/>

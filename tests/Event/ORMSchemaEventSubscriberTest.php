@@ -2,7 +2,6 @@
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
-use Doctrine\ORM\Tools\SchemaTool;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
