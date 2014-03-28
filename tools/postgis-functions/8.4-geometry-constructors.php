@@ -8,6 +8,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
+            'group' => 'postgis-2.1',
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0')",
@@ -51,6 +52,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}(ST_GeogFromText('LINESTRING(-113.98 39.198,-113.981 39.195)')))",
@@ -113,6 +115,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
+            'group' => 'postgis-2.1',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0'))",
@@ -141,6 +144,7 @@ return array(
                     )
                 ),
                 array(
+                    'group' => 'postgis-2.x',
                     'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>', 4326))",
                     'result' => array(
                         1 => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)'
@@ -153,6 +157,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}('{\"type\":\"Point\",\"coordinates\":[-48.23456,20.12345]}'))",
@@ -292,6 +297,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_MakePoint(-989502.1875, 528439.5625, 10), ST_MakePoint(-987121.375 ,529933.1875, 10))",
@@ -456,6 +462,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
+            'group' => 'postgis-2.1',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0'))",

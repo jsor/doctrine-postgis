@@ -61,6 +61,9 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * @group postgis-2.x
+     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');

@@ -5,6 +5,9 @@ namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
+/**
+ * @group postgis-2.1
+ */
 class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
 {
     protected function setUp()

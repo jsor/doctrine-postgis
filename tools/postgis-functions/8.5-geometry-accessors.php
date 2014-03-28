@@ -183,6 +183,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)'))",
@@ -444,6 +445,7 @@ return array(
         'total_arguments' => 1,
         'return_type' => 'numeric',
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )'))",
@@ -473,6 +475,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )'), 2))",
