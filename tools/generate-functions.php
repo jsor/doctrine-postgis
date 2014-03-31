@@ -140,7 +140,6 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 
         $result = $query->getSingleResult();
 
-        // Convert possible binary stream resources
         array_walk_recursive($result, function (&$data) {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
@@ -148,6 +147,10 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
                 if (false !== ($pos = strpos($data, 'x'))) {
                     $data = substr($data, $pos + 1);
                 }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
             }
         });
 

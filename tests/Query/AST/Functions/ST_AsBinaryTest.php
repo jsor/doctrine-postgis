@@ -39,11 +39,10 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
-        // Convert possible binary stream resources
         array_walk_recursive($result, function (&$data) {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
@@ -52,10 +51,14 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
                     $data = substr($data, $pos + 1);
                 }
             }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
         });
 
         $expected = array (
-  1 => '01030000000100000005000000000000000000000000000000000000000000000000000000000000000000f03f000000000000f03f000000000000f03f000000000000f03f000000000000000000000000000000000000000000000000',
+  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result);
@@ -63,11 +66,10 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326), \'XDR\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\'), \'XDR\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
-        // Convert possible binary stream resources
         array_walk_recursive($result, function (&$data) {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
@@ -76,10 +78,14 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
                     $data = substr($data, $pos + 1);
                 }
             }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
         });
 
         $expected = array (
-  1 => '000000000300000001000000050000000000000000000000000000000000000000000000003ff00000000000003ff00000000000003ff00000000000003ff0000000000000000000000000000000000000000000000000000000000000',
+  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result);

@@ -10,15 +10,15 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326))",
+                    'sql' => "SELECT ST_AsEWKT(ST_GeomFromWKB({function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))'))))",
                     'result' => array(
-                        1 => '01030000000100000005000000000000000000000000000000000000000000000000000000000000000000f03f000000000000f03f000000000000f03f000000000000f03f000000000000000000000000000000000000000000000000'
+                        1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))'
                     )
                 ),
                 array(
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326), 'XDR')",
+                    'sql' => "SELECT ST_AsEWKT(ST_GeomFromWKB({function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))'), 'XDR')))",
                     'result' => array(
-                        1 => '000000000300000001000000050000000000000000000000000000000000000000000000003ff00000000000003ff00000000000003ff00000000000003ff0000000000000000000000000000000000000000000000000000000000000'
+                        1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))'
                     )
                 ),
             )
@@ -30,15 +30,15 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326))",
+                    'sql' => "SELECT ST_AsEWKT(ST_GeomFromWKB({function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326))))",
                     'result' => array(
-                        1 => '0103000020e61000000100000005000000000000000000000000000000000000000000000000000000000000000000f03f000000000000f03f000000000000f03f000000000000f03f000000000000000000000000000000000000000000000000'
+                        1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))'
                     )
                 ),
                 array(
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326), 'XDR')",
+                    'sql' => "SELECT ST_AsEWKT(ST_GeomFromWKB({function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326), 'XDR')))",
                     'result' => array(
-                        1 => '0020000003000010e600000001000000050000000000000000000000000000000000000000000000003ff00000000000003ff00000000000003ff00000000000003ff0000000000000000000000000000000000000000000000000000000000000'
+                        1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))'
                     )
                 ),
             )

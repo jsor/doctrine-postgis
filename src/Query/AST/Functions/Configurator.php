@@ -9,7 +9,6 @@ class Configurator
     public static function configure(Configuration $configuration)
     {
        $configuration->addCustomStringFunction('ST_Intersection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersection');
-       $configuration->addCustomNumericFunction('ST_NPoints', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NPoints');
        $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
        $configuration->addCustomStringFunction('ST_Box2dFromGeoHash', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Box2dFromGeoHash');
        $configuration->addCustomStringFunction('ST_GeogFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeogFromText');
@@ -65,6 +64,7 @@ class Configurator
        $configuration->addCustomStringFunction('ST_IsValidDetail', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_IsValidDetail');
        $configuration->addCustomNumericFunction('ST_M', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_M');
        $configuration->addCustomNumericFunction('ST_NDims', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NDims');
+       $configuration->addCustomNumericFunction('ST_NPoints', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NPoints');
        $configuration->addCustomNumericFunction('ST_NRings', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NRings');
        $configuration->addCustomNumericFunction('ST_NumGeometries', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NumGeometries');
        $configuration->addCustomNumericFunction('ST_NumInteriorRings', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_NumInteriorRings');

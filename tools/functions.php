@@ -15,20 +15,6 @@ return array(
             )
         )
     ),
-    'ST_NPoints' => array(
-        'required_arguments' => 1,
-        'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
-                    'sql' => "SELECT ST_NPoints(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)'))",
-                    'result' => array(
-                        1 => 4
-                    )
-                )
-            )
-        )
-    ),
     'ST_Buffer' => array(
         'required_arguments' => 2,
         'total_arguments' => 3,
