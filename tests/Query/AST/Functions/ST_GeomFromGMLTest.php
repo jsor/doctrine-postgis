@@ -39,7 +39,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString srsName="EPSG:4269"><gml:coordinates>1,2 3,4 5,6</gml:coordinates></gml:LineString>\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString srsName="EPSG:4269"><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -58,7 +58,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array (
-  1 => 'SRID=4269;LINESTRING(1 2,3 4,5 6)',
+  1 => 'SRID=4269;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
 );
 
         $this->assertEquals($expected, $result);
@@ -69,7 +69,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString><gml:coordinates>1,2 3,4 5,6</gml:coordinates></gml:LineString>\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -88,7 +88,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array (
-  1 => 'SRID=4326;LINESTRING(1 2,3 4,5 6)',
+  1 => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
 );
 
         $this->assertEquals($expected, $result);
