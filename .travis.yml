@@ -28,19 +28,21 @@ env:
     - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
 
     - DOCTRINE_VERSION=2.5.*@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
+    
+before_install:
+    - composer self-update
 
 install:
-  - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-
-before_script:
-    - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-    - composer self-update
+    - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
     - composer install --dev --prefer-source
     - composer require doctrine/dbal:${DOCTRINE_VERSION}
     - composer require doctrine/orm:${DOCTRINE_VERSION}
 
+before_script:
+    - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
+
 script:
-  - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
+    - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
 
 after_script:
-  - php vendor/bin/coveralls -v
+    - php vendor/bin/coveralls -v
