@@ -23,8 +23,7 @@
         "doctrine/dbal": "~2.4"
     },
     "require-dev": {
-        "doctrine/orm": "~2.4",
-        "satooshi/php-coveralls": "dev-master"
+        "doctrine/orm": "~2.4"
     },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"
