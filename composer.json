@@ -8,7 +8,10 @@
         "orm",
         "gis",
         "postgis",
-        "database"
+        "database",
+        "geo",
+        "geometry",
+        "geography"
     ],
     "license": "MIT",
     "authors": [
