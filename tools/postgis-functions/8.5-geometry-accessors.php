@@ -550,13 +550,6 @@ return array(
                         1 => 'LineString[B] with 2 points'
                     )
                 ),
-                array(
-                    'sql' => "SELECT {function}(ST_GeomFromText('SRID=4326;POLYGON((0 0 1, 1 1 2, 1 2 3, 1 1 1, 0 0 1))'))",
-                    'result' => array(
-                        1 => 'Polygon[ZBS] with 1 rings
-   ring 0 has 5 points'
-                    )
-                ),
             )
         )
     ),

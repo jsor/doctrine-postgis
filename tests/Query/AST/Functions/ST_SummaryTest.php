@@ -63,32 +63,4 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
 
         $this->assertEquals($expected, $result);
     }
-
-    public function testQuery2()
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Summary(ST_GeomFromText(\'SRID=4326;POLYGON((0 0 1, 1 1 2, 1 2 3, 1 1 1, 0 0 1))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, function (&$data) {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = array (
-  1 => 'Polygon[ZBS] with 1 rings
-   ring 0 has 5 points',
-);
-
-        $this->assertEquals($expected, $result);
-    }
 }
