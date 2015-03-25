@@ -115,7 +115,7 @@ class ST_AsGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array (
-  1 => '<gmlprefix:Point srsName="urn:ogc:def:crs:EPSG::4326" gmlprefix:id="gmlid"><gmlprefix:pos srsDimension="2">6.34535 5.23423</gmlprefix:pos></gmlprefix:Point>',
+  1 => '<gmlprefix:Point srsName="urn:ogc:def:crs:EPSG::4326" gmlprefix:id="gmlid"><gmlprefix:pos srsDimension="2">6.34535 5.23423</gmlprefix:pos></gmlprefix:Point>',
 );
 
         $this->assertEquals($expected, $result);
