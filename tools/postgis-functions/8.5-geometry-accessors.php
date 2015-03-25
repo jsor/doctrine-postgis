@@ -407,7 +407,17 @@ return array(
         'return_type' => 'numeric',
         'tests' => array(
             'queries' => array(
+                // PostGIS 1.5: ST_NumGeometries returns NULL for single geometries
                 array(
+                    'group' => 'postgis-1.5',
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)'))",
+                    'result' => array(
+                        1 => null
+                    )
+                ),
+                // PostGIS 2.x: ST_NumGeometries returns NULL for single geometries
+                array(
+                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)'))",
                     'result' => array(
                         1 => 1

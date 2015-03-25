@@ -37,7 +37,40 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-1.5
+     */
     public function testQuery1()
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, function (&$data) {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = array (
+  1 => NULL,
+);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @group postgis-2.x
+     */
+    public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
@@ -64,7 +97,7 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testQuery2()
+    public function testQuery3()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'GEOMETRYCOLLECTION(MULTIPOINT(-2 3 , -2 2),LINESTRING(5 5 ,10 10),POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2)))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
