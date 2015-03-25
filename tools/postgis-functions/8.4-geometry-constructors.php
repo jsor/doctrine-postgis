@@ -138,14 +138,14 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString srsName=\"EPSG:4269\"><gml:coordinates>-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932</gml:coordinates></gml:LineString>'))",
+                    'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString srsName=\"EPSG:4269\"><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>'))",
                     'result' => array(
                         1 => 'SRID=4269;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)'
                     )
                 ),
                 array(
                     'group' => 'postgis-2.x',
-                    'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString><gml:coordinates>-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932</gml:coordinates></gml:LineString>', 4326))",
+                    'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>', 4326))",
                     'result' => array(
                         1 => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)'
                     )
