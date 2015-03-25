@@ -138,9 +138,9 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString srsName=\"EPSG:4269\"><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>'))",
+                    'sql' => "SELECT ST_AsEWKT({function}('<gml:Polygon srsName=\"EPSG:4326\"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>'))",
                     'result' => array(
-                        1 => 'SRID=4269;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)'
+                        1 => 'SRID=4269;POLYGON((0 0,0 1,1 1,1 0,0 0)'
                     )
                 ),
                 array(

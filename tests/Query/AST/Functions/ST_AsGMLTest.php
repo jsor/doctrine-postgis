@@ -90,34 +90,4 @@ class ST_AsGMLTest extends AbstractFunctionalTestCase
 
         $this->assertEquals($expected, $result);
     }
-
-    /**
-     * @group postgis-2.1
-     */
-    public function testQuery3()
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGML(3, ST_GeomFromText(\'POINT(5.234234233242 6.34534534534)\',4326), 5, 17, \'gmlprefix\', \'gmlid\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, function (&$data) {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = array (
-  1 => '<gmlprefix:Point srsName="urn:ogc:def:crs:EPSG::4326" gmlprefix:id="gmlid"><gmlprefix:pos srsDimension="2">6.34535 5.23423</gmlprefix:pos></gmlprefix:Point>',
-);
-
-        $this->assertEquals($expected, $result);
-    }
 }

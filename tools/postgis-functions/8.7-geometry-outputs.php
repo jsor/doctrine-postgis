@@ -101,14 +101,6 @@ return array(
                         1 => '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326"><gml:pos srsDimension="2">6.34535 5.23423</gml:pos></gml:Point>'
                     )
                 ),
-                array(
-                    'group' => 'postgis-2.1',
-                    'sql' => "SELECT {function}(3, ST_GeomFromText('POINT(5.234234233242 6.34534534534)',4326), 5, 17, 'gmlprefix', 'gmlid')",
-                    'result' => array(
-                        // Attention, character after gmlprefix:id="gmlid intentional
-                        1 => '<gmlprefix:Point srsName="urn:ogc:def:crs:EPSG::4326" gmlprefix:id="gmlid"><gmlprefix:pos srsDimension="2">6.34535 5.23423</gmlprefix:pos></gmlprefix:Point>'
-                    )
-                ),
             )
         )
     ),
