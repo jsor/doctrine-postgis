@@ -39,7 +39,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(ST_AsGML(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(ST_AsGML(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -88,7 +88,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array (
-  1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0)',
+  1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result);
