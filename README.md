@@ -12,7 +12,7 @@ Both PostGIS 1.5 and 2.x are supported as well as GiST-based spatial indexes.
 * [Installation](#installation)
 * [Setup](#setup)
 * [Property Mapping](#property-mapping)
-* [Functions](#functions)
+* [DQL Functions](#dql-functions)
 * [Spatial Indexes](#spatial-indexes)
 * [License](#license)
 
@@ -120,8 +120,8 @@ $entity->setPoint4D('POINT(1 2 3 4)');
 $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 ```
 
-Functions
----------
+DQL Functions
+-------------
 
 Most functions provided by PostGIS are provided in DQL. For a full list, see
 the [Function Index](docs/function-index.md).
