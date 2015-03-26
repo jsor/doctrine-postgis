@@ -9,6 +9,13 @@ extension for PostgreSQL.
 
 Both PostGIS 1.5 and 2.x are supported as well as GiST-based spatial indexes.
 
+* [Installation](#installation)
+* [Setup](#setup)
+* [Usage](#usage)
+  * [Property Mapping](#property-mapping)
+  * [Functions](#functions)
+  * [Spatial Indexes](#spatial-indexes)
+  
 Installation
 ------------
 
@@ -113,6 +120,20 @@ $entity = new MyEntity();
 $entity->setPoint('POINT(37.4220761 -122.0845187)');
 $entity->setPoint4D('POINT(1 2 3 4)');
 $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
+```
+
+### Functions
+
+Most functions provided by PostGIS are provided in DQL. For a full list, see
+the [Function Index](docs/function-index.md).
+
+There's a convenience Configurator class which can be used to register the
+functions with a `Doctrine\ORM\Configuration` instance.
+
+```php
+$configuration = new Doctrine\ORM\Configuration();
+
+Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator::configure($configuration);
 ```
 
 ### Spatial Indexes
