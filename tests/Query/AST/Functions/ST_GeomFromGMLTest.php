@@ -58,7 +58,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array (
-  1 => 'SRID=4269;POLYGON((0 0,0 1,1 1,1 0,0 0)',
+  1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0)',
 );
 
         $this->assertEquals($expected, $result);
