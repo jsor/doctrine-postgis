@@ -9,8 +9,26 @@ $functions = array_merge(
     require __DIR__.'/postgis-functions/8.7-geometry-outputs.php'
 );
 
+$functionIndex = array(
+    array(
+        'title' => 'Geometry Constructors',
+        'anchor' => 'Geometry_Constructors',
+        'functions' => array_keys(require __DIR__.'/postgis-functions/8.4-geometry-constructors.php')
+    ),
+    array(
+        'title' => 'Geometry Accessors',
+        'anchor' => 'Geometry_Accessors',
+        'functions' => array_keys(require __DIR__.'/postgis-functions/8.5-geometry-accessors.php')),
+    array(
+        'title' => 'Geometry Outputs',
+        'anchor' => 'Geometry_Outputs',
+        'functions' => array_keys(require __DIR__.'/postgis-functions/8.7-geometry-outputs.php')
+    )
+);
+
 $srcPath = __DIR__.'/../src';
 $testPath = __DIR__.'/../tests';
+$docsPath = __DIR__.'/../docs';
 
 function get_function_src_class_code($name, $options)
 {
@@ -213,3 +231,26 @@ file_put_contents(
 );
 
 //exec('php-cs-fixer fix ' . $srcPath . '/Query/AST/Functions/Configurator.php');
+
+$md = <<<MD
+Function Index
+==============
+
+MD;
+
+foreach ($functionIndex as $section) {
+    $md .= <<<MD
+
+[{$section['title']}](http://postgis.net/docs/reference.html#{$section['anchor']})
+----------
+
+
+MD;
+    foreach ($section['functions'] as $func) {
+        $md .= <<<MD
+* [$func](http://postgis.net/docs/$func.html)
+
+MD;
+    }
+}
+file_put_contents($docsPath . '/function-index.md', $md);
