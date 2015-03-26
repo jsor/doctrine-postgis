@@ -11,11 +11,11 @@ Both PostGIS 1.5 and 2.x are supported as well as GiST-based spatial indexes.
 
 * [Installation](#installation)
 * [Setup](#setup)
-* [Usage](#usage)
-  * [Property Mapping](#property-mapping)
-  * [Functions](#functions)
-  * [Spatial Indexes](#spatial-indexes)
-  
+* [Property Mapping](#property-mapping)
+* [Functions](#functions)
+* [Spatial Indexes](#spatial-indexes)
+* [License](#license)
+
 Installation
 ------------
 
@@ -50,10 +50,8 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
-Usage
------
-
-### Property Mapping
+Property Mapping
+----------------
 
 Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
@@ -122,7 +120,8 @@ $entity->setPoint4D('POINT(1 2 3 4)');
 $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 ```
 
-### Functions
+Functions
+---------
 
 Most functions provided by PostGIS are provided in DQL. For a full list, see
 the [Function Index](docs/function-index.md).
@@ -136,7 +135,8 @@ $configuration = new Doctrine\ORM\Configuration();
 Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator::configure($configuration);
 ```
 
-### Spatial Indexes
+Spatial Indexes
+---------------
 
 You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
