@@ -138,6 +138,13 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
+                    'sql' => "SELECT ST_AsEWKT({function}(ST_AsGML('POLYGON((0 0,0 1,1 1,1 0,0 0)')))",
+                    'result' => array(
+                        1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0)'
+                    )
+                ),
+                array(
+                    'group' => 'postgis-2.x',
                     'sql' => "SELECT ST_AsEWKT({function}('<gml:Polygon srsName=\"EPSG:4326\"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>'))",
                     'result' => array(
                         1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0)'
