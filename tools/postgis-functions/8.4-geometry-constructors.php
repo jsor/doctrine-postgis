@@ -138,9 +138,9 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT ST_AsEWKT({function}(ST_AsGML('POLYGON((0 0,0 1,1 1,1 0,0 0)')))",
+                    'sql' => "SELECT ST_AsEWKT({function}(ST_AsGML('POLYGON((0 0,0 1,1 1,1 0,0 0))')))",
                     'result' => array(
-                        1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0)'
+                        1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))'
                     )
                 ),
                 array(
