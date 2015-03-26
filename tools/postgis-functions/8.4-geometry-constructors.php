@@ -1,7 +1,7 @@
 <?php
 /**
  * Geometry Constructors
- * http://postgis.net/docs/manual-dev/reference.html#Geometry_Constructors
+ * http://postgis.net/docs/reference.html#Geometry_Constructors
  */
 return array(
     'ST_Box2dFromGeoHash' => array(

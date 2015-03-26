@@ -1,7 +1,7 @@
 <?php
 /**
  * Geometry Accessors
- * http://postgis.net/docs/manual-dev/reference.html#Geometry_Accessors
+ * http://postgis.net/docs/reference.html#Geometry_Accessors
  */
 return array(
     'GeometryType' => array(

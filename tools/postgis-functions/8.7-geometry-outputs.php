@@ -1,7 +1,7 @@
 <?php
 /**
  * Geometry Outputs
- * http://postgis.net/docs/manual-dev/reference.html#Geometry_Outputs
+ * http://postgis.net/docs/reference.html#Geometry_Outputs
  */
 return array(
     'ST_AsBinary' => array(

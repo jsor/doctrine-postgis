@@ -50,7 +50,7 @@ Usage
 
 Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
-[PostGIS docs](http://postgis.net/docs/manual-2.1/using_postgis_dbmanagement.html#PostGIS_Geography)
+[PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#PostGIS_Geography)
 to understand the difference between these two types).
 
 ```php
@@ -101,9 +101,9 @@ class MyEntity
 
 Values provided for the properties must be in the [WKT](http://en.wikipedia.org/wiki/Well-known_text)
 format. Please note, that the values returned from database may differ from the
-values you have set. The library uses [ST_AsEWKT](http://postgis.net/docs/manual-2.1/ST_AsEWKT.html)
+values you have set. The library uses [ST_AsEWKT](http://postgis.net/docs/ST_AsEWKT.html)
 to retain as much information as possible (like SRID's). Read more in the
-[PostGIS docs](http://postgis.net/docs/manual-2.1/using_postgis_dbmanagement.html#RefObject).
+[PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
 
 #### Example
 
@@ -117,7 +117,7 @@ $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 
 ### Spatial Indexes
 
-You can define [spatial indexes](http://postgis.net/docs/manual-2.1/using_postgis_dbmanagement.html#idp33368240)
+You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
 
 In theory, you simply have to define a `SPATIAL` flag in your index definition.
