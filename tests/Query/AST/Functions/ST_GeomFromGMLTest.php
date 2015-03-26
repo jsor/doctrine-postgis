@@ -37,37 +37,10 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(ST_AsGML(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, function (&$data) {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = array (
-  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
-);
-
-        $this->assertEquals($expected, $result);
-    }
-
     /**
      * @group postgis-2.x
      */
-    public function testQuery2()
+    public function testQuery1()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:Polygon srsName="EPSG:4326"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
@@ -97,7 +70,7 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-2.x
      */
-    public function testQuery3()
+    public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
