@@ -5,16 +5,14 @@ PostGIS extension for Doctrine
 [![Coverage Status](https://img.shields.io/coveralls/jsor/doctrine-postgis.svg?style=flat)](https://coveralls.io/r/jsor/doctrine-postgis?branch=master)
 
 This library allows you to use Doctrine with PostGIS, the spatial database
-extension for PostgreSQL.
-
-Both PostGIS 1.5 and 2.x are supported as well as GiST-based spatial indexes.
+extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 
 * [Installation](#installation)
 * [Setup](#setup)
 * [Property Mapping](#property-mapping)
 * [Spatial Indexes](#spatial-indexes)
 * [DQL Functions](#dql-functions)
-* [License](#license)
+* [Schema Tool](#schema-tool)
 
 Installation
 ------------
@@ -177,6 +175,13 @@ $configuration = new Doctrine\ORM\Configuration();
 
 Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator::configure($configuration);
 ```
+
+Schema Tool
+-----------
+
+Full support for the [ORM Schema Tool](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
+and the [DBAL Schema Manager](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
+is provided.
 
 License
 -------
