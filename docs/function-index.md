@@ -104,4 +104,12 @@ Function Index
 ----------
 
 * [ST_Buffer](http://postgis.net/docs/ST_Buffer.html)
+* [ST_Collect](http://postgis.net/docs/ST_Collect.html)
+* [ST_Difference](http://postgis.net/docs/ST_Difference.html)
+* [ST_FlipCoordinates](http://postgis.net/docs/ST_FlipCoordinates.html)
 * [ST_Intersection](http://postgis.net/docs/ST_Intersection.html)
+* [ST_MinimumBoundingCircle](http://postgis.net/docs/ST_MinimumBoundingCircle.html)
+* [ST_Shift_Longitude](http://postgis.net/docs/ST_Shift_Longitude.html)
+* [ST_Split](http://postgis.net/docs/ST_Split.html)
+* [ST_SymDifference](http://postgis.net/docs/ST_SymDifference.html)
+* [ST_Union](http://postgis.net/docs/ST_Union.html)

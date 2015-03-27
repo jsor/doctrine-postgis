@@ -98,6 +98,14 @@ class Configurator
         $configuration->addCustomStringFunction('ST_AsLatLonText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_AsLatLonText');
         $configuration->addCustomStringFunction('ST_AsText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_AsText');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
+        $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
+        $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');
+        $configuration->addCustomStringFunction('ST_FlipCoordinates', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_FlipCoordinates');
         $configuration->addCustomStringFunction('ST_Intersection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersection');
+        $configuration->addCustomStringFunction('ST_MinimumBoundingCircle', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_MinimumBoundingCircle');
+        $configuration->addCustomStringFunction('ST_Shift_Longitude', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Shift_Longitude');
+        $configuration->addCustomStringFunction('ST_Split', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Split');
+        $configuration->addCustomStringFunction('ST_SymDifference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_SymDifference');
+        $configuration->addCustomStringFunction('ST_Union', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Union');
     }
 }
