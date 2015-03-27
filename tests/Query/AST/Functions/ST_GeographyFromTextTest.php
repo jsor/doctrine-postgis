@@ -12,7 +12,7 @@ class ST_GeographyFromTextTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_GeographyFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '0102000020E610000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
 );
 

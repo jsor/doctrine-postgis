@@ -12,7 +12,7 @@ class ST_PolygonFromTextTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_PolygonFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '0103000020E610000001000000050000006285C7C15ECB51C0ED88FC0DF531454028A46F245FCB51C009075EA6F731454047DED1E65DCB51C0781C510EF83145404871A7835DCB51C0EBDAEE75F53145406285C7C15ECB51C0ED88FC0DF5314540',
 );
 

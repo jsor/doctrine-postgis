@@ -15,7 +15,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -60,7 +60,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
 );
 
@@ -87,7 +87,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '(t,,)',
 );
 

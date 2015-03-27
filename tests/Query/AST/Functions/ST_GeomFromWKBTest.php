@@ -12,7 +12,7 @@ class ST_GeomFromWKBTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_GeomFromWKBTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '0103000020E61000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000',
 );
 

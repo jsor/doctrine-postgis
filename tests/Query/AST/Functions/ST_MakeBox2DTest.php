@@ -12,7 +12,7 @@ class ST_MakeBox2DTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_MakeBox2DTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
 );
 

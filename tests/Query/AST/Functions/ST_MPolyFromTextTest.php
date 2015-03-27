@@ -12,7 +12,7 @@ class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '01060000A0E6100000010000000103000080020000000500000000000000000000000000000000000000000000000000F03F00000000000034400000000000000000000000000000F03F00000000000034400000000000003440000000000000F03F00000000000000000000000000003440000000000000F03F00000000000000000000000000000000000000000000F03F0500000000000000000014400000000000001440000000000000084000000000000014400000000000001C4000000000000008400000000000001C400000000000001C4000000000000008400000000000001C4000000000000014400000000000000840000000000000144000000000000014400000000000000840',
 );
 
@@ -84,8 +84,8 @@ class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
-  1 => NULL,
+        $expected = array(
+  1 => null,
 );
 
         $this->assertEquals($expected, $result);

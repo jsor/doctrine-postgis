@@ -12,7 +12,7 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
@@ -84,7 +84,7 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'CIRCULARSTRING(220268 150415 1,220227 150505 2,220227 150406 3)',
 );
 

@@ -47,8 +47,8 @@ class SchemaManager
             $sql = "SELECT a.attname, t.typname
                     FROM pg_attribute a, pg_type t
                     WHERE a.attrelid = {$row['oid']}
-                    AND a.attnum IN (" . implode(',', explode(' ', $row['indkey'])) . ")
-                    AND a.atttypid = t.oid";
+                    AND a.attnum IN (" . implode(',', explode(' ', $row['indkey'])) . ')
+                    AND a.atttypid = t.oid';
 
             $stmt = $this->connection->executeQuery($sql);
             $indexColumns = $stmt->fetchAll();
@@ -104,7 +104,7 @@ class SchemaManager
         $row = $this->connection->fetchAssoc($sql, array($table, $column));
 
         if (!$row) {
-            return null;
+            return;
         }
 
         return $this->buildSpatialColumnInfo($row);
@@ -124,7 +124,7 @@ class SchemaManager
         $row = $this->connection->fetchAssoc($sql, array($table, $column));
 
         if (!$row) {
-            return null;
+            return;
         }
 
         return $this->buildSpatialColumnInfo($row);
@@ -146,7 +146,7 @@ class SchemaManager
 
         return array(
             'type' => $type,
-            'srid' => max((int) $row['srid'], 0)
+            'srid' => max((int) $row['srid'], 0),
         );
     }
 }

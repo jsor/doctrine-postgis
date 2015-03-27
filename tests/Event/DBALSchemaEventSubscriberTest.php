@@ -40,67 +40,67 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table->addColumn('geometry', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'GEOMETRY',
-                'spatial_srid' => 0
+                'spatial_srid' => 0,
             ));
 
         $table->addColumn('point', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 0
+                'spatial_srid' => 0,
             ));
 
         $table->addColumn('point_2d', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 3785
+                'spatial_srid' => 3785,
             ));
 
         $table->addColumn('point_3dz', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINTZ',
-                'spatial_srid' => 3785
+                'spatial_srid' => 3785,
             ));
 
         $table->addColumn('point_3dm', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINTM',
-                'spatial_srid' => 3785
+                'spatial_srid' => 3785,
             ));
 
         $table->addColumn('point_4d', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINTZM',
-                'spatial_srid' => 3785
+                'spatial_srid' => 3785,
             ));
 
         $table->addColumn('point_2d_nullable', 'geometry', array('notnull' => false))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 3785
+                'spatial_srid' => 3785,
             ));
 
         $table->addColumn('point_2d_nosrid', 'geometry', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 0
+                'spatial_srid' => 0,
             ));
 
         $table->addColumn('geography', 'geography', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'GEOMETRY',
-                'spatial_srid' => 4326
+                'spatial_srid' => 4326,
             ));
 
         $table->addColumn('point_geography_2d', 'geography', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 4326
+                'spatial_srid' => 4326,
             ));
 
         $table->addColumn('point_geography_2d_srid', 'geography', array('notnull' => true))
             ->setCustomSchemaOptions(array(
                 'spatial_type' => 'POINT',
-                'spatial_srid' => 4326
+                'spatial_srid' => 4326,
             ));
 
         $table->addIndex(array('text'), 'idx_text');
@@ -249,7 +249,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $comparator = new \Doctrine\DBAL\Schema\Comparator();
         $diff = $comparator->diffTable($offlineTable, $onlineTable);
 
-        $this->assertFalse($diff, "No differences should be detected with the offline vs online schema.");
+        $this->assertFalse($diff, 'No differences should be detected with the offline vs online schema.');
     }
 
     public function testListTableIndexes()
@@ -266,12 +266,12 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'idx_27ba8e29cf3dedbb',
             'idx_27ba8e29cf3dedbb',
             'idx_27ba8e293d5fe69e',
-            'idx_27ba8e29b832b304'
+            'idx_27ba8e29b832b304',
         );
 
         $nonSpatialIndexes = array(
             'idx_text',
-            'idx_text_gist'
+            'idx_text_gist',
         );
 
         foreach ($spatialIndexes as $spatialIndex) {
@@ -328,20 +328,20 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $columns = array(
             "SELECT AddGeometryColumn('points', 'geometry', -1, 'GEOMETRY', 2)",
-            "ALTER TABLE points ALTER point SET NOT NULL",
+            'ALTER TABLE points ALTER point SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point', -1, 'POINT', 2)",
-            "ALTER TABLE points ALTER point SET NOT NULL",
+            'ALTER TABLE points ALTER point SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point_2d', 3785, 'POINT', 2)",
-            "ALTER TABLE points ALTER point_2d SET NOT NULL",
+            'ALTER TABLE points ALTER point_2d SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point_3dz', 3785, 'POINT', 3)",
-            "ALTER TABLE points ALTER point_3dz SET NOT NULL",
+            'ALTER TABLE points ALTER point_3dz SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point_3dm', 3785, 'POINTM', 3)",
-            "ALTER TABLE points ALTER point_3dm SET NOT NULL",
+            'ALTER TABLE points ALTER point_3dm SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point_4d', 3785, 'POINT', 4)",
-            "ALTER TABLE points ALTER point_4d SET NOT NULL",
+            'ALTER TABLE points ALTER point_4d SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point_2d_nullable', 3785, 'POINT', 2)",
             "SELECT AddGeometryColumn('points', 'point_2d_nosrid', -1, 'POINT', 2)",
-            "ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL",
+            'ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL',
         );
 
         foreach ($columns as $column) {

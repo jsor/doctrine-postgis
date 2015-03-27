@@ -70,7 +70,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
             'point_3dm',
             'point_4d',
             'point_2d_nullable',
-            'point_2d_nosrid'
+            'point_2d_nosrid',
         );
 
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('foo.points'));
@@ -84,49 +84,49 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
 
         $expected = array(
             'type' => 'GEOMETRY',
-            'srid' => 0
+            'srid' => 0,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'geometry'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 0
+            'srid' => 0,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 3785
+            'srid' => 3785,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d'));
 
         $expected = array(
             'type' => 'POINTZ',
-            'srid' => 3785
+            'srid' => 3785,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_3dz'));
 
         $expected = array(
             'type' => 'POINTM',
-            'srid' => 3785
+            'srid' => 3785,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_3dm'));
 
         $expected = array(
             'type' => 'POINTZM',
-            'srid' => 3785
+            'srid' => 3785,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_4d'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 3785
+            'srid' => 3785,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d_nullable'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 0
+            'srid' => 0,
         );
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d_nosrid'));
     }
@@ -139,19 +139,19 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
 
         $expected = array(
             'type' => 'GEOMETRY',
-            'srid' => 4326
+            'srid' => 4326,
         );
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'geography'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 4326
+            'srid' => 4326,
         );
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d'));
 
         $expected = array(
             'type' => 'POINT',
-            'srid' => 4326
+            'srid' => 4326,
         );
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d_srid'));
     }

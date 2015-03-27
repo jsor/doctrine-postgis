@@ -3,8 +3,8 @@
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
 
 class CreateTableSqlGenerator
 {

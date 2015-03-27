@@ -2,8 +2,8 @@
 
 namespace Jsor\Doctrine\PostGIS\Types;
 
-use Jsor\Doctrine\PostGIS\AbstractTestCase;
 use Doctrine\DBAL\Types\Type;
+use Jsor\Doctrine\PostGIS\AbstractTestCase;
 
 abstract class AbstractTypeTestCase extends AbstractTestCase
 {
@@ -47,7 +47,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
             '',
             'Z',
             'M',
-            'ZM'
+            'ZM',
         );
 
         $types = array(
@@ -57,7 +57,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
             'MULTIPOINT',
             'MULTILINESTRING',
             'MULTIPOLYGON',
-            'GEOMETRYCOLLECTION'
+            'GEOMETRYCOLLECTION',
         );
 
         $data = array();

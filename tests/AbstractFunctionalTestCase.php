@@ -84,7 +84,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
                 'password' => $GLOBALS['db_password'],
                 'host' => $GLOBALS['db_host'],
                 'dbname' => $GLOBALS['db_name'],
-                'port' => $GLOBALS['db_port']
+                'port' => $GLOBALS['db_port'],
             );
 
             self::$_conn = DriverManager::getConnection($dbParams, new Configuration());
@@ -142,7 +142,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     }
 
     /**
-     * Creates default mapping driver
+     * Creates default mapping driver.
      *
      * @return \Doctrine\Common\Persistence\Mapping\Driver\MappingDriver
      */
@@ -156,6 +156,6 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _execFile($fileName)
     {
-        return $this->_getConnection()->exec(file_get_contents(__DIR__.'/fixtures/' . $fileName));
+        return $this->_getConnection()->exec(file_get_contents(__DIR__ . '/fixtures/' . $fileName));
     }
 }

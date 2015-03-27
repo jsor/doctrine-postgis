@@ -62,7 +62,7 @@ class SpatialColumnSqlGenerator
         if ($column->getNotnull()) {
             // Add a NOT NULL constraint to the field
             $sql[] = sprintf(
-                "ALTER TABLE %s ALTER %s SET NOT NULL",
+                'ALTER TABLE %s ALTER %s SET NOT NULL',
                 $table->getQuotedName($this->platform),
                 $column->getQuotedName($this->platform)
             );

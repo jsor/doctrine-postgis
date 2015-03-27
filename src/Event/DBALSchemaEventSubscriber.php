@@ -4,22 +4,22 @@ namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Event\SchemaAlterTableEventArgs;
-use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
-use Doctrine\DBAL\Events;
-use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableAddColumnEventArgs;
-use Doctrine\DBAL\Event\SchemaAlterTableRemoveColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs;
+use Doctrine\DBAL\Event\SchemaAlterTableEventArgs;
+use Doctrine\DBAL\Event\SchemaAlterTableRemoveColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableRenameColumnEventArgs;
-use Doctrine\DBAL\Event\SchemaDropTableEventArgs;
 use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
+use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
+use Doctrine\DBAL\Event\SchemaDropTableEventArgs;
+use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
+use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
+use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialColumnSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
@@ -37,7 +37,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     protected $schemaManager;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $postConnectCalled = false;
 
@@ -53,7 +53,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             Events::onSchemaAlterTableAddColumn,
             Events::onSchemaAlterTableRemoveColumn,
             Events::onSchemaAlterTableChangeColumn,
-            Events::onSchemaAlterTableRenameColumn
+            Events::onSchemaAlterTableRenameColumn,
         );
     }
 
@@ -200,7 +200,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         if ($column->getNotnull()) {
             // Remove NOT NULL constraint from the field
             $args->addSql(sprintf(
-                "ALTER TABLE %s ALTER %s SET DEFAULT NULL",
+                'ALTER TABLE %s ALTER %s SET DEFAULT NULL',
                 $table->getQuotedName($platform),
                 $column->getQuotedName($platform)
             ));
@@ -291,7 +291,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             'notnull' => (bool) $tableColumn['isnotnull'],
             'default' => $default,
             'primary' => (bool) ($tableColumn['pri'] == 't'),
-            'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null
+            'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null,
         );
 
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);

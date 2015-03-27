@@ -12,7 +12,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
 );
 
@@ -84,8 +84,8 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
-  1 => NULL,
+        $expected = array(
+  1 => null,
 );
 
         $this->assertEquals($expected, $result);

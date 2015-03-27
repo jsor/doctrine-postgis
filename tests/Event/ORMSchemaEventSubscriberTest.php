@@ -10,7 +10,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     public function testEntity()
     {
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();

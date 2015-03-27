@@ -15,17 +15,17 @@ class ST_MakePointM extends FunctionNode
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-            
+
         $this->expressions[] = $parser->ArithmeticFactor();
-            
+
         $parser->match(Lexer::T_COMMA);
-        
+
         $this->expressions[] = $parser->ArithmeticFactor();
-            
+
         $parser->match(Lexer::T_COMMA);
-        
+
         $this->expressions[] = $parser->ArithmeticFactor();
-        
+
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 

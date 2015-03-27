@@ -15,7 +15,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -60,7 +60,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'POINT(-48.23456 20.12345)',
 );
 
@@ -87,7 +87,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'LINESTRING Z (1 2 3,4 5 6,7 8 9)',
 );
 

@@ -12,7 +12,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'M 0 0 L 0 -1 1 -1 1 0 Z',
 );
 
@@ -87,7 +87,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'x="5.23423" y="-6.34535"',
 );
 

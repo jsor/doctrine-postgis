@@ -12,7 +12,7 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\PointsEntity',
         ));
 
         $em = $this->_getEntityManager();
@@ -57,7 +57,7 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
+        $expected = array(
   1 => 'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)',
 );
 
@@ -84,8 +84,8 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array (
-  1 => NULL,
+        $expected = array(
+  1 => null,
 );
 
         $this->assertEquals($expected, $result);

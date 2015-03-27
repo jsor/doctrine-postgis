@@ -26,7 +26,7 @@ class GeographyType extends PostGISType
 
         return array(
             'spatial_type' => strtoupper(isset($options['spatial_type']) ? $options['spatial_type'] : 'GEOMETRY'),
-            'spatial_srid' => $srid
+            'spatial_srid' => $srid,
         );
     }
 }
