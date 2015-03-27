@@ -1,64 +1,64 @@
 language: php
 
 php:
-    - 5.4
-    - 5.5
-    - 5.6
+  - 5.4
+  - 5.5
+  - 5.6
 
 # PostGIS Support Matrix: https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
 env:
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
 
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
 
-    - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
 
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
 
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
 
-    - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
+  - DOCTRINE_VERSION=~2.5.0@dev POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
 
 matrix:
-    include:
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
+  fast_finish: true
+  include:
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=1.5
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.0
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.1 POSTGIS_VERSION=2.1
 
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.0
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.2 POSTGIS_VERSION=2.1
 
-        - php: 5.3
-          env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
-    fast_finish: true
+    - php: 5.3
+      env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
 
 before_install:
-    - composer self-update
+  - composer self-update
 
 install:
-    - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-    - composer install --prefer-source
-    - composer require satooshi/php-coveralls:dev-master --prefer-source
-    - composer require doctrine/common:${DOCTRINE_VERSION} --prefer-source
-    - composer require doctrine/dbal:${DOCTRINE_VERSION} --prefer-source
-    - composer require doctrine/orm:${DOCTRINE_VERSION} --prefer-source
+  - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
+  - composer install --prefer-source
+  - composer require satooshi/php-coveralls:dev-master --prefer-source
+  - composer require doctrine/common:${DOCTRINE_VERSION} --prefer-source
+  - composer require doctrine/dbal:${DOCTRINE_VERSION} --prefer-source
+  - composer require doctrine/orm:${DOCTRINE_VERSION} --prefer-source
 
 before_script:
-    - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
+  - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
 
 script:
-    - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
+  - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
 
 after_script:
-    - php vendor/bin/coveralls -v
+  - php vendor/bin/coveralls -v
