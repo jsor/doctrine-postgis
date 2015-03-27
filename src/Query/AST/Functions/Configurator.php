@@ -1,5 +1,7 @@
 <?php
 
+/* This file is auto-generated. Don't edit directly! */
+
 namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 
 use Doctrine\ORM\Configuration;

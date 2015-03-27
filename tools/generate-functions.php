@@ -36,12 +36,19 @@ $srcPath = __DIR__ . '/../src';
 $testPath = __DIR__ . '/../tests';
 $docsPath = __DIR__ . '/../docs';
 
+function run_php_cs_fixer($file)
+{
+    system(__DIR__ . '/../vendor/bin/php-cs-fixer --config-file=' . __DIR__.'/../.php_cs fix ' . $file);
+}
+
 function get_function_src_class_code($name, $options)
 {
     $totalArguments = isset($options['total_arguments']) ? $options['total_arguments'] : 0;
     $requiredArguments = isset($options['required_arguments']) ? $options['required_arguments'] : 0;
     ob_start();
 ?>
+/* This file is auto-generated. Don't edit directly! */
+
 namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
@@ -108,6 +115,8 @@ function get_function_test_class_code($name, $options)
     $queries = isset($options['tests']['queries']) ? $options['tests']['queries'] : array();
     ob_start();
 ?>
+/* This file is auto-generated. Don't edit directly! */
+
 namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
@@ -193,6 +202,8 @@ function get_configurator_class_code($functions)
 {
     ob_start();
 ?>
+/* This file is auto-generated. Don't edit directly! */
+
 namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 
 use Doctrine\ORM\Configuration;
@@ -227,8 +238,8 @@ foreach ($functions as $name => $options) {
     file_put_contents($srcFile, '<?php'.PHP_EOL.PHP_EOL.get_function_src_class_code($name, $options));
     file_put_contents($testFile, '<?php'.PHP_EOL.PHP_EOL.get_function_test_class_code($name, $options));
 
-    //exec('php-cs-fixer fix ' . $srcFile);
-    //exec('php-cs-fixer fix ' . $testFile);
+    run_php_cs_fixer($srcFile);
+    run_php_cs_fixer($testFile);
 }
 
 file_put_contents(
@@ -236,7 +247,7 @@ file_put_contents(
     '<?php'.PHP_EOL.PHP_EOL.get_configurator_class_code($functions)
 );
 
-//exec('php-cs-fixer fix ' . $srcPath . '/Query/AST/Functions/Configurator.php');
+run_php_cs_fixer($srcPath . '/Query/AST/Functions/Configurator.php');
 
 $md = <<<MD
 Function Index
