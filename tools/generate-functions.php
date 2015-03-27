@@ -1,34 +1,40 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $functions = array_merge(
-    require __DIR__.'/functions.php',
-    require __DIR__.'/postgis-functions/8.4-geometry-constructors.php',
-    require __DIR__.'/postgis-functions/8.5-geometry-accessors.php',
-    require __DIR__.'/postgis-functions/8.7-geometry-outputs.php'
+    require __DIR__ . '/functions/geometry-constructors.php',
+    require __DIR__ . '/functions/geometry-accessors.php',
+    require __DIR__ . '/functions/geometry-outputs.php',
+    require __DIR__ . '/functions/geometry-processing.php'
 );
 
 $functionIndex = array(
     array(
         'title' => 'Geometry Constructors',
         'anchor' => 'Geometry_Constructors',
-        'functions' => array_keys(require __DIR__.'/postgis-functions/8.4-geometry-constructors.php')
+        'functions' => array_keys(require __DIR__ . '/functions/geometry-constructors.php')
     ),
     array(
         'title' => 'Geometry Accessors',
         'anchor' => 'Geometry_Accessors',
-        'functions' => array_keys(require __DIR__.'/postgis-functions/8.5-geometry-accessors.php')),
+        'functions' => array_keys(require __DIR__ . '/functions/geometry-accessors.php')
+    ),
     array(
         'title' => 'Geometry Outputs',
         'anchor' => 'Geometry_Outputs',
-        'functions' => array_keys(require __DIR__.'/postgis-functions/8.7-geometry-outputs.php')
+        'functions' => array_keys(require __DIR__ . '/functions/geometry-outputs.php')
+    ),
+    array(
+        'title' => 'Geometry Processing',
+        'anchor' => 'Geometry_Processing',
+        'functions' => array_keys(require __DIR__ . '/functions/geometry-processing.php')
     )
 );
 
-$srcPath = __DIR__.'/../src';
-$testPath = __DIR__.'/../tests';
-$docsPath = __DIR__.'/../docs';
+$srcPath = __DIR__ . '/../src';
+$testPath = __DIR__ . '/../tests';
+$docsPath = __DIR__ . '/../docs';
 
 function get_function_src_class_code($name, $options)
 {

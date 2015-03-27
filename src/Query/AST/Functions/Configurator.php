@@ -8,8 +8,6 @@ class Configurator
 {
     public static function configure(Configuration $configuration)
     {
-       $configuration->addCustomStringFunction('ST_Intersection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersection');
-       $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
        $configuration->addCustomStringFunction('ST_Box2dFromGeoHash', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Box2dFromGeoHash');
        $configuration->addCustomStringFunction('ST_GeogFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeogFromText');
        $configuration->addCustomStringFunction('ST_GeographyFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeographyFromText');
@@ -97,5 +95,7 @@ class Configurator
        $configuration->addCustomStringFunction('ST_GeoHash', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeoHash');
        $configuration->addCustomStringFunction('ST_AsLatLonText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_AsLatLonText');
        $configuration->addCustomStringFunction('ST_AsText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_AsText');
+       $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
+       $configuration->addCustomStringFunction('ST_Intersection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersection');
     }
 }

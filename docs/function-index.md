@@ -99,3 +99,9 @@ Function Index
 * [ST_GeoHash](http://postgis.net/docs/ST_GeoHash.html)
 * [ST_AsLatLonText](http://postgis.net/docs/ST_AsLatLonText.html)
 * [ST_AsText](http://postgis.net/docs/ST_AsText.html)
+
+[Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
+----------
+
+* [ST_Buffer](http://postgis.net/docs/ST_Buffer.html)
+* [ST_Intersection](http://postgis.net/docs/ST_Intersection.html)

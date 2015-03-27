@@ -1,20 +1,9 @@
 <?php
-
+/**
+ * Geometry Processing
+ * http://postgis.net/docs/reference.html#Geometry_Processing
+ */
 return array(
-    'ST_Intersection' => array(
-        'required_arguments' => 2,
-        'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
-                    'sql' => "SELECT ST_AsText(ST_Intersection(ST_GeomFromText('POINT(0 0)'), ST_GeomFromText('LINESTRING (0 0, 0 2)')))",
-                    'result' => array(
-                        1 => 'POINT(0 0)'
-                    )
-                )
-            )
-        )
-    ),
     'ST_Buffer' => array(
         'required_arguments' => 2,
         'total_arguments' => 3,
@@ -32,6 +21,20 @@ return array(
                         'promisingcircle_pcount' => 33,
                         'lamecircle_pcount' => 9
                     ),
+                )
+            )
+        )
+    ),
+    'ST_Intersection' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT ST_AsText(ST_Intersection(ST_GeomFromText('POINT(0 0)'), ST_GeomFromText('LINESTRING (0 0, 0 2)')))",
+                    'result' => array(
+                        1 => 'POINT(0 0)'
+                    )
                 )
             )
         )
