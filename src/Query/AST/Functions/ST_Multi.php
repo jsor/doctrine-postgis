@@ -9,7 +9,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class ST_MinimumBoundingCircle extends FunctionNode
+class ST_Multi extends FunctionNode
 {
     protected $expressions = array();
 
@@ -19,13 +19,6 @@ class ST_MinimumBoundingCircle extends FunctionNode
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
         $this->expressions[] = $parser->ArithmeticFactor();
-
-        $lexer = $parser->getLexer();
-
-        if ($lexer->lookahead['type'] === Lexer::T_COMMA) {
-            $parser->match(Lexer::T_COMMA);
-            $this->expressions[] = $parser->ArithmeticFactor();
-        }
 
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
@@ -38,6 +31,6 @@ class ST_MinimumBoundingCircle extends FunctionNode
             $arguments[] = $expression->dispatch($sqlWalker);
         }
 
-        return 'ST_MinimumBoundingCircle(' . implode(', ', $arguments) . ')';
+        return 'ST_Multi(' . implode(', ', $arguments) . ')';
     }
 }

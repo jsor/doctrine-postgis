@@ -85,6 +85,16 @@ Function Index
 * [ST_Zmflag](http://postgis.net/docs/ST_Zmflag.html)
 * [ST_ZMin](http://postgis.net/docs/ST_ZMin.html)
 
+[Geometry Editors](http://postgis.net/docs/reference.html#Geometry_Editors)
+----------
+
+* [ST_Multi](http://postgis.net/docs/ST_Multi.html)
+* [ST_Scale](http://postgis.net/docs/ST_Scale.html)
+* [ST_SetSRID](http://postgis.net/docs/ST_SetSRID.html)
+* [ST_Transform](http://postgis.net/docs/ST_Transform.html)
+* [ST_Translate](http://postgis.net/docs/ST_Translate.html)
+* [ST_TransScale](http://postgis.net/docs/ST_TransScale.html)
+
 [Geometry Outputs](http://postgis.net/docs/reference.html#Geometry_Outputs)
 ----------
 
@@ -99,6 +109,12 @@ Function Index
 * [ST_GeoHash](http://postgis.net/docs/ST_GeoHash.html)
 * [ST_AsLatLonText](http://postgis.net/docs/ST_AsLatLonText.html)
 * [ST_AsText](http://postgis.net/docs/ST_AsText.html)
+
+[Spatial Relationships and Measurements](http://postgis.net/docs/reference.html#Spatial_Relationships_Measurements)
+----------
+
+* [ST_3DClosestPoint](http://postgis.net/docs/ST_3DClosestPoint.html)
+* [ST_3DDistance](http://postgis.net/docs/ST_3DDistance.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

@@ -5,7 +5,9 @@ require __DIR__ . '/../vendor/autoload.php';
 $functions = array_merge(
     require __DIR__ . '/functions/geometry-constructors.php',
     require __DIR__ . '/functions/geometry-accessors.php',
+    require __DIR__ . '/functions/geometry-editors.php',
     require __DIR__ . '/functions/geometry-outputs.php',
+    require __DIR__ . '/functions/spatial-relationships-measurement.php',
     require __DIR__ . '/functions/geometry-processing.php'
 );
 
@@ -21,9 +23,19 @@ $functionIndex = array(
         'functions' => array_keys(require __DIR__ . '/functions/geometry-accessors.php')
     ),
     array(
+        'title' => 'Geometry Editors',
+        'anchor' => 'Geometry_Editors',
+        'functions' => array_keys(require __DIR__ . '/functions/geometry-editors.php')
+    ),
+    array(
         'title' => 'Geometry Outputs',
         'anchor' => 'Geometry_Outputs',
         'functions' => array_keys(require __DIR__ . '/functions/geometry-outputs.php')
+    ),
+    array(
+        'title' => 'Spatial Relationships and Measurements',
+        'anchor' => 'Spatial_Relationships_Measurements',
+        'functions' => array_keys(require __DIR__ . '/functions/spatial-relationships-measurement.php')
     ),
     array(
         'title' => 'Geometry Processing',

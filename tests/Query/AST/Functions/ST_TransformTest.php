@@ -7,7 +7,7 @@ namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
-class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
+class ST_TransformTest extends AbstractFunctionalTestCase
 {
     protected function setUp()
     {
@@ -41,7 +41,7 @@ class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_MinimumBoundingCircle(ST_GeomFromEWKT(\'MULTIPOINT((10 10), (20 20), (10 20), (15 19))\'), 2)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Transform(ST_GeomFromText(\'POLYGON((743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416))\',2249),4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((22.0710678118655 15,20 10,15 7.92893218813452,10 9.99999999999999,7.92893218813452 15,9.99999999999998 20,15 22.0710678118655,20 20,22.0710678118655 15))',
+  1 => 'POLYGON((-71.1776848522251 42.3902896512902,-71.1776843766326 42.3903829478009,-71.1775844305465 42.3903826677917,-71.1775825927231 42.3902893647987,-71.1776848522251 42.3902896512902))',
 );
 
         $this->assertEquals($expected, $result);
