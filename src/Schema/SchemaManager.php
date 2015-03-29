@@ -104,7 +104,7 @@ class SchemaManager
         $row = $this->connection->fetchAssoc($sql, array($table, $column));
 
         if (!$row) {
-            return;
+            return null;
         }
 
         return $this->buildSpatialColumnInfo($row);
@@ -124,7 +124,7 @@ class SchemaManager
         $row = $this->connection->fetchAssoc($sql, array($table, $column));
 
         if (!$row) {
-            return;
+            return null;
         }
 
         return $this->buildSpatialColumnInfo($row);
