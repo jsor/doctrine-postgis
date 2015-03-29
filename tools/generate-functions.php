@@ -48,9 +48,9 @@ $srcPath = __DIR__ . '/../src/Query/AST/Functions';
 $testPath = __DIR__ . '/../tests/Query/AST/Functions';
 $docsPath = __DIR__ . '/../docs';
 
-function run_php_cs_fixer($file)
+function run_php_cs_fixer($path)
 {
-    system(__DIR__ . '/../vendor/bin/php-cs-fixer --config-file=' . __DIR__.'/../.php_cs fix ' . $file);
+    system(__DIR__ . '/../vendor/bin/php-cs-fixer --config-file=' . __DIR__.'/../.php_cs fix ' . $path);
 }
 
 function get_function_src_class_code($name, $options)
@@ -251,15 +251,13 @@ foreach ($functions as $name => $options) {
     file_put_contents($testFile, '<?php'.PHP_EOL.PHP_EOL.get_function_test_class_code($name, $options));
 }
 
-run_php_cs_fixer($srcPath);
-run_php_cs_fixer($testPath);
-
 file_put_contents(
     $srcPath . '/Configurator.php',
     '<?php'.PHP_EOL.PHP_EOL.get_configurator_class_code($functions)
 );
 
-run_php_cs_fixer($srcPath . '/Configurator.php');
+run_php_cs_fixer($srcPath . '/');
+run_php_cs_fixer($testPath . '/');
 
 $md = <<<MD
 Function Index

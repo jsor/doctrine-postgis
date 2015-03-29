@@ -17,7 +17,7 @@ class ST_SplitTest extends AbstractFunctionalTestCase
         parent::setUp();
 
         $this->_setUpEntitySchema(array(
-            'Jsor\Doctrine\PostGIS\PointsEntity',
+            'Jsor\Doctrine\PostGIS\PointsEntity'
         ));
 
         $em = $this->_getEntityManager();

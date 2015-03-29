@@ -115,6 +115,18 @@ Function Index
 
 * [ST_3DClosestPoint](http://postgis.net/docs/ST_3DClosestPoint.html)
 * [ST_3DDistance](http://postgis.net/docs/ST_3DDistance.html)
+* [ST_3DDWithin](http://postgis.net/docs/ST_3DDWithin.html)
+* [ST_3DDFullyWithin](http://postgis.net/docs/ST_3DDFullyWithin.html)
+* [ST_3DIntersects](http://postgis.net/docs/ST_3DIntersects.html)
+* [ST_3DLongestLine](http://postgis.net/docs/ST_3DLongestLine.html)
+* [ST_3DMaxDistance](http://postgis.net/docs/ST_3DMaxDistance.html)
+* [ST_3DShortestLine](http://postgis.net/docs/ST_3DShortestLine.html)
+* [ST_Area](http://postgis.net/docs/ST_Area.html)
+* [ST_Azimuth](http://postgis.net/docs/ST_Azimuth.html)
+* [ST_Centroid](http://postgis.net/docs/ST_Centroid.html)
+* [ST_ClosestPoint](http://postgis.net/docs/ST_ClosestPoint.html)
+* [ST_Contains](http://postgis.net/docs/ST_Contains.html)
+* [ST_ContainsProperly](http://postgis.net/docs/ST_ContainsProperly.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

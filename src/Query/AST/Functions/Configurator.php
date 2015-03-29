@@ -105,6 +105,18 @@ class Configurator
         $configuration->addCustomStringFunction('ST_AsText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_AsText');
         $configuration->addCustomStringFunction('ST_3DClosestPoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DClosestPoint');
         $configuration->addCustomNumericFunction('ST_3DDistance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DDistance');
+        $configuration->addCustomStringFunction('ST_3DDWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DDWithin');
+        $configuration->addCustomStringFunction('ST_3DDFullyWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DDFullyWithin');
+        $configuration->addCustomStringFunction('ST_3DIntersects', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DIntersects');
+        $configuration->addCustomStringFunction('ST_3DLongestLine', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DLongestLine');
+        $configuration->addCustomNumericFunction('ST_3DMaxDistance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DMaxDistance');
+        $configuration->addCustomStringFunction('ST_3DShortestLine', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DShortestLine');
+        $configuration->addCustomNumericFunction('ST_Area', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Area');
+        $configuration->addCustomNumericFunction('ST_Azimuth', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Azimuth');
+        $configuration->addCustomStringFunction('ST_Centroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Centroid');
+        $configuration->addCustomStringFunction('ST_ClosestPoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_ClosestPoint');
+        $configuration->addCustomStringFunction('ST_Contains', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Contains');
+        $configuration->addCustomStringFunction('ST_ContainsProperly', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_ContainsProperly');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');
