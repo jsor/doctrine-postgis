@@ -44,7 +44,7 @@ class ST_3DDistanceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDistance(ST_Transform(ST_GeomFromEWKT(\'SRID=4326;POINT(-72.1235 42.3521 4)\'),2163),ST_Transform(ST_GeomFromEWKT(\'SRID=4326;LINESTRING(-72.1260 42.45 15, -72.123 42.1546 20)\'),2163)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDistance(ST_GeomFromEWKT(\'POINT Z (1 1 1)\'), ST_GeomFromEWKT(\'POINT Z (2 2 2)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_3DDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 127.2950593251,
+  1 => 1.7320508075688801,
 );
 
         $this->assertEquals($expected, $result);

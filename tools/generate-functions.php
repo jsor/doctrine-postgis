@@ -44,8 +44,8 @@ $functionIndex = array(
     )
 );
 
-$srcPath = __DIR__ . '/../src';
-$testPath = __DIR__ . '/../tests';
+$srcPath = __DIR__ . '/../src/Query/AST/Functions';
+$testPath = __DIR__ . '/../tests/Query/AST/Functions';
 $docsPath = __DIR__ . '/../docs';
 
 function run_php_cs_fixer($file)
@@ -240,8 +240,8 @@ if (isset($options['alias_for'])) {
 }
 
 foreach ($functions as $name => $options) {
-    $srcFile = $srcPath . '/Query/AST/Functions/' . $name . '.php';
-    $testFile = $testPath . '/Query/AST/Functions/' . $name . 'Test.php';
+    $srcFile = $srcPath . '/' . $name . '.php';
+    $testFile = $testPath . '/' . $name . 'Test.php';
 
     if (isset($options['alias_for'])) {
         $options = array_replace_recursive($functions[$options['alias_for']], $options);
@@ -249,17 +249,17 @@ foreach ($functions as $name => $options) {
 
     file_put_contents($srcFile, '<?php'.PHP_EOL.PHP_EOL.get_function_src_class_code($name, $options));
     file_put_contents($testFile, '<?php'.PHP_EOL.PHP_EOL.get_function_test_class_code($name, $options));
-
-    run_php_cs_fixer($srcFile);
-    run_php_cs_fixer($testFile);
 }
 
+run_php_cs_fixer($srcPath);
+run_php_cs_fixer($testPath);
+
 file_put_contents(
-    $srcPath . '/Query/AST/Functions/Configurator.php',
+    $srcPath . '/Configurator.php',
     '<?php'.PHP_EOL.PHP_EOL.get_configurator_class_code($functions)
 );
 
-run_php_cs_fixer($srcPath . '/Query/AST/Functions/Configurator.php');
+run_php_cs_fixer($srcPath . '/Configurator.php');
 
 $md = <<<MD
 Function Index

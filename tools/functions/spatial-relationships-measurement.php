@@ -27,9 +27,9 @@ return array(
             'group' => 'postgis-2.1',
             'queries' => array(
                 array(
-                    'sql' => "SELECT {function}(ST_Transform(ST_GeomFromEWKT('SRID=4326;POINT(-72.1235 42.3521 4)'),2163),ST_Transform(ST_GeomFromEWKT('SRID=4326;LINESTRING(-72.1260 42.45 15, -72.123 42.1546 20)'),2163))",
+                    'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT Z (1 1 1)'), ST_GeomFromEWKT('POINT Z (2 2 2)'))",
                     'result' => array(
-                        1 => 127.2950593251
+                        1 => 1.73205080756888
                     )
                 )
             )
