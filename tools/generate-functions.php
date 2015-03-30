@@ -48,11 +48,6 @@ $srcPath = __DIR__ . '/../src/Query/AST/Functions';
 $testPath = __DIR__ . '/../tests/Query/AST/Functions';
 $docsPath = __DIR__ . '/../docs';
 
-function run_php_cs_fixer($path)
-{
-    system(__DIR__ . '/../vendor/bin/php-cs-fixer --config-file=' . __DIR__.'/../.php_cs fix ' . $path);
-}
-
 function get_function_src_class_code($name, $options)
 {
     $totalArguments = isset($options['total_arguments']) ? $options['total_arguments'] : 0;
@@ -247,17 +242,16 @@ foreach ($functions as $name => $options) {
         $options = array_replace_recursive($functions[$options['alias_for']], $options);
     }
 
-    file_put_contents($srcFile, '<?php'.PHP_EOL.PHP_EOL.get_function_src_class_code($name, $options));
-    file_put_contents($testFile, '<?php'.PHP_EOL.PHP_EOL.get_function_test_class_code($name, $options));
+    file_put_contents($srcFile, "<?php\n\n" . get_function_src_class_code($name, $options));
+    file_put_contents($testFile, "<?php\n\n" . get_function_test_class_code($name, $options));
 }
 
 file_put_contents(
     $srcPath . '/Configurator.php',
-    '<?php'.PHP_EOL.PHP_EOL.get_configurator_class_code($functions)
+    "<?php\n\n" . get_configurator_class_code($functions)
 );
 
-run_php_cs_fixer($srcPath . '/');
-run_php_cs_fixer($testPath . '/');
+passthru(__DIR__ . '/../vendor/bin/php-cs-fixer --verbose --config-file=' . __DIR__ . '/../.php_cs fix');
 
 $md = <<<MD
 Function Index

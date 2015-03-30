@@ -3,6 +3,7 @@
 $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->in(__DIR__ . '/src')
     ->in(__DIR__ . '/tests')
+    ->in(__DIR__ . '/tools/functions')
 ;
 
 return Symfony\CS\Config\Config::create()
@@ -18,4 +19,5 @@ return Symfony\CS\Config\Config::create()
         'whitespacy_lines',
         'long_array_syntax'
     ))
-    ->finder($finder);
+    ->finder($finder)
+;
