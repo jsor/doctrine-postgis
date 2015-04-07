@@ -47,7 +47,6 @@ before_install:
 
 install:
     - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-    - composer install --dev --prefer-source
     - composer require satooshi/php-coveralls:dev-master --prefer-source
     - composer require doctrine/orm:${DOCTRINE_VERSION} --prefer-source
 
