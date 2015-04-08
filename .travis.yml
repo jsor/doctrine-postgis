@@ -42,6 +42,11 @@ matrix:
         - php: 5.3
           env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
 
+cache:
+    directories:
+        - vendor
+        - $HOME/.composer/cache
+
 before_install:
     - composer self-update
 
