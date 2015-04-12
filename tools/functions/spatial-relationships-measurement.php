@@ -212,4 +212,46 @@ return array(
             )
         )
     ),
+    'ST_Covers' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 10), ST_ExteriorRing(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 20)))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_CoveredBy' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 10), ST_Buffer(ST_GeomFromText('POINT(1 2)'), 20))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Crosses' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 2 2)'), ST_GeomFromText('LINESTRING(0 2, 2 0)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
 );
