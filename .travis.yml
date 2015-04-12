@@ -43,15 +43,17 @@ matrix:
     - php: 5.3
       env: DOCTRINE_VERSION=~2.4.0 POSTGRESQL_VERSION=9.3 POSTGIS_VERSION=2.1
 
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
 before_install:
   - composer self-update
 
 install:
   - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-  - composer install --prefer-source
   - composer require satooshi/php-coveralls:dev-master --prefer-source
-  - composer require doctrine/common:${DOCTRINE_VERSION} --prefer-source
-  - composer require doctrine/dbal:${DOCTRINE_VERSION} --prefer-source
   - composer require doctrine/orm:${DOCTRINE_VERSION} --prefer-source
 
 before_script:

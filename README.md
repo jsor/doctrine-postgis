@@ -152,7 +152,7 @@ In the meantime you can use the following workaround to define spatial indexes.
  * @Table(
  *     options={"spatial_indexes"={"idx_point"}},
  *     indexes={
- *         @Index(name="idx_point", columns={"point"}))
+ *         @Index(name="idx_point", columns={"point"})
  *     }
  * )
  */
