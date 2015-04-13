@@ -127,6 +127,9 @@ Function Index
 * [ST_ClosestPoint](http://postgis.net/docs/ST_ClosestPoint.html)
 * [ST_Contains](http://postgis.net/docs/ST_Contains.html)
 * [ST_ContainsProperly](http://postgis.net/docs/ST_ContainsProperly.html)
+* [ST_Covers](http://postgis.net/docs/ST_Covers.html)
+* [ST_CoveredBy](http://postgis.net/docs/ST_CoveredBy.html)
+* [ST_Crosses](http://postgis.net/docs/ST_Crosses.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

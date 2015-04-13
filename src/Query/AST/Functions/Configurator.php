@@ -117,6 +117,9 @@ class Configurator
         $configuration->addCustomStringFunction('ST_ClosestPoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_ClosestPoint');
         $configuration->addCustomStringFunction('ST_Contains', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Contains');
         $configuration->addCustomStringFunction('ST_ContainsProperly', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_ContainsProperly');
+        $configuration->addCustomStringFunction('ST_Covers', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Covers');
+        $configuration->addCustomStringFunction('ST_CoveredBy', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_CoveredBy');
+        $configuration->addCustomStringFunction('ST_Crosses', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Crosses');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');
