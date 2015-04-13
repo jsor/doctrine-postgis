@@ -66,7 +66,40 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * @group postgis-2.x
+     */
     public function testQuery2()
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, function (&$data) {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = array(
+  1 => 123.475736916,
+);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @group postgis-1.5
+     */
+    public function testQuery3()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
