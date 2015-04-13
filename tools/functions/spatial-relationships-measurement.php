@@ -218,7 +218,7 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 10), ST_ExteriorRing(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 20)))",
+                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 20), ST_ExteriorRing(ST_Buffer(ST_GeomFromText('POINT(1 2)'), 20)))",
                     'result' => array(
                         1 => true
                     )

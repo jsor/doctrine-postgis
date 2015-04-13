@@ -41,7 +41,7 @@ class ST_CoversTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Covers(ST_Buffer(ST_GeomFromText(\'POINT(1 2)\'), 10), ST_ExteriorRing(ST_Buffer(ST_GeomFromText(\'POINT(1 2)\'), 20))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Covers(ST_Buffer(ST_GeomFromText(\'POINT(1 2)\'), 20), ST_ExteriorRing(ST_Buffer(ST_GeomFromText(\'POINT(1 2)\'), 20))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
