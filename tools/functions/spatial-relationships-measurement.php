@@ -298,7 +298,7 @@ return array(
                 array(
                     'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;POINT(-72.1235 42.3521)'), ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)'), false)",
                     'result' => array(
-                        1 => 123.475736916
+                        1 => 123.475736916397
                     )
                 )
             )
