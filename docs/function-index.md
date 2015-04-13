@@ -130,6 +130,9 @@ Function Index
 * [ST_Covers](http://postgis.net/docs/ST_Covers.html)
 * [ST_CoveredBy](http://postgis.net/docs/ST_CoveredBy.html)
 * [ST_Crosses](http://postgis.net/docs/ST_Crosses.html)
+* [ST_LineCrossingDirection](http://postgis.net/docs/ST_LineCrossingDirection.html)
+* [ST_Disjoint](http://postgis.net/docs/ST_Disjoint.html)
+* [ST_Distance](http://postgis.net/docs/ST_Distance.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

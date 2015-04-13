@@ -120,6 +120,9 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Covers', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Covers');
         $configuration->addCustomStringFunction('ST_CoveredBy', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_CoveredBy');
         $configuration->addCustomStringFunction('ST_Crosses', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Crosses');
+        $configuration->addCustomNumericFunction('ST_LineCrossingDirection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_LineCrossingDirection');
+        $configuration->addCustomStringFunction('ST_Disjoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Disjoint');
+        $configuration->addCustomNumericFunction('ST_Distance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Distance');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');

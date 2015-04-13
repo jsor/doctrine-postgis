@@ -254,4 +254,54 @@ return array(
             )
         )
     ),
+    'ST_LineCrossingDirection' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)'))",
+                    'result' => array(
+                        1 => -3
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Disjoint' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(0 0)'), ST_GeomFromText('LINESTRING(2 0, 0 2)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Distance' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 3,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(-72.1235 42.3521)', 4326), ST_GeomFromText('LINESTRING(-72.1260 42.45, -72.123 42.1546)', 4326))",
+                    'result' => array(
+                        1 => 0.00150567726382822
+                    )
+                ),
+                array(
+                    'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;POINT(-72.1235 42.3521)'), ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)'), false)",
+                    'result' => array(
+                        1 => 123.475736916
+                    )
+                )
+            )
+        )
+    ),
 );
