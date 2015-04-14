@@ -312,4 +312,106 @@ return array(
             )
         )
     ),
+    'ST_HausdorffDistance' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 3,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING (130 0, 0 0, 0 150)'), ST_GeomFromText('LINESTRING (10 10, 10 150, 130 10)'), 0.5)",
+                    'result' => array(
+                        1 => 70
+                    )
+                )
+            )
+        )
+    ),
+    'ST_MaxDistance' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(0 0)'), ST_GeomFromText('LINESTRING(2 0, 0 2)'))",
+                    'result' => array(
+                        1 => 2
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Distance_Sphere' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(-72.1235 42.3521)', 4326), ST_GeomFromText('LINESTRING(-72.1260 42.45, -72.123 42.1546)', 4326))",
+                    'result' => array(
+                        1 => 123.475736916
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Distance_Spheroid' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 3,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(-72.1235 42.3521)', 4326), ST_GeomFromText('LINESTRING(-72.1260 42.45, -72.123 42.1546)', 4326), 'SPHEROID[\"WGS 84\",6378137,298.257223563]')",
+                    'result' => array(
+                        1 => 123.802076746845
+                    )
+                )
+            )
+        )
+    ),
+    'ST_DFullyWithin' => array(
+        'required_arguments' => 3,
+        'total_arguments' => 3,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(1 1)'), ST_GeomFromText('LINESTRING(1 5, 2 7, 1 9, 14 12)'), 20)",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_DWithin' => array(
+        'required_arguments' => 3,
+        'total_arguments' => 4,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(1 1)'), ST_GeomFromText('LINESTRING(1 5, 2 7, 1 9, 14 12)'), 10)",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Equals' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 10 10)'), ST_GeomFromText('LINESTRING(0 0, 5 5, 10 10)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
 );

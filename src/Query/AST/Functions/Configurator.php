@@ -123,6 +123,13 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_LineCrossingDirection', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_LineCrossingDirection');
         $configuration->addCustomStringFunction('ST_Disjoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Disjoint');
         $configuration->addCustomNumericFunction('ST_Distance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Distance');
+        $configuration->addCustomNumericFunction('ST_HausdorffDistance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_HausdorffDistance');
+        $configuration->addCustomNumericFunction('ST_MaxDistance', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_MaxDistance');
+        $configuration->addCustomNumericFunction('ST_Distance_Sphere', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Distance_Sphere');
+        $configuration->addCustomNumericFunction('ST_Distance_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Distance_Spheroid');
+        $configuration->addCustomStringFunction('ST_DFullyWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_DFullyWithin');
+        $configuration->addCustomStringFunction('ST_DWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_DWithin');
+        $configuration->addCustomStringFunction('ST_Equals', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Equals');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');

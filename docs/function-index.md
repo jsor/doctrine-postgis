@@ -133,6 +133,13 @@ Function Index
 * [ST_LineCrossingDirection](http://postgis.net/docs/ST_LineCrossingDirection.html)
 * [ST_Disjoint](http://postgis.net/docs/ST_Disjoint.html)
 * [ST_Distance](http://postgis.net/docs/ST_Distance.html)
+* [ST_HausdorffDistance](http://postgis.net/docs/ST_HausdorffDistance.html)
+* [ST_MaxDistance](http://postgis.net/docs/ST_MaxDistance.html)
+* [ST_Distance_Sphere](http://postgis.net/docs/ST_Distance_Sphere.html)
+* [ST_Distance_Spheroid](http://postgis.net/docs/ST_Distance_Spheroid.html)
+* [ST_DFullyWithin](http://postgis.net/docs/ST_DFullyWithin.html)
+* [ST_DWithin](http://postgis.net/docs/ST_DWithin.html)
+* [ST_Equals](http://postgis.net/docs/ST_Equals.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------
