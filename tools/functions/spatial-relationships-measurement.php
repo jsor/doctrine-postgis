@@ -349,9 +349,17 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
+                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('POINT(-72.1235 42.3521)', 4326), ST_GeomFromText('LINESTRING(-72.1260 42.45, -72.123 42.1546)', 4326))",
                     'result' => array(
                         1 => 123.475736916
+                    )
+                ),
+                array(
+                    'group' => 'postgis-1.5',
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(-72.1235 42.3521)', 4326), ST_GeomFromText('LINESTRING(-72.1260 42.45, -72.123 42.1546)', 4326))",
+                    'result' => array(
+                        1 => 123.475736916405
                     )
                 )
             )
