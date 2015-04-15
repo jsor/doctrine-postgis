@@ -130,6 +130,9 @@ class Configurator
         $configuration->addCustomStringFunction('ST_DFullyWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_DFullyWithin');
         $configuration->addCustomStringFunction('ST_DWithin', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_DWithin');
         $configuration->addCustomStringFunction('ST_Equals', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Equals');
+        $configuration->addCustomStringFunction('ST_HasArc', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_HasArc');
+        $configuration->addCustomStringFunction('ST_Intersects', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersects');
+        $configuration->addCustomNumericFunction('ST_Length', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');

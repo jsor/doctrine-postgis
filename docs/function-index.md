@@ -140,6 +140,9 @@ Function Index
 * [ST_DFullyWithin](http://postgis.net/docs/ST_DFullyWithin.html)
 * [ST_DWithin](http://postgis.net/docs/ST_DWithin.html)
 * [ST_Equals](http://postgis.net/docs/ST_Equals.html)
+* [ST_HasArc](http://postgis.net/docs/ST_HasArc.html)
+* [ST_Intersects](http://postgis.net/docs/ST_Intersects.html)
+* [ST_Length](http://postgis.net/docs/ST_Length.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

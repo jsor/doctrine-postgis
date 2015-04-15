@@ -422,4 +422,67 @@ return array(
             )
         )
     ),
+    'ST_HasArc' => array(
+        'required_arguments' => 1,
+        'total_arguments' => 1,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_Collect('LINESTRING(1 2, 3 4, 5 6)', 'CIRCULARSTRING(1 1, 2 3, 4 5, 6 7, 5 6)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Intersects' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POINT(0 0)'), ST_GeomFromText('LINESTRING(0 0, 0 2)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                ),
+                array(
+                    'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;LINESTRING(-43.23456 72.4567,-43.23456 72.4568)'), ST_GeographyFromText('SRID=4326;POINT(-43.23456 72.4567772)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Length' => array(
+        'required_arguments' => 1,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416)', 2249))",
+                    'result' => array(
+                        1 => 122.630744000095
+                    )
+                ),
+                array(
+                    'group' => 'postgis-2.x',
+                    'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)'), false)",
+                    'result' => array(
+                        1 => 34346.2060960748
+                    )
+                ),
+                array(
+                    'group' => 'postgis-1.5',
+                    'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)'), false)",
+                    'result' => array(
+                        1 => 34346.2060960742
+                    )
+                )
+            )
+        )
+    ),
 );
