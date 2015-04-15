@@ -66,40 +66,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery2()
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, function (&$data) {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = array(
-  1 => 34346.206096074799,
-);
-
-        $this->assertEquals($expected, $result);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testQuery3()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 

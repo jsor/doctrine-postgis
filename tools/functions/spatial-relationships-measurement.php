@@ -469,14 +469,6 @@ return array(
                     )
                 ),
                 array(
-                    'group' => 'postgis-2.x',
-                    'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)'), false)",
-                    'result' => array(
-                        1 => 34346.2060960748
-                    )
-                ),
-                array(
-                    'group' => 'postgis-1.5',
                     'sql' => "SELECT {function}(ST_GeographyFromText('SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)'), false)",
                     'result' => array(
                         1 => 34346.2060960742
