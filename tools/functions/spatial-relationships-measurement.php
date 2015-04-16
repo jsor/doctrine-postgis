@@ -477,17 +477,12 @@ return array(
             )
         )
     ),
-    'ST_Length2D' => array(
-        'alias_for' => 'ST_Length',
-        'tests' => array(
-            'group' => 'postgis-1.5',
-        )
-    ),
     'ST_3DLength' => array(
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(743238 2967416 1,743238 2967450 1,743265 2967450 3,743265.625 2967416 3,743238 2967416 3)',2249))",
@@ -511,9 +506,17 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
+                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))'),'SPHEROID[\"GRS_1980\",6378137,298.257222101]')",
                     'result' => array(
-                        1 => 85204.5207711805
+                        1 => '85204.5207711805'
+                    )
+                ),
+                array(
+                    'group' => 'postgis-1.5',
+                    'sql' => "SELECT {function}(ST_GeomFromText('MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))'),'SPHEROID[\"GRS_1980\",6378137,298.257222101]')",
+                    'result' => array(
+                        1 => '85204.5207562954'
                     )
                 )
             )
@@ -528,7 +531,7 @@ return array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromText('MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))'),'SPHEROID[\"GRS_1980\",6378137,298.257222101]')",
                     'result' => array(
-                        1 => 85204.5207711805
+                        1 => '85204.5207711805'
                     )
                 )
             )

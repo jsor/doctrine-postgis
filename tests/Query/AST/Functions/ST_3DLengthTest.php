@@ -7,6 +7,9 @@ namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
+/**
+ * @group postgis-2.x
+ */
 class ST_3DLengthTest extends AbstractFunctionalTestCase
 {
     protected function setUp()

@@ -143,7 +143,6 @@ Function Index
 * [ST_HasArc](http://postgis.net/docs/ST_HasArc.html)
 * [ST_Intersects](http://postgis.net/docs/ST_Intersects.html)
 * [ST_Length](http://postgis.net/docs/ST_Length.html)
-* [ST_Length2D](http://postgis.net/docs/ST_Length2D.html)
 * [ST_3DLength](http://postgis.net/docs/ST_3DLength.html)
 * [ST_Length3D](http://postgis.net/docs/ST_Length3D.html)
 * [ST_Length_Spheroid](http://postgis.net/docs/ST_Length_Spheroid.html)
