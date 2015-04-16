@@ -147,8 +147,6 @@ Function Index
 * [ST_Length3D](http://postgis.net/docs/ST_Length3D.html)
 * [ST_Length_Spheroid](http://postgis.net/docs/ST_Length_Spheroid.html)
 * [ST_Length2D_Spheroid](http://postgis.net/docs/ST_Length2D_Spheroid.html)
-* [ST_3DLength_Spheroid](http://postgis.net/docs/ST_3DLength_Spheroid.html)
-* [ST_Length3d_Spheroid](http://postgis.net/docs/ST_Length3d_Spheroid.html)
 
 [Geometry Processing](http://postgis.net/docs/reference.html#Geometry_Processing)
 ----------

@@ -537,13 +537,8 @@ return array(
             )
         )
     ),
-    'ST_3DLength_Spheroid' => array(
-        'alias_for' => 'ST_Length_Spheroid',
+    /*'ST_3DLength_Spheroid' => array(
     ),
     'ST_Length3d_Spheroid' => array(
-        'alias_for' => 'ST_Length_Spheroid',
-        'tests' => array(
-            'group' => 'postgis-1.5',
-        )
-    ),
+    ),*/
 );
