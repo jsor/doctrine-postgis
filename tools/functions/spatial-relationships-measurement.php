@@ -477,4 +477,70 @@ return array(
             )
         )
     ),
+    'ST_Length2D' => array(
+        'alias_for' => 'ST_Length',
+        'tests' => array(
+            'group' => 'postgis-1.5',
+        )
+    ),
+    'ST_3DLength' => array(
+        'required_arguments' => 1,
+        'total_arguments' => 1,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(743238 2967416 1,743238 2967450 1,743265 2967450 3,743265.625 2967416 3,743238 2967416 3)',2249))",
+                    'result' => array(
+                        1 => 122.704716741457
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Length3D' => array(
+        'alias_for' => 'ST_3DLength',
+        'tests' => array(
+            'group' => 'postgis-1.5',
+        )
+    ),
+    'ST_Length_Spheroid' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))'),'SPHEROID[\"GRS_1980\",6378137,298.257222101]')",
+                    'result' => array(
+                        1 => 85204.5207711805
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Length2D_Spheroid' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))'),'SPHEROID[\"GRS_1980\",6378137,298.257222101]')",
+                    'result' => array(
+                        1 => 85204.5207711805
+                    )
+                )
+            )
+        )
+    ),
+    'ST_3DLength_Spheroid' => array(
+        'alias_for' => 'ST_Length_Spheroid',
+    ),
+    'ST_Length3d_Spheroid' => array(
+        'alias_for' => 'ST_Length_Spheroid',
+        'tests' => array(
+            'group' => 'postgis-1.5',
+        )
+    ),
 );

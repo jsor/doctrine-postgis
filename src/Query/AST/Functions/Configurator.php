@@ -133,6 +133,13 @@ class Configurator
         $configuration->addCustomStringFunction('ST_HasArc', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_HasArc');
         $configuration->addCustomStringFunction('ST_Intersects', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Intersects');
         $configuration->addCustomNumericFunction('ST_Length', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length');
+        $configuration->addCustomNumericFunction('ST_Length2D', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length2D');
+        $configuration->addCustomNumericFunction('ST_3DLength', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DLength');
+        $configuration->addCustomNumericFunction('ST_Length3D', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length3D');
+        $configuration->addCustomNumericFunction('ST_Length_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length_Spheroid');
+        $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length2D_Spheroid');
+        $configuration->addCustomNumericFunction('ST_3DLength_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_3DLength_Spheroid');
+        $configuration->addCustomNumericFunction('ST_Length3d_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length3d_Spheroid');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');
