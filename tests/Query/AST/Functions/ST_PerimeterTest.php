@@ -90,7 +90,7 @@ class ST_PerimeterTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '257.412311446485',
+  1 => '257.412311446337',
 );
 
         $this->assertEquals($expected, $result);
