@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
+use Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
@@ -90,6 +91,8 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
             self::$_conn = DriverManager::getConnection($dbParams, new Configuration());
 
             self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
+
+            Configurator::configure(self::$_conn->getConfiguration());
 
             if (!Type::hasType('tsvector')) {
                 Type::addType('tsvector', 'Doctrine\DBAL\Types\TextType');

@@ -2,11 +2,8 @@
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
-use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
-use Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator;
 
 class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
 {
@@ -18,18 +15,6 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
                 ToolEvents::postGenerateSchemaTable,
             )
         );
-    }
-
-    public function postConnect(ConnectionEventArgs $args)
-    {
-        parent::postConnect($args);
-
-        $configuration = $args->getConnection()->getConfiguration();
-
-        // Check if ORM and DBAL share a Doctrine\ORM\Configuration instance
-        if ($configuration instanceof Configuration) {
-            Configurator::configure($configuration);
-        }
     }
 
     public function postGenerateSchemaTable(GenerateSchemaTableEventArgs $args)
