@@ -22,6 +22,7 @@ class Configurator
         $configuration->addCustomStringFunction('ST_GeomFromGeoJSON', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeomFromGeoJSON');
         $configuration->addCustomStringFunction('ST_GeomFromKML', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeomFromKML');
         $configuration->addCustomStringFunction('ST_GeomFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeomFromText');
+        $configuration->addCustomStringFunction('ST_GeometryFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeometryFromText');
         $configuration->addCustomStringFunction('ST_GeomFromWKB', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_GeomFromWKB');
         $configuration->addCustomStringFunction('ST_LineFromMultiPoint', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_LineFromMultiPoint');
         $configuration->addCustomStringFunction('ST_LineFromText', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_LineFromText');
@@ -137,6 +138,16 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_Length3D', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length3D');
         $configuration->addCustomNumericFunction('ST_Length_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length_Spheroid');
         $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Length2D_Spheroid');
+        $configuration->addCustomStringFunction('ST_LongestLine', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_LongestLine');
+        $configuration->addCustomStringFunction('ST_OrderingEquals', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_OrderingEquals');
+        $configuration->addCustomStringFunction('ST_Overlaps', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Overlaps');
+        $configuration->addCustomNumericFunction('ST_Perimeter', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Perimeter');
+        $configuration->addCustomStringFunction('ST_PointOnSurface', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_PointOnSurface');
+        $configuration->addCustomStringFunction('ST_Project', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Project');
+        $configuration->addCustomStringFunction('ST_Relate', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Relate');
+        $configuration->addCustomStringFunction('ST_ShortestLine', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_ShortestLine');
+        $configuration->addCustomStringFunction('ST_Touches', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Touches');
+        $configuration->addCustomStringFunction('ST_Within', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Within');
         $configuration->addCustomStringFunction('ST_Buffer', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Buffer');
         $configuration->addCustomStringFunction('ST_Collect', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Collect');
         $configuration->addCustomStringFunction('ST_Difference', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\ST_Difference');

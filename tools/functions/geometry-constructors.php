@@ -217,6 +217,9 @@ return array(
             )
         )
     ),
+    'ST_GeometryFromText' => array(
+        'alias_for' => 'ST_GeomFromText',
+    ),
     'ST_GeomFromWKB' => array(
         'required_arguments' => 1,
         'total_arguments' => 2,

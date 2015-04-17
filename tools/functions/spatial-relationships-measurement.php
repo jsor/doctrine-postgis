@@ -541,4 +541,158 @@ return array(
     ),
     'ST_Length3d_Spheroid' => array(
     ),*/
+    'ST_LongestLine' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(100 100)'), ST_GeomFromText('LINESTRING(20 80, 98 190, 110 180, 50 75)')))",
+                    'result' => array(
+                        1 => 'LINESTRING(100 100,98 190)'
+                    )
+                )
+            )
+        )
+    ),
+    'ST_OrderingEquals' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 10 10)'), ST_GeomFromText('LINESTRING(0 0, 10 10)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Overlaps' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(1 0.5)'), 3), ST_Buffer(ST_GeomFromText('LINESTRING(1 0, 1 1, 3 5)'), 0.5))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Perimeter' => array(
+        'required_arguments' => 1,
+        'total_arguments' => 2,
+        'return_type' => 'numeric',
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416))', 2249))",
+                    'result' => array(
+                        1 => '122.630744000095'
+                    )
+                ),
+                array(
+                    'group' => 'postgis-2.x',
+                    'sql' => "SELECT {function}(ST_GeomFromText('MULTIPOLYGON(((-71.1044543107478 42.340674480411,-71.1044542869917 42.3406744369506,-71.1044553562977 42.340673886454,-71.1044543107478 42.340674480411)),((-71.1044543107478 42.340674480411,-71.1044860600303 42.3407237015564,-71.1045215770124 42.3407653385914,-71.1045498002983 42.3407946553165,-71.1045611902745 42.3408058316308,-71.1046016507427 42.340837442371,-71.104617893173 42.3408475056957,-71.1048586153981 42.3409875993595,-71.1048736143677 42.3409959528211,-71.1048878050242 42.3410084812078,-71.1044020965803 42.3414730072048,-71.1039672113619 42.3412202916693,-71.1037740497748 42.3410666421308,-71.1044280218456 42.3406894151355,-71.1044543107478 42.340674480411)))'), false)",
+                    'result' => array(
+                        1 => '257.412311446485'
+                    )
+                )
+            )
+        )
+    ),
+    /*'ST_Perimeter2D' => array(
+    ),
+    'ST_3DPerimeter' => array(
+    ),*/
+    'ST_PointOnSurface' => array(
+        'required_arguments' => 1,
+        'total_arguments' => 1,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(0 5, 0 10)')))",
+                    'result' => array(
+                        1 => 'POINT(0 5)'
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Project' => array(
+        'required_arguments' => 3,
+        'total_arguments' => 3,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT ST_AsText({function}(ST_GeographyFromText('POINT(0 0)'), 100000, 0.785398163397448))",
+                    'result' => array(
+                        1 => 'POINT(0.635231029125319 0.63947233472882)'
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Relate' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 3,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeometryFromText('POINT(1 2)'), ST_Buffer(ST_GeometryFromText('POINT(1 2)'),2), '0FFFFF212')",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    /*'ST_RelateMatch' => array(
+    ),*/
+    'ST_ShortestLine' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(100 100)'), ST_GeomFromText('LINESTRING(20 80, 98 190, 110 180, 50 75)')))",
+                    'result' => array(
+                        1 => 'LINESTRING(100 100,73.0769230769231 115.384615384615)'
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Touches' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1, 0 2)'), ST_GeomFromText('POINT(0 2)'))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
+    'ST_Within' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 2,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT {function}(ST_Buffer(ST_GeomFromText('POINT(50 50)'), 20), ST_Buffer(ST_GeomFromText('POINT(50 50)'), 40))",
+                    'result' => array(
+                        1 => true
+                    )
+                )
+            )
+        )
+    ),
 );
