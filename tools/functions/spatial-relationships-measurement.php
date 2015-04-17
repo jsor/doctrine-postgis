@@ -627,6 +627,7 @@ return array(
         'required_arguments' => 3,
         'total_arguments' => 3,
         'tests' => array(
+            'group' => 'postgis-2.x',
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}(ST_GeographyFromText('POINT(0 0)'), 100000, 0.785398163397448))",
