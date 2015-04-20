@@ -120,14 +120,21 @@ Spatial Indexes
 You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
 
-In theory, you simply have to define a `SPATIAL` flag in your index definition.
+Doctrine ORM 2.5 introduced [index flags](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags),
+so the setup for versions >=2.5 and <=2.4 is different.
+
+### Doctrine ORM >=2.5
+
+In Doctrine ORM 2.5 and higher, you can simply set the `SPATIAL` flag for
+indexes.
 
 ```php
 /**
  * @Entity
  * @Table(
  *     indexes={
- *         @Index(name="idx_point", columns={"point"}, flags={"SPATIAL"}))
+ *         @Index(name="idx_point", columns={"point"}, flags={"SPATIAL"})),
+ *         @Index(name="idx_polygon", columns={"polygon"}, flags={"SPATIAL"}))
  *     }
  * )
  */
@@ -136,19 +143,19 @@ class MyEntity
 }
 ```
 
-In practice, the ORM doesn't support flags yet (but there is a
-[pull request](https://github.com/doctrine/doctrine2/pull/973) open to add
-support for it).
+### Doctrine ORM <=2.4
 
-In the meantime you can use the following workaround to define spatial indexes.
+In Doctrine ORM 2.4 and lower, you have to define which indexes should be
+spatial indexes through the table options.
 
 ```php
 /**
  * @Entity
  * @Table(
- *     options={"spatial_indexes"={"idx_point"}},
+ *     options={"spatial_indexes"={"idx_point", "idx_polygon"}},
  *     indexes={
- *         @Index(name="idx_point", columns={"point"})
+ *         @Index(name="idx_point", columns={"point"}),
+ *         @Index(name="idx_polygon", columns={"polygon"})
  *     }
  * )
  */
