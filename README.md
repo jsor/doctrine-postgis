@@ -75,7 +75,7 @@ There are 2 options you can set to define the geometry.
 * `spatial_srid`
   This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
-#### Example
+### Example
 
 ```php
 /** @Entity */
@@ -104,7 +104,7 @@ values you have set. The library uses [ST_AsEWKT](http://postgis.net/docs/ST_AsE
 to retain as much information as possible (like SRID's). Read more in the
 [PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
 
-#### Example
+### Example
 
 ```php
 $entity = new MyEntity();
