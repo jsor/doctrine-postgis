@@ -189,4 +189,4 @@ is provided.
 License
 -------
 
-[MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
+Copyright (c) 2014-2015 Jan Sorgalla. Released under the [MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
