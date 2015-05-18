@@ -17,13 +17,14 @@ extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 Installation
 ------------
 
-Install [through composer](http://getcomposer.org). Check the
-[packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
-for all available versions.
+Install the latest version with [Composer](http://getcomposer.org).
 
 ```bash
 composer require jsor/doctrine-postgis:~0.1.0@dev
 ```
+
+Check the [Packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
+for all available versions.
 
 Setup
 -----
