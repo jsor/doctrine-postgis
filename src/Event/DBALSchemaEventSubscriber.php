@@ -60,7 +60,12 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     public function postConnect(ConnectionEventArgs $args)
     {
         if ($this->postConnectCalled) {
-            throw new \LogicException('It looks like you have registered the DBAL schema event subscriber to more than one connection. Please register one instance per connection.');
+            throw new \LogicException(
+                sprintf(
+                    'It looks like you have registered the %s to more than one connection. Please register one instance per connection.',
+                    get_class($this)
+                )
+            );
         }
 
         $this->connection = $args->getConnection();
