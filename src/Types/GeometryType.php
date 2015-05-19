@@ -12,8 +12,8 @@ class GeometryType extends PostGISType
     public function getNormalizedSpatialOptions(array $options = array())
     {
         return array(
-            'spatial_type' => strtoupper(isset($options['spatial_type']) ? $options['spatial_type'] : 'GEOMETRY'),
-            'spatial_srid' => isset($options['spatial_srid']) ? $options['spatial_srid'] : 0,
+            'geometry_type' => strtoupper(isset($options['geometry_type']) ? $options['geometry_type'] : 'GEOMETRY'),
+            'srid' => isset($options['srid']) ? $options['srid'] : 0,
         );
     }
 }

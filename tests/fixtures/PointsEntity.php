@@ -35,37 +35,37 @@ class PointsEntity
     private $geometry;
 
     /**
-     * @ORM\Column(type="geometry", name="point", options={"spatial_type"="point"})
+     * @ORM\Column(type="geometry", name="point", options={"geometry_type"="point"})
      */
     private $point;
 
     /**
-     * @ORM\Column(type="geometry", name="point_2d", options={"spatial_type"="point", "spatial_srid"=3785})
+     * @ORM\Column(type="geometry", name="point_2d", options={"geometry_type"="point", "srid"=3785})
      */
     private $point2D;
 
     /**
-     * @ORM\Column(type="geometry", name="point_3dz", options={"spatial_type"="pointz", "spatial_srid"=3785})
+     * @ORM\Column(type="geometry", name="point_3dz", options={"geometry_type"="pointz", "srid"=3785})
      */
     private $point3DZ;
 
     /**
-     * @ORM\Column(type="geometry", name="point_3dm", options={"spatial_type"="pointm", "spatial_srid"=3785})
+     * @ORM\Column(type="geometry", name="point_3dm", options={"geometry_type"="pointm", "srid"=3785})
      */
     private $point3DM;
 
     /**
-     * @ORM\Column(type="geometry", name="point_4d", options={"spatial_type"="pointzm", "spatial_srid"=3785})
+     * @ORM\Column(type="geometry", name="point_4d", options={"geometry_type"="pointzm", "srid"=3785})
      */
     private $point4D;
 
     /**
-     * @ORM\Column(type="geometry", nullable=true, name="point_2d_nullable", options={"spatial_type"="point", "spatial_srid"=3785})
+     * @ORM\Column(type="geometry", nullable=true, name="point_2d_nullable", options={"geometry_type"="point", "srid"=3785})
      */
     private $point2DNullable;
 
     /**
-     * @ORM\Column(type="geometry", name="point_2d_nosrid", options={"spatial_type"="point"})
+     * @ORM\Column(type="geometry", name="point_2d_nosrid", options={"geometry_type"="point"})
      */
     private $point2DNoSrid;
 
@@ -75,12 +75,12 @@ class PointsEntity
     private $geography;
 
     /**
-     * @ORM\Column(type="geography", name="point_geography_2d", options={"spatial_type"="point"})
+     * @ORM\Column(type="geography", name="point_geography_2d", options={"geometry_type"="point"})
      */
     private $pointGeography2d;
 
     /**
-     * @ORM\Column(type="geography", name="point_geography_2d_srid", options={"spatial_type"="point", "spatial_srid"=4326})
+     * @ORM\Column(type="geography", name="point_geography_2d_srid", options={"geometry_type"="point", "srid"=4326})
      */
     private $pointGeography2dSrid;
 

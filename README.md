@@ -71,9 +71,9 @@ class MyEntity
 
 There are 2 options you can set to define the geometry.
 
-* `spatial_type`
+* `geometry_type`
    This defines the type of the geometry, like POINT, LINESTRING etc.
-* `spatial_srid`
+* `srid`
   This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
 ### Example
@@ -83,17 +83,17 @@ There are 2 options you can set to define the geometry.
 class MyEntity
 {
     /**
-     * @Column(type="geometry", options={"spatial_type"="POINT"})
+     * @Column(type="geometry", options={"geometry_type"="POINT"})
      */
     private $point;
 
     /**
-     * @Column(type="geometry", options={"spatial_type"="POINTZM"})
+     * @Column(type="geometry", options={"geometry_type"="POINTZM"})
      */
     private $point4D;
 
     /**
-     * @Column(type="geometry", options={"spatial_type"="POINT", "spatial_srid"=3785})
+     * @Column(type="geometry", options={"geometry_type"="POINT", "srid"=3785})
      */
     private $pointWithSRID;
 }

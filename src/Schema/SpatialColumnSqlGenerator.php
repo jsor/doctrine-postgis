@@ -28,14 +28,14 @@ class SpatialColumnSqlGenerator
             $column->getCustomSchemaOptions()
         );
 
-        $srid = $normalized['spatial_srid'];
+        $srid = $normalized['srid'];
 
         // PostGIS 1.5 uses -1 for undefined SRID's
         if ($srid <= 0) {
             $srid = -1;
         }
 
-        $type = strtoupper($normalized['spatial_type']);
+        $type = strtoupper($normalized['geometry_type']);
 
         if ('ZM' === substr($type, -2)) {
             $dimension = 4;

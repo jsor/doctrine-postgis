@@ -18,12 +18,12 @@ class GeographyTypeTest extends AbstractTypeTestCase
 
     public function testgetNormalizedSpatialOptions()
     {
-        $expected = array('spatial_type' => 'GEOMETRY', 'spatial_srid' => 4326);
+        $expected = array('geometry_type' => 'GEOMETRY', 'srid' => 4326);
         $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions());
         $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array()));
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('spatial_srid' => 0)));
+        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('srid' => 0)));
 
-        $expected = array('spatial_type' => 'POINT', 'spatial_srid' => 4326);
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('spatial_type' => 'point')));
+        $expected = array('geometry_type' => 'POINT', 'srid' => 4326);
+        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('geometry_type' => 'point')));
     }
 }

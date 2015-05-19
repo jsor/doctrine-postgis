@@ -233,16 +233,16 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             throw new \RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $columnDiff->fromColumn->getType()->getName() . '" to "' . $column->getType()->getName() . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
-        if ($columnDiff->hasChanged('spatial_type')) {
-            throw new \RuntimeException('The spatial_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('spatial_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('spatial_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+        if ($columnDiff->hasChanged('geometry_type')) {
+            throw new \RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('geometry_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
-        if ($columnDiff->hasChanged('spatial_srid')) {
+        if ($columnDiff->hasChanged('srid')) {
             $args->addSql(sprintf(
                 "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                 $table->getName(),
                 $column->getName(),
-                $column->getCustomSchemaOption('spatial_srid')
+                $column->getCustomSchemaOption('srid')
             ));
         }
     }
@@ -297,8 +297,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);
 
         $column
-            ->setCustomSchemaOption('spatial_type', $info['type'])
-            ->setCustomSchemaOption('spatial_srid', $info['srid'])
+            ->setCustomSchemaOption('geometry_type', $info['type'])
+            ->setCustomSchemaOption('srid', $info['srid'])
         ;
 
         $args

@@ -37,8 +37,8 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
     {
         $defaultSrid = $this->type instanceof GeographyType ? 4326 : 0;
 
-        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, $defaultSrid), $this->type->getSqlDeclaration(array('name' => 'test', 'spatial_type' => $type), $this->getPlatformMock()));
-        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, 1234), $this->type->getSqlDeclaration(array('name' => 'test', 'spatial_type' => $type, 'spatial_srid' => 1234), $this->getPlatformMock()));
+        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, $defaultSrid), $this->type->getSqlDeclaration(array('name' => 'test', 'geometry_type' => $type), $this->getPlatformMock()));
+        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, 1234), $this->type->getSqlDeclaration(array('name' => 'test', 'geometry_type' => $type, 'srid' => 1234), $this->getPlatformMock()));
     }
 
     public function getSQLDeclarationDataProvider()
