@@ -177,7 +177,7 @@ functions with a `Doctrine\ORM\Configuration` instance.
 ```php
 $configuration = new Doctrine\ORM\Configuration();
 
-Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator::configure($configuration);
+Jsor\Doctrine\PostGIS\Functions\Configurator::configure($configuration);
 ```
 
 Schema Tool

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
-use Jsor\Doctrine\PostGIS\Query\AST\Functions\Configurator;
+use Jsor\Doctrine\PostGIS\Functions\Configurator;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {

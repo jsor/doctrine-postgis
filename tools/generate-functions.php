@@ -44,8 +44,8 @@ $functionIndex = array(
     )
 );
 
-$srcPath = __DIR__ . '/../src/Query/AST/Functions';
-$testPath = __DIR__ . '/../tests/Query/AST/Functions';
+$srcPath = __DIR__ . '/../src/Functions';
+$testPath = __DIR__ . '/../tests/Functions';
 $docsPath = __DIR__ . '/../docs';
 
 function get_function_src_class_code($name, $options)
@@ -56,7 +56,7 @@ function get_function_src_class_code($name, $options)
 ?>
 /* This file is auto-generated. Don't edit directly! */
 
-namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
+namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Lexer;
@@ -124,7 +124,7 @@ function get_function_test_class_code($name, $options)
 ?>
 /* This file is auto-generated. Don't edit directly! */
 
-namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
+namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
@@ -211,7 +211,7 @@ function get_configurator_class_code($functions)
 ?>
 /* This file is auto-generated. Don't edit directly! */
 
-namespace Jsor\Doctrine\PostGIS\Query\AST\Functions;
+namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Configuration;
 
@@ -225,7 +225,7 @@ if (isset($options['alias_for'])) {
     $options = array_replace_recursive($functions[$options['alias_for']], $options);
 }
 ?>
-        $configuration->addCustom<?php echo isset($options['return_type']) ? ucfirst($options['return_type']) : 'String'; ?>Function('<?php echo $name; ?>', 'Jsor\Doctrine\PostGIS\Query\AST\Functions\<?php echo $name; ?>');
+        $configuration->addCustom<?php echo isset($options['return_type']) ? ucfirst($options['return_type']) : 'String'; ?>Function('<?php echo $name; ?>', 'Jsor\Doctrine\PostGIS\Functions\<?php echo $name; ?>');
 <?php endforeach; ?>
     }
 }
