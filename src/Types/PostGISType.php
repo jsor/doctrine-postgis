@@ -33,10 +33,13 @@ abstract class PostGISType extends Type
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
+        $options = $this->getNormalizedPostGISColumnOptions($fieldDeclaration);
+
         return sprintf(
-            '%s(%s)',
+            '%s(%s, %d)',
             $this->getName(),
-            implode(', ', $this->getNormalizedSpatialOptions($fieldDeclaration))
+            $options['geometry_type'],
+            $options['srid']
         );
     }
 
@@ -45,5 +48,5 @@ abstract class PostGISType extends Type
      *
      * @return mixed
      */
-    abstract public function getNormalizedSpatialOptions(array $options = array());
+    abstract public function getNormalizedPostGISColumnOptions(array $options = array());
 }

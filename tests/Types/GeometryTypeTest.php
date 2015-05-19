@@ -9,13 +9,13 @@ class GeometryTypeTest extends AbstractTypeTestCase
         return 'geometry';
     }
 
-    public function testgetNormalizedSpatialOptions()
+    public function testGetNormalizedPostGISColumnOptions()
     {
         $expected = array('geometry_type' => 'GEOMETRY', 'srid' => 0);
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions());
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array()));
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions());
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions(array()));
 
         $expected = array('geometry_type' => 'POINT', 'srid' => 0);
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('geometry_type' => 'point')));
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions(array('geometry_type' => 'point')));
     }
 }

@@ -16,14 +16,14 @@ class GeographyTypeTest extends AbstractTypeTestCase
         $this->assertEquals('ST_GeographyFromText(foo)', $this->type->convertToDatabaseValueSQL('foo', $this->getPlatformMock()));
     }
 
-    public function testgetNormalizedSpatialOptions()
+    public function testGetNormalizedPostGISColumnOptions()
     {
         $expected = array('geometry_type' => 'GEOMETRY', 'srid' => 4326);
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions());
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array()));
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('srid' => 0)));
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions());
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions(array()));
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions(array('srid' => 0)));
 
         $expected = array('geometry_type' => 'POINT', 'srid' => 4326);
-        $this->assertEquals($expected, $this->type->getNormalizedSpatialOptions(array('geometry_type' => 'point')));
+        $this->assertEquals($expected, $this->type->getNormalizedPostGISColumnOptions(array('geometry_type' => 'point')));
     }
 }

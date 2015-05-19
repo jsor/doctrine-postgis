@@ -26,7 +26,7 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
                 continue;
             }
 
-            $normalized = $column->getType()->getNormalizedSpatialOptions(
+            $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
                 $column->getCustomSchemaOptions()
             );
 

@@ -24,7 +24,7 @@ class SpatialColumnSqlGenerator
 
         $sql = array();
 
-        $normalized = $column->getType()->getNormalizedSpatialOptions(
+        $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
             $column->getCustomSchemaOptions()
         );
 

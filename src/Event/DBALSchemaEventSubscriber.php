@@ -337,10 +337,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function isSpatialColumnType(Column $column)
     {
-        if ($column->getType() instanceof PostGISType) {
-            return true;
-        }
-
-        return false;
+        return $column->getType() instanceof PostGISType;
     }
 }
