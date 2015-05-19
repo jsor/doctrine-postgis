@@ -8,11 +8,12 @@ This library allows you to use Doctrine with PostGIS, the spatial database
 extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 
 * [Installation](#installation)
-* [Setup](#setup)
-* [Property Mapping](#property-mapping)
-* [Spatial Indexes](#spatial-indexes)
+* [Mapping](#mapping)
+    * [Setup](#setup)
+    * [Property Mapping](#property-mapping)
+    * [Spatial Indexes](#spatial-indexes)
+    * [Schema Tool](#schema-tool)
 * [DQL Functions](#dql-functions)
-* [Schema Tool](#schema-tool)
 
 Installation
 ------------
@@ -26,8 +27,10 @@ composer require jsor/doctrine-postgis:~0.1.0@dev
 Check the [Packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
 for all available versions.
 
-Setup
------
+Mapping
+-------
+
+### Setup
 
 All you have to do is, to register an event subscriber.
 
@@ -45,8 +48,7 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
-Property Mapping
-----------------
+### Property Mapping
 
 Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
@@ -76,7 +78,7 @@ There are 2 options you can set to define the geometry.
 * `srid`
   This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
-### Example
+#### Example
 
 ```php
 /** @Entity */
@@ -105,7 +107,7 @@ values you have set. The library uses [ST_AsEWKT](http://postgis.net/docs/ST_AsE
 to retain as much information as possible (like SRID's). Read more in the
 [PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
 
-### Example
+#### Example
 
 ```php
 $entity = new MyEntity();
@@ -115,8 +117,7 @@ $entity->setPoint4D('POINT(1 2 3 4)');
 $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 ```
 
-Spatial Indexes
----------------
+### Spatial Indexes
 
 You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
@@ -124,7 +125,7 @@ for your geometry columns.
 Doctrine ORM 2.5 introduced [index flags](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags),
 so the setup for versions >=2.5 and <=2.4 is different.
 
-### Doctrine ORM >=2.5
+#### Doctrine ORM >=2.5
 
 In Doctrine ORM 2.5 and higher, you can simply set the `SPATIAL` flag for
 indexes.
@@ -144,7 +145,7 @@ class MyEntity
 }
 ```
 
-### Doctrine ORM <=2.4
+#### Doctrine ORM <=2.4
 
 In Doctrine ORM 2.4 and lower, you have to define which indexes should be
 spatial indexes through the table options.
@@ -165,13 +166,19 @@ class MyEntity
 }
 ```
 
+### Schema Tool
+
+Full support for the [ORM Schema Tool](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
+and the [DBAL Schema Manager](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
+is provided.
+
 DQL Functions
 -------------
 
-Most functions provided by PostGIS are provided in DQL. For a full list, see
-the [Function Index](docs/function-index.md).
+Most functions provided by PostGIS are provided for the DQL. For a full list,
+see the [Function Index](docs/function-index.md).
 
-There's a convenience Configurator class which can be used to register the
+There's a convenience Configurator class which can be used to register all
 functions with a `Doctrine\ORM\Configuration` instance.
 
 ```php
@@ -179,13 +186,6 @@ $configuration = new Doctrine\ORM\Configuration();
 
 Jsor\Doctrine\PostGIS\Functions\Configurator::configure($configuration);
 ```
-
-Schema Tool
------------
-
-Full support for the [ORM Schema Tool](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
-and the [DBAL Schema Manager](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
-is provided.
 
 License
 -------
