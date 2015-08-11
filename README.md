@@ -21,7 +21,7 @@ Installation
 Install the latest version with [Composer](http://getcomposer.org).
 
 ```bash
-composer require jsor/doctrine-postgis:~0.1.0@dev
+composer require jsor/doctrine-postgis
 ```
 
 Check the [Packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
