@@ -122,13 +122,7 @@ $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
 
-Doctrine ORM 2.5 introduced [index flags](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags),
-so the setup for versions >=2.5 and <=2.4 is different.
-
-#### Doctrine ORM >=2.5
-
-In Doctrine ORM 2.5 and higher, you can simply set the `SPATIAL` flag for
-indexes.
+Simply set the `SPATIAL` flag for indexes.
 
 ```php
 /**
@@ -145,10 +139,11 @@ class MyEntity
 }
 ```
 
-#### Doctrine ORM <=2.4
+This uses [index flags](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
+introduced in Doctrine ORM 2.5.
 
-In Doctrine ORM 2.4 and lower, you have to define which indexes should be
-spatial indexes through the table options.
+If you need to support Doctrine versions < 2.5, you have to define which indexes
+should be spatial indexes through the table options.
 
 ```php
 /**
