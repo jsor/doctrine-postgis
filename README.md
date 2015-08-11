@@ -175,19 +175,30 @@ is provided.
 DQL Functions
 -------------
 
-Most functions provided by PostGIS are provided for the DQL. For a full list,
-see the [Function Index](docs/function-index.md).
+Most [PostGIS functions](http://postgis.net/docs/reference.html) are also
+available for the DQL under the `Jsor\Doctrine\PostGIS\Functions` namespace.
+
+You can register the functions with a `Doctrine\ORM\Configuration` instance.
+ 
+```php
+$configuration = new Doctrine\ORM\Configuration();
+
+$configuration->addCustomStringFunction('ST_Touches', 'Jsor\Doctrine\PostGIS\Functions\ST_Touches');
+```
 
 There's a convenience Configurator class which can be used to register all
-functions with a `Doctrine\ORM\Configuration` instance.
+at once.
 
 ```php
 $configuration = new Doctrine\ORM\Configuration();
 
 Jsor\Doctrine\PostGIS\Functions\Configurator::configure($configuration);
 ```
+ 
+For a full list of all supported functions, see the [Function Index](docs/function-index.md).
 
 License
 -------
 
-Copyright (c) 2014-2015 Jan Sorgalla. Released under the [MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
+Copyright (c) 2014-2015 Jan Sorgalla.
+Released under the [MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
