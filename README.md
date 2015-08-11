@@ -48,6 +48,9 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
+If you use Symfony, see the [documentation](http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html)
+on how to register event subscribers.
+
 ### Property Mapping
 
 Once the event subscriber is registered, you can use the column types
@@ -74,9 +77,10 @@ class MyEntity
 There are 2 options you can set to define the geometry.
 
 * `geometry_type`
-   This defines the type of the geometry, like POINT, LINESTRING etc.
+   This defines the type of the geometry, like `POINT`, `LINESTRING` etc.
+   If you omit this option, the generic type `GEOMETRY` is used.
 * `srid`
-  This defines the Spatial Reference System Identifier (SRID) of the geometry.
+   This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
 #### Example
 
