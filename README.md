@@ -182,7 +182,10 @@ You can register the functions with a `Doctrine\ORM\Configuration` instance.
 ```php
 $configuration = new Doctrine\ORM\Configuration();
 
-$configuration->addCustomStringFunction('ST_Touches', 'Jsor\Doctrine\PostGIS\Functions\ST_Touches');
+$configuration->addCustomStringFunction(
+    'ST_Distance',
+    'Jsor\Doctrine\PostGIS\Functions\ST_Distance'
+);
 
 $dbParams = array(/***/);
 $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
@@ -211,8 +214,7 @@ doctrine:
     orm:
         dql:
             string_functions:
-                st_distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
-
+                ST_Distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
 ```
 
 For a full list of all supported functions, see the [Function Index](docs/function-index.md).
