@@ -183,6 +183,9 @@ You can register the functions with a `Doctrine\ORM\Configuration` instance.
 $configuration = new Doctrine\ORM\Configuration();
 
 $configuration->addCustomStringFunction('ST_Touches', 'Jsor\Doctrine\PostGIS\Functions\ST_Touches');
+
+$dbParams = array(/***/);
+$entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 
 There's a convenience Configurator class which can be used to register all
@@ -192,8 +195,26 @@ at once.
 $configuration = new Doctrine\ORM\Configuration();
 
 Jsor\Doctrine\PostGIS\Functions\Configurator::configure($configuration);
+
+$dbParams = array(/***/);
+$entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
- 
+
+### Symfony
+
+If you use Symfony, you need to setup the functions in the
+[doctrine section](http://symfony.com/doc/current/reference/configuration/doctrine.html)
+of your config.yml.
+
+```yaml
+doctrine:
+    orm:
+        dql:
+            string_functions:
+                st_distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
+
+```
+
 For a full list of all supported functions, see the [Function Index](docs/function-index.md).
 
 License
