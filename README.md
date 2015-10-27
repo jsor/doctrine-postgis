@@ -177,6 +177,9 @@ DQL Functions
 Most [PostGIS functions](http://postgis.net/docs/reference.html) are also
 available for the DQL under the `Jsor\Doctrine\PostGIS\Functions` namespace.
 
+For a full list of all supported functions, see the
+[Function Index](docs/function-index.md).
+
 You can register the functions with a `Doctrine\ORM\Configuration` instance.
  
 ```php
@@ -216,8 +219,6 @@ doctrine:
             string_functions:
                 ST_Distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
 ```
-
-For a full list of all supported functions, see the [Function Index](docs/function-index.md).
 
 License
 -------
