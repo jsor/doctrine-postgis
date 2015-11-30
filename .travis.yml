@@ -4,6 +4,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
 
 # PostGIS Support Matrix: https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
 env:
@@ -56,18 +57,20 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - composer self-update
+  - composer self-update -q
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
 
 install:
-  - ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-  - composer require satooshi/php-coveralls:dev-master --prefer-source
-  - composer require doctrine/orm:${DOCTRINE_VERSION} --prefer-source
+  - travis_retry ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
+  - travis_retry composer require doctrine/orm:${DOCTRINE_VERSION}
+  - travis_retry composer show -i
 
 before_script:
-  - ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
+  - travis_retry ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
 
 script:
-  - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
+  - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml -v --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - if [ -f ./build/logs/clover.postgis-$POSTGIS_VERSION.xml ]; then travis_retry composer require satooshi/php-coveralls:dev-master --no-interaction --update-with-dependencies; fi
+  - if [ -f ./build/logs/clover.postgis-$POSTGIS_VERSION.xml ]; then php vendor/bin/coveralls -v; fi
