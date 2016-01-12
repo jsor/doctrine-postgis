@@ -223,5 +223,5 @@ doctrine:
 License
 -------
 
-Copyright (c) 2014-2015 Jan Sorgalla.
+Copyright (c) 2014-2016 Jan Sorgalla.
 Released under the [MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
