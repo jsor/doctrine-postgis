@@ -66,7 +66,7 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
   1 => null,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -96,7 +96,7 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
   1 => 1,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery3()
@@ -123,6 +123,6 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
   1 => 3,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

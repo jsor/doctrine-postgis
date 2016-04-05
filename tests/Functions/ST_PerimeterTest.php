@@ -60,10 +60,10 @@ class ST_PerimeterTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '122.630744000095',
+  1 => 122.63074400009501,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -90,9 +90,9 @@ class ST_PerimeterTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '257.412311446337',
+  1 => 257.41231144633701,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

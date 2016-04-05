@@ -66,7 +66,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
   1 => 'POINT(-115.172816 36.114646)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -93,6 +93,6 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
   1 => 'POINT(-115.13671875 36.123046875)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

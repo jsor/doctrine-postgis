@@ -63,6 +63,6 @@ class ST_AreaTest extends AbstractFunctionalTestCase
   1 => 928.625,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

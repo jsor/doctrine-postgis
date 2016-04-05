@@ -66,6 +66,6 @@ class ST_GeogFromWKBTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

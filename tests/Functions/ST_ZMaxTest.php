@@ -63,6 +63,6 @@ class ST_ZMaxTest extends AbstractFunctionalTestCase
   1 => 6,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

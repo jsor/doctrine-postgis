@@ -66,7 +66,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
   1 => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -93,6 +93,6 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
   1 => '(t,,)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

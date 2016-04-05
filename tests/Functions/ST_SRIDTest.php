@@ -63,6 +63,6 @@ class ST_SRIDTest extends AbstractFunctionalTestCase
   1 => 4326,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

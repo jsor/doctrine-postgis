@@ -63,7 +63,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   1 => false,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,7 +90,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   1 => true,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -120,6 +120,6 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   1 => true,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

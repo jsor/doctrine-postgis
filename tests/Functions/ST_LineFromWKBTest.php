@@ -63,7 +63,7 @@ class ST_LineFromWKBTest extends AbstractFunctionalTestCase
   1 => '0102000020E610000002000000000000000000F03F000000000000004000000000000008400000000000001040',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_LineFromWKBTest extends AbstractFunctionalTestCase
   1 => null,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

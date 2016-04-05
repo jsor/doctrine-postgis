@@ -63,6 +63,6 @@ class ST_CentroidTest extends AbstractFunctionalTestCase
   1 => 'POINT(2.30769230769231 3.30769230769231)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

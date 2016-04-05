@@ -63,6 +63,6 @@ class ST_CoordDimTest extends AbstractFunctionalTestCase
   1 => 2,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

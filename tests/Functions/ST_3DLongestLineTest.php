@@ -66,6 +66,6 @@ class ST_3DLongestLineTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(50 75 1000,100 100 30)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

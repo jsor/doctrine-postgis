@@ -63,7 +63,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
   1 => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
   1 => null,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

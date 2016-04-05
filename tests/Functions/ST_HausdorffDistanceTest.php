@@ -63,6 +63,6 @@ class ST_HausdorffDistanceTest extends AbstractFunctionalTestCase
   1 => 70,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

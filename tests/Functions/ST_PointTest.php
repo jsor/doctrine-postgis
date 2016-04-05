@@ -63,6 +63,6 @@ class ST_PointTest extends AbstractFunctionalTestCase
   1 => '0101000000000000000000F03F0000000000000040',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

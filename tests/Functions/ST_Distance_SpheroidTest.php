@@ -63,6 +63,6 @@ class ST_Distance_SpheroidTest extends AbstractFunctionalTestCase
   1 => 123.802076746845,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

@@ -63,6 +63,6 @@ class ST_UnionTest extends AbstractFunctionalTestCase
   1 => 'MULTIPOINT(1 2,-2 3)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

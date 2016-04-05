@@ -63,6 +63,6 @@ class ST_MakeBox2DTest extends AbstractFunctionalTestCase
   1 => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

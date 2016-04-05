@@ -63,6 +63,6 @@ class ST_ScaleTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(0.5 1.5 2.4,0.5 0.75 0.8)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

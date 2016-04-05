@@ -63,7 +63,7 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
   1 => null,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

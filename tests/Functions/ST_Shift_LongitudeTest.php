@@ -63,6 +63,6 @@ class ST_Shift_LongitudeTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(241.42 38.38,241.8 38.45)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

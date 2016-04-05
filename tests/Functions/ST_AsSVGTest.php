@@ -63,7 +63,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
   1 => 'M 0 0 L 0 -1 1 -1 1 0 Z',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -93,6 +93,6 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
   1 => 'x="5.23423" y="-6.34535"',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

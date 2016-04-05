@@ -63,7 +63,7 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
   1 => 4,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
   1 => 4,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

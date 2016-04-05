@@ -63,6 +63,6 @@ class ST_GeometryTypeTest extends AbstractFunctionalTestCase
   1 => 'ST_LineString',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

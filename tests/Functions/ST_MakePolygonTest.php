@@ -63,6 +63,6 @@ class ST_MakePolygonTest extends AbstractFunctionalTestCase
   1 => 'POLYGON((75.15 29.53,77 29,77.6 29.5,75.15 29.53))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

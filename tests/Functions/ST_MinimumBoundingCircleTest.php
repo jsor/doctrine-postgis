@@ -63,6 +63,6 @@ class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
   1 => 'POLYGON((22.0710678118655 15,20 10,15 7.92893218813452,10 9.99999999999999,7.92893218813452 15,9.99999999999998 20,15 22.0710678118655,20 20,22.0710678118655 15))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

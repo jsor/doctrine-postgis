@@ -63,6 +63,6 @@ class ST_MTest extends AbstractFunctionalTestCase
   1 => 4,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

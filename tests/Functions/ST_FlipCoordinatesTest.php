@@ -66,6 +66,6 @@ class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
   1 => 'POINT(2 1)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

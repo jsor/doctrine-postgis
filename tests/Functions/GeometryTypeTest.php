@@ -63,6 +63,6 @@ class GeometryTypeTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

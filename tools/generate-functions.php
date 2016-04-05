@@ -196,7 +196,7 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 
         $expected = <?php echo var_export($query['result'], true); ?>;
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 <?php endforeach; ?>
 }

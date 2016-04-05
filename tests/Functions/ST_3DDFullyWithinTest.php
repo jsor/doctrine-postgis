@@ -66,6 +66,6 @@ class ST_3DDFullyWithinTest extends AbstractFunctionalTestCase
   1 => false,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

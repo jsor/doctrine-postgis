@@ -66,7 +66,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
   1 => '2°19\'29.928"S 3°14\'3.243"W',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -93,6 +93,6 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
   1 => '2°19\'29.928"S 3°14\'3.243"W',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

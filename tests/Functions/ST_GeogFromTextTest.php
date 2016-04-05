@@ -63,6 +63,6 @@ class ST_GeogFromTextTest extends AbstractFunctionalTestCase
   1 => '0102000020E610000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

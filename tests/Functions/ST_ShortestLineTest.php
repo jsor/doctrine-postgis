@@ -63,6 +63,6 @@ class ST_ShortestLineTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

@@ -60,9 +60,9 @@ class ST_Length2D_SpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '85204.5207711805',
+  1 => 85204.520771180498,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

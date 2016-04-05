@@ -63,7 +63,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
   1 => '<Polygon><outerBoundaryIs><LinearRing><coordinates>0,0 0,1 1,1 1,0 0,0</coordinates></LinearRing></outerBoundaryIs></Polygon>',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -93,6 +93,6 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
   1 => '<kmlprefix:Point><kmlprefix:coordinates>5.23423,6.34535</kmlprefix:coordinates></kmlprefix:Point>',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

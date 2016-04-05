@@ -63,6 +63,6 @@ class ST_StartPointTest extends AbstractFunctionalTestCase
   1 => 'POINT(0 1)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

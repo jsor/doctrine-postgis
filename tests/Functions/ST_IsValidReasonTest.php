@@ -63,7 +63,7 @@ class ST_IsValidReasonTest extends AbstractFunctionalTestCase
   1 => 'Valid Geometry',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -93,6 +93,6 @@ class ST_IsValidReasonTest extends AbstractFunctionalTestCase
   1 => 'Valid Geometry',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

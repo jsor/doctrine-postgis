@@ -63,7 +63,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   1 => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   1 => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

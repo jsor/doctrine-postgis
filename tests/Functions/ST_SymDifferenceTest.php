@@ -63,6 +63,6 @@ class ST_SymDifferenceTest extends AbstractFunctionalTestCase
   1 => 'MULTILINESTRING((50 150,50 200),(50 50,50 100))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

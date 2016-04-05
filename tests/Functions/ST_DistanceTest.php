@@ -63,7 +63,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   1 => 0.0015056772638282201,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -93,7 +93,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   1 => 123.475736916,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -123,6 +123,6 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   1 => 123.475736916397,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

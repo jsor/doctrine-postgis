@@ -63,6 +63,6 @@ class ST_IntersectionTest extends AbstractFunctionalTestCase
   1 => 'POINT(0 0)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

@@ -63,6 +63,6 @@ class ST_SetSRIDTest extends AbstractFunctionalTestCase
   1 => 'SRID=4326;POINT(-123.365556 48.428611)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

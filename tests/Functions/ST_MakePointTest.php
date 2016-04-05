@@ -63,6 +63,6 @@ class ST_MakePointTest extends AbstractFunctionalTestCase
   1 => '01010000C0000000000000F03F0000000000000040000000000000F83F0000000000000040',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

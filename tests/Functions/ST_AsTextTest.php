@@ -63,6 +63,6 @@ class ST_AsTextTest extends AbstractFunctionalTestCase
   1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

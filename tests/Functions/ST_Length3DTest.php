@@ -66,6 +66,6 @@ class ST_Length3DTest extends AbstractFunctionalTestCase
   1 => 122.70471674145701,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

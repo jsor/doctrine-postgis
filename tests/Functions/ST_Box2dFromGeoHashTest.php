@@ -66,7 +66,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
   1 => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -93,7 +93,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
   1 => 'BOX(-180 -90,180 90)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery3()
@@ -120,6 +120,6 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
   1 => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

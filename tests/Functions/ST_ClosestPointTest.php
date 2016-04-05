@@ -63,6 +63,6 @@ class ST_ClosestPointTest extends AbstractFunctionalTestCase
   1 => 'POINT(100 100)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

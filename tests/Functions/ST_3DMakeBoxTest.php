@@ -66,6 +66,6 @@ class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
   1 => 'BOX3D(-989502.1875 528439.5625 10,-987121.375 529933.1875 10)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

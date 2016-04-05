@@ -63,7 +63,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
   1 => 122.63074400009501,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_LengthTest extends AbstractFunctionalTestCase
   1 => 34346.206096074202,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

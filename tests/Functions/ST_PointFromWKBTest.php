@@ -63,6 +63,6 @@ class ST_PointFromWKBTest extends AbstractFunctionalTestCase
   1 => '0101000020E6100000CB49287D21C451C0F0BF95ECD8244540',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

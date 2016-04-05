@@ -66,7 +66,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
   1 => 'POINT(-48.23456 20.12345)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -93,6 +93,6 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
   1 => 'LINESTRING Z (1 2 3,4 5 6,7 8 9)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

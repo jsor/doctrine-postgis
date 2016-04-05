@@ -66,6 +66,6 @@ class ST_3DDistanceTest extends AbstractFunctionalTestCase
   1 => 1.7320508075688801,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

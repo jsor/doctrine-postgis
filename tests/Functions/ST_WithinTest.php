@@ -63,6 +63,6 @@ class ST_WithinTest extends AbstractFunctionalTestCase
   1 => true,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

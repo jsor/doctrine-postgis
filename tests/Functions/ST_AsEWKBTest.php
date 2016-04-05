@@ -63,7 +63,7 @@ class ST_AsEWKBTest extends AbstractFunctionalTestCase
   1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_AsEWKBTest extends AbstractFunctionalTestCase
   1 => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

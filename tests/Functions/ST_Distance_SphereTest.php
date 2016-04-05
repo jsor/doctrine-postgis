@@ -66,7 +66,7 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
   1 => 123.475736916,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 
     /**
@@ -96,6 +96,6 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
   1 => 123.475736916405,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

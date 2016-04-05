@@ -63,6 +63,6 @@ class ST_XMinTest extends AbstractFunctionalTestCase
   1 => 1,
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

@@ -63,9 +63,9 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(0.635231029125319 0.63947233472882)',
+  1 => 'POINT(0.635231029125537 0.639472334729198)',
 );
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }
