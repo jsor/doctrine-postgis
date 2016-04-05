@@ -630,9 +630,10 @@ return array(
             'group' => 'postgis-2.x',
             'queries' => array(
                 array(
-                    'sql' => "SELECT ST_AsText({function}(ST_GeographyFromText('POINT(0 0)'), 100000, 0.785398163397448))",
+                    'sql' => "SELECT ST_X(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))), ST_Y(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448))))",
                     'result' => array(
-                        1 => 'POINT(0.635231029125537 0.639472334729198)'
+                        1 => 0.635231029125537,
+                        2 => 0.639472334729198
                     )
                 )
             )

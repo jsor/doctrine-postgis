@@ -44,7 +44,7 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Project(ST_GeographyFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_X(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))), ST_Y(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,8 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(0.635231029125537 0.639472334729198)',
+  1 => 0.63523102912553697,
+  2 => 0.63947233472919796,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
