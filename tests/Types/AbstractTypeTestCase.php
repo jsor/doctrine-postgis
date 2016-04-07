@@ -18,18 +18,6 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
 
     abstract protected function getTypeName();
 
-    protected function getPlatformMock()
-    {
-        $platform = $this->getMockForAbstractClass('Doctrine\DBAL\Platforms\AbstractPlatform');
-
-        $platform
-            ->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('postgresql'));
-
-        return $platform;
-    }
-
     /**
      * @dataProvider getSQLDeclarationDataProvider
      */

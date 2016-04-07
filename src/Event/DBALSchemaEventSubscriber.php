@@ -79,6 +79,10 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         if (!Type::hasType('geography')) {
             Type::addType('geography', 'Jsor\Doctrine\PostGIS\Types\GeographyType');
         }
+
+        if (!Type::hasType('raster')) {
+            Type::addType('raster', 'Jsor\Doctrine\PostGIS\Types\RasterType');
+        }
     }
 
     public function onSchemaCreateTable(SchemaCreateTableEventArgs $args)

@@ -15,5 +15,21 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
         if (!Type::hasType('geography')) {
             Type::addType('geography', 'Jsor\Doctrine\PostGIS\Types\GeographyType');
         }
+
+        if (!Type::hasType('raster')) {
+            Type::addType('raster', 'Jsor\Doctrine\PostGIS\Types\RasterType');
+        }
+    }
+
+    protected function getPlatformMock()
+    {
+        $platform = $this->getMockForAbstractClass('Doctrine\DBAL\Platforms\AbstractPlatform');
+
+        $platform
+            ->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('postgresql'));
+
+        return $platform;
     }
 }
