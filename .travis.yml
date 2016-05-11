@@ -87,6 +87,6 @@ before_script:
 script:
   - phpunit -c ./travis/phpunit.travis.postgis-$POSTGIS_VERSION.xml -v --coverage-text --coverage-clover ./build/logs/clover.postgis-$POSTGIS_VERSION.xml
 
-after_script:
+after_success:
   - if [ -f ./build/logs/clover.postgis-$POSTGIS_VERSION.xml ]; then travis_retry composer require satooshi/php-coveralls --no-interaction --update-with-dependencies; fi
   - if [ -f ./build/logs/clover.postgis-$POSTGIS_VERSION.xml ]; then php vendor/bin/coveralls -v; fi
