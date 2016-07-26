@@ -45,7 +45,7 @@ class CreateTableSqlGenerator
             $indexes = array();
 
             foreach ($options['indexes'] as $index) {
-                if (!$index->hasFlag('SPATIAL')) {
+                if (!$index->hasFlag('spatial')) {
                     $indexes[] = $index;
                 } else {
                     $spatialIndexes[] = $index;

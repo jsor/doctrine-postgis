@@ -18,7 +18,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $sm = $em->getConnection()->getSchemaManager();
         $table = $sm->listTableDetails('points');
         $this->assertTrue($table->hasIndex('idx_point'));
-        $this->assertTrue($table->getIndex('idx_point')->hasFlag('SPATIAL'));
+        $this->assertTrue($table->getIndex('idx_point')->hasFlag('spatial'));
 
         $entity = new PointsEntity(array(
             'text' => 'foo',

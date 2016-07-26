@@ -130,7 +130,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $changedIndexes = array();
 
         foreach ($diff->addedIndexes as $index) {
-            if (!$index->hasFlag('SPATIAL')) {
+            if (!$index->hasFlag('spatial')) {
                 $addedIndexes[] = $index;
             } else {
                 $spatialIndexes[] = $index;
@@ -138,7 +138,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         }
 
         foreach ($diff->changedIndexes as $index) {
-            if (!$index->hasFlag('SPATIAL')) {
+            if (!$index->hasFlag('spatial')) {
                 $changedIndexes[] = $index;
             } else {
                 $diff->removedIndexes[] = $index;
@@ -330,7 +330,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $index['columns'],
             $index['unique'],
             $index['primary'],
-            array_merge($index['flags'], array('SPATIAL'))
+            array_merge($index['flags'], array('spatial'))
         );
 
         $args

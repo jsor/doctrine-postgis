@@ -106,15 +106,15 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table->addIndex(array('text'), 'idx_text');
         $table->addIndex(array('tsvector'), 'idx_text_gist');
 
-        $table->addIndex(array('point'), null, array('SPATIAL'));
-        $table->addIndex(array('point_2d'), null, array('SPATIAL'));
-        $table->addIndex(array('point_3dz'), null, array('SPATIAL'));
-        $table->addIndex(array('point_3dm'), null, array('SPATIAL'));
-        $table->addIndex(array('point_4d'), null, array('SPATIAL'));
-        $table->addIndex(array('point_2d_nullable'), null, array('SPATIAL'));
-        $table->addIndex(array('point_2d_nosrid'), null, array('SPATIAL'));
-        $table->addIndex(array('point_geography_2d'), null, array('SPATIAL'));
-        $table->addIndex(array('point_geography_2d_srid'), null, array('SPATIAL'));
+        $table->addIndex(array('point'), null, array('spatial'));
+        $table->addIndex(array('point_2d'), null, array('spatial'));
+        $table->addIndex(array('point_3dz'), null, array('spatial'));
+        $table->addIndex(array('point_3dm'), null, array('spatial'));
+        $table->addIndex(array('point_4d'), null, array('spatial'));
+        $table->addIndex(array('point_2d_nullable'), null, array('spatial'));
+        $table->addIndex(array('point_2d_nosrid'), null, array('spatial'));
+        $table->addIndex(array('point_geography_2d'), null, array('spatial'));
+        $table->addIndex(array('point_geography_2d_srid'), null, array('spatial'));
 
         $table->setPrimaryKey(array('id'));
 
@@ -276,12 +276,12 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         foreach ($spatialIndexes as $spatialIndex) {
             $this->assertArrayHasKey($spatialIndex, $indexes);
-            $this->assertTrue($indexes[$spatialIndex]->hasFlag('SPATIAL'));
+            $this->assertTrue($indexes[$spatialIndex]->hasFlag('spatial'));
         }
 
         foreach ($nonSpatialIndexes as $nonSpatialIndex) {
             $this->assertArrayHasKey($nonSpatialIndex, $indexes);
-            $this->assertFalse($indexes[$nonSpatialIndex]->hasFlag('SPATIAL'));
+            $this->assertFalse($indexes[$nonSpatialIndex]->hasFlag('spatial'));
         }
     }
 
@@ -408,20 +408,20 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring'), false, false, array('SPATIAL'));
+        $tableDiff->addedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring'), false, false, array('spatial'));
 
         $this->sm->alterTable($tableDiff);
 
         $table = $this->sm->listTableDetails('points');
         $this->assertTrue($table->hasIndex('linestring_idx'));
         $this->assertEquals(array('linestring'), array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
-        $this->assertTrue($table->getIndex('linestring_idx')->hasFlag('SPATIAL'));
+        $this->assertTrue($table->getIndex('linestring_idx')->hasFlag('spatial'));
         $this->assertFalse($table->getIndex('linestring_idx')->isPrimary());
         $this->assertFalse($table->getIndex('linestring_idx')->isUnique());
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring', 'point_2d'), false, false, array('SPATIAL'));
+        $tableDiff->changedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring', 'point_2d'), false, false, array('spatial'));
 
         $this->sm->alterTable($tableDiff);
 
@@ -434,7 +434,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         // renamedIndexes added in 2.5
         if (isset($tableDiff->renamedIndexes)) {
             $tableDiff->fromTable = $table;
-            $tableDiff->renamedIndexes['linestring_idx'] = new \Doctrine\DBAL\Schema\Index('linestring_renamed_idx', array('linestring', 'point_2d'), false, false, array('SPATIAL'));
+            $tableDiff->renamedIndexes['linestring_idx'] = new \Doctrine\DBAL\Schema\Index('linestring_renamed_idx', array('linestring', 'point_2d'), false, false, array('spatial'));
 
             $this->sm->alterTable($tableDiff);
 

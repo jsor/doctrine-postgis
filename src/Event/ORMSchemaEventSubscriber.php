@@ -35,14 +35,14 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
             }
         }
 
-        // Add SPATIAL flags to indexes
+        // Add spatial flags to indexes
         if ($table->hasOption('spatial_indexes')) {
             foreach ((array) $table->getOption('spatial_indexes') as $indexName) {
                 if (!$table->hasIndex($indexName)) {
                     continue;
                 }
 
-                $table->getIndex($indexName)->addFlag('SPATIAL');
+                $table->getIndex($indexName)->addFlag('spatial');
             }
         }
     }
