@@ -126,15 +126,15 @@ $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
 
-Simply set the `SPATIAL` flag for indexes.
+Simply set the `spatial` flag for indexes.
 
 ```php
 /**
  * @Entity
  * @Table(
  *     indexes={
- *         @Index(name="idx_point", columns={"point"}, flags={"SPATIAL"})),
- *         @Index(name="idx_polygon", columns={"polygon"}, flags={"SPATIAL"}))
+ *         @Index(name="idx_point", columns={"point"}, flags={"spatial"})),
+ *         @Index(name="idx_polygon", columns={"polygon"}, flags={"spatial"}))
  *     }
  * )
  */
