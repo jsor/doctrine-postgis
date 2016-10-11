@@ -2,6 +2,8 @@
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
+use Doctrine\DBAL\Connections\MasterSlaveConnection;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
@@ -119,6 +121,49 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table->setPrimaryKey(array('id'));
 
         return $table;
+    }
+
+    public function testSubscriberThrowsWhenRegisteredOnMultipleConnections()
+    {
+        $this->setExpectedException(
+            '\LogicException',
+            'It looks like you have registered the Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber to more than one connection. Please register one instance per connection.'
+        );
+
+        $subscriber = new DBALSchemaEventSubscriber();
+
+        $conn1 = DriverManager::getConnection($this->_getDbParams());
+        $conn1->getEventManager()->addEventSubscriber($subscriber);
+
+        $dbParams = array(
+            'driver' => 'pdo_pgsql',
+        );
+        $conn2 = DriverManager::getConnection($dbParams);
+        $conn2->getEventManager()->addEventSubscriber($subscriber);
+
+        $conn1->connect();
+        $conn2->connect();
+    }
+
+    public function testSubscriberDoesNotThrowWhenRegisteredOnMasterSlaveConnectionAndConnectionSwitches()
+    {
+        $subscriber = new DBALSchemaEventSubscriber();
+
+        $dbParams = $this->_getDbParams();
+
+        $conn = DriverManager::getConnection(array(
+            'wrapperClass' => 'Doctrine\DBAL\Connections\MasterSlaveConnection',
+            'driver' => $dbParams['driver'],
+            'master' => $dbParams,
+            'slaves' => array(
+                $dbParams
+            )
+        ));
+
+        $conn->getEventManager()->addEventSubscriber($subscriber);
+
+        $conn->connect('slave');
+        $conn->connect('master');
     }
 
     public function testListTableColumns()

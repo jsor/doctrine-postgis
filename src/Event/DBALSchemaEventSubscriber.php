@@ -60,6 +60,13 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     public function postConnect(ConnectionEventArgs $args)
     {
         if ($this->postConnectCalled) {
+            // Allows multiple postConnect calls for the same connection
+            // instance. This is done by MasterSlaveConnection for example when
+            // switching master/slave connections.
+            if ($this->connection === $args->getConnection()) {
+                return;
+            }
+
             throw new \LogicException(
                 sprintf(
                     'It looks like you have registered the %s to more than one connection. Please register one instance per connection.',

@@ -76,19 +76,22 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         }
     }
 
+    protected function _getDbParams()
+    {
+        return array(
+            'driver' => $GLOBALS['db_type'],
+            'user' => $GLOBALS['db_username'],
+            'password' => $GLOBALS['db_password'],
+            'host' => $GLOBALS['db_host'],
+            'dbname' => $GLOBALS['db_name'],
+            'port' => $GLOBALS['db_port'],
+        );
+    }
+
     protected function _getConnection()
     {
         if (!isset(self::$_conn)) {
-            $dbParams = array(
-                'driver' => $GLOBALS['db_type'],
-                'user' => $GLOBALS['db_username'],
-                'password' => $GLOBALS['db_password'],
-                'host' => $GLOBALS['db_host'],
-                'dbname' => $GLOBALS['db_name'],
-                'port' => $GLOBALS['db_port'],
-            );
-
-            self::$_conn = DriverManager::getConnection($dbParams, new Configuration());
+            self::$_conn = DriverManager::getConnection($this->_getDbParams(), new Configuration());
 
             self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 
