@@ -40,7 +40,7 @@ use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 $entityManager->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 ```
 
-You can also use this libray with the DBAL only.
+You can also use this library with the DBAL only.
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
