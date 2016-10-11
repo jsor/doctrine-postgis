@@ -135,10 +135,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $conn1 = DriverManager::getConnection($this->_getDbParams());
         $conn1->getEventManager()->addEventSubscriber($subscriber);
 
-        $dbParams = array(
-            'driver' => 'pdo_pgsql',
-        );
-        $conn2 = DriverManager::getConnection($dbParams);
+        $conn2 = DriverManager::getConnection($this->_getDbParams());
         $conn2->getEventManager()->addEventSubscriber($subscriber);
 
         $conn1->connect();
