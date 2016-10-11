@@ -4,6 +4,14 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.1.1 - 2016-10-11
+------------------
+
+  * Fix: The event subscribers now allow multiple calls to `postConnect` for the
+    same connection instance. This is done by MasterSlaveConnection for example
+    when switching master/slave connections. Thanks to @gcavana for reporting,
+    patch courtesy of @NoiseByNorthwest in #17.
+
 1.1.0 - 2016-04-08
 ------------------
 
