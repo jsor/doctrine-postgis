@@ -36,7 +36,12 @@ class SchemaManager
                 AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
                 ORDER BY i.relname";
 
-        $tableIndexes = $this->connection->fetchAll($sql, array($table));
+        $tableIndexes = $this->connection->fetchAll(
+            $sql,
+            array(
+                $this->trimQuotes($table)
+            )
+        );
 
         $indexes = array();
         foreach ($tableIndexes as $row) {
@@ -80,7 +85,12 @@ class SchemaManager
                 FROM geometry_columns
                 WHERE f_table_name = ?';
 
-        $tableColumns = $this->connection->fetchAll($sql, array($table));
+        $tableColumns = $this->connection->fetchAll(
+            $sql,
+            array(
+                $this->trimQuotes($table)
+            )
+        );
 
         $columns = array();
         foreach ($tableColumns as $row) {
@@ -101,7 +111,13 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geometry_column = ?';
 
-        $row = $this->connection->fetchAssoc($sql, array($table, $column));
+        $row = $this->connection->fetchAssoc(
+            $sql,
+            array(
+                $this->trimQuotes($table),
+                $this->trimQuotes($column)
+            )
+        );
 
         if (!$row) {
             return null;
@@ -121,7 +137,13 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geography_column = ?';
 
-        $row = $this->connection->fetchAssoc($sql, array($table, $column));
+        $row = $this->connection->fetchAssoc(
+            $sql,
+            array(
+                $this->trimQuotes($table),
+                $this->trimQuotes($column)
+            )
+        );
 
         if (!$row) {
             return null;
@@ -148,5 +170,14 @@ class SchemaManager
             'type' => $type,
             'srid' => max((int) $row['srid'], 0),
         );
+    }
+
+    /**
+     * Copied from Doctrine\DBAL\Schema\AbstractAsset::trimQuotes,
+     * check on updates!
+     */
+    protected function trimQuotes($identifier)
+    {
+        return str_replace(array('`', '"', '[', ']'), '', $identifier);
     }
 }

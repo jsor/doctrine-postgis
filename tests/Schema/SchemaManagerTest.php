@@ -12,6 +12,9 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
 
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_create.sql');
+
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_drop.sql');
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_create.sql');
     }
 
     protected function tearDown()
@@ -19,6 +22,8 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         parent::tearDown();
 
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+
+        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_drop.sql');
     }
 
     public function testListSpatialIndexes()
@@ -74,6 +79,17 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         );
 
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('foo.points'));
+    }
+
+    public function testListSpatialGeometryColumnsWithReservedWords()
+    {
+        $schemaManager = new SchemaManager($this->_getConnection());
+
+        $expected = array(
+            'user'
+        );
+
+        $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('"user"'));
     }
 
     public function testGetGeometrySpatialColumnInfo()
@@ -154,6 +170,28 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
             'srid' => 4326,
         );
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d_srid'));
+    }
+
+    public function testGetGeometrySpatialColumnInfoWithReservedWords()
+    {
+        $schemaManager = new SchemaManager($this->_getConnection());
+
+        $expected = array(
+            'type' => 'GEOMETRY',
+            'srid' => 0,
+        );
+        $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('"user"', '"user"'));
+    }
+
+    public function testGetGeographySpatialColumnInfoWithReservedWords()
+    {
+        $schemaManager = new SchemaManager($this->_getConnection());
+
+        $expected = array(
+            'type' => 'GEOMETRY',
+            'srid' => 4326,
+        );
+        $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('"user"', '"primary"'));
     }
 
     /**
