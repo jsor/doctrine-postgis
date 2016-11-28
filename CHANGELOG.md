@@ -4,6 +4,12 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.1.2 - 2016-11-28
+------------------
+
+  * Fix: Fix handling of table and column names using reserved words. Thanks to
+    @maximilian-walter for reporting (#19).
+
 1.1.1 - 2016-10-11
 ------------------
 
