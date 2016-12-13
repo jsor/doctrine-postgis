@@ -48,8 +48,32 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
+#### Symfony
+
 If you use Symfony, see the [documentation](http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html)
 on how to register event subscribers.
+
+A setup could look like this in your `config.yml`.
+
+```yaml
+services:
+    jsor_doctrine_postgis_doctrine_orm_schema_subscriber:
+        class: 'Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber'
+        public: false
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+```
+
+You should also register the DBAL types in your `config.yml`.
+
+```yaml
+doctrine:
+    dbal:
+        types:
+            geography: 'Jsor\Doctrine\PostGIS\Types\GeographyType'
+            geometry: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
+            raster: 'Jsor\Doctrine\PostGIS\Types\RasterType'
+```
 
 ### Property Mapping
 
