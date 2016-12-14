@@ -90,6 +90,7 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Multi', 'Jsor\Doctrine\PostGIS\Functions\ST_Multi');
         $configuration->addCustomStringFunction('ST_Scale', 'Jsor\Doctrine\PostGIS\Functions\ST_Scale');
         $configuration->addCustomStringFunction('ST_SetSRID', 'Jsor\Doctrine\PostGIS\Functions\ST_SetSRID');
+        $configuration->addCustomStringFunction('ST_SnapToGrid', 'Jsor\Doctrine\PostGIS\Functions\ST_SnapToGrid');
         $configuration->addCustomStringFunction('ST_Transform', 'Jsor\Doctrine\PostGIS\Functions\ST_Transform');
         $configuration->addCustomStringFunction('ST_Translate', 'Jsor\Doctrine\PostGIS\Functions\ST_Translate');
         $configuration->addCustomStringFunction('ST_TransScale', 'Jsor\Doctrine\PostGIS\Functions\ST_TransScale');
