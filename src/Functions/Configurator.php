@@ -159,5 +159,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Split', 'Jsor\Doctrine\PostGIS\Functions\ST_Split');
         $configuration->addCustomStringFunction('ST_SymDifference', 'Jsor\Doctrine\PostGIS\Functions\ST_SymDifference');
         $configuration->addCustomStringFunction('ST_Union', 'Jsor\Doctrine\PostGIS\Functions\ST_Union');
+        $configuration->addCustomStringFunction('Geometry', 'Jsor\Doctrine\PostGIS\Functions\Geometry');
     }
 }
