@@ -92,6 +92,7 @@ Function Index
 * [ST_Multi](http://postgis.net/docs/ST_Multi.html)
 * [ST_Scale](http://postgis.net/docs/ST_Scale.html)
 * [ST_SetSRID](http://postgis.net/docs/ST_SetSRID.html)
+* [ST_SnapToGrid](http://postgis.net/docs/ST_SnapToGrid.html)
 * [ST_Transform](http://postgis.net/docs/ST_Transform.html)
 * [ST_Translate](http://postgis.net/docs/ST_Translate.html)
 * [ST_TransScale](http://postgis.net/docs/ST_TransScale.html)
