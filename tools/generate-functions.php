@@ -8,7 +8,8 @@ $functions = array_merge(
     require __DIR__ . '/functions/geometry-editors.php',
     require __DIR__ . '/functions/geometry-outputs.php',
     require __DIR__ . '/functions/spatial-relationships-measurement.php',
-    require __DIR__ . '/functions/geometry-processing.php'
+    require __DIR__ . '/functions/geometry-processing.php',
+    require __DIR__ . '/functions/postgis-types.php'
 );
 
 $functionIndex = array(
@@ -41,6 +42,11 @@ $functionIndex = array(
         'title' => 'Geometry Processing',
         'anchor' => 'Geometry_Processing',
         'functions' => array_keys(require __DIR__ . '/functions/geometry-processing.php')
+    ),
+    array(
+        'title' => 'Geometry/Geography/Box Types',
+        'anchor' => 'Geometry_Geography_Box_Types',
+        'functions' => array_keys(require __DIR__ . '/functions/postgis-types.php')
     )
 );
 
