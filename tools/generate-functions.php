@@ -3,16 +3,21 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 $functions = array_merge(
+    require __DIR__ . '/functions/postgis-types.php',
     require __DIR__ . '/functions/geometry-constructors.php',
     require __DIR__ . '/functions/geometry-accessors.php',
     require __DIR__ . '/functions/geometry-editors.php',
     require __DIR__ . '/functions/geometry-outputs.php',
     require __DIR__ . '/functions/spatial-relationships-measurement.php',
-    require __DIR__ . '/functions/geometry-processing.php',
-    require __DIR__ . '/functions/postgis-types.php'
+    require __DIR__ . '/functions/geometry-processing.php'
 );
 
 $functionIndex = array(
+    array(
+        'title' => 'PostgreSQL PostGIS Geometry/Geography/Box Types',
+        'anchor' => 'PostGIS_Types',
+        'functions' => array_keys(require __DIR__ . '/functions/postgis-types.php')
+    ),
     array(
         'title' => 'Geometry Constructors',
         'anchor' => 'Geometry_Constructors',
@@ -42,11 +47,6 @@ $functionIndex = array(
         'title' => 'Geometry Processing',
         'anchor' => 'Geometry_Processing',
         'functions' => array_keys(require __DIR__ . '/functions/geometry-processing.php')
-    ),
-    array(
-        'title' => 'Geometry/Geography/Box Types',
-        'anchor' => 'Geometry_Geography_Box_Types',
-        'functions' => array_keys(require __DIR__ . '/functions/postgis-types.php')
     )
 );
 

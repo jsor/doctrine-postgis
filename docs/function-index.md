@@ -1,6 +1,11 @@
 Function Index
 ==============
 
+[PostgreSQL PostGIS Geometry/Geography/Box Types](http://postgis.net/docs/reference.html#PostGIS_Types)
+----------
+
+* [Geometry](http://postgis.net/docs/Geometry.html)
+
 [Geometry Constructors](http://postgis.net/docs/reference.html#Geometry_Constructors)
 ----------
 
@@ -173,8 +178,3 @@ Function Index
 * [ST_Split](http://postgis.net/docs/ST_Split.html)
 * [ST_SymDifference](http://postgis.net/docs/ST_SymDifference.html)
 * [ST_Union](http://postgis.net/docs/ST_Union.html)
-
-[Geometry/Geography/Box Types](http://postgis.net/docs/reference.html#Geometry_Geography_Box_Types)
-----------
-
-* [Geometry](http://postgis.net/docs/Geometry.html)

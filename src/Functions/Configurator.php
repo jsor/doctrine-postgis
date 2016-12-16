@@ -10,6 +10,7 @@ class Configurator
 {
     public static function configure(Configuration $configuration)
     {
+        $configuration->addCustomStringFunction('Geometry', 'Jsor\Doctrine\PostGIS\Functions\Geometry');
         $configuration->addCustomStringFunction('ST_Box2dFromGeoHash', 'Jsor\Doctrine\PostGIS\Functions\ST_Box2dFromGeoHash');
         $configuration->addCustomStringFunction('ST_GeogFromText', 'Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText');
         $configuration->addCustomStringFunction('ST_GeographyFromText', 'Jsor\Doctrine\PostGIS\Functions\ST_GeographyFromText');
@@ -159,6 +160,5 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Split', 'Jsor\Doctrine\PostGIS\Functions\ST_Split');
         $configuration->addCustomStringFunction('ST_SymDifference', 'Jsor\Doctrine\PostGIS\Functions\ST_SymDifference');
         $configuration->addCustomStringFunction('ST_Union', 'Jsor\Doctrine\PostGIS\Functions\ST_Union');
-        $configuration->addCustomStringFunction('Geometry', 'Jsor\Doctrine\PostGIS\Functions\Geometry');
     }
 }
