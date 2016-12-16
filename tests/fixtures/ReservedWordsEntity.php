@@ -21,7 +21,6 @@ class ReservedWordsEntity
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="geometry", name="`user`")
      */
