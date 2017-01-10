@@ -88,6 +88,7 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_ZMax', 'Jsor\Doctrine\PostGIS\Functions\ST_ZMax');
         $configuration->addCustomNumericFunction('ST_Zmflag', 'Jsor\Doctrine\PostGIS\Functions\ST_Zmflag');
         $configuration->addCustomNumericFunction('ST_ZMin', 'Jsor\Doctrine\PostGIS\Functions\ST_ZMin');
+        $configuration->addCustomStringFunction('ST_AddPoint', 'Jsor\Doctrine\PostGIS\Functions\ST_AddPoint');
         $configuration->addCustomStringFunction('ST_Multi', 'Jsor\Doctrine\PostGIS\Functions\ST_Multi');
         $configuration->addCustomStringFunction('ST_Scale', 'Jsor\Doctrine\PostGIS\Functions\ST_Scale');
         $configuration->addCustomStringFunction('ST_SetSRID', 'Jsor\Doctrine\PostGIS\Functions\ST_SetSRID');
