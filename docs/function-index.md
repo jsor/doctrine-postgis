@@ -5,6 +5,7 @@ Function Index
 ----------
 
 * [Geometry](http://postgis.net/docs/Geometry.html)
+* [Geography](http://postgis.net/docs/Geography.html)
 
 [Geometry Constructors](http://postgis.net/docs/reference.html#Geometry_Constructors)
 ----------

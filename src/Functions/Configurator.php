@@ -11,6 +11,7 @@ class Configurator
     public static function configure(Configuration $configuration)
     {
         $configuration->addCustomStringFunction('Geometry', 'Jsor\Doctrine\PostGIS\Functions\Geometry');
+        $configuration->addCustomStringFunction('Geography', 'Jsor\Doctrine\PostGIS\Functions\Geography');
         $configuration->addCustomStringFunction('ST_Box2dFromGeoHash', 'Jsor\Doctrine\PostGIS\Functions\ST_Box2dFromGeoHash');
         $configuration->addCustomStringFunction('ST_GeogFromText', 'Jsor\Doctrine\PostGIS\Functions\ST_GeogFromText');
         $configuration->addCustomStringFunction('ST_GeographyFromText', 'Jsor\Doctrine\PostGIS\Functions\ST_GeographyFromText');
