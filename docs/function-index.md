@@ -94,6 +94,7 @@ Function Index
 [Geometry Editors](http://postgis.net/docs/reference.html#Geometry_Editors)
 ----------
 
+* [ST_AddPoint](http://postgis.net/docs/ST_AddPoint.html)
 * [ST_Multi](http://postgis.net/docs/ST_Multi.html)
 * [ST_Scale](http://postgis.net/docs/ST_Scale.html)
 * [ST_SetSRID](http://postgis.net/docs/ST_SetSRID.html)

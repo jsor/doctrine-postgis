@@ -4,9 +4,32 @@
  * http://postgis.net/docs/reference.html#Geometry_Editors
  */
 return array(
-    /*
+
     'ST_AddPoint' => array(
+        'required_arguments' => 2,
+        'total_arguments' => 3,
+        'tests' => array(
+            'queries' => array(
+                array(
+                    'sql' => "SELECT
+                        ST_AsText({function}(
+                            ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326),
+                            ST_GeomFromText('POINT(-123.365556 48.428611)', 4326)
+                        )),
+                        ST_AsText({function}(
+                            ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326),
+                            ST_GeomFromText('POINT(-123.365556 48.428611)', 4326),
+                            1
+                        ))",
+                    'result' => array(
+                        1 => 'LINESTRING(1.1115678 2.123,4.111111 3.2374897,4.11112 3.23748667,-123.365556 48.428611)',
+                        2 => 'LINESTRING(1.1115678 2.123,-123.365556 48.428611,4.111111 3.2374897,4.11112 3.23748667)'
+                    )
+                ),
+            )
+        )
     ),
+    /*
     'ST_Affine' => array(
     ),
     'ST_Force2D' => array(
