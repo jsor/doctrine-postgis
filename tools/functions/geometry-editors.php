@@ -4,23 +4,13 @@
  * http://postgis.net/docs/reference.html#Geometry_Editors
  */
 return array(
-
     'ST_AddPoint' => array(
         'required_arguments' => 2,
         'total_arguments' => 3,
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT
-                        ST_AsText({function}(
-                            ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326),
-                            ST_GeomFromText('POINT(-123.365556 48.428611)', 4326)
-                        )),
-                        ST_AsText({function}(
-                            ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326),
-                            ST_GeomFromText('POINT(-123.365556 48.428611)', 4326),
-                            1
-                        ))",
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326), ST_GeomFromText('POINT(-123.365556 48.428611)', 4326))), ST_AsText({function}(ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)', 4326), ST_GeomFromText('POINT(-123.365556 48.428611)', 4326), 1))",
                     'result' => array(
                         1 => 'LINESTRING(1.1115678 2.123,4.111111 3.2374897,4.11112 3.23748667,-123.365556 48.428611)',
                         2 => 'LINESTRING(1.1115678 2.123,-123.365556 48.428611,4.111111 3.2374897,4.11112 3.23748667)'
@@ -29,8 +19,7 @@ return array(
             )
         )
     ),
-    /*
-    'ST_Affine' => array(
+    /*'ST_Affine' => array(
     ),
     'ST_Force2D' => array(
     ),
@@ -53,8 +42,7 @@ return array(
     'ST_CollectionExtract' => array(
     ),
     'ST_CollectionHomogenize' => array(
-    ),
-    */
+    ),*/
     'ST_Multi' => array(
         'required_arguments' => 1,
         'total_arguments' => 1,
@@ -69,8 +57,7 @@ return array(
             )
         )
     ),
-    /*
-    'ST_RemovePoint' => array(
+    /*'ST_RemovePoint' => array(
     ),
     'ST_Reverse' => array(
     ),
@@ -81,8 +68,7 @@ return array(
     'ST_RotateY' => array(
     ),
     'ST_RotateZ' => array(
-    ),
-    */
+    ),*/
     'ST_Scale' => array(
         'required_arguments' => 3,
         'total_arguments' => 4,
@@ -97,12 +83,10 @@ return array(
             )
         )
     ),
-    /*
-    'ST_Segmentize' => array(
+    /*'ST_Segmentize' => array(
     ),
     'ST_SetPoint' => array(
-    ),
-    */
+    ),*/
     'ST_SetSRID' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,
@@ -123,11 +107,7 @@ return array(
         'tests' => array(
             'queries' => array(
                 array(
-                    'sql' => "SELECT 
-                        ST_AsText({function}(ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)'),0.001)),
-                        ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT('LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)'), ST_GeomFromEWKT('POINT(1.12 2.22 3.2 4.4444)'), 0.1, 0.1, 0.1, 0.01)),
-                        ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT('LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)'), 0.01))
-                    ",
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)'),0.001)), ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)'), ST_GeomFromEWKT('POINT(1.12 2.22 3.2 4.4444)'), 0.1, 0.1, 0.1, 0.01)), ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)'), 0.01))",
                     'result' => array(
                         1 => 'LINESTRING(1.112 2.123,4.111 3.237)',
                         2 => 'LINESTRING(-1.08 2.12 2.3 1.1144,4.12 3.22 3.1 1.1144,-1.08 2.12 2.3 1.1144)',
@@ -137,10 +117,8 @@ return array(
             )
         )
     ),
-    /*
-    'ST_Snap' => array(
-    ),
-    */
+    /*'ST_Snap' => array(
+    ),*/
     'ST_Transform' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,

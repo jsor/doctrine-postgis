@@ -41,16 +41,7 @@ class ST_AddPointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT
-                        ST_AsText(ST_AddPoint(
-                            ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\', 4326),
-                            ST_GeomFromText(\'POINT(-123.365556 48.428611)\', 4326)
-                        )),
-                        ST_AsText(ST_AddPoint(
-                            ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\', 4326),
-                            ST_GeomFromText(\'POINT(-123.365556 48.428611)\', 4326),
-                            1
-                        )) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_AddPoint(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\', 4326), ST_GeomFromText(\'POINT(-123.365556 48.428611)\', 4326))), ST_AsText(ST_AddPoint(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\', 4326), ST_GeomFromText(\'POINT(-123.365556 48.428611)\', 4326), 1)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 

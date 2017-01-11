@@ -4,12 +4,10 @@
  * http://postgis.net/docs/reference.html#PostGIS_Types
  */
 return array(
-    /*
-    'box2d' => array(
+    /*'box2d' => array(
     ),
     'box3d' => array(
-    ),
-    */
+    ),*/
     'Geometry' => array(
         'required_arguments' => 1,
         'total_arguments' => 1,
@@ -24,10 +22,8 @@ return array(
             )
         )
     ),
-    /*
-    'geometry_dump' => array(
+    /*'geometry_dump' => array(
     ),
     'geography' => array(
-    ),
-    */
+    ),*/
 );
