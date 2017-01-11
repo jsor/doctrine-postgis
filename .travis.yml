@@ -72,14 +72,10 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-before_install:
-  - composer self-update -q
-  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
-
 install:
   - travis_retry ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
   - travis_retry composer require doctrine/orm:${DOCTRINE_VERSION}
-  - travis_retry composer show -i
+  - travis_retry composer show
 
 before_script:
   - travis_retry ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
