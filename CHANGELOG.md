@@ -4,6 +4,13 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.4.1 - 2017-07-12
+------------------
+
+  * Fix: Ensure SRID values from metadata are casted to int to prevent
+    unecessary schema diffs when using XML mappings. Thanks to @HenningCash for
+    the report (#30).
+
 1.4.0 - 2017-01-11
 ------------------
 
