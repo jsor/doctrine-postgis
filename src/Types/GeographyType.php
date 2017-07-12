@@ -18,7 +18,7 @@ class GeographyType extends PostGISType
 
     public function getNormalizedPostGISColumnOptions(array $options = array())
     {
-        $srid = isset($options['srid']) ? $options['srid'] : 4326;
+        $srid = isset($options['srid']) ? (int) $options['srid'] : 4326;
 
         if (0 === $srid) {
             $srid = 4326;

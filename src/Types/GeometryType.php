@@ -13,7 +13,7 @@ class GeometryType extends PostGISType
     {
         return array(
             'geometry_type' => isset($options['geometry_type']) ? strtoupper($options['geometry_type']) : 'GEOMETRY',
-            'srid' => isset($options['srid']) ? $options['srid'] : 0,
+            'srid' => isset($options['srid']) ? (int) $options['srid'] : 0,
         );
     }
 }
