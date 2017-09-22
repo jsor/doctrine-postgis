@@ -64,15 +64,23 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
 ```
 
-You should also register the DBAL types in your `config.yml`.
+It is usually not required, but in case you get errors from the schema tool when
+running doctrine commands from the console, you can try to register the DBAL
+types in your `config.yml`.
 
 ```yaml
 doctrine:
     dbal:
         types:
-            geography: 'Jsor\Doctrine\PostGIS\Types\GeographyType'
-            geometry: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
-            raster: 'Jsor\Doctrine\PostGIS\Types\RasterType'
+            geography:
+                class: 'Jsor\Doctrine\PostGIS\Types\GeographyType'
+                commented: false
+            geometry:
+                class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
+                commented: false
+            raster:
+                class: 'Jsor\Doctrine\PostGIS\Types\RasterType'
+                commented: false
 ```
 
 ### Property Mapping
