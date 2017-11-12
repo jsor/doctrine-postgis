@@ -63,7 +63,7 @@ class ST_Length_SpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 85204.520771180498,
+  1 => 85204.5207711805,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -93,7 +93,7 @@ class ST_Length_SpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 85204.520756295402,
+  1 => 85204.5207562954,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

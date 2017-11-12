@@ -60,7 +60,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 122.63074400009501,
+  1 => 122.630744000095,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -87,7 +87,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 34346.206096074202,
+  1 => 34346.2060960742,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

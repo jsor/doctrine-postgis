@@ -60,7 +60,7 @@ class ST_AzimuthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0.73781506012046505,
+  1 => 0.737815060120465,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

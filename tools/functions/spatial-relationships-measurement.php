@@ -342,7 +342,7 @@ return array(
             )
         )
     ),
-    'ST_Distance_Sphere' => array(
+    'ST_DistanceSphere' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'return_type' => 'numeric',
@@ -365,7 +365,10 @@ return array(
             )
         )
     ),
-    'ST_Distance_Spheroid' => array(
+    'ST_Distance_Sphere' => array(
+        'alias_for' => 'ST_DistanceSphere'
+    ),
+    'ST_DistanceSpheroid' => array(
         'required_arguments' => 2,
         'total_arguments' => 3,
         'return_type' => 'numeric',
@@ -379,6 +382,9 @@ return array(
                 )
             )
         )
+    ),
+    'ST_Distance_Spheroid' => array(
+        'alias_for' => 'ST_DistanceSpheroid'
     ),
     'ST_DFullyWithin' => array(
         'required_arguments' => 3,
@@ -499,7 +505,7 @@ return array(
             'group' => 'postgis-1.5',
         )
     ),
-    'ST_Length_Spheroid' => array(
+    'ST_LengthSpheroid' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'return_type' => 'numeric',
@@ -521,6 +527,9 @@ return array(
                 )
             )
         )
+    ),
+    'ST_Length_Spheroid' => array(
+        'alias_for' => 'ST_LengthSpheroid',
     ),
     'ST_Length2D_Spheroid' => array(
         'required_arguments' => 2,

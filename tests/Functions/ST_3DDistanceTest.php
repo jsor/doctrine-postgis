@@ -63,7 +63,7 @@ class ST_3DDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 1.7320508075688801,
+  1 => 1.73205080756888,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -7,10 +7,7 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
-/**
- * @group postgis-2.x
- */
-class ST_ProjectTest extends AbstractFunctionalTestCase
+class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
 {
     protected function setUp()
     {
@@ -42,9 +39,12 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-2.x
+     */
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_X(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))), ST_Y(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -63,8 +63,37 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0.635231029125537,
-  2 => 0.639472334729198,
+  1 => 85204.5207711805,
+);
+
+        $this->assertEquals($expected, $result, '', 0.0001);
+    }
+
+    /**
+     * @group postgis-1.5
+     */
+    public function testQuery2()
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, function (&$data) {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = array(
+  1 => 85204.5207562954,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

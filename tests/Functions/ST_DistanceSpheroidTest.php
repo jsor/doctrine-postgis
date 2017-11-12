@@ -7,10 +7,7 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
-/**
- * @group postgis-2.x
- */
-class ST_ProjectTest extends AbstractFunctionalTestCase
+class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
     protected function setUp()
     {
@@ -44,7 +41,7 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_X(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))), ST_Y(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSpheroid(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326), \'SPHEROID["WGS 84",6378137,298.257223563]\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
 
         $result = $query->getSingleResult();
 
@@ -63,8 +60,7 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0.635231029125537,
-  2 => 0.639472334729198,
+  1 => 123.802076746845,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -130,7 +130,9 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_Distance', 'Jsor\Doctrine\PostGIS\Functions\ST_Distance');
         $configuration->addCustomNumericFunction('ST_HausdorffDistance', 'Jsor\Doctrine\PostGIS\Functions\ST_HausdorffDistance');
         $configuration->addCustomNumericFunction('ST_MaxDistance', 'Jsor\Doctrine\PostGIS\Functions\ST_MaxDistance');
+        $configuration->addCustomNumericFunction('ST_DistanceSphere', 'Jsor\Doctrine\PostGIS\Functions\ST_DistanceSphere');
         $configuration->addCustomNumericFunction('ST_Distance_Sphere', 'Jsor\Doctrine\PostGIS\Functions\ST_Distance_Sphere');
+        $configuration->addCustomNumericFunction('ST_DistanceSpheroid', 'Jsor\Doctrine\PostGIS\Functions\ST_DistanceSpheroid');
         $configuration->addCustomNumericFunction('ST_Distance_Spheroid', 'Jsor\Doctrine\PostGIS\Functions\ST_Distance_Spheroid');
         $configuration->addCustomStringFunction('ST_DFullyWithin', 'Jsor\Doctrine\PostGIS\Functions\ST_DFullyWithin');
         $configuration->addCustomStringFunction('ST_DWithin', 'Jsor\Doctrine\PostGIS\Functions\ST_DWithin');
@@ -140,6 +142,7 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_Length', 'Jsor\Doctrine\PostGIS\Functions\ST_Length');
         $configuration->addCustomNumericFunction('ST_3DLength', 'Jsor\Doctrine\PostGIS\Functions\ST_3DLength');
         $configuration->addCustomNumericFunction('ST_Length3D', 'Jsor\Doctrine\PostGIS\Functions\ST_Length3D');
+        $configuration->addCustomNumericFunction('ST_LengthSpheroid', 'Jsor\Doctrine\PostGIS\Functions\ST_LengthSpheroid');
         $configuration->addCustomNumericFunction('ST_Length_Spheroid', 'Jsor\Doctrine\PostGIS\Functions\ST_Length_Spheroid');
         $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', 'Jsor\Doctrine\PostGIS\Functions\ST_Length2D_Spheroid');
         $configuration->addCustomStringFunction('ST_LongestLine', 'Jsor\Doctrine\PostGIS\Functions\ST_LongestLine');
