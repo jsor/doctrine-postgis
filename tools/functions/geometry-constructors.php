@@ -8,7 +8,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0')",
@@ -115,7 +115,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0'))",
@@ -474,7 +474,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0'))",

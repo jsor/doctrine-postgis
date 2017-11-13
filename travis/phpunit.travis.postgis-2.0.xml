@@ -27,6 +27,7 @@
         <exclude>
             <group>postgis-1.5</group>
             <group>postgis-2.1</group>
+            <group>postgis-2.2</group>
         </exclude>
     </groups>
 

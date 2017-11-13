@@ -8,7 +8,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)')))",
@@ -24,7 +24,7 @@ return array(
         'total_arguments' => 2,
         'return_type' => 'numeric',
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT Z (1 1 1)'), ST_GeomFromEWKT('POINT Z (2 2 2)'))",
@@ -39,7 +39,7 @@ return array(
         'required_arguments' => 3,
         'total_arguments' => 3,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1 1 2)'), ST_GeomFromEWKT('LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)'), 10)",
@@ -54,7 +54,7 @@ return array(
         'required_arguments' => 3,
         'total_arguments' => 3,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1 1 2)'), ST_GeomFromEWKT('LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)'), 10)",
@@ -69,7 +69,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(0 0 2)'), ST_GeomFromEWKT('LINESTRING (0 0 1, 0 2 3 )'))",
@@ -84,7 +84,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)')))",
@@ -100,7 +100,7 @@ return array(
         'total_arguments' => 2,
         'return_type' => 'numeric',
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT Z (1 1 1)'), ST_GeomFromEWKT('POINT Z (2 2 2)'))",
@@ -115,7 +115,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)')))",
@@ -342,7 +342,7 @@ return array(
             )
         )
     ),
-    'ST_DistanceSphere' => array(
+    'ST_Distance_Sphere' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'return_type' => 'numeric',
@@ -365,10 +365,13 @@ return array(
             )
         )
     ),
-    'ST_Distance_Sphere' => array(
-        'alias_for' => 'ST_DistanceSphere'
+    'ST_DistanceSphere' => array(
+        'alias_for' => 'ST_Distance_Sphere',
+        'tests' => array(
+            'group' => array('postgis-2.x', 'postgis-2.2'),
+        )
     ),
-    'ST_DistanceSpheroid' => array(
+    'ST_Distance_Spheroid' => array(
         'required_arguments' => 2,
         'total_arguments' => 3,
         'return_type' => 'numeric',
@@ -383,8 +386,11 @@ return array(
             )
         )
     ),
-    'ST_Distance_Spheroid' => array(
-        'alias_for' => 'ST_DistanceSpheroid'
+    'ST_DistanceSpheroid' => array(
+        'alias_for' => 'ST_Distance_Spheroid',
+        'tests' => array(
+            'group' => array('postgis-2.x', 'postgis-2.2'),
+        )
     ),
     'ST_DFullyWithin' => array(
         'required_arguments' => 3,
@@ -505,7 +511,7 @@ return array(
             'group' => 'postgis-1.5',
         )
     ),
-    'ST_LengthSpheroid' => array(
+    'ST_Length_Spheroid' => array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'return_type' => 'numeric',
@@ -528,8 +534,11 @@ return array(
             )
         )
     ),
-    'ST_Length_Spheroid' => array(
-        'alias_for' => 'ST_LengthSpheroid',
+    'ST_LengthSpheroid' => array(
+        'alias_for' => 'ST_Length_Spheroid',
+        'tests' => array(
+            'group' => array('postgis-2.x', 'postgis-2.2'),
+        )
     ),
     'ST_Length2D_Spheroid' => array(
         'required_arguments' => 2,

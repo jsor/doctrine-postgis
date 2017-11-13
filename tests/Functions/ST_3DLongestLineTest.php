@@ -8,6 +8,7 @@ use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
 /**
+ * @group postgis-2.x
  * @group postgis-2.1
  */
 class ST_3DLongestLineTest extends AbstractFunctionalTestCase

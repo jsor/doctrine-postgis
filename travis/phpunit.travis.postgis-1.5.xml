@@ -28,6 +28,7 @@
             <group>postgis-2.x</group>
             <group>postgis-2.0</group>
             <group>postgis-2.1</group>
+            <group>postgis-2.2</group>
         </exclude>
     </groups>
 

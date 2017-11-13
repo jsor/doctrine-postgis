@@ -137,8 +137,10 @@ use Jsor\Doctrine\PostGIS\PointsEntity;
 
 <?php if (!empty($options['tests']['group'])): ?>
 /**
- * @group <?php echo $options['tests']['group']; ?>
+<?php foreach ((array) $options['tests']['group'] as $group): ?>
+ * @group <?php echo $group; ?>
 
+<?php endforeach; ?>
  */
 <?php endif; ?>
 class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
@@ -176,8 +178,10 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 
 <?php if (!empty($query['group'])): ?>
     /**
-     * @group <?php echo $query['group']; ?>
+<?php foreach ((array) $query['group'] as $group): ?>
+     * @group <?php echo $group; ?>
 
+<?php endforeach; ?>
      */
 <?php endif; ?>
     public function testQuery<?php echo $index + 1; ?>()

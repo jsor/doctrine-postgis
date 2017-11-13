@@ -136,7 +136,7 @@ return array(
                     )
                 ),
                 array(
-                    'group' => 'postgis-2.1',
+                    'group' => array('postgis-2.x', 'postgis-2.1'),
                     'sql' => "SELECT {function}(2, ST_GeomFromText('SRID=4326;POINT(5.234234233242 6.34534534534)'), 5, 'kmlprefix')",
                     'result' => array(
                         1 => '<kmlprefix:Point><kmlprefix:coordinates>5.23423,6.34535</kmlprefix:coordinates></kmlprefix:Point>'
@@ -157,7 +157,7 @@ return array(
                     )
                 ),
                 array(
-                    'group' => 'postgis-2.1',
+                    'group' => array('postgis-2.x', 'postgis-2.1'),
                     'sql' => "SELECT {function}(ST_GeomFromText('SRID=4326;POINT(5.234234233242 6.34534534534)'), 1, 5)",
                     'result' => array(
                         1 => 'x="5.23423" y="-6.34535"'
@@ -178,7 +178,7 @@ return array(
                     )
                 ),
                 array(
-                    'group' => 'postgis-2.1',
+                    'group' => array('postgis-2.x', 'postgis-2.1'),
                     'sql' => "SELECT {function}(ST_GeomFromText('SRID=4326;POINT(-126 48)'), 5)",
                     'result' => array(
                         1 => 'c0w3h'

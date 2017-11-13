@@ -67,6 +67,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
     }
 
     /**
+     * @group postgis-2.x
      * @group postgis-2.1
      */
     public function testQuery2()

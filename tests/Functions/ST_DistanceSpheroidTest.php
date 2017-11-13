@@ -7,6 +7,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
 
+/**
+ * @group postgis-2.x
+ * @group postgis-2.2
+ */
 class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
     protected function setUp()

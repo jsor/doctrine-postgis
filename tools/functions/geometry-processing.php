@@ -73,7 +73,7 @@ return array(
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('POINT(1 2)')))",
@@ -150,7 +150,7 @@ return array(
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => array(
-            'group' => 'postgis-2.1',
+            'group' => array('postgis-2.x', 'postgis-2.1'),
             'queries' => array(
                 array(
                     'sql' => "SELECT ST_AsText({function}(ST_Buffer(ST_GeomFromText('POINT(100 90)'), 50), ST_MakeLine(ST_MakePoint(10, 10),ST_MakePoint(190, 190))))",
