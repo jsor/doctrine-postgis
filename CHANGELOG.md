@@ -4,6 +4,15 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.5.0 - 2017-11-13
+------------------
+
+  * Feature: New functions `ST_DistanceSphere`, `ST_DistanceSpheroid` and
+    `ST_LengthSpheroid`. Those functions should be used in PostGIS 2.2 and
+    onwards instead of the deprecated functions `ST_Distance_Sphere`,
+    `ST_Distance_Spheroid` and  `ST_Length_Spheroid`. Thanks to @JunkMyFunk for
+    the report (#32).
+
 1.4.1 - 2017-07-12
 ------------------
 
