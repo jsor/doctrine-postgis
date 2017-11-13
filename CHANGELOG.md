@@ -12,6 +12,8 @@ This project adheres to [Semantic Versioning](http://semver.org).
     onwards instead of the deprecated functions `ST_Distance_Sphere`,
     `ST_Distance_Spheroid` and  `ST_Length_Spheroid`. Thanks to @JunkMyFunk for
     the report (#32).
+  * Feature: Tests now use namespaced classes from PHPUnit.
+    Thanks @gabriel-caruso (#33).
 
 1.4.1 - 2017-07-12
 ------------------
