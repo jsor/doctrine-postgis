@@ -18,7 +18,7 @@ extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 Installation
 ------------
 
-Install the latest version with [Composer](http://getcomposer.org).
+Install the latest version with [Composer](https://getcomposer.org).
 
 ```bash
 composer require jsor/doctrine-postgis
@@ -50,7 +50,7 @@ $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber
 
 #### Symfony
 
-If you use Symfony, see the [documentation](http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html)
+If you use Symfony, see the [documentation](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
 on how to register event subscribers.
 
 A setup could look like this in the `services.yml`.
@@ -84,7 +84,7 @@ doctrine:
 
 Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
-[PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#PostGIS_Geography)
+[PostGIS docs](https://postgis.net/docs/using_postgis_dbmanagement.html#PostGIS_Geography)
 to understand the difference between these two types).
 
 ```php
@@ -134,11 +134,11 @@ class MyEntity
 }
 ```
 
-Values provided for the properties must be in the [WKT](http://en.wikipedia.org/wiki/Well-known_text)
+Values provided for the properties must be in the [WKT](https://en.wikipedia.org/wiki/Well-known_text)
 format. Please note, that the values returned from database may differ from the
-values you have set. The library uses [ST_AsEWKT](http://postgis.net/docs/ST_AsEWKT.html)
+values you have set. The library uses [ST_AsEWKT](https://postgis.net/docs/ST_AsEWKT.html)
 to retain as much information as possible (like SRID's). Read more in the
-[PostGIS docs](http://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
+[PostGIS docs](https://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
 
 #### Example
 
@@ -152,7 +152,7 @@ $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 
 ### Spatial Indexes
 
-You can define [spatial indexes](http://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
+You can define [spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
 
 Simply set the `spatial` flag for indexes.
@@ -203,7 +203,7 @@ is provided.
 DQL Functions
 -------------
 
-Most [PostGIS functions](http://postgis.net/docs/reference.html) are also
+Most [PostGIS functions](https://postgis.net/docs/reference.html) are also
 available for the DQL under the `Jsor\Doctrine\PostGIS\Functions` namespace.
 
 For a full list of all supported functions, see the
@@ -238,7 +238,7 @@ $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ### Symfony
 
 If you use Symfony, you need to setup the functions in the
-[doctrine section](http://symfony.com/doc/current/reference/configuration/doctrine.html)
+[doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
 of your config.yml.
 
 ```yaml
@@ -253,4 +253,4 @@ License
 -------
 
 Copyright (c) 2014-2017 Jan Sorgalla.
-Released under the [MIT License](https://github.com/jsor/doctrine-postgis/blob/master/LICENSE).
+Released under the [MIT License](LICENSE).
