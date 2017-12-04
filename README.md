@@ -53,20 +53,17 @@ $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber
 If you use Symfony, see the [documentation](http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html)
 on how to register event subscribers.
 
-A setup could look like this in your `config.yml`.
+A setup could look like this in the `services.yml`.
 
 ```yaml
 services:
-    jsor_doctrine_postgis_doctrine_orm_schema_subscriber:
-        class: 'Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber'
-        public: false
+    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 ```
 
-It is usually not required, but in case you get errors from the schema tool when
-running doctrine commands from the console, you can try to register the DBAL
-types in your `config.yml`.
+It is also recommended to register the DBAL types in the `doctrine` section of
+the `config.yml`.
 
 ```yaml
 doctrine:
