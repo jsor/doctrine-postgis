@@ -62,8 +62,9 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
 ```
 
-It is also recommended to register the DBAL types in the `doctrine` section of
-the `config.yml`.
+It is also recommended to register the DBAL types in the
+[doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
+of the `config.yml`.
 
 ```yaml
 doctrine:
@@ -239,7 +240,7 @@ $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 
 If you use Symfony, you need to setup the functions in the
 [doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
-of your config.yml.
+of the `config.yml`.
 
 ```yaml
 doctrine:
