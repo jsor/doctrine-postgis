@@ -4,6 +4,14 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.6.0 - 2018-07-13
+------------------
+
+  * Fix: Remove setting unsupported `primary` option when creating the
+    `Doctrine\DBAL\Schema\Column` objext. This prevents trigger a deprecation
+    error for DBAL >= 2.7. Thanks @simonwelsh (#38).
+  * Feature: Run test against PHP 7.2. Thanks @carusogabriel (#35).
+
 1.5.0 - 2017-11-13
 ------------------
 
