@@ -306,7 +306,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $options = array(
             'notnull' => (bool) $tableColumn['isnotnull'],
             'default' => $default,
-            'primary' => (bool) ($tableColumn['pri'] == 't'),
             'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null,
         );
 
