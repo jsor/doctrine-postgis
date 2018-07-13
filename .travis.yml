@@ -86,8 +86,8 @@ cache:
 
 install:
   - travis_retry ./travis/install.sh $POSTGRESQL_VERSION $POSTGIS_VERSION
-  - travis_retry composer require doctrine/orm:${DOCTRINE_VERSION}
-  - travis_retry composer show
+  - composer require doctrine/common doctrine/orm:${DOCTRINE_VERSION}
+  - composer show
 
 before_script:
   - travis_retry ./travis/before_script.sh $POSTGRESQL_VERSION $POSTGIS_VERSION

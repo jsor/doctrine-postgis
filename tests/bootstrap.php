@@ -6,6 +6,4 @@ $loader->addPsr4('Jsor\Doctrine\PostGIS\\', __DIR__);
 
 $GLOBALS['TESTS_TEMP_DIR'] = __DIR__ . '/temp';
 
-Doctrine\Common\Annotations\AnnotationRegistry::registerFile(
-    __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php'
-);
+Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
