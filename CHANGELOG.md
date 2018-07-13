@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org).
 ------------------
 
   * Fix: Remove setting unsupported `primary` option when creating the
-    `Doctrine\DBAL\Schema\Column` objext. This prevents trigger a deprecation
+    `Doctrine\DBAL\Schema\Column` object. This prevents triggering a deprecation
     error for DBAL >= 2.7. Thanks @simonwelsh (#38).
   * Feature: Run test against PHP 7.2. Thanks @carusogabriel (#35).
 
