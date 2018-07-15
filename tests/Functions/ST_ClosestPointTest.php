@@ -41,7 +41,7 @@ class ST_ClosestPointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ClosestPoint(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ClosestPoint(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_ClosestPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(100 100)',
+  'value' => 'POINT(100 100)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

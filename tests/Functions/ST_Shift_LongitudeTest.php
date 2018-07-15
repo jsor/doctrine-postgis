@@ -41,7 +41,7 @@ class ST_Shift_LongitudeTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Shift_Longitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Shift_Longitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_Shift_LongitudeTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(241.42 38.38,241.8 38.45)',
+  'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

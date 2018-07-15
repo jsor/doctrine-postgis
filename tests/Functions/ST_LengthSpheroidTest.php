@@ -48,7 +48,7 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
      */
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -67,7 +67,7 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 85204.5207711805,
+  'value' => 85204.5207711805,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -78,7 +78,7 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -97,7 +97,7 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 85204.5207562954,
+  'value' => 85204.5207562954,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

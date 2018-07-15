@@ -41,7 +41,7 @@ class ST_AsTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(\'01030000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(\'01030000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+  'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

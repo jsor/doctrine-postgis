@@ -41,7 +41,7 @@ class ST_MaxDistanceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MaxDistance(ST_GeomFromText(\'POINT(0 0)\'), ST_GeomFromText(\'LINESTRING(2 0, 0 2)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MaxDistance(ST_GeomFromText(\'POINT(0 0)\'), ST_GeomFromText(\'LINESTRING(2 0, 0 2)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MaxDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 2,
+  'value' => 2,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

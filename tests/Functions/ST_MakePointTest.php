@@ -41,7 +41,7 @@ class ST_MakePointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MakePoint(1, 2, 1.5, 2) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MakePoint(1, 2, 1.5, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MakePointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '01010000C0000000000000F03F0000000000000040000000000000F83F0000000000000040',
+  'value' => '01010000C0000000000000F03F0000000000000040000000000000F83F0000000000000040',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

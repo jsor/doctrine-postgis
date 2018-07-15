@@ -41,7 +41,7 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 4,
+  'value' => 4,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_GeomFromEWKT(\'LINESTRING(77.29 29.07 1,77.42 29.26 0,77.27 29.31 -1,77.29 29.07 3)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_GeomFromEWKT(\'LINESTRING(77.29 29.07 1,77.42 29.26 0,77.27 29.31 -1,77.29 29.07 3)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_NPointsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 4,
+  'value' => 4,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

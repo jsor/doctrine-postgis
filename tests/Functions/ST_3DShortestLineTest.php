@@ -45,7 +45,7 @@ class ST_3DShortestLineTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DShortestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DShortestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_3DShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
+  'value' => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -44,7 +44,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValidDetail(ST_GeomFromText(\'LINESTRING(1 1, 1 1)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValidDetail(ST_GeomFromText(\'LINESTRING(1 1, 1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
+  'value' => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -71,7 +71,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValidDetail(ST_GeomFromText(\'LINESTRING(220227 150406,2220227 150407,222020 150410)\'), 1) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValidDetail(ST_GeomFromText(\'LINESTRING(220227 150406,2220227 150407,222020 150410)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,7 +90,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '(t,,)',
+  'value' => '(t,,)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

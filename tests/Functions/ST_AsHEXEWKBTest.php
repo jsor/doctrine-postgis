@@ -41,7 +41,7 @@ class ST_AsHEXEWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsHEXEWKB(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsHEXEWKB(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsHEXEWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0103000020E61000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000',
+  'value' => '0103000020E61000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_AsHEXEWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsHEXEWKB(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326), \'XDR\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsHEXEWKB(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326), \'XDR\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_AsHEXEWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0020000003000010E600000001000000050000000000000000000000000000000000000000000000003FF00000000000003FF00000000000003FF00000000000003FF0000000000000000000000000000000000000000000000000000000000000',
+  'value' => '0020000003000010E600000001000000050000000000000000000000000000000000000000000000003FF00000000000003FF00000000000003FF00000000000003FF0000000000000000000000000000000000000000000000000000000000000',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

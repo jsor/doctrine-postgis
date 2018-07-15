@@ -45,7 +45,7 @@ class ST_3DIntersectsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DIntersects(ST_GeomFromEWKT(\'POINT(0 0 2)\'), ST_GeomFromEWKT(\'LINESTRING (0 0 1, 0 2 3 )\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DIntersects(ST_GeomFromEWKT(\'POINT(0 0 2)\'), ST_GeomFromEWKT(\'LINESTRING (0 0 1, 0 2 3 )\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_3DIntersectsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => false,
+  'value' => false,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

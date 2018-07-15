@@ -41,7 +41,7 @@ class ST_BoundaryTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Boundary(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Boundary(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_BoundaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'MULTIPOINT(1 1,-1 1)',
+  'value' => 'MULTIPOINT(1 1,-1 1)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

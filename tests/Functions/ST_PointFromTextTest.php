@@ -41,7 +41,7 @@ class ST_PointFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_PointFromText(\'POINT(-71.064544 42.28787)\', 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_PointFromText(\'POINT(-71.064544 42.28787)\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_PointFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0101000020E6100000CB49287D21C451C0F0BF95ECD8244540',
+  'value' => '0101000020E6100000CB49287D21C451C0F0BF95ECD8244540',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

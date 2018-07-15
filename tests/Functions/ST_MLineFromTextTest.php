@@ -41,7 +41,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MLineFromText(\'MULTILINESTRING((1 2, 3 4), (4 5, 6 7))\', 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MLineFromText(\'MULTILINESTRING((1 2, 3 4), (4 5, 6 7))\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
+  'value' => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MLineFromText(\'POINT(1 2)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MLineFromText(\'POINT(1 2)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => null,
+  'value' => null,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

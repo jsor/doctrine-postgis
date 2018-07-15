@@ -41,7 +41,7 @@ class ST_PointNTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_PointN(ST_GeomFromText(\'LINESTRING(0 0, 1 1, 2 2)\'), 2)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_PointN(ST_GeomFromText(\'LINESTRING(0 0, 1 1, 2 2)\'), 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_PointNTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(1 1)',
+  'value' => 'POINT(1 1)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

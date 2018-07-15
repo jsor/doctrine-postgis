@@ -41,7 +41,7 @@ class ST_MakeEnvelopeTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakeEnvelope(10, 10, 11, 11, 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakeEnvelope(10, 10, 11, 11, 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MakeEnvelopeTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'SRID=4326;POLYGON((10 10,10 11,11 11,11 10,10 10))',
+  'value' => 'SRID=4326;POLYGON((10 10,10 11,11 11,11 10,10 10))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

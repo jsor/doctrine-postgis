@@ -41,7 +41,7 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Summary(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Summary(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'Polygon[B] with 1 rings
+  'value' => 'Polygon[B] with 1 rings
    ring 0 has 5 points',
 );
 

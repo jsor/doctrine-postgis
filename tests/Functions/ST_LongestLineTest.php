@@ -41,7 +41,7 @@ class ST_LongestLineTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_LongestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_LongestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_LongestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(100 100,98 190)',
+  'value' => 'LINESTRING(100 100,98 190)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

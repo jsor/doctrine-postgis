@@ -41,7 +41,7 @@ class ST_StartPointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_StartPoint(ST_GeomFromText(\'LINESTRING(0 1, 0 2)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_StartPoint(ST_GeomFromText(\'LINESTRING(0 1, 0 2)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_StartPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(0 1)',
+  'value' => 'POINT(0 1)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

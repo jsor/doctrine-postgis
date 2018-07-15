@@ -41,7 +41,7 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'c0w3hf1s70w3hf1s70w3',
+  'value' => 'c0w3hf1s70w3hf1s70w3',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -72,7 +72,7 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\'), 5) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\'), 5) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,7 +91,7 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'c0w3h',
+  'value' => 'c0w3h',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

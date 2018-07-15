@@ -41,7 +41,7 @@ class ST_GeomFromWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')),4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')),4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_GeomFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0103000020E61000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000',
+  'value' => '0103000020E61000000100000005000000000000000000000000000000000000000000000000000000000000000000F03F000000000000F03F000000000000F03F000000000000F03F000000000000000000000000000000000000000000000000',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

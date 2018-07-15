@@ -45,7 +45,7 @@ class ST_3DDWithinTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_3DDWithinTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

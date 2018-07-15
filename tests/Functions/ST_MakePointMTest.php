@@ -41,7 +41,7 @@ class ST_MakePointMTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakePointM(-71.1043443253471, 42.3150676015829, 10)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakePointM(-71.1043443253471, 42.3150676015829, 10)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MakePointMTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINTM(-71.1043443253471 42.3150676015829 10)',
+  'value' => 'POINTM(-71.1043443253471 42.3150676015829 10)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

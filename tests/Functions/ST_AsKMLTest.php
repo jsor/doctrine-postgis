@@ -41,7 +41,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsKML(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsKML(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '<Polygon><outerBoundaryIs><LinearRing><coordinates>0,0 0,1 1,1 1,0 0,0</coordinates></LinearRing></outerBoundaryIs></Polygon>',
+  'value' => '<Polygon><outerBoundaryIs><LinearRing><coordinates>0,0 0,1 1,1 1,0 0,0</coordinates></LinearRing></outerBoundaryIs></Polygon>',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -72,7 +72,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsKML(2, ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 5, \'kmlprefix\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsKML(2, ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 5, \'kmlprefix\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,7 +91,7 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '<kmlprefix:Point><kmlprefix:coordinates>5.23423,6.34535</kmlprefix:coordinates></kmlprefix:Point>',
+  'value' => '<kmlprefix:Point><kmlprefix:coordinates>5.23423,6.34535</kmlprefix:coordinates></kmlprefix:Point>',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

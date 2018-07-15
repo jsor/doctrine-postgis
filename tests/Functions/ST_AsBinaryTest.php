@@ -41,7 +41,7 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+  'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\'), \'XDR\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromWKB(ST_AsBinary(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\'), \'XDR\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+  'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

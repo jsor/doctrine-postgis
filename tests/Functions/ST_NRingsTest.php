@@ -41,7 +41,7 @@ class ST_NRingsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NRings(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NRings(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_NRingsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 1,
+  'value' => 1,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

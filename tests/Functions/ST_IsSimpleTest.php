@@ -41,7 +41,7 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'LINESTRING(1 1,2 2,2 3.5,1 3,1 2,2 1)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'LINESTRING(1 1,2 2,2 3.5,1 3,1 2,2 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => false,
+  'value' => false,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

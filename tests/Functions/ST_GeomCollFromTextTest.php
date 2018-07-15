@@ -41,7 +41,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0107000000020000000101000000000000000000F03F0000000000000040010200000002000000000000000000F03F000000000000004000000000000008400000000000001040',
+  'value' => '0107000000020000000101000000000000000000F03F0000000000000040010200000002000000000000000000F03F000000000000004000000000000008400000000000001040',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\', 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0107000020E6100000020000000101000000000000000000F03F0000000000000040010200000002000000000000000000F03F000000000000004000000000000008400000000000001040',
+  'value' => '0107000020E6100000020000000101000000000000000000F03F0000000000000040010200000002000000000000000000F03F000000000000004000000000000008400000000000001040',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

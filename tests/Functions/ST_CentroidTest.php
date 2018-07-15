@@ -41,7 +41,7 @@ class ST_CentroidTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Centroid(ST_GeomFromText(\'MULTIPOINT(-1 0, -1 2, -1 3, -1 4, -1 7, 0 1, 0 3, 1 1, 2 0, 6 0, 7 8, 9 8, 10 6 )\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Centroid(ST_GeomFromText(\'MULTIPOINT(-1 0, -1 2, -1 3, -1 4, -1 7, 0 1, 0 3, 1 1, 2 0, 6 0, 7 8, 9 8, 10 6 )\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(2.30769230769231 3.30769230769231)',
+  'value' => 'POINT(2.30769230769231 3.30769230769231)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

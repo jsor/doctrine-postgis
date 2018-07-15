@@ -45,7 +45,7 @@ class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_FlipCoordinates(ST_GeomFromEWKT(\'POINT(1 2)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_FlipCoordinates(ST_GeomFromEWKT(\'POINT(1 2)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(2 1)',
+  'value' => 'POINT(2 1)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -44,7 +44,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoJSON(\'{"type":"Point","coordinates":[-48.23456,20.12345]}\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoJSON(\'{"type":"Point","coordinates":[-48.23456,20.12345]}\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(-48.23456 20.12345)',
+  'value' => 'POINT(-48.23456 20.12345)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -71,7 +71,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoJSON(\'{"type":"LineString","coordinates":[[1,2,3],[4,5,6],[7,8,9]]}\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoJSON(\'{"type":"LineString","coordinates":[[1,2,3],[4,5,6],[7,8,9]]}\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,7 +90,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING Z (1 2 3,4 5 6,7 8 9)',
+  'value' => 'LINESTRING Z (1 2 3,4 5 6,7 8 9)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

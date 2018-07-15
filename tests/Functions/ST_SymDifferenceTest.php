@@ -41,7 +41,7 @@ class ST_SymDifferenceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SymDifference(ST_GeomFromText(\'LINESTRING(50 100, 50 200)\'), ST_GeomFromText(\'LINESTRING(50 50, 50 150)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SymDifference(ST_GeomFromText(\'LINESTRING(50 100, 50 200)\'), ST_GeomFromText(\'LINESTRING(50 50, 50 150)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_SymDifferenceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'MULTILINESTRING((50 150,50 200),(50 50,50 100))',
+  'value' => 'MULTILINESTRING((50 150,50 200),(50 50,50 100))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

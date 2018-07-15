@@ -41,7 +41,7 @@ class ST_TransScaleTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_TransScale(ST_GeomFromEWKT(\'LINESTRING(1 2 3, 1 1 1)\'), 0.5, 1, 1, 2)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_TransScale(ST_GeomFromEWKT(\'LINESTRING(1 2 3, 1 1 1)\'), 0.5, 1, 1, 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_TransScaleTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(1.5 6 3,1.5 4 1)',
+  'value' => 'LINESTRING(1.5 6 3,1.5 4 1)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

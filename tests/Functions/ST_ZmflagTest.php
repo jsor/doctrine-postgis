@@ -41,7 +41,7 @@ class ST_ZmflagTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Zmflag(ST_GeomFromEWKT(\'LINESTRING(1 2, 3 4)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Zmflag(ST_GeomFromEWKT(\'LINESTRING(1 2, 3 4)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_ZmflagTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0,
+  'value' => 0,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_ZmflagTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Zmflag(ST_GeomFromEWKT(\'POINT(1 2 3 4)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Zmflag(ST_GeomFromEWKT(\'POINT(1 2 3 4)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_ZmflagTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 3,
+  'value' => 3,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

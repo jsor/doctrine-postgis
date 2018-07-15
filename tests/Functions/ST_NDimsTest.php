@@ -41,7 +41,7 @@ class ST_NDimsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NDims(ST_GeomFromText(\'POINT(1 1)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NDims(ST_GeomFromText(\'POINT(1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 2,
+  'value' => 2,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_NDimsTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NDims(ST_GeomFromEWKT(\'POINTM(1 1 0.5)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NDims(ST_GeomFromEWKT(\'POINTM(1 1 0.5)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 3,
+  'value' => 3,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

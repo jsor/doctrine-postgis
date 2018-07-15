@@ -41,7 +41,7 @@ class ST_GeomFromKMLTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromKML(\'<LineString><coordinates>-71.1663,42.2614 -71.1667,42.2616</coordinates></LineString>\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromKML(\'<LineString><coordinates>-71.1663,42.2614 -71.1667,42.2616</coordinates></LineString>\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_GeomFromKMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(-71.1663 42.2614,-71.1667 42.2616)',
+  'value' => 'LINESTRING(-71.1663 42.2614,-71.1667 42.2616)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

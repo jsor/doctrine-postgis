@@ -41,7 +41,7 @@ class ST_ZMaxTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_ZMax(\'BOX3D(1 2 3, 4 5 6)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_ZMax(\'BOX3D(1 2 3, 4 5 6)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_ZMaxTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 6,
+  'value' => 6,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

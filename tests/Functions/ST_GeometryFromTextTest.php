@@ -41,7 +41,7 @@ class ST_GeometryFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeometryFromText(\'LINESTRING(-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeometryFromText(\'LINESTRING(-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_GeometryFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '010200000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
+  'value' => '010200000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_GeometryFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeometryFromText(\'LINESTRING(-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932)\',4269) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeometryFromText(\'LINESTRING(-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932)\',4269) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_GeometryFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0102000020AD10000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
+  'value' => '0102000020AD10000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

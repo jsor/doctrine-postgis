@@ -41,7 +41,7 @@ class ST_EnvelopeTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Envelope(ST_GeomFromText(\'LINESTRING(0 0, 1 3)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Envelope(ST_GeomFromText(\'LINESTRING(0 0, 1 3)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_EnvelopeTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((0 0,0 3,1 3,1 0,0 0))',
+  'value' => 'POLYGON((0 0,0 3,1 3,1 0,0 0))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

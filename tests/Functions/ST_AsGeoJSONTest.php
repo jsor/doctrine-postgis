@@ -41,7 +41,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(\'LINESTRING(1 2 3, 4 5 6)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(\'LINESTRING(1 2 3, 4 5 6)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
+  'value' => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
+  'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

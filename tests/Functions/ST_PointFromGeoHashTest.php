@@ -45,7 +45,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(-115.172816 36.114646)',
+  'value' => 'POINT(-115.172816 36.114646)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -72,7 +72,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 4)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 4)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,7 +91,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(-115.13671875 36.123046875)',
+  'value' => 'POINT(-115.13671875 36.123046875)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

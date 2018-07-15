@@ -44,7 +44,7 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
      */
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance_Sphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance_Sphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 123.475736916,
+  'value' => 123.475736916,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -74,7 +74,7 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance_Sphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance_Sphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -93,7 +93,7 @@ class ST_Distance_SphereTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 123.475736916405,
+  'value' => 123.475736916405,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

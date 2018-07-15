@@ -44,7 +44,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsLatLonText(\'POINT (-3.2342342 -2.32498)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsLatLonText(\'POINT (-3.2342342 -2.32498)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '2°19\'29.928"S 3°14\'3.243"W',
+  'value' => '2°19\'29.928"S 3°14\'3.243"W',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -71,7 +71,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsLatLonText(\'POINT (-3.2342342 -2.32498)\', \'D°M\'\'S.SSS"C\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsLatLonText(\'POINT (-3.2342342 -2.32498)\', \'D°M\'\'S.SSS"C\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,7 +90,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '2°19\'29.928"S 3°14\'3.243"W',
+  'value' => '2°19\'29.928"S 3°14\'3.243"W',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

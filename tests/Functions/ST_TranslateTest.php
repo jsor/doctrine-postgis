@@ -41,7 +41,7 @@ class ST_TranslateTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Translate(ST_GeomFromText(\'POINT(-71.01 42.37)\',4326),1,0)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Translate(ST_GeomFromText(\'POINT(-71.01 42.37)\',4326),1,0)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_TranslateTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(-70.01 42.37)',
+  'value' => 'POINT(-70.01 42.37)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

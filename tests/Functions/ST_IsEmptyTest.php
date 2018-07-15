@@ -41,7 +41,7 @@ class ST_IsEmptyTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsEmpty(ST_GeomFromText(\'GEOMETRYCOLLECTION EMPTY\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsEmpty(ST_GeomFromText(\'GEOMETRYCOLLECTION EMPTY\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_IsEmptyTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_IsEmptyTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsEmpty(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsEmpty(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_IsEmptyTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => false,
+  'value' => false,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

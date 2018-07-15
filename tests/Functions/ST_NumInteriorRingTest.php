@@ -41,7 +41,7 @@ class ST_NumInteriorRingTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumInteriorRing(ST_GeomFromText(\'POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumInteriorRing(ST_GeomFromText(\'POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_NumInteriorRingTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 1,
+  'value' => 1,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

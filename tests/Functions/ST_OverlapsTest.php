@@ -41,7 +41,7 @@ class ST_OverlapsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Overlaps(ST_Buffer(ST_GeomFromText(\'POINT(1 0.5)\'), 3), ST_Buffer(ST_GeomFromText(\'LINESTRING(1 0, 1 1, 3 5)\'), 0.5)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Overlaps(ST_Buffer(ST_GeomFromText(\'POINT(1 0.5)\'), 3), ST_Buffer(ST_GeomFromText(\'LINESTRING(1 0, 1 1, 3 5)\'), 0.5)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_OverlapsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

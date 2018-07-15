@@ -41,7 +41,7 @@ class ST_DimensionTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Dimension(\'GEOMETRYCOLLECTION(LINESTRING(1 1,0 0),POINT(0 0))\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Dimension(\'GEOMETRYCOLLECTION(LINESTRING(1 1,0 0),POINT(0 0))\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_DimensionTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 1,
+  'value' => 1,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -41,7 +41,7 @@ class ST_MakeBox2DTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MakeBox2D(ST_MakePoint(-989502.1875, 528439.5625), ST_MakePoint(-987121.375 ,529933.1875)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MakeBox2D(ST_MakePoint(-989502.1875, 528439.5625), ST_MakePoint(-987121.375 ,529933.1875)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MakeBox2DTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
+  'value' => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

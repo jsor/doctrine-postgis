@@ -41,7 +41,7 @@ class ST_DifferenceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Difference(ST_GeomFromText(\'LINESTRING(50 100, 50 200)\'), ST_GeomFromText(\'LINESTRING(50 50, 50 150)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Difference(ST_GeomFromText(\'LINESTRING(50 100, 50 200)\'), ST_GeomFromText(\'LINESTRING(50 50, 50 150)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_DifferenceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(50 150,50 200)',
+  'value' => 'LINESTRING(50 150,50 200)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

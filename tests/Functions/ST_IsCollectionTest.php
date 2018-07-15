@@ -44,7 +44,7 @@ class ST_IsCollectionTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsCollection(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsCollection(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_IsCollectionTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => false,
+  'value' => false,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -71,7 +71,7 @@ class ST_IsCollectionTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsCollection(ST_GeomFromText(\'MULTIPOINT((0 0))\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsCollection(ST_GeomFromText(\'MULTIPOINT((0 0))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,7 +90,7 @@ class ST_IsCollectionTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

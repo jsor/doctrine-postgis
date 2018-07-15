@@ -41,7 +41,7 @@ class ST_TouchesTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Touches(ST_GeomFromText(\'LINESTRING(0 0, 1 1, 0 2)\'), ST_GeomFromText(\'POINT(0 2)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Touches(ST_GeomFromText(\'LINESTRING(0 0, 1 1, 0 2)\'), ST_GeomFromText(\'POINT(0 2)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_TouchesTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

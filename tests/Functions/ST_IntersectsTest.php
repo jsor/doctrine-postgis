@@ -41,7 +41,7 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeomFromText(\'POINT(0 0)\'), ST_GeomFromText(\'LINESTRING(0 0, 0 2)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeomFromText(\'POINT(0 0)\'), ST_GeomFromText(\'LINESTRING(0 0, 0 2)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeographyFromText(\'SRID=4326;LINESTRING(-43.23456 72.4567,-43.23456 72.4568)\'), ST_GeographyFromText(\'SRID=4326;POINT(-43.23456 72.4567772)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeographyFromText(\'SRID=4326;LINESTRING(-43.23456 72.4567,-43.23456 72.4568)\'), ST_GeographyFromText(\'SRID=4326;POINT(-43.23456 72.4567772)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

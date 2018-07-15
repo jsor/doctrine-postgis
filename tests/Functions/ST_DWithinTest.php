@@ -41,7 +41,7 @@ class ST_DWithinTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_DWithin(ST_GeomFromText(\'POINT(1 1)\'), ST_GeomFromText(\'LINESTRING(1 5, 2 7, 1 9, 14 12)\'), 10) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_DWithin(ST_GeomFromText(\'POINT(1 1)\'), ST_GeomFromText(\'LINESTRING(1 5, 2 7, 1 9, 14 12)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_DWithinTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

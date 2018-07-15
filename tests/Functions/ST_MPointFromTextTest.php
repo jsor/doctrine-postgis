@@ -41,7 +41,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MPointFromText(\'MULTIPOINT(-70.9590 42.1180, -70.9611 42.1223)\', 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MPointFromText(\'MULTIPOINT(-70.9590 42.1180, -70.9611 42.1223)\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
+  'value' => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_MPointFromText(\'POINT(1 2)\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_MPointFromText(\'POINT(1 2)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => null,
+  'value' => null,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -186,7 +186,7 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 <?php endif; ?>
     public function testQuery<?php echo $index + 1; ?>()
     {
-        $query = $this->_getEntityManager()->createQuery(<?php echo var_export(str_replace('{function}', $name, $query['sql']) . ' FROM Jsor\Doctrine\PostGIS\PointsEntity'); ?>);
+        $query = $this->_getEntityManager()->createQuery(<?php echo var_export(str_replace('{function}', $name, $query['sql']) . ' FROM Jsor\Doctrine\PostGIS\PointsEntity point'); ?>);
 
         $result = $query->getSingleResult();
 

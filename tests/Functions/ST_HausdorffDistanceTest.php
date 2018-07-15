@@ -41,7 +41,7 @@ class ST_HausdorffDistanceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_HausdorffDistance(ST_GeomFromText(\'LINESTRING (130 0, 0 0, 0 150)\'), ST_GeomFromText(\'LINESTRING (10 10, 10 150, 130 10)\'), 0.5) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_HausdorffDistance(ST_GeomFromText(\'LINESTRING (130 0, 0 0, 0 150)\'), ST_GeomFromText(\'LINESTRING (10 10, 10 150, 130 10)\'), 0.5) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_HausdorffDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 70,
+  'value' => 70,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

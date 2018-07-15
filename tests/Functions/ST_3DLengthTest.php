@@ -44,7 +44,7 @@ class ST_3DLengthTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DLength(ST_GeomFromText(\'LINESTRING(743238 2967416 1,743238 2967450 1,743265 2967450 3,743265.625 2967416 3,743238 2967416 3)\',2249)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DLength(ST_GeomFromText(\'LINESTRING(743238 2967416 1,743238 2967450 1,743265 2967450 3,743265.625 2967416 3,743238 2967416 3)\',2249)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_3DLengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 122.704716741457,
+  'value' => 122.704716741457,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

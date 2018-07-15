@@ -41,7 +41,7 @@ class ST_LinestringFromWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LinestringFromWKB(ST_AsBinary(ST_GeomFromText(\'LINESTRING(1 2, 3 4)\')), 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LinestringFromWKB(ST_AsBinary(ST_GeomFromText(\'LINESTRING(1 2, 3 4)\')), 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_LinestringFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0102000020E610000002000000000000000000F03F000000000000004000000000000008400000000000001040',
+  'value' => '0102000020E610000002000000000000000000F03F000000000000004000000000000008400000000000001040',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_LinestringFromWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LinestringFromWKB(ST_AsBinary(ST_GeomFromText(\'POINT(1 2)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LinestringFromWKB(ST_AsBinary(ST_GeomFromText(\'POINT(1 2)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_LinestringFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => null,
+  'value' => null,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

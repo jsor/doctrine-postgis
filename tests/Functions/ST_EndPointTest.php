@@ -41,7 +41,7 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_EndPoint(ST_GeomFromText(\'LINESTRING(1 1, 2 2, 3 3)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_EndPoint(ST_GeomFromText(\'LINESTRING(1 1, 2 2, 3 3)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(3 3)',
+  'value' => 'POINT(3 3)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_EndPoint(ST_GeomFromText(\'POINT(1 1)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_EndPoint(ST_GeomFromText(\'POINT(1 1)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => null,
+  'value' => null,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

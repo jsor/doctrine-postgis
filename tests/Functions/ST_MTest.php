@@ -41,7 +41,7 @@ class ST_MTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_M(ST_GeomFromEWKT(\'POINT(1 2 3 4)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_M(ST_GeomFromEWKT(\'POINT(1 2 3 4)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 4,
+  'value' => 4,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

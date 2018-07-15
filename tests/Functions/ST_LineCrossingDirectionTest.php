@@ -41,7 +41,7 @@ class ST_LineCrossingDirectionTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_LineCrossingDirectionTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => -3,
+  'value' => -3,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

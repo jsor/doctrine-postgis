@@ -41,7 +41,7 @@ class ST_CoordDimTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_CoordDim(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\')) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_CoordDim(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_CoordDimTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 2,
+  'value' => 2,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -41,7 +41,7 @@ class ST_CollectTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Collect(ST_GeomFromText(\'POINT(1 2)\'), ST_GeomFromText(\'POINT(-2 3)\') )) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Collect(ST_GeomFromText(\'POINT(1 2)\'), ST_GeomFromText(\'POINT(-2 3)\') )) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_CollectTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'MULTIPOINT(1 2,-2 3)',
+  'value' => 'MULTIPOINT(1 2,-2 3)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

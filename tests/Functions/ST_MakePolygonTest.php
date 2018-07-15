@@ -41,7 +41,7 @@ class ST_MakePolygonTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakePolygon(ST_GeomFromText(\'LINESTRING(75.15 29.53,77 29,77.6 29.5, 75.15 29.53)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_MakePolygon(ST_GeomFromText(\'LINESTRING(75.15 29.53,77 29,77.6 29.5, 75.15 29.53)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_MakePolygonTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POLYGON((75.15 29.53,77 29,77.6 29.5,75.15 29.53))',
+  'value' => 'POLYGON((75.15 29.53,77 29,77.6 29.5,75.15 29.53))',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

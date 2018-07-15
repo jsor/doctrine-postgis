@@ -41,7 +41,7 @@ class ST_ShortestLineTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_ShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
+  'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

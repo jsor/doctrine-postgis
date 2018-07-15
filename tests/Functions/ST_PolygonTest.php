@@ -41,7 +41,7 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Polygon(ST_GeomFromText(\'LINESTRING(75.15 29.53,77 29,77.6 29.5, 75.15 29.53)\'), 4326) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Polygon(ST_GeomFromText(\'LINESTRING(75.15 29.53,77 29,77.6 29.5, 75.15 29.53)\'), 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => '0103000020E610000001000000040000009A99999999C9524048E17A14AE873D4000000000004053400000000000003D4066666666666653400000000000803D409A99999999C9524048E17A14AE873D40',
+  'value' => '0103000020E610000001000000040000009A99999999C9524048E17A14AE873D4000000000004053400000000000003D4066666666666653400000000000803D409A99999999C9524048E17A14AE873D40',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -41,7 +41,7 @@ class ST_ScaleTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_Scale(ST_GeomFromEWKT(\'LINESTRING(1 2 3, 1 1 1)\'), 0.5, 0.75, 0.8)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_Scale(ST_GeomFromEWKT(\'LINESTRING(1 2 3, 1 1 1)\'), 0.5, 0.75, 0.8)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_ScaleTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(0.5 1.5 2.4,0.5 0.75 0.8)',
+  'value' => 'LINESTRING(0.5 1.5 2.4,0.5 0.75 0.8)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

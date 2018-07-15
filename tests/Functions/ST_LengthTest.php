@@ -41,7 +41,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeomFromText(\'LINESTRING(743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416)\', 2249)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeomFromText(\'LINESTRING(743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416)\', 2249)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 122.630744000095,
+  'value' => 122.630744000095,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -68,7 +68,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Length(ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.1240 42.45666, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -87,7 +87,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 34346.2060960742,
+  'value' => 34346.2060960742,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

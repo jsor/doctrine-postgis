@@ -41,7 +41,7 @@ class ST_LineFromMultiPointTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_LineFromMultiPoint(ST_GeomFromEWKT(\'MULTIPOINT(1 2 3, 4 5 6, 7 8 9)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_LineFromMultiPoint(ST_GeomFromEWKT(\'MULTIPOINT(1 2 3, 4 5 6, 7 8 9)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_LineFromMultiPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(1 2 3,4 5 6,7 8 9)',
+  'value' => 'LINESTRING(1 2 3,4 5 6,7 8 9)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

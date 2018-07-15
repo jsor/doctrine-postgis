@@ -45,7 +45,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,7 +64,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
+  'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -72,7 +72,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 0) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 0) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,7 +91,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'BOX(-180 -90,180 90)',
+  'value' => 'BOX(-180 -90,180 90)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -99,7 +99,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     public function testQuery3()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 10) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 10) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -118,7 +118,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
+  'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -41,7 +41,7 @@ class ST_SetSRIDTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_SetSRID(ST_Point(-123.365556, 48.428611),4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_SetSRID(ST_Point(-123.365556, 48.428611),4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_SetSRIDTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'SRID=4326;POINT(-123.365556 48.428611)',
+  'value' => 'SRID=4326;POINT(-123.365556 48.428611)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

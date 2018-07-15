@@ -44,7 +44,7 @@ class ST_GeogFromWKBTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeogFromWKB(ST_GeogFromText(\'LINESTRING(-113.98 39.198,-113.981 39.195)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeogFromWKB(ST_GeogFromText(\'LINESTRING(-113.98 39.198,-113.981 39.195)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -63,7 +63,7 @@ class ST_GeogFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
+  'value' => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

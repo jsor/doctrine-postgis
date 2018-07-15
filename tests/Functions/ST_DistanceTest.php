@@ -41,7 +41,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0.00150567726382822,
+  'value' => 0.00150567726382822,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -71,7 +71,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,7 +90,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 123.475736916,
+  'value' => 123.475736916,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -101,7 +101,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
      */
     public function testQuery3()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -120,7 +120,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 123.475736916397,
+  'value' => 123.475736916397,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

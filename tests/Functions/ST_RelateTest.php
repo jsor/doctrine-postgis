@@ -41,7 +41,7 @@ class ST_RelateTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Relate(ST_GeometryFromText(\'POINT(1 2)\'), ST_Buffer(ST_GeometryFromText(\'POINT(1 2)\'),2), \'0FFFFF212\') FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Relate(ST_GeometryFromText(\'POINT(1 2)\'), ST_Buffer(ST_GeometryFromText(\'POINT(1 2)\'),2), \'0FFFFF212\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_RelateTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => true,
+  'value' => true,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

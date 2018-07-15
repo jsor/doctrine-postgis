@@ -41,7 +41,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsSVG(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsSVG(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\',4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'M 0 0 L 0 -1 1 -1 1 0 Z',
+  'value' => 'M 0 0 L 0 -1 1 -1 1 0 Z',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
@@ -72,7 +72,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
      */
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsSVG(ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 1, 5) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsSVG(ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 1, 5) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,7 +91,7 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'x="5.23423" y="-6.34535"',
+  'value' => 'x="5.23423" y="-6.34535"',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

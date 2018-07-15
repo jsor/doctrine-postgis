@@ -41,7 +41,7 @@ class ST_AzimuthTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Azimuth(ST_Point(25,45), ST_Point(75,100)) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Azimuth(ST_Point(25,45), ST_Point(75,100)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_AzimuthTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 0.737815060120465,
+  'value' => 0.737815060120465,
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);

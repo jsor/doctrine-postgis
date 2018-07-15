@@ -41,7 +41,7 @@ class ST_PointOnSurfaceTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointOnSurface(ST_GeomFromText(\'LINESTRING(0 5, 0 10)\'))) FROM Jsor\\Doctrine\\PostGIS\\PointsEntity');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_PointOnSurface(ST_GeomFromText(\'LINESTRING(0 5, 0 10)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -60,7 +60,7 @@ class ST_PointOnSurfaceTest extends AbstractFunctionalTestCase
         });
 
         $expected = array(
-  1 => 'POINT(0 5)',
+  'value' => 'POINT(0 5)',
 );
 
         $this->assertEquals($expected, $result, '', 0.0001);
