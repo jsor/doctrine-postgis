@@ -4,6 +4,11 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org).
 
+1.7.0 - 2018-08-01
+------------------
+
+  * This release drops support for the EOL versions of PHP 5.3, 5.4 and 5.5.
+
 1.6.0 - 2018-07-13
 ------------------
 
