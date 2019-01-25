@@ -183,3 +183,8 @@ Function Index
 * [ST_Split](http://postgis.net/docs/ST_Split.html)
 * [ST_SymDifference](http://postgis.net/docs/ST_SymDifference.html)
 * [ST_Union](http://postgis.net/docs/ST_Union.html)
+
+[Miscellaneous Functions](http://postgis.net/docs/reference.html#Miscellaneous_Functions)
+----------
+
+* [ST_Extent](http://postgis.net/docs/ST_Extent.html)
