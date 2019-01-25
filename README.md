@@ -173,7 +173,7 @@ class MyEntity
 }
 ```
 
-This uses [index flags](https://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
+This uses [index flags](https://docs.doctrine-project.org/projects/doctrine-orm/en/2.7/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
 introduced in Doctrine ORM 2.5.
 
 If you need to support Doctrine versions < 2.5, you have to define which indexes
