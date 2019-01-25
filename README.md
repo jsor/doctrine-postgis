@@ -173,7 +173,7 @@ class MyEntity
 }
 ```
 
-This uses [index flags](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
+This uses [index flags](https://docs.doctrine-project.org/projects/doctrine-orm/en/2.7/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
 introduced in Doctrine ORM 2.5.
 
 If you need to support Doctrine versions < 2.5, you have to define which indexes
@@ -197,8 +197,8 @@ class MyEntity
 
 ### Schema Tool
 
-Full support for the [ORM Schema Tool](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
-and the [DBAL Schema Manager](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
+Full support for the [ORM Schema Tool](https://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
+and the [DBAL Schema Manager](https://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
 is provided.
 
 DQL Functions
@@ -253,5 +253,5 @@ doctrine:
 License
 -------
 
-Copyright (c) 2014-2017 Jan Sorgalla.
+Copyright (c) 2014-2019 Jan Sorgalla.
 Released under the [MIT License](LICENSE).

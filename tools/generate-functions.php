@@ -9,7 +9,8 @@ $functions = array_merge(
     require __DIR__ . '/functions/geometry-editors.php',
     require __DIR__ . '/functions/geometry-outputs.php',
     require __DIR__ . '/functions/spatial-relationships-measurement.php',
-    require __DIR__ . '/functions/geometry-processing.php'
+    require __DIR__ . '/functions/geometry-processing.php',
+    require __DIR__ . '/functions/miscellaneous-functions.php'
 );
 
 $functionIndex = array(
@@ -47,6 +48,11 @@ $functionIndex = array(
         'title' => 'Geometry Processing',
         'anchor' => 'Geometry_Processing',
         'functions' => array_keys(require __DIR__ . '/functions/geometry-processing.php')
+    ),
+    array(
+        'title' => 'Miscellaneous Functions',
+        'anchor' => 'Miscellaneous_Functions',
+        'functions' => array_keys(require __DIR__ . '/functions/miscellaneous-functions.php')
     )
 );
 
@@ -272,14 +278,14 @@ MD;
 foreach ($functionIndex as $section) {
     $md .= <<<MD
 
-[{$section['title']}](http://postgis.net/docs/reference.html#{$section['anchor']})
+[{$section['title']}](https://postgis.net/docs/reference.html#{$section['anchor']})
 ----------
 
 
 MD;
     foreach ($section['functions'] as $func) {
         $md .= <<<MD
-* [$func](http://postgis.net/docs/$func.html)
+* [$func](https://postgis.net/docs/$func.html)
 
 MD;
     }

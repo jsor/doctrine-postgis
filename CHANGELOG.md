@@ -68,7 +68,7 @@ This project adheres to [Semantic Versioning](http://semver.org).
 1.1.0 - 2016-04-08
 ------------------
 
-  * Feature: New [raster](http://postgis.net/docs/raster.html) DBAL type.
+  * Feature: New [raster](https://postgis.net/docs/raster.html) DBAL type.
     Note: This type is not suited to be used in entity mappings.
     It just prevents "Unknown database type..." exceptions thrown during
     database inspections by the schema tool.
