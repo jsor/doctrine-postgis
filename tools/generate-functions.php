@@ -278,14 +278,14 @@ MD;
 foreach ($functionIndex as $section) {
     $md .= <<<MD
 
-[{$section['title']}](http://postgis.net/docs/reference.html#{$section['anchor']})
+[{$section['title']}](https://postgis.net/docs/reference.html#{$section['anchor']})
 ----------
 
 
 MD;
     foreach ($section['functions'] as $func) {
         $md .= <<<MD
-* [$func](http://postgis.net/docs/$func.html)
+* [$func](https://postgis.net/docs/$func.html)
 
 MD;
     }
