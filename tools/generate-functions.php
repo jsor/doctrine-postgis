@@ -267,7 +267,7 @@ file_put_contents(
     "<?php\n\n" . get_configurator_class_code($functions)
 );
 
-passthru(__DIR__ . '/../vendor/bin/php-cs-fixer --verbose --config-file=' . __DIR__ . '/../.php_cs fix');
+passthru(__DIR__ . '/../vendor/bin/php-cs-fixer --verbose --config=' . __DIR__ . '/../.php_cs fix');
 
 $md = <<<MD
 Function Index

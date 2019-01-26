@@ -44,7 +44,6 @@ abstract class PostGISType extends Type
     }
 
     /**
-     * @param array $options
      *
      * @return mixed
      */
