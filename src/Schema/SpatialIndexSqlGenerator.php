@@ -24,7 +24,7 @@ class SpatialIndexSqlGenerator
         $name = $index->getQuotedName($this->platform);
         $columns = $index->getQuotedColumns($this->platform);
 
-        if (count($columns) == 0) {
+        if (count($columns) === 0) {
             throw new \InvalidArgumentException("Incomplete definition. 'columns' required.");
         }
 

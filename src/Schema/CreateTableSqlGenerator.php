@@ -21,12 +21,12 @@ class CreateTableSqlGenerator
         $this->spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
     }
 
-    public function getSql(Table $table, array $columns, array $options = array())
+    public function getSql(Table $table, array $columns, array $options = [])
     {
-        $spatialGeometryColumns = array();
+        $spatialGeometryColumns = [];
 
         if (!$this->isPostGis2) {
-            $normalColumns = array();
+            $normalColumns = [];
 
             foreach ($columns as $name => $columnData) {
                 if ('geometry' !== $columnData['type']->getName()) {
@@ -39,10 +39,10 @@ class CreateTableSqlGenerator
             $columns = $normalColumns;
         }
 
-        $spatialIndexes = array();
+        $spatialIndexes = [];
 
         if (isset($options['indexes']) && !empty($options['indexes'])) {
-            $indexes = array();
+            $indexes = [];
 
             foreach ($options['indexes'] as $index) {
                 if (!$index->hasFlag('spatial')) {
@@ -68,7 +68,7 @@ class CreateTableSqlGenerator
         return $sql;
     }
 
-    public function getCreateTableSQL(Table $table, array $columns, array $options = array())
+    public function getCreateTableSQL(Table $table, array $columns, array $options = [])
     {
         $tableName = $table->getQuotedName($this->platform);
 
@@ -90,7 +90,7 @@ class CreateTableSqlGenerator
      * Full replacement of Doctrine\DBAL\Platforms\PostgreSqlPlatform::_getCreateTableSQL,
      * check on updates!
      */
-    public function _getCreateTableSQL($tableName, array $columns, array $options = array())
+    public function _getCreateTableSQL($tableName, array $columns, array $options = [])
     {
         $queryFields = $this->platform->getColumnDeclarationListSQL($columns);
 

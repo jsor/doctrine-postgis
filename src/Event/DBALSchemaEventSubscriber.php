@@ -22,7 +22,10 @@ use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialColumnSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
+use Jsor\Doctrine\PostGIS\Types\GeographyType;
+use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Jsor\Doctrine\PostGIS\Types\RasterType;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
@@ -43,7 +46,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::postConnect,
             Events::onSchemaCreateTable,
             Events::onSchemaDropTable,
@@ -54,7 +57,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             Events::onSchemaAlterTableRemoveColumn,
             Events::onSchemaAlterTableChangeColumn,
             Events::onSchemaAlterTableRenameColumn,
-        );
+        ];
     }
 
     public function postConnect(ConnectionEventArgs $args)
@@ -80,15 +83,15 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $this->postConnectCalled = true;
 
         if (!Type::hasType('geometry')) {
-            Type::addType('geometry', 'Jsor\Doctrine\PostGIS\Types\GeometryType');
+            Type::addType('geometry', GeometryType::class);
         }
 
         if (!Type::hasType('geography')) {
-            Type::addType('geography', 'Jsor\Doctrine\PostGIS\Types\GeographyType');
+            Type::addType('geography', GeographyType::class);
         }
 
         if (!Type::hasType('raster')) {
-            Type::addType('raster', 'Jsor\Doctrine\PostGIS\Types\RasterType');
+            Type::addType('raster', RasterType::class);
         }
     }
 
@@ -132,9 +135,9 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $platform = $args->getPlatform();
         $diff = $args->getTableDiff();
 
-        $spatialIndexes = array();
-        $addedIndexes = array();
-        $changedIndexes = array();
+        $spatialIndexes = [];
+        $addedIndexes = [];
+        $changedIndexes = [];
 
         foreach ($diff->addedIndexes as $index) {
             if (!$index->hasFlag('spatial')) {
@@ -157,7 +160,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $diff->changedIndexes = $changedIndexes;
 
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
-        $sql = array();
+        $sql = [];
 
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
         $tableName = $table->getQuotedName($platform);
@@ -303,11 +306,11 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $default = $tableColumn['default'];
         }
 
-        $options = array(
+        $options = [
             'notnull' => (bool) $tableColumn['isnotnull'],
             'default' => $default,
             'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null,
-        );
+        ];
 
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);
 
@@ -336,7 +339,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $index['columns'],
             $index['unique'],
             $index['primary'],
-            array_merge($index['flags'], array('spatial'))
+            array_merge($index['flags'], ['spatial'])
         );
 
         $args

@@ -16,7 +16,7 @@ class GeographyType extends PostGISType
         return sprintf('ST_GeographyFromText(%s)', $sqlExpr);
     }
 
-    public function getNormalizedPostGISColumnOptions(array $options = array())
+    public function getNormalizedPostGISColumnOptions(array $options = [])
     {
         $srid = isset($options['srid']) ? (int) $options['srid'] : 4326;
 
@@ -24,9 +24,9 @@ class GeographyType extends PostGISType
             $srid = 4326;
         }
 
-        return array(
+        return [
             'geometry_type' => isset($options['geometry_type']) ? strtoupper($options['geometry_type']) : 'GEOMETRY',
             'srid' => $srid,
-        );
+        ];
     }
 }

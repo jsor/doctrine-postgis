@@ -22,7 +22,7 @@ class SpatialColumnSqlGenerator
             $table = new Identifier($table);
         }
 
-        $sql = array();
+        $sql = [];
 
         $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
             $column->getCustomSchemaOptions()

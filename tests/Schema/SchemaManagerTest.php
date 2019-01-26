@@ -30,35 +30,35 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
-        $expected = array(
-            'idx_27ba8e29b7a5f324' => array(
+        $expected = [
+            'idx_27ba8e29b7a5f324' => [
                 0 => 'point',
-            ),
-            'idx_27ba8e2999674a3d' => array(
+            ],
+            'idx_27ba8e2999674a3d' => [
                 0 => 'point_2d',
-            ),
-            'idx_27ba8e293be136c3' => array(
+            ],
+            'idx_27ba8e293be136c3' => [
                 0 => 'point_3dz',
-            ),
-            'idx_27ba8e29b832b304' => array(
+            ],
+            'idx_27ba8e29b832b304' => [
                 0 => 'point_3dm',
-            ),
-            'idx_27ba8e29cf3dedbb' => array(
+            ],
+            'idx_27ba8e29cf3dedbb' => [
                 0 => 'point_4d',
-            ),
-            'idx_27ba8e293c257075' => array(
+            ],
+            'idx_27ba8e293c257075' => [
                 0 => 'point_2d_nullable',
-            ),
-            'idx_27ba8e293d5fe69e' => array(
+            ],
+            'idx_27ba8e293d5fe69e' => [
                 0 => 'point_2d_nosrid',
-            ),
-            'idx_27ba8e295f51a43c' => array(
+            ],
+            'idx_27ba8e295f51a43c' => [
                 0 => 'point_geography_2d',
-            ),
-            'idx_27ba8e295afbb72d' => array(
+            ],
+            'idx_27ba8e295afbb72d' => [
                 0 => 'point_geography_2d_srid',
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expected, $schemaManager->listSpatialIndexes('foo.points'));
     }
@@ -67,7 +67,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
-        $expected = array(
+        $expected = [
             'geometry',
             'point',
             'point_2d',
@@ -76,7 +76,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
             'point_4d',
             'point_2d_nullable',
             'point_2d_nosrid',
-        );
+        ];
 
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('foo.points'));
     }
@@ -85,9 +85,9 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
-        $expected = array(
+        $expected = [
             'user'
-        );
+        ];
 
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('"user"'));
     }
@@ -98,52 +98,52 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
 
         $this->assertNull($schemaManager->getGeometrySpatialColumnInfo('foo.points', 'text'));
 
-        $expected = array(
+        $expected = [
             'type' => 'GEOMETRY',
             'srid' => 0,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'geometry'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 0,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 3785,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINTZ',
             'srid' => 3785,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_3dz'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINTM',
             'srid' => 3785,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_3dm'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINTZM',
             'srid' => 3785,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_4d'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 3785,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d_nullable'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 0,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d_nosrid'));
     }
 
@@ -153,22 +153,22 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
 
         $this->assertNull($schemaManager->getGeographySpatialColumnInfo('foo.points', 'text'));
 
-        $expected = array(
+        $expected = [
             'type' => 'GEOMETRY',
             'srid' => 4326,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'geography'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 4326,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d'));
 
-        $expected = array(
+        $expected = [
             'type' => 'POINT',
             'srid' => 4326,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d_srid'));
     }
 
@@ -176,10 +176,10 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
-        $expected = array(
+        $expected = [
             'type' => 'GEOMETRY',
             'srid' => 0,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('"user"', '"user"'));
     }
 
@@ -187,10 +187,10 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
-        $expected = array(
+        $expected = [
             'type' => 'GEOMETRY',
             'srid' => 4326,
-        );
+        ];
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('"user"', '"primary"'));
     }
 

@@ -26,7 +26,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
      *
      * @var array
      */
-    private static $_entityTablesCreated = array();
+    private static $_entityTablesCreated = [];
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -48,21 +48,21 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
         $em = $this->_getEntityManager();
 
-        $classes = array();
+        $classes = [];
         foreach (self::$_entityTablesCreated as $className => $flag) {
             $classes[] = $em->getClassMetadata($className);
         }
 
         $this->_getSchemaTool()->dropSchema($classes);
 
-        self::$_entityTablesCreated = array();
+        self::$_entityTablesCreated = [];
     }
 
     protected function _setUpEntitySchema($classNames)
     {
         $em = $this->_getEntityManager();
 
-        $classes = array();
+        $classes = [];
         foreach ((array) $classNames as $className) {
             if (!isset(self::$_entityTablesCreated[$className])) {
                 self::$_entityTablesCreated[$className] = true;
@@ -78,14 +78,14 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _getDbParams()
     {
-        return array(
+        return [
             'driver' => $GLOBALS['db_type'],
             'user' => $GLOBALS['db_username'],
             'password' => $GLOBALS['db_password'],
             'host' => $GLOBALS['db_host'],
             'dbname' => $GLOBALS['db_name'],
             'port' => $GLOBALS['db_port'],
-        );
+        ];
     }
 
     protected function _getConnection()

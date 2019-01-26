@@ -13,13 +13,13 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_setUpEntitySchema(array(
+        $this->_setUpEntitySchema([
             'Jsor\Doctrine\PostGIS\PointsEntity'
-        ));
+        ]);
 
         $em = $this->_getEntityManager();
 
-        $entity = new PointsEntity(array(
+        $entity = new PointsEntity([
             'text' => 'foo',
             'geometry' => 'POINT(1 1)',
             'point' => 'POINT(1 1)',
@@ -32,7 +32,7 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
             'geography' => 'SRID=4326;POINT(1 1)',
             'pointGeography2d' => 'SRID=4326;POINT(1 1)',
             'pointGeography2dSrid' => 'POINT(1 1)',
-        ));
+        ]);
 
         $em->persist($entity);
         $em->flush();
@@ -59,9 +59,9 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }
@@ -86,9 +86,9 @@ class ST_MPointFromTextTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => null,
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }

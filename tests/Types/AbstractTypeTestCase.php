@@ -25,20 +25,20 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
     {
         $defaultSrid = $this->type instanceof GeographyType ? 4326 : 0;
 
-        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, $defaultSrid), $this->type->getSqlDeclaration(array('name' => 'test', 'geometry_type' => $type), $this->getPlatformMock()));
-        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, 1234), $this->type->getSqlDeclaration(array('name' => 'test', 'geometry_type' => $type, 'srid' => 1234), $this->getPlatformMock()));
+        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, $defaultSrid), $this->type->getSqlDeclaration(['name' => 'test', 'geometry_type' => $type], $this->getPlatformMock()));
+        $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, 1234), $this->type->getSqlDeclaration(['name' => 'test', 'geometry_type' => $type, 'srid' => 1234], $this->getPlatformMock()));
     }
 
     public function getSQLDeclarationDataProvider()
     {
-        $dimensions = array(
+        $dimensions = [
             '',
             'Z',
             'M',
             'ZM',
-        );
+        ];
 
-        $types = array(
+        $types = [
             'POINT',
             'LINESTRING',
             'POLYGON',
@@ -46,13 +46,13 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
             'MULTILINESTRING',
             'MULTIPOLYGON',
             'GEOMETRYCOLLECTION',
-        );
+        ];
 
-        $data = array();
+        $data = [];
 
         foreach ($types as $type) {
             foreach ($dimensions as $dimension) {
-                $data[] = array($type . $dimension);
+                $data[] = [$type . $dimension];
             }
         }
 

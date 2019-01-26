@@ -17,7 +17,7 @@ abstract class PostGISType extends Type
 
     public function getMappedDatabaseTypes(AbstractPlatform $platform)
     {
-        return array($this->getName());
+        return [$this->getName()];
     }
 
     public function convertToPHPValueSQL($sqlExpr, $platform)
@@ -44,9 +44,8 @@ abstract class PostGISType extends Type
     }
 
     /**
-     * @param array $options
      *
      * @return mixed
      */
-    abstract public function getNormalizedPostGISColumnOptions(array $options = array());
+    abstract public function getNormalizedPostGISColumnOptions(array $options = []);
 }

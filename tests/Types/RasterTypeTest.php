@@ -18,7 +18,7 @@ class RasterTypeTest extends AbstractTestCase
 
     public function testGetSQLDeclaration()
     {
-        $this->assertEquals('raster', $this->type->getSqlDeclaration(array(), $this->getPlatformMock()));
+        $this->assertEquals('raster', $this->type->getSqlDeclaration([], $this->getPlatformMock()));
     }
 
     public function testConvertToPHPValue()

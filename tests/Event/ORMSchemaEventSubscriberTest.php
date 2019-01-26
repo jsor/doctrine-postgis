@@ -10,9 +10,9 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
     public function testEntity()
     {
-        $this->_setUpEntitySchema(array(
+        $this->_setUpEntitySchema([
             'Jsor\Doctrine\PostGIS\PointsEntity',
-        ));
+        ]);
 
         $em = $this->_getEntityManager();
 
@@ -21,7 +21,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertTrue($table->hasIndex('idx_point'));
         $this->assertTrue($table->getIndex('idx_point')->hasFlag('spatial'));
 
-        $entity = new PointsEntity(array(
+        $entity = new PointsEntity([
             'text' => 'foo',
             'geometry' => 'POINT(1 1)',
             'point' => 'POINT(1 1)',
@@ -34,7 +34,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'geography' => 'SRID=4326;POINT(1 1)',
             'pointGeography2d' => 'SRID=4326;POINT(1 1)',
             'pointGeography2dSrid' => 'POINT(1 1)',
-        ));
+        ]);
 
         $em->persist($entity);
         $em->flush();
@@ -55,16 +55,16 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
     public function testEntityWithReservedWords()
     {
-        $this->_setUpEntitySchema(array(
+        $this->_setUpEntitySchema([
             'Jsor\Doctrine\PostGIS\ReservedWordsEntity',
-        ));
+        ]);
 
         $em = $this->_getEntityManager();
 
-        $entity = new ReservedWordsEntity(array(
+        $entity = new ReservedWordsEntity([
             'user' => 'POINT(1 1)',
             'primary' => 'SRID=4326;POINT(1 1)',
-        ));
+        ]);
 
         $em->persist($entity);
         $em->flush();
