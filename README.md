@@ -8,11 +8,10 @@ This library allows you to use Doctrine with PostGIS, the spatial database
 extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 
 * [Installation](#installation)
-* [Mapping](#mapping)
-    * [Setup](#setup)
-    * [Property Mapping](#property-mapping)
-    * [Spatial Indexes](#spatial-indexes)
-    * [Schema Tool](#schema-tool)
+* [Setup](#setup)
+* [Property Mapping](#property-mapping)
+* [Spatial Indexes](#spatial-indexes)
+* [Schema Tool](#schema-tool)
 * [DQL Functions](#dql-functions)
 
 Installation
@@ -27,10 +26,8 @@ composer require jsor/doctrine-postgis
 Check the [Packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
 for all available versions.
 
-Mapping
--------
-
-### Setup
+Setup
+-----
 
 All you have to do is, to register an event subscriber.
 
@@ -48,7 +45,7 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
-#### Symfony
+### Symfony
 
 If you use Symfony, see the [documentation](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
 on how to register event subscribers.
@@ -81,7 +78,8 @@ doctrine:
                 commented: false
 ```
 
-### Property Mapping
+Property Mapping
+----------------
 
 Once the event subscriber is registered, you can use the column types
 `geometry` and `geography` in your property mappings (please read the
@@ -112,7 +110,7 @@ There are 2 options you can set to define the geometry.
 * `srid`
    This defines the Spatial Reference System Identifier (SRID) of the geometry.
 
-#### Example
+### Example
 
 ```php
 /** @Entity */
@@ -141,7 +139,7 @@ values you have set. The library uses [ST_AsEWKT](https://postgis.net/docs/ST_As
 to retain as much information as possible (like SRID's). Read more in the
 [PostGIS docs](https://postgis.net/docs/using_postgis_dbmanagement.html#RefObject).
 
-#### Example
+### Example
 
 ```php
 $entity = new MyEntity();
@@ -151,7 +149,8 @@ $entity->setPoint4D('POINT(1 2 3 4)');
 $entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
 ```
 
-### Spatial Indexes
+Spatial Indexes
+---------------
 
 You can define [spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 for your geometry columns.
@@ -195,7 +194,8 @@ class MyEntity
 }
 ```
 
-### Schema Tool
+Schema Tool
+-----------
 
 Full support for the [ORM Schema Tool](https://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
 and the [DBAL Schema Manager](https://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
