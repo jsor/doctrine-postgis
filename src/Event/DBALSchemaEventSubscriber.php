@@ -43,7 +43,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::postConnect,
             Events::onSchemaCreateTable,
             Events::onSchemaDropTable,
@@ -54,7 +54,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             Events::onSchemaAlterTableRemoveColumn,
             Events::onSchemaAlterTableChangeColumn,
             Events::onSchemaAlterTableRenameColumn,
-        );
+        ];
     }
 
     public function postConnect(ConnectionEventArgs $args)
@@ -132,9 +132,9 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $platform = $args->getPlatform();
         $diff = $args->getTableDiff();
 
-        $spatialIndexes = array();
-        $addedIndexes = array();
-        $changedIndexes = array();
+        $spatialIndexes = [];
+        $addedIndexes = [];
+        $changedIndexes = [];
 
         foreach ($diff->addedIndexes as $index) {
             if (!$index->hasFlag('spatial')) {
@@ -157,7 +157,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $diff->changedIndexes = $changedIndexes;
 
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
-        $sql = array();
+        $sql = [];
 
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
         $tableName = $table->getQuotedName($platform);
@@ -303,11 +303,11 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $default = $tableColumn['default'];
         }
 
-        $options = array(
+        $options = [
             'notnull' => (bool) $tableColumn['isnotnull'],
             'default' => $default,
             'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null,
-        );
+        ];
 
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);
 
@@ -336,7 +336,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $index['columns'],
             $index['unique'],
             $index['primary'],
-            array_merge($index['flags'], array('spatial'))
+            array_merge($index['flags'], ['spatial'])
         );
 
         $args

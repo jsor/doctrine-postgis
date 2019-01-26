@@ -11,9 +11,9 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
     {
         return array_merge(
             parent::getSubscribedEvents(),
-            array(
+            [
                 ToolEvents::postGenerateSchemaTable,
-            )
+            ]
         );
     }
 

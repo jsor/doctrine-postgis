@@ -3,711 +3,711 @@
  * Geometry Accessors
  * http://postgis.net/docs/reference.html#Geometry_Accessors
  */
-return array(
-    'GeometryType' => array(
+return [
+    'GeometryType' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'LINESTRING'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Boundary' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Boundary' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1 1,0 0, -1 1)'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'MULTIPOINT(1 1,-1 1)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_CoordDim' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_CoordDim' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(1 1,0 0, -1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 2
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Dimension' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Dimension' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('GEOMETRYCOLLECTION(LINESTRING(1 1,0 0),POINT(0 0))') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_EndPoint' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_EndPoint' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1 1, 2 2, 3 3)'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'POINT(3 3)'
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(1 1)'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => null
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Envelope' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Envelope' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(0 0, 1 3)'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'POLYGON((0 0,0 3,1 3,1 0,0 0))'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_ExteriorRing' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_ExteriorRing' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYGON((0 0 1, 1 1 1, 1 2 1, 1 1 1, 0 0 1))'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'LINESTRING(0 0 1,1 1 1,1 2 1,1 1 1,0 0 1)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_GeometryN' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_GeometryN' => [
         'required_arguments' => 2,
         'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('MULTILINESTRING((0 0 1, 1 1 1, 1 2 1, 1 1 1, 0 0 1))'), 1)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'LINESTRING(0 0 1,1 1 1,1 2 1,1 1 1,0 0 1)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_GeometryType' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_GeometryType' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'ST_LineString'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_InteriorRingN' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_InteriorRingN' => [
         'required_arguments' => 2,
         'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))'), 1)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)'
-                    )
-                ),
+                    ]
+                ],
                 // Out of range
-                array(
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))'), 3)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => null
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsClosed' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsClosed' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 0 1, 1 1, 0 0)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsCollection' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsCollection' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
+        'tests' => [
             'group' => 'postgis-2.x',
-            'queries' => array(
-                array(
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('MULTIPOINT((0 0))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsEmpty' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsEmpty' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('GEOMETRYCOLLECTION EMPTY')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((1 2, 3 4, 5 6, 1 2))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsRing' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsRing' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 0 1, 1 1, 1 0, 0 0)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsSimple' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsSimple' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(1 1,2 2,2 3.5,1 3,1 2,2 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((1 2, 3 4, 5 6, 1 2))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsValid' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsValid' => [
         'required_arguments' => 1,
         'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => false
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)'), 1) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => true
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsValidReason' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsValidReason' => [
         'required_arguments' => 1,
         'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(220227 150406,2220227 150407,222020 150410)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'Valid Geometry'
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(220227 150406,2220227 150407,222020 150410)'), 1) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'Valid Geometry'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_IsValidDetail' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_IsValidDetail' => [
         'required_arguments' => 1,
         'total_arguments' => 2,
-        'tests' => array(
+        'tests' => [
             'group' => 'postgis-2.x',
-            'queries' => array(
-                array(
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(1 1, 1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)'
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(220227 150406,2220227 150407,222020 150410)'), 1) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => '(t,,)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_M' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_M' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1 2 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NDims' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NDims' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POINT(1 1)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 2
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINTM(1 1 0.5)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 3
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NPoints' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NPoints' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('LINESTRING(77.29 29.07 1,77.42 29.26 0,77.27 29.31 -1,77.29 29.07 3)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NRings' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NRings' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((1 2, 3 4, 5 6, 1 2))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NumGeometries' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NumGeometries' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
+        'tests' => [
+            'queries' => [
                 // PostGIS 1.5: ST_NumGeometries returns NULL for single geometries
-                array(
+                [
                     'group' => 'postgis-1.5',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => null
-                    )
-                ),
+                    ]
+                ],
                 // PostGIS 2.x: ST_NumGeometries returns NULL for single geometries
-                array(
+                [
                     'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('GEOMETRYCOLLECTION(MULTIPOINT(-2 3 , -2 2),LINESTRING(5 5 ,10 10),POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2)))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 3
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NumInteriorRings' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NumInteriorRings' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NumInteriorRing' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NumInteriorRing' => [
         'alias_for' => 'ST_NumInteriorRings'
-    ),
-    'ST_NumPatches' => array(
+    ],
+    'ST_NumPatches' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
+        'tests' => [
             'group' => 'postgis-2.x',
-            'queries' => array(
-                array(
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 6
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_NumPoints' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_NumPoints' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_PatchN' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_PatchN' => [
         'required_arguments' => 2,
         'total_arguments' => 2,
-        'tests' => array(
+        'tests' => [
             'group' => 'postgis-2.x',
-            'queries' => array(
-                array(
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )'), 2)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'POLYGON((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0))'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_PointN' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_PointN' => [
         'required_arguments' => 2,
         'total_arguments' => 2,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('LINESTRING(0 0, 1 1, 2 2)'), 2)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'POINT(1 1)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_SRID' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_SRID' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POINT(-71.1043 42.315)',4326)) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4326
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_StartPoint' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_StartPoint' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(0 1, 0 2)'))) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'POINT(0 1)'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Summary' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Summary' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 'Polygon[B] with 1 rings
    ring 0 has 5 points'
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_X' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_X' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1.5 2 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1.5
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_XMax' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_XMax' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 4
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_XMin' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_XMin' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 1
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Y' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Y' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1.5 2 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 2
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_YMax' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_YMax' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 5
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_YMin' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_YMin' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 2
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Z' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Z' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1.5 2 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 3
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_ZMax' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_ZMax' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 6
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_Zmflag' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_Zmflag' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('LINESTRING(1 2, 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 0
-                    )
-                ),
-                array(
+                    ]
+                ],
+                [
                     'sql' => "SELECT {function}(ST_GeomFromEWKT('POINT(1 2 3 4)')) AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 3
-                    )
-                ),
-            )
-        )
-    ),
-    'ST_ZMin' => array(
+                    ]
+                ],
+            ]
+        ]
+    ],
+    'ST_ZMin' => [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'return_type' => 'numeric',
-        'tests' => array(
-            'queries' => array(
-                array(
+        'tests' => [
+            'queries' => [
+                [
                     'sql' => "SELECT {function}('BOX3D(1 2 3, 4 5 6)') AS value",
-                    'result' => array(
+                    'result' => [
                         'value' => 3
-                    )
-                ),
-            )
-        )
-    ),
-);
+                    ]
+                ],
+            ]
+        ]
+    ],
+];

@@ -13,13 +13,13 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_setUpEntitySchema(array(
+        $this->_setUpEntitySchema([
             'Jsor\Doctrine\PostGIS\PointsEntity'
-        ));
+        ]);
 
         $em = $this->_getEntityManager();
 
-        $entity = new PointsEntity(array(
+        $entity = new PointsEntity([
             'text' => 'foo',
             'geometry' => 'POINT(1 1)',
             'point' => 'POINT(1 1)',
@@ -32,7 +32,7 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
             'geography' => 'SRID=4326;POINT(1 1)',
             'pointGeography2d' => 'SRID=4326;POINT(1 1)',
             'pointGeography2dSrid' => 'POINT(1 1)',
-        ));
+        ]);
 
         $em->persist($entity);
         $em->flush();
@@ -59,9 +59,9 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => '0103000020E610000001000000040000009A99999999C9524048E17A14AE873D4000000000004053400000000000003D4066666666666653400000000000803D409A99999999C9524048E17A14AE873D40',
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }

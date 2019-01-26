@@ -38,12 +38,12 @@ class SchemaManager
 
         $tableIndexes = $this->connection->fetchAll(
             $sql,
-            array(
+            [
                 $this->trimQuotes($table)
-            )
+            ]
         );
 
-        $indexes = array();
+        $indexes = [];
         foreach ($tableIndexes as $row) {
             if (!preg_match('/using\s+gist/i', $row['inddef'])) {
                 continue;
@@ -65,7 +65,7 @@ class SchemaManager
                 }
 
                 if (!isset($indexes[$row['relname']])) {
-                    $indexes[$row['relname']] = array();
+                    $indexes[$row['relname']] = [];
                 }
 
                 $indexes[$row['relname']][] = trim($indexRow['attname']);
@@ -87,12 +87,12 @@ class SchemaManager
 
         $tableColumns = $this->connection->fetchAll(
             $sql,
-            array(
+            [
                 $this->trimQuotes($table)
-            )
+            ]
         );
 
-        $columns = array();
+        $columns = [];
         foreach ($tableColumns as $row) {
             $columns[] = $row['f_geometry_column'];
         }
@@ -113,10 +113,10 @@ class SchemaManager
 
         $row = $this->connection->fetchAssoc(
             $sql,
-            array(
+            [
                 $this->trimQuotes($table),
                 $this->trimQuotes($column)
-            )
+            ]
         );
 
         if (!$row) {
@@ -139,10 +139,10 @@ class SchemaManager
 
         $row = $this->connection->fetchAssoc(
             $sql,
-            array(
+            [
                 $this->trimQuotes($table),
                 $this->trimQuotes($column)
-            )
+            ]
         );
 
         if (!$row) {
@@ -166,10 +166,10 @@ class SchemaManager
             }
         }
 
-        return array(
+        return [
             'type' => $type,
             'srid' => max((int) $row['srid'], 0),
-        );
+        ];
     }
 
     /**
@@ -178,6 +178,6 @@ class SchemaManager
      */
     protected function trimQuotes($identifier)
     {
-        return str_replace(array('`', '"', '[', ']'), '', $identifier);
+        return str_replace(['`', '"', '[', ']'], '', $identifier);
     }
 }

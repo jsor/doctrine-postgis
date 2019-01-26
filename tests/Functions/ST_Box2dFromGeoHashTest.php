@@ -17,13 +17,13 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_setUpEntitySchema(array(
+        $this->_setUpEntitySchema([
             'Jsor\Doctrine\PostGIS\PointsEntity'
-        ));
+        ]);
 
         $em = $this->_getEntityManager();
 
-        $entity = new PointsEntity(array(
+        $entity = new PointsEntity([
             'text' => 'foo',
             'geometry' => 'POINT(1 1)',
             'point' => 'POINT(1 1)',
@@ -36,7 +36,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
             'geography' => 'SRID=4326;POINT(1 1)',
             'pointGeography2d' => 'SRID=4326;POINT(1 1)',
             'pointGeography2dSrid' => 'POINT(1 1)',
-        ));
+        ]);
 
         $em->persist($entity);
         $em->flush();
@@ -63,9 +63,9 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }
@@ -90,9 +90,9 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => 'BOX(-180 -90,180 90)',
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }
@@ -117,9 +117,9 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
             }
         });
 
-        $expected = array(
+        $expected = [
   'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
-);
+];
 
         $this->assertEquals($expected, $result, '', 0.0001);
     }

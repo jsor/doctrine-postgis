@@ -9,11 +9,11 @@ class GeometryType extends PostGISType
         return PostGISType::GEOMETRY;
     }
 
-    public function getNormalizedPostGISColumnOptions(array $options = array())
+    public function getNormalizedPostGISColumnOptions(array $options = [])
     {
-        return array(
+        return [
             'geometry_type' => isset($options['geometry_type']) ? strtoupper($options['geometry_type']) : 'GEOMETRY',
             'srid' => isset($options['srid']) ? (int) $options['srid'] : 0,
-        );
+        ];
     }
 }

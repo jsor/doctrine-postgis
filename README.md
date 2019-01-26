@@ -220,7 +220,7 @@ $configuration->addCustomStringFunction(
     'Jsor\Doctrine\PostGIS\Functions\ST_Distance'
 );
 
-$dbParams = array(/***/);
+$dbParams = [/***/];
 $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 
@@ -232,7 +232,7 @@ $configuration = new Doctrine\ORM\Configuration();
 
 Jsor\Doctrine\PostGIS\Functions\Configurator::configure($configuration);
 
-$dbParams = array(/***/);
+$dbParams = [/***/];
 $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 

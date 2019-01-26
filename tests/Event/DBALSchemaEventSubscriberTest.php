@@ -34,90 +34,90 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     protected function createTableSchema()
     {
         $table = new \Doctrine\DBAL\Schema\Table('points');
-        $table->addColumn('id', 'integer', array('notnull' => true));
-        $table->addColumn('text', 'text', array('notnull' => true));
-        $table->addColumn('tsvector', 'tsvector', array('notnull' => true));
+        $table->addColumn('id', 'integer', ['notnull' => true]);
+        $table->addColumn('text', 'text', ['notnull' => true]);
+        $table->addColumn('tsvector', 'tsvector', ['notnull' => true]);
 
-        $table->addColumn('geometry', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('geometry', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'GEOMETRY',
                 'srid' => 0,
-            ));
+            ]);
 
-        $table->addColumn('point', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 0,
-            ));
+            ]);
 
-        $table->addColumn('point_2d', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_2d', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 3785,
-            ));
+            ]);
 
-        $table->addColumn('point_3dz', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_3dz', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINTZ',
                 'srid' => 3785,
-            ));
+            ]);
 
-        $table->addColumn('point_3dm', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_3dm', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINTM',
                 'srid' => 3785,
-            ));
+            ]);
 
-        $table->addColumn('point_4d', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_4d', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINTZM',
                 'srid' => 3785,
-            ));
+            ]);
 
-        $table->addColumn('point_2d_nullable', 'geometry', array('notnull' => false))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_2d_nullable', 'geometry', ['notnull' => false])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 3785,
-            ));
+            ]);
 
-        $table->addColumn('point_2d_nosrid', 'geometry', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_2d_nosrid', 'geometry', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 0,
-            ));
+            ]);
 
-        $table->addColumn('geography', 'geography', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('geography', 'geography', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'GEOMETRY',
                 'srid' => 4326,
-            ));
+            ]);
 
-        $table->addColumn('point_geography_2d', 'geography', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_geography_2d', 'geography', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 4326,
-            ));
+            ]);
 
-        $table->addColumn('point_geography_2d_srid', 'geography', array('notnull' => true))
-            ->setCustomSchemaOptions(array(
+        $table->addColumn('point_geography_2d_srid', 'geography', ['notnull' => true])
+            ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 4326,
-            ));
+            ]);
 
-        $table->addIndex(array('text'), 'idx_text');
-        $table->addIndex(array('tsvector'), 'idx_text_gist');
+        $table->addIndex(['text'], 'idx_text');
+        $table->addIndex(['tsvector'], 'idx_text_gist');
 
-        $table->addIndex(array('point'), null, array('spatial'));
-        $table->addIndex(array('point_2d'), null, array('spatial'));
-        $table->addIndex(array('point_3dz'), null, array('spatial'));
-        $table->addIndex(array('point_3dm'), null, array('spatial'));
-        $table->addIndex(array('point_4d'), null, array('spatial'));
-        $table->addIndex(array('point_2d_nullable'), null, array('spatial'));
-        $table->addIndex(array('point_2d_nosrid'), null, array('spatial'));
-        $table->addIndex(array('point_geography_2d'), null, array('spatial'));
-        $table->addIndex(array('point_geography_2d_srid'), null, array('spatial'));
+        $table->addIndex(['point'], null, ['spatial']);
+        $table->addIndex(['point_2d'], null, ['spatial']);
+        $table->addIndex(['point_3dz'], null, ['spatial']);
+        $table->addIndex(['point_3dm'], null, ['spatial']);
+        $table->addIndex(['point_4d'], null, ['spatial']);
+        $table->addIndex(['point_2d_nullable'], null, ['spatial']);
+        $table->addIndex(['point_2d_nosrid'], null, ['spatial']);
+        $table->addIndex(['point_geography_2d'], null, ['spatial']);
+        $table->addIndex(['point_geography_2d_srid'], null, ['spatial']);
 
-        $table->setPrimaryKey(array('id'));
+        $table->setPrimaryKey(['id']);
 
         return $table;
     }
@@ -147,14 +147,14 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $dbParams = $this->_getDbParams();
 
-        $conn = DriverManager::getConnection(array(
+        $conn = DriverManager::getConnection([
             'wrapperClass' => 'Doctrine\DBAL\Connections\MasterSlaveConnection',
             'driver' => $dbParams['driver'],
             'master' => $dbParams,
-            'slaves' => array(
+            'slaves' => [
                 $dbParams
-            )
-        ));
+            ]
+        ]);
 
         $conn->getEventManager()->addEventSubscriber($subscriber);
 
@@ -297,7 +297,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         $indexes = $this->sm->listTableIndexes('points');
 
-        $spatialIndexes = array(
+        $spatialIndexes = [
             'idx_27ba8e293be136c3',
             'idx_27ba8e295f51a43c',
             'idx_27ba8e295afbb72d',
@@ -308,12 +308,12 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'idx_27ba8e29cf3dedbb',
             'idx_27ba8e293d5fe69e',
             'idx_27ba8e29b832b304',
-        );
+        ];
 
-        $nonSpatialIndexes = array(
+        $nonSpatialIndexes = [
             'idx_text',
             'idx_text_gist',
-        );
+        ];
 
         foreach ($spatialIndexes as $spatialIndex) {
             $this->assertArrayHasKey($spatialIndex, $indexes);
@@ -338,7 +338,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geometry geometry(GEOMETRY, 0) NOT NULL, point geometry(POINT, 0) NOT NULL, point_2d geometry(POINT, 3785) NOT NULL, point_3dz geometry(POINTZ, 3785) NOT NULL, point_3dm geometry(POINTM, 3785) NOT NULL, point_4d geometry(POINTZM, 3785) NOT NULL, point_2d_nullable geometry(POINT, 3785) DEFAULT NULL, point_2d_nosrid geometry(POINT, 0) NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
         $this->assertContains($expected, $sql);
 
-        $spatialIndexes = array(
+        $spatialIndexes = [
             'CREATE INDEX idx_27ba8e29b7a5f324 ON points USING gist(point)',
             'CREATE INDEX idx_27ba8e2999674a3d ON points USING gist(point_2d)',
             'CREATE INDEX idx_27ba8e293be136c3 ON points USING gist(point_3dz)',
@@ -348,7 +348,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'CREATE INDEX idx_27ba8e293d5fe69e ON points USING gist(point_2d_nosrid)',
             'CREATE INDEX idx_27ba8e295f51a43c ON points USING gist(point_geography_2d)',
             'CREATE INDEX idx_27ba8e295afbb72d ON points USING gist(point_geography_2d_srid)',
-        );
+        ];
 
         foreach ($spatialIndexes as $spatialIndex) {
             $this->assertContains($spatialIndex, $sql);
@@ -367,7 +367,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
         $this->assertContains($expected, $sql);
 
-        $columns = array(
+        $columns = [
             "SELECT AddGeometryColumn('points', 'geometry', -1, 'GEOMETRY', 2)",
             'ALTER TABLE points ALTER point SET NOT NULL',
             "SELECT AddGeometryColumn('points', 'point', -1, 'POINT', 2)",
@@ -383,13 +383,13 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             "SELECT AddGeometryColumn('points', 'point_2d_nullable', 3785, 'POINT', 2)",
             "SELECT AddGeometryColumn('points', 'point_2d_nosrid', -1, 'POINT', 2)",
             'ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL',
-        );
+        ];
 
         foreach ($columns as $column) {
             $this->assertContains($column, $sql);
         }
 
-        $spatialIndexes = array(
+        $spatialIndexes = [
             'CREATE INDEX idx_27ba8e29b7a5f324 ON points USING gist(point)',
             'CREATE INDEX idx_27ba8e2999674a3d ON points USING gist(point_2d)',
             'CREATE INDEX idx_27ba8e293be136c3 ON points USING gist(point_3dz)',
@@ -399,7 +399,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'CREATE INDEX idx_27ba8e293d5fe69e ON points USING gist(point_2d_nosrid)',
             'CREATE INDEX idx_27ba8e295f51a43c ON points USING gist(point_geography_2d)',
             'CREATE INDEX idx_27ba8e295afbb72d ON points USING gist(point_geography_2d_srid)',
-        );
+        ];
 
         foreach ($spatialIndexes as $spatialIndex) {
             $this->assertContains($spatialIndex, $sql);
@@ -436,9 +436,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedColumns['linestring'] = new \Doctrine\DBAL\Schema\Column('linestring', Type::getType('geometry'), array('customSchemaOptions' => array('geometry_type' => 'linestring', 'srid' => 3785)));
+        $tableDiff->addedColumns['linestring'] = new \Doctrine\DBAL\Schema\Column('linestring', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
         $tableDiff->removedColumns['point'] = $table->getColumn('point');
-        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new \Doctrine\DBAL\Schema\Column('point_3dm', Type::getType('geometry'), array('customSchemaOptions' => array('srid' => 4326))), array('srid'), $table->getColumn('point_3dm'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new \Doctrine\DBAL\Schema\Column('point_3dm', Type::getType('geometry'), ['customSchemaOptions' => ['srid' => 4326]]), ['srid'], $table->getColumn('point_3dm'));
 
         $this->sm->alterTable($tableDiff);
 
@@ -449,40 +449,40 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring'), false, false, array('spatial'));
+        $tableDiff->addedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', ['linestring'], false, false, ['spatial']);
 
         $this->sm->alterTable($tableDiff);
 
         $table = $this->sm->listTableDetails('points');
         $this->assertTrue($table->hasIndex('linestring_idx'));
-        $this->assertEquals(array('linestring'), array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
+        $this->assertEquals(['linestring'], array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
         $this->assertTrue($table->getIndex('linestring_idx')->hasFlag('spatial'));
         $this->assertFalse($table->getIndex('linestring_idx')->isPrimary());
         $this->assertFalse($table->getIndex('linestring_idx')->isUnique());
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', array('linestring', 'point_2d'), false, false, array('spatial'));
+        $tableDiff->changedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
 
         $this->sm->alterTable($tableDiff);
 
         $table = $this->sm->listTableDetails('points');
         $this->assertTrue($table->hasIndex('linestring_idx'));
-        $this->assertEquals(array('linestring', 'point_2d'), array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
+        $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
 
         // renamedIndexes added in 2.5
         if (isset($tableDiff->renamedIndexes)) {
             $tableDiff->fromTable = $table;
-            $tableDiff->renamedIndexes['linestring_idx'] = new \Doctrine\DBAL\Schema\Index('linestring_renamed_idx', array('linestring', 'point_2d'), false, false, array('spatial'));
+            $tableDiff->renamedIndexes['linestring_idx'] = new \Doctrine\DBAL\Schema\Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
 
             $this->sm->alterTable($tableDiff);
 
             $table = $this->sm->listTableDetails('points');
             $this->assertTrue($table->hasIndex('linestring_renamed_idx'));
             $this->assertFalse($table->hasIndex('linestring_idx'));
-            $this->assertEquals(array('linestring', 'point_2d'), array_map('strtolower', $table->getIndex('linestring_renamed_idx')->getColumns()));
+            $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_renamed_idx')->getColumns()));
             $this->assertFalse($table->getIndex('linestring_renamed_idx')->isPrimary());
             $this->assertFalse($table->getIndex('linestring_renamed_idx')->isUnique());
         }
@@ -495,7 +495,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geography'), array()), array('type'), $table->getColumn('point_2d'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geography'), []), ['type'], $table->getColumn('point_2d'));
 
         $this->sm->alterTable($tableDiff);
     }
@@ -507,7 +507,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geometry'), array('customSchemaOptions' => array('geometry_type' => 'LINESTRING'))), array('geometry_type'), $table->getColumn('point_2d'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
 
         $this->sm->alterTable($tableDiff);
     }

@@ -11,7 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class ST_X extends FunctionNode
 {
-    protected $expressions = array();
+    protected $expressions = [];
 
     public function parse(Parser $parser)
     {
@@ -25,7 +25,7 @@ class ST_X extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker)
     {
-        $arguments = array();
+        $arguments = [];
 
         foreach ($this->expressions as $expression) {
             $arguments[] = $expression->dispatch($sqlWalker);

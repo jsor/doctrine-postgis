@@ -11,7 +11,7 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class ST_ClosestPoint extends FunctionNode
 {
-    protected $expressions = array();
+    protected $expressions = [];
 
     public function parse(Parser $parser)
     {
@@ -29,7 +29,7 @@ class ST_ClosestPoint extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker)
     {
-        $arguments = array();
+        $arguments = [];
 
         foreach ($this->expressions as $expression) {
             $arguments[] = $expression->dispatch($sqlWalker);

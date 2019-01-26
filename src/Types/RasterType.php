@@ -24,7 +24,7 @@ class RasterType extends Type
 
     public function getMappedDatabaseTypes(AbstractPlatform $platform)
     {
-        return array($this->getName());
+        return [$this->getName()];
     }
 
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
