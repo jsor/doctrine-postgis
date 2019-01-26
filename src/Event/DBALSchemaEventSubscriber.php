@@ -22,7 +22,10 @@ use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialColumnSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
+use Jsor\Doctrine\PostGIS\Types\GeographyType;
+use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Jsor\Doctrine\PostGIS\Types\RasterType;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
@@ -80,15 +83,15 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $this->postConnectCalled = true;
 
         if (!Type::hasType('geometry')) {
-            Type::addType('geometry', 'Jsor\Doctrine\PostGIS\Types\GeometryType');
+            Type::addType('geometry', GeometryType::class);
         }
 
         if (!Type::hasType('geography')) {
-            Type::addType('geography', 'Jsor\Doctrine\PostGIS\Types\GeographyType');
+            Type::addType('geography', GeographyType::class);
         }
 
         if (!Type::hasType('raster')) {
-            Type::addType('raster', 'Jsor\Doctrine\PostGIS\Types\RasterType');
+            Type::addType('raster', RasterType::class);
         }
     }
 

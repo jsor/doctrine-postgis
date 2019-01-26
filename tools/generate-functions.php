@@ -241,7 +241,7 @@ if (isset($options['alias_for'])) {
     $options = array_replace_recursive($functions[$options['alias_for']], $options);
 }
 ?>
-        $configuration->addCustom<?php echo isset($options['return_type']) ? ucfirst($options['return_type']) : 'String'; ?>Function('<?php echo $name; ?>', 'Jsor\Doctrine\PostGIS\Functions\<?php echo $name; ?>');
+        $configuration->addCustom<?php echo isset($options['return_type']) ? ucfirst($options['return_type']) : 'String'; ?>Function('<?php echo $name; ?>', <?php echo $name; ?>::class);
 <?php endforeach; ?>
     }
 }
