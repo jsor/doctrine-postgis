@@ -162,8 +162,8 @@ Simply set the `spatial` flag for indexes.
  * @Entity
  * @Table(
  *     indexes={
- *         @Index(name="idx_point", columns={"point"}, flags={"spatial"})),
- *         @Index(name="idx_polygon", columns={"polygon"}, flags={"spatial"}))
+ *         @Index(name="idx_point", columns={"point"}, flags={"spatial"}),
+ *         @Index(name="idx_polygon", columns={"polygon"}, flags={"spatial"})
  *     }
  * )
  */
