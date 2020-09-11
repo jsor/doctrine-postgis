@@ -80,15 +80,17 @@ doctrine:
 
 #### Migrations (:fire: important :fire:)
 
-By default, the commands `make:migrations` and `doctrine:migrations:diff` would try to drop **everything** in the *tiger*, *tiger_data* and *topology* schemas. This can be avoided by adding the `schema_filter` option to the aforementioned `config/packages/doctrine.yaml` file, e.g. if the Symfony Entities reside in the *public* schema (the default one):
+By default, Symfony's console commands `make:migrations` and `doctrine:migrations:diff` would try to drop **everything** in the *tiger*, *tiger_data* and *topology* schemas. This can be avoided by using the `schema_filter` option to the aforementioned `config/packages/doctrine.yaml` file, e.g. like this:
 
 ```yaml
 doctrine:
     dbal:
-        schema_filter: ~^public~
+        schema_filter: ~^(?!tiger)(?!topology)~
 ```
 
-See also: [Manual tables](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html#manual-tables) in Symfony Docs.
+The above value (`~^(?!tiger)(?!topology)~`) uses [lookahead regular expressions](https://www.rexegg.com/regex-lookarounds.html) to filter out all the namespaced tables beginning with "tiger" and "topology".
+
+*See also*: [Manual tables](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html#manual-tables) in Symfony Docs.
 
 #### Mapping types
 
