@@ -45,7 +45,7 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
 
-### Symfony
+### Symfony 5
 
 If you use Symfony, see the [documentation](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
 on how to register event subscribers.
@@ -61,7 +61,7 @@ services:
 
 It is also recommended to register the DBAL types in the
 [doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
-of the `config.yml`.
+of the `config/packages/doctrine.yaml` config file.
 
 ```yaml
 doctrine:
@@ -76,6 +76,31 @@ doctrine:
             raster:
                 class: 'Jsor\Doctrine\PostGIS\Types\RasterType'
                 commented: false
+```
+
+#### Migrations (:fire: important :fire:)
+
+By default, Symfony's console commands `make:migrations` and `doctrine:migrations:diff` would try to drop **everything** in the *tiger*, *tiger_data* and *topology* schemas. This can be avoided by using the `schema_filter` option to the aforementioned `config/packages/doctrine.yaml` file, e.g. like this:
+
+```yaml
+doctrine:
+    dbal:
+        schema_filter: ~^(?!tiger)(?!topology)~
+```
+
+The above value (`~^(?!tiger)(?!topology)~`) uses [lookahead regular expressions](https://www.rexegg.com/regex-lookarounds.html) to filter out all the namespaced tables beginning with "tiger" and "topology".
+
+*See also*: [Manual tables](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html#manual-tables) in Symfony Docs.
+
+#### Mapping types
+
+In the aforementioned `config/packages/doctrine.yaml` file, please add the following lines:
+
+```yaml
+doctrine:
+    dbal:
+        mapping_types:
+            _text: string
 ```
 
 Property Mapping
