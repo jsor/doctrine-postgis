@@ -5,6 +5,7 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 8.0
 
 # PostGIS Support Matrix: https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
 env:
