@@ -5,9 +5,6 @@ php:
   - 7.0
   - 7.1
   - 7.2
-  - 7.3
-  - 7.4
-  - 8.0
 
 # PostGIS Support Matrix: https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
 env:
@@ -40,7 +37,6 @@ env:
 
   - DOCTRINE_VERSION=^2.5.0 POSTGRESQL_VERSION=9.4 POSTGIS_VERSION=2.1
   - DOCTRINE_VERSION=^2.5.0 POSTGRESQL_VERSION=9.4 POSTGIS_VERSION=2.2
-  - DOCTRINE_VERSION=^2.5.0 POSTGRESQL_VERSION=11.0 POSTGIS_VERSION=2.5.3
 
 cache:
   directories:
