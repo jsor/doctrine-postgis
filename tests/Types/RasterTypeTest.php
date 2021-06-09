@@ -1,15 +1,15 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS\Types;
+namespace Jsor\Doctrine\PostGIS\Test\Types;
 
 use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\AbstractTestCase;
+use Jsor\Doctrine\PostGIS\Test\AbstractTestCase;
 
 class RasterTypeTest extends AbstractTestCase
 {
     protected $type;
 
-    protected function setUp()
+    protected function setUp():void
     {
         $this->_registerTypes();
 
@@ -23,14 +23,14 @@ class RasterTypeTest extends AbstractTestCase
 
     public function testConvertToPHPValue()
     {
-        $this->assertInternalType('string', $this->type->convertToPHPValue('foo', $this->getPlatformMock()));
-        $this->assertInternalType('string', $this->type->convertToPHPValue('', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToPHPValue('foo', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToPHPValue('', $this->getPlatformMock()));
     }
 
     public function testConvertToDatabaseValue()
     {
-        $this->assertInternalType('string', $this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
-        $this->assertInternalType('string', $this->type->convertToDatabaseValue('', $this->getPlatformMock()));
+        $this->assertIsString( $this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToDatabaseValue('', $this->getPlatformMock()));
     }
 
     public function testNullConversion()

@@ -2,19 +2,19 @@
 
 /* This file is auto-generated. Don't edit directly! */
 
-namespace Jsor\Doctrine\PostGIS\Functions;
+namespace Jsor\Doctrine\PostGIS\Test\Functions;
 
-use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
+use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_SnapToGridTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity'
         ]);
 
         $em = $this->_getEntityManager();
@@ -41,7 +41,7 @@ class ST_SnapToGridTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SnapToGrid(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\'),0.001)) as value1, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)\'), ST_GeomFromEWKT(\'POINT(1.12 2.22 3.2 4.4444)\'), 0.1, 0.1, 0.1, 0.01)) as value2, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)\'), 0.01)) AS value3 FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SnapToGrid(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\'),0.001)) as value1, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)\'), ST_GeomFromEWKT(\'POINT(1.12 2.22 3.2 4.4444)\'), 0.1, 0.1, 0.1, 0.01)) as value2, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)\'), 0.01)) AS value3 FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

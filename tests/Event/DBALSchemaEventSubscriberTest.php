@@ -1,11 +1,11 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS\Event;
+namespace Jsor\Doctrine\PostGIS\Test\Event;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
+use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 
 class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
@@ -14,7 +14,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
      */
     protected $sm;
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
@@ -24,7 +24,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->sm = $this->_getConnection()->getSchemaManager();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

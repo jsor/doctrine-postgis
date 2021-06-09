@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS;
+namespace Jsor\Doctrine\PostGIS\Test;
 
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\TestCase;

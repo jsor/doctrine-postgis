@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS;
+namespace Jsor\Doctrine\PostGIS\Test\fixtures;
 
 use Doctrine\ORM\Mapping as ORM;
 

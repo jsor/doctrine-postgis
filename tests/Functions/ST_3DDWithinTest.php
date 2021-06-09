@@ -2,10 +2,10 @@
 
 /* This file is auto-generated. Don't edit directly! */
 
-namespace Jsor\Doctrine\PostGIS\Functions;
+namespace Jsor\Doctrine\PostGIS\Test\Functions;
 
-use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
+use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 /**
  * @group postgis-2.x
@@ -13,12 +13,12 @@ use Jsor\Doctrine\PostGIS\PointsEntity;
  */
 class ST_3DDWithinTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            'Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity'
         ]);
 
         $em = $this->_getEntityManager();
@@ -45,7 +45,7 @@ class ST_3DDWithinTest extends AbstractFunctionalTestCase
 
     public function testQuery1()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

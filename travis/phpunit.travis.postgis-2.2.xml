@@ -33,8 +33,9 @@
         <var name="db_type" value="pdo_pgsql"/>
         <var name="db_host" value="localhost"/>
         <var name="db_username" value="postgres"/>
-        <var name="db_password" value=""/>
+        <var name="db_password" value="password"/>
         <var name="db_name" value="doctrine_postgis_tests"/>
-        <var name="db_port" value="5432"/>
+        <var name="db_port" value="5400"/>
+        <env name="POSTGIS_VERSION" value="2.2" force="true" />
     </php>
 </phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS;
+namespace Jsor\Doctrine\PostGIS\Test;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
@@ -38,7 +38,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
      */
     private $_schemaTool;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

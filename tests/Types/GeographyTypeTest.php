@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsor\Doctrine\PostGIS\Types;
+namespace Jsor\Doctrine\PostGIS\Test\Types;
 
 class GeographyTypeTest extends AbstractTypeTestCase
 {
