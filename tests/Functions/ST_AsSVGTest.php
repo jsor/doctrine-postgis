@@ -63,13 +63,9 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
   'value' => 'M 0 0 L 0 -1 1 -1 1 0 Z',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 
-    /**
-     * @group postgis-2.x
-     * @group postgis-2.1
-     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsSVG(ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 1, 5) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
@@ -94,6 +90,6 @@ class ST_AsSVGTest extends AbstractFunctionalTestCase
   'value' => 'x="5.23423" y="-6.34535"',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -18,7 +18,6 @@
 
     <groups>
         <exclude>
-            <group>postgis-1.5</group>
             <group>bug-postgis</group>
             <group>removed-in-postgis-3.x</group>
             <group>not-by-default</group>

@@ -66,10 +66,6 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result, '', 0.0001);
     }
 
-    /**
-     * @group postgis-2.x
-     * @group postgis-2.1
-     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\'), 5) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');

@@ -7,10 +7,6 @@ namespace Jsor\Doctrine\PostGIS\Test\Functions;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
-/**
- * @group postgis-2.x
- * @group postgis-2.1
- */
 class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,7 +63,7 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POINT(-115.17281600000001 36.11464599999999)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 
     public function testQuery2()
@@ -94,6 +90,6 @@ class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POINT(-115.13671875 36.123046875)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

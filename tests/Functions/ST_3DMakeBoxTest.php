@@ -7,12 +7,9 @@ namespace Jsor\Doctrine\PostGIS\Test\Functions;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
-/**
- * @group postgis-2.x
- */
 class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -66,6 +63,6 @@ class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
   'value' => 'BOX3D(-989502.1875 528439.5625 10,-987121.375 529933.1875 10)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

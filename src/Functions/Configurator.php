@@ -32,7 +32,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_LinestringFromWKB', ST_LinestringFromWKB::class);
         $configuration->addCustomStringFunction('ST_MakeBox2D', ST_MakeBox2D::class);
         $configuration->addCustomStringFunction('ST_3DMakeBox', ST_3DMakeBox::class);
-        $configuration->addCustomStringFunction('ST_MakeBox3D', ST_MakeBox3D::class);
         $configuration->addCustomStringFunction('ST_MakeLine', ST_MakeLine::class);
         $configuration->addCustomStringFunction('ST_MakeEnvelope', ST_MakeEnvelope::class);
         $configuration->addCustomStringFunction('ST_MakePolygon', ST_MakePolygon::class);
@@ -140,7 +139,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Intersects', ST_Intersects::class);
         $configuration->addCustomNumericFunction('ST_Length', ST_Length::class);
         $configuration->addCustomNumericFunction('ST_3DLength', ST_3DLength::class);
-        $configuration->addCustomNumericFunction('ST_Length3D', ST_Length3D::class);
         $configuration->addCustomNumericFunction('ST_LengthSpheroid', ST_LengthSpheroid::class);
         $configuration->addCustomNumericFunction('ST_LengthSpheroid', ST_LengthSpheroid::class);
         $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', ST_Length2D_Spheroid::class);

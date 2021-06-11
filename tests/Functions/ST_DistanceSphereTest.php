@@ -7,10 +7,6 @@ namespace Jsor\Doctrine\PostGIS\Test\Functions;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
-/**
- * @group postgis-2.x
- * @group postgis-2.2
- */
 class ST_DistanceSphereTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -43,9 +39,6 @@ class ST_DistanceSphereTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery1()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
@@ -71,35 +64,5 @@ class ST_DistanceSphereTest extends AbstractFunctionalTestCase
 ];
 
         $this->assertEquals($expected, $result);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testQuery2()
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, function (&$data) {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-  'value' => 123.475736916405,
-];
-
-        $this->assertEquals($expected, $result, '', 0.0001);
     }
 }

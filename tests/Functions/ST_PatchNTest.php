@@ -7,9 +7,6 @@ namespace Jsor\Doctrine\PostGIS\Test\Functions;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
-/**
- * @group postgis-2.x
- */
 class ST_PatchNTest extends AbstractFunctionalTestCase
 {
     protected function setUp():void

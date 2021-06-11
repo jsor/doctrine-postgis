@@ -93,9 +93,6 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result, '', 0.0001);
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery3()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');

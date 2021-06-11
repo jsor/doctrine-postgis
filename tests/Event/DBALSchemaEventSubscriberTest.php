@@ -327,9 +327,6 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         }
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testGetCreateTableSqlPostGIS2x()
     {
         $table = $this->sm->listTableDetails('points');
@@ -356,60 +353,6 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         }
     }
 
-    /**
-     * @group postgis-1.5
-     */
-    public function testGetCreateTableSqlPostGIS15()
-    {
-        $table = $this->sm->listTableDetails('points');
-
-        $sql = $this->_getConnection()->getDatabasePlatform()->getCreateTableSQL($table);
-
-        $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
-        $this->assertContains($expected, $sql);
-
-        $columns = [
-            "SELECT AddGeometryColumn('points', 'geometry', -1, 'GEOMETRY', 2)",
-            'ALTER TABLE points ALTER point SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point', -1, 'POINT', 2)",
-            'ALTER TABLE points ALTER point SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point_2d', 3785, 'POINT', 2)",
-            'ALTER TABLE points ALTER point_2d SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point_3dz', 3785, 'POINT', 3)",
-            'ALTER TABLE points ALTER point_3dz SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point_3dm', 3785, 'POINTM', 3)",
-            'ALTER TABLE points ALTER point_3dm SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point_4d', 3785, 'POINT', 4)",
-            'ALTER TABLE points ALTER point_4d SET NOT NULL',
-            "SELECT AddGeometryColumn('points', 'point_2d_nullable', 3785, 'POINT', 2)",
-            "SELECT AddGeometryColumn('points', 'point_2d_nosrid', -1, 'POINT', 2)",
-            'ALTER TABLE points ALTER point_2d_nosrid SET NOT NULL',
-        ];
-
-        foreach ($columns as $column) {
-            $this->assertContains($column, $sql);
-        }
-
-        $spatialIndexes = [
-            'CREATE INDEX idx_27ba8e29b7a5f324 ON points USING gist(point)',
-            'CREATE INDEX idx_27ba8e2999674a3d ON points USING gist(point_2d)',
-            'CREATE INDEX idx_27ba8e293be136c3 ON points USING gist(point_3dz)',
-            'CREATE INDEX idx_27ba8e29b832b304 ON points USING gist(point_3dm)',
-            'CREATE INDEX idx_27ba8e29cf3dedbb ON points USING gist(point_4d)',
-            'CREATE INDEX idx_27ba8e293c257075 ON points USING gist(point_2d_nullable)',
-            'CREATE INDEX idx_27ba8e293d5fe69e ON points USING gist(point_2d_nosrid)',
-            'CREATE INDEX idx_27ba8e295f51a43c ON points USING gist(point_geography_2d)',
-            'CREATE INDEX idx_27ba8e295afbb72d ON points USING gist(point_geography_2d_srid)',
-        ];
-
-        foreach ($spatialIndexes as $spatialIndex) {
-            $this->assertContains($spatialIndex, $sql);
-        }
-    }
-
-    /**
-     * @group postgis-2.x
-     */
     public function testGetDropTableSqlPostGIS2x()
     {
         $table = $this->sm->listTableDetails('points');
@@ -417,18 +360,6 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $sql = $this->_getConnection()->getDatabasePlatform()->getDropTableSQL($table);
 
         $this->assertEquals('DROP TABLE points', $sql);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testGetDropTableSqlPostGIS15()
-    {
-        $table = $this->sm->listTableDetails('points');
-
-        $sql = $this->_getConnection()->getDatabasePlatform()->getDropTableSQL($table);
-
-        $this->assertEquals("SELECT DropGeometryTable('points')", $sql);
     }
 
     public function testAlterTableScenario()

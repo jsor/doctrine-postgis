@@ -66,10 +66,6 @@ class ST_AsKMLTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @group postgis-2.x
-     * @group postgis-2.1
-     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsKML(ST_GeomFromText(\'SRID=4326;POINT(5.234234233242 6.34534534534)\'), 5, \'kmlprefix\') AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');

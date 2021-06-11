@@ -66,9 +66,6 @@ class ST_IsValidReasonTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $result, '', 0.0001);
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValidReason(ST_GeomFromText(\'LINESTRING(220227 150406,2220227 150407,222020 150410)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');

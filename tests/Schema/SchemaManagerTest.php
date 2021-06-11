@@ -7,7 +7,7 @@ use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 
 class SchemaManagerTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -195,19 +195,6 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('"user"', '"primary"'));
     }
 
-    /**
-     * @group postgis-1.5
-     */
-    public function testIsPostGis2OnPostGIS15()
-    {
-        $schemaManager = new SchemaManager($this->_getConnection());
-
-        $this->assertFalse($schemaManager->isPostGis2());
-    }
-
-    /**
-     * @group postgis-2.x
-     */
     public function testIsPostGis2OnPostGIS2x()
     {
         $schemaManager = new SchemaManager($this->_getConnection());
