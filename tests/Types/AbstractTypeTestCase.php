@@ -68,7 +68,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
 
     public function testConvertToDatabaseValue()
     {
-        $this->assertIsString( $this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
         $this->assertIsString($this->type->convertToDatabaseValue('', $this->getPlatformMock()));
     }
 

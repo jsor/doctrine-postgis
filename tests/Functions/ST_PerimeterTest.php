@@ -63,7 +63,7 @@ class ST_PerimeterTest extends AbstractFunctionalTestCase
   'value' => 122.630744000095,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result,  0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 
     public function testQuery2()
