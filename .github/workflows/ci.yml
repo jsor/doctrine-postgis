@@ -51,5 +51,5 @@ jobs:
       -   name: Install dependencies
           run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
 
-      -   name: Run Behat tests
+      -   name: Run phpunit tests
           run: php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-3-1.xml
