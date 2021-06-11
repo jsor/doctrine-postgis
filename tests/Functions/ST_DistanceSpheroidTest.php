@@ -7,13 +7,9 @@ namespace Jsor\Doctrine\PostGIS\Test\Functions;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
-/**
- * @group postgis-2.x
- * @group postgis-2.2
- */
 class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -64,9 +60,9 @@ class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.802076746845,
+  'value' => '123.802076747192',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

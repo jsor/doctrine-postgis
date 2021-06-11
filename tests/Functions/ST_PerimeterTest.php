@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_PerimeterTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -90,7 +90,7 @@ class ST_PerimeterTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 257.412311446337,
+  'value' => '257.412311446123',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

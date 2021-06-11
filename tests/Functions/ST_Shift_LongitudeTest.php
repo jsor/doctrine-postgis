@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_Shift_LongitudeTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,9 +60,9 @@ class ST_Shift_LongitudeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
+  'value' => 'LINESTRING(241.42000000000002 38.38,241.8 38.45)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -13,7 +13,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
  */
 class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -64,10 +64,10 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
+  'value' => 'BOX(-115.17281600000001 36.11464599999999,-115.172816 36.114646)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -94,7 +94,7 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'BOX(-180 -90,180 90)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery3()
@@ -118,9 +118,9 @@ class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
+  'value' => 'BOX(-115.17282128334045 36.11464083194733,-115.1728105545044 36.114646196365356)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

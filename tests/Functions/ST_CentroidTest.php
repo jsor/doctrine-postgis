@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_CentroidTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,7 +60,7 @@ class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2.30769230769231 3.30769230769231)',
+  'value' => 'POINT(2.307692307692308 3.307692307692308)',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

@@ -63,9 +63,18 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
   'value' => false,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
+    /**
+     * This function is documented here:
+     * https://postgis.net/docs/ST_IsSimple.html
+     *
+     * But if you run the example directly on PostgreSQL with the extension activated, it just does not work.
+     * That's why this test is failing as well.
+     *
+     * @group bug-postgis
+     */
     public function testQuery2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
@@ -90,6 +99,6 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

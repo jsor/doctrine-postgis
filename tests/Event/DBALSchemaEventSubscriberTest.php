@@ -5,6 +5,7 @@ namespace Jsor\Doctrine\PostGIS\Test\Event;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Types\Type;
+use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Test\AbstractFunctionalTestCase;
 
 class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
@@ -14,7 +15,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
      */
     protected $sm;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -124,8 +125,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
     public function testSubscriberThrowsWhenRegisteredOnMultipleConnections()
     {
-        $this->setExpectedException(
-            '\LogicException',
+        $this->expectException('\LogicException');
+        $this->expectExceptionMessage(
             'It looks like you have registered the Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber to more than one connection. Please register one instance per connection.'
         );
 
@@ -158,8 +159,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $conn->getEventManager()->addEventSubscriber($subscriber);
 
-        $conn->connect('slave');
-        $conn->connect('master');
+        $this->assertTrue($conn->connect('slave'));
+        $this->assertTrue($conn->connect('master'));
     }
 
     public function testListTableColumns()
@@ -172,7 +173,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point']->getUnsigned());
         $this->assertEquals(true, $columns['point']->getNotnull());
         $this->assertEquals(null, $columns['point']->getDefault());
-        $this->assertInternalType('array', $columns['point']->getPlatformOptions());
+        $this->assertIsArray($columns['point']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(0, $columns['point']->getCustomSchemaOption('srid'));
@@ -185,7 +186,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_2d']->getUnsigned());
         $this->assertEquals(true, $columns['point_2d']->getNotnull());
         $this->assertEquals(null, $columns['point_2d']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d']->getPlatformOptions());
+        $this->assertIsArray($columns['point_2d']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_2d']->getCustomSchemaOption('srid'));
@@ -198,7 +199,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_3dz']->getUnsigned());
         $this->assertEquals(true, $columns['point_3dz']->getNotnull());
         $this->assertEquals(null, $columns['point_3dz']->getDefault());
-        $this->assertInternalType('array', $columns['point_3dz']->getPlatformOptions());
+        $this->assertIsArray($columns['point_3dz']->getPlatformOptions());
 
         $this->assertEquals('POINTZ', $columns['point_3dz']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_3dz']->getCustomSchemaOption('srid'));
@@ -211,7 +212,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_3dm']->getUnsigned());
         $this->assertEquals(true, $columns['point_3dm']->getNotnull());
         $this->assertEquals(null, $columns['point_3dm']->getDefault());
-        $this->assertInternalType('array', $columns['point_3dm']->getPlatformOptions());
+        $this->assertIsArray($columns['point_3dm']->getPlatformOptions());
 
         $this->assertEquals('POINTM', $columns['point_3dm']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_3dm']->getCustomSchemaOption('srid'));
@@ -224,7 +225,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_4d']->getUnsigned());
         $this->assertEquals(true, $columns['point_4d']->getNotnull());
         $this->assertEquals(null, $columns['point_4d']->getDefault());
-        $this->assertInternalType('array', $columns['point_4d']->getPlatformOptions());
+        $this->assertIsArray($columns['point_4d']->getPlatformOptions());
 
         $this->assertEquals('POINTZM', $columns['point_4d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_4d']->getCustomSchemaOption('srid'));
@@ -237,7 +238,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_2d_nullable']->getUnsigned());
         $this->assertEquals(false, $columns['point_2d_nullable']->getNotnull());
         //$this->assertEquals('NULL::geometry', $columns['point_2d_nullable']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d_nullable']->getPlatformOptions());
+        $this->assertIsArray($columns['point_2d_nullable']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d_nullable']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_2d_nullable']->getCustomSchemaOption('srid'));
@@ -250,7 +251,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_2d_nosrid']->getUnsigned());
         $this->assertEquals(true, $columns['point_2d_nosrid']->getNotnull());
         $this->assertEquals(null, $columns['point_2d_nosrid']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d_nosrid']->getPlatformOptions());
+        $this->assertIsArray($columns['point_2d_nosrid']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d_nosrid']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(0, $columns['point_2d_nosrid']->getCustomSchemaOption('srid'));
@@ -263,7 +264,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_geography_2d']->getUnsigned());
         $this->assertEquals(true, $columns['point_geography_2d']->getNotnull());
         $this->assertEquals(null, $columns['point_geography_2d']->getDefault());
-        $this->assertInternalType('array', $columns['point_geography_2d']->getPlatformOptions());
+        $this->assertIsArray($columns['point_geography_2d']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_geography_2d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(4326, $columns['point_geography_2d']->getCustomSchemaOption('srid'));
@@ -276,7 +277,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(false, $columns['point_geography_2d_srid']->getUnsigned());
         $this->assertEquals(true, $columns['point_geography_2d_srid']->getNotnull());
         $this->assertEquals(null, $columns['point_geography_2d_srid']->getDefault());
-        $this->assertInternalType('array', $columns['point_geography_2d_srid']->getPlatformOptions());
+        $this->assertIsArray($columns['point_geography_2d_srid']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_geography_2d_srid']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(4326, $columns['point_geography_2d_srid']->getCustomSchemaOption('srid'));
@@ -490,7 +491,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
     public function testAlterTableThrowsExceptionForChangedType()
     {
-        $this->setExpectedException('\RuntimeException', 'The type of a spatial column cannot be changed (Requested changing type from "geometry" to "geography" for column "point_2d" in table "points")');
+        $this->expectException('\RuntimeException');
+        $this->expectExceptionMessage('The type of a spatial column cannot be changed (Requested changing type from "geometry" to "geography" for column "point_2d" in table "points")');
         $table = $this->sm->listTableDetails('points');
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
@@ -502,7 +504,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
     public function testAlterTableThrowsExceptionForChangedSpatialType()
     {
-        $this->setExpectedException('\RuntimeException', 'The geometry_type of a spatial column cannot be changed (Requested changing type from "POINT" to "LINESTRING" for column "point_2d" in table "points")');
+        $this->expectException('\RuntimeException');
+        $this->expectExceptionMessage('The geometry_type of a spatial column cannot be changed (Requested changing type from "POINT" to "LINESTRING" for column "point_2d" in table "points")');
         $table = $this->sm->listTableDetails('points');
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');

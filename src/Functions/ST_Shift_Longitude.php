@@ -31,6 +31,6 @@ class ST_Shift_Longitude extends FunctionNode
             $arguments[] = $expression->dispatch($sqlWalker);
         }
 
-        return 'ST_Shift_Longitude(' . implode(', ', $arguments) . ')';
+        return 'ST_ShiftLongitude(' . implode(', ', $arguments) . ')';
     }
 }

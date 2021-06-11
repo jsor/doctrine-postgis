@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -63,12 +63,12 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   'value' => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -90,6 +90,6 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

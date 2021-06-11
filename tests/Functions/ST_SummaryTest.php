@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_SummaryTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,7 +60,7 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Polygon[B] with 1 rings
+  'value' => 'Polygon[B] with 1 ring:
    ring 0 has 5 points',
 ];
 

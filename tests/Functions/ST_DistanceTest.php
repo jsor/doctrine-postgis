@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_DistanceTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -90,7 +90,7 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.475736916,
+  'value' => '123.47573692',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

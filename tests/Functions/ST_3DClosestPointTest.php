@@ -13,7 +13,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
  */
 class ST_3DClosestPointTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -64,7 +64,7 @@ class ST_3DClosestPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(54.6993798867619 128.935022917228 11.5475869506606)',
+  'value' => 'POINT(54.69937988676193 128.93502291722837 11.547586950660556)',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

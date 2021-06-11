@@ -13,7 +13,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
  */
 class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -64,7 +64,7 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
+  'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

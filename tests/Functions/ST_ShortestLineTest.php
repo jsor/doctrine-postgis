@@ -9,7 +9,7 @@ use Jsor\Doctrine\PostGIS\Test\fixtures\PointsEntity;
 
 class ST_ShortestLineTest extends AbstractFunctionalTestCase
 {
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,7 +60,7 @@ class ST_ShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
+  'value' => 'LINESTRING(100 100,73.07692307692307 115.38461538461539)',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);
