@@ -1,0 +1,97 @@
+name: Test suite
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  unit-test:
+    name: Unit tests
+    strategy:
+      matrix:
+        php: [ 8.0 ]
+        os: [ ubuntu-latest ]
+        include:
+          -   os: [ ubuntu-latest ]
+              php: 8.1
+              composer-flag: "'--ignore-platform-reqs'"
+
+          -   os: [ ubuntu-latest ]
+              php: 7.4
+              composer-flag: "'--prefer-lowest'"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      -   uses: actions/checkout@v2
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php }}
+
+      -   uses: actions/cache@v2
+          id: cache-composer
+          with:
+            path: ~/.composer/cache
+            key: composer-php-${{ matrix.php }}-${{ github.sha }}
+            restore-keys: composer-php-${{ matrix.php }}-
+
+      -   name: Valid composer.json
+          run: make test.composer
+
+      -   name: Install dependencies
+          run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
+
+      -   name: Run PHP CS Fixer
+          run: make test.phpcs
+
+      -   name: Run PHPUnit tests
+          run: make test.phpunit
+
+  functional-test:
+    name: Functionnal tests
+    strategy:
+      matrix:
+        php: [ 8.0 ]
+        os: [ ubuntu-latest ]
+        include:
+          -   os: [ ubuntu-latest ]
+              php: 8.1
+              composer-flag: "'--ignore-platform-reqs'"
+
+          -   os: [ ubuntu-latest ]
+              php: 7.4
+              composer-flag: "'--prefer-lowest'"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      -   uses: actions/checkout@v2
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php }}
+
+      -   uses: actions/cache@v2
+          id: cache-composer
+          with:
+              path: ~/.composer/cache
+              key: composer-php-${{ matrix.php }}-${{ github.sha }}
+              restore-keys: composer-php-${{ matrix.php }}-
+
+      -   uses: huaxk/postgis-action@v1
+          with:
+              postgresql version: '13'  # See https://hub.docker.com/r/mdillon/postgis for available versions, if it is not specified, use the default value 'latest'
+              postgresql password: 'password'   # This environment variable sets the superuser password for PostgreSQL, maybe string or secrets, the default superuser is defined by the input environment variable: postgresql user.
+              postgresql user: 'postgres'  # This optional environment variable is used in conjunction with postgresql password to set a user and its password. This variable will create the specified user with superuser power and a database with the same name. If it is not specified, then the default user of 'postgres' will be used.
+              postgresql db: 'doctrine_postgis_tests'  # This optional environment variable can be used to define a different name for the default database that is created when the image is first started. If it is not specified, then the value of postgresql user will be used.
+
+
+      -   name: Install dependencies
+          run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
+
+      -   name: Run Behat tests
+          run: php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-3-1.xml
