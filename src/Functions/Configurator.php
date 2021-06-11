@@ -130,7 +130,6 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_HausdorffDistance', ST_HausdorffDistance::class);
         $configuration->addCustomNumericFunction('ST_MaxDistance', ST_MaxDistance::class);
         $configuration->addCustomNumericFunction('ST_DistanceSphere', ST_DistanceSphere::class);
-        $configuration->addCustomNumericFunction('ST_Distance_Spheroid', ST_DistanceSpheroid::class);
         $configuration->addCustomNumericFunction('ST_DistanceSpheroid', ST_DistanceSpheroid::class);
         $configuration->addCustomStringFunction('ST_DFullyWithin', ST_DFullyWithin::class);
         $configuration->addCustomStringFunction('ST_DWithin', ST_DWithin::class);
@@ -139,7 +138,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Intersects', ST_Intersects::class);
         $configuration->addCustomNumericFunction('ST_Length', ST_Length::class);
         $configuration->addCustomNumericFunction('ST_3DLength', ST_3DLength::class);
-        $configuration->addCustomNumericFunction('ST_LengthSpheroid', ST_LengthSpheroid::class);
         $configuration->addCustomNumericFunction('ST_LengthSpheroid', ST_LengthSpheroid::class);
         $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', ST_Length2D_Spheroid::class);
         $configuration->addCustomStringFunction('ST_LongestLine', ST_LongestLine::class);
