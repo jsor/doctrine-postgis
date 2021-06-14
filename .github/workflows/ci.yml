@@ -11,6 +11,18 @@ on:
 jobs:
   unit-test:
     name: Unit tests
+
+    services:
+      postgres:
+        image: postgis/postgis:13-master
+        env:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'password'
+          POSTGRES_DB: 'doctrine_postgis_tests'
+        ports:
+          - 5433:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     strategy:
       matrix:
         php: [ 8.0 ]
@@ -39,14 +51,6 @@ jobs:
               path: ~/.composer/cache
               key: composer-php-${{ matrix.php }}-${{ github.sha }}
               restore-keys: composer-php-${{ matrix.php }}-
-
-      -   uses: Wishibam/postgis-action@v2
-          with:
-              postgresql version: '13'  # See https://hub.docker.com/r/postgis/postgis for available versions, if it is not specified, use the default value 'latest'
-              postgresql password: 'password'   # This environment variable sets the superuser password for PostgreSQL, maybe string or secrets, the default superuser is defined by the input environment variable: postgresql user.
-              postgresql user: 'postgres'  # This optional environment variable is used in conjunction with postgresql password to set a user and its password. This variable will create the specified user with superuser power and a database with the same name. If it is not specified, then the default user of 'postgres' will be used.
-              postgresql db: 'doctrine_postgis_tests'  # This optional environment variable can be used to define a different name for the default database that is created when the image is first started. If it is not specified, then the value of postgresql user will be used.
-
 
       -   name: Install dependencies
           run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
