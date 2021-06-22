@@ -2,9 +2,10 @@
 
 namespace Jsor\Doctrine\PostGIS\Test;
 
+use Cache\Adapter\PHPArray\ArrayCachePool;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Psr6\DoctrineProvider;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
@@ -140,8 +141,13 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _setupConfiguration(Configuration $config)
     {
-        $config->setMetadataCacheImpl(new ArrayCache());
-        $config->setQueryCacheImpl(new ArrayCache());
+        if (method_exists($config, 'setMetadataCache')) {
+            $config->setMetadataCache(new ArrayCachePool());
+            $config->setQueryCacheImpl(DoctrineProvider::wrap(new ArrayCachePool()));
+        } else {
+            $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
+            $config->setQueryCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
+        }
         $config->setProxyDir($GLOBALS['TESTS_TEMP_DIR']);
         $config->setProxyNamespace('Proxy');
         $config->setMetadataDriverImpl($this->_getMappingDriver());
@@ -157,7 +163,11 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     protected function _getMappingDriver()
     {
         $reader = new AnnotationReader();
-        $reader = new CachedReader($reader, new ArrayCache());
+        if (class_exists('\Doctrine\Common\Cache\ArrayCache')) {
+            $reader = new CachedReader($reader, new \Doctrine\Common\Cache\ArrayCache());
+        } else {
+            $reader = new CachedReader($reader, DoctrineProvider::wrap(new ArrayCachePool()));
+        }
 
         return new AnnotationDriver($reader);
     }
