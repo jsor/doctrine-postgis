@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
+use Jsor\Doctrine\PostGIS\Types\Base\TextArray;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
@@ -100,10 +102,16 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
             if (!Type::hasType('tsvector')) {
                 Type::addType('tsvector', 'Doctrine\DBAL\Types\TextType');
             }
+//            if (!Type::hasType('text[]')) {
+//                Type::addType('text[]', TextArray::class);
+//            }
 
             $platform = self::$_conn->getDatabasePlatform();
             $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
+//            $platform->registerDoctrineTypeMapping('_text', 'text[]');
         }
+
+        self::$_conn->executeQuery('CREATE EXTENSION IF NOT EXISTS postgis');
 
         return self::$_conn;
     }

@@ -22,6 +22,7 @@ use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialColumnSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
+use Jsor\Doctrine\PostGIS\Types\Base\TextArray;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
@@ -93,6 +94,13 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         if (!Type::hasType('raster')) {
             Type::addType('raster', RasterType::class);
         }
+
+        if (!Type::hasType('text[]')) {
+            Type::addType('text[]', TextArray::class);
+        }
+
+        $this->connection->getDatabasePlatform()->registerDoctrineTypeMapping('_text', 'text[]');
+        $this->connection->getSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('_text', 'text[]');
     }
 
     public function onSchemaCreateTable(SchemaCreateTableEventArgs $args)

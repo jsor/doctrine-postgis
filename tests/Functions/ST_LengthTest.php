@@ -87,7 +87,7 @@ class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '34346.2060960749',
+  'value' => '34346.20609607416',
 ];
 
         $this->assertEquals($expected, $result, '', 0.0001);

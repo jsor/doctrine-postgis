@@ -60,9 +60,9 @@ class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '123.802076747192',
+  'value' => '123.80207674721363',
 ];
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected['value'], $result['value']);
     }
 }

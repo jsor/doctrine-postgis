@@ -13,7 +13,7 @@ jobs:
     name: Unit tests
 
     services:
-      postgres:
+      postgres_13:
         image: postgis/postgis:13-master
         env:
           POSTGRES_USER: 'postgres'
@@ -23,10 +23,21 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+      postgres_11:
+        image: postgis/postgis:11-3.1
+        env:
+          POSTGRES_USER: 'postgres'
+          POSTGRES_PASSWORD: 'password'
+          POSTGRES_DB: 'doctrine_postgis_tests'
+        ports:
+          - 5433:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     strategy:
       matrix:
         php: [ 8.0 ]
         os: [ ubuntu-latest ]
+        postgres_version: [11, 13]
         include:
           -   os: [ ubuntu-latest ]
               php: 8.1
@@ -56,4 +67,4 @@ jobs:
           run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
 
       -   name: Run phpunit tests
-          run: php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-3-1.xml
+          run: php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-${{ matrix.postgres_version }}-3-1.xml

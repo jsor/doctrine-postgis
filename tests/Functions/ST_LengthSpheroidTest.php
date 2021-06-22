@@ -60,9 +60,9 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '85204.5207711811',
+  'value' => '85204.52077118108',
 ];
 
-        $this->assertEquals($expected, $result);
+        $this->assertEqualsWithDelta($expected['value'], $result['value'], 0.0001);
     }
 }
