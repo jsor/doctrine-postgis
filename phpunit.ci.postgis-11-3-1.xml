@@ -21,6 +21,7 @@
             <group>bug-postgis</group>
             <group>removed-in-postgis-3.x</group>
             <group>not-by-default</group>
+            <group>postgis-3.x</group>
         </exclude>
     </groups>
 

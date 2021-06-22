@@ -20,6 +20,7 @@
         <exclude>
             <group>bug-postgis</group>
             <group>removed-in-postgis-3.x</group>
+            <group>postgis-2.x</group>
             <group>not-by-default</group>
         </exclude>
     </groups>

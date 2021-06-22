@@ -39,7 +39,10 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    /**
+     * @group postgis-2.x
+     */
+    public function testQuery1Postgis2()
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
 
@@ -60,8 +63,38 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '85204.52077118108',
+  'value' => '85204.5207711811',
 ];
+
+        $this->assertEqualsWithDelta($expected['value'], $result['value'], 0.0001);
+    }
+
+    /**
+     * @group postgis-3.x
+     */
+    public function testQuery1Postgis3()
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\Test\\fixtures\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, function (&$data) {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+            'value' => '85204.52077118108',
+        ];
 
         $this->assertEqualsWithDelta($expected['value'], $result['value'], 0.0001);
     }
