@@ -63,6 +63,6 @@ class ST_GeometryNTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(0 0 1,1 1 1,1 2 1,1 1 1,0 0 1)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

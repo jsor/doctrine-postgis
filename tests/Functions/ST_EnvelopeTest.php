@@ -63,6 +63,6 @@ class ST_EnvelopeTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((0 0,0 3,1 3,1 0,0 0))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -63,7 +63,7 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_AsBinaryTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -63,7 +63,7 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
   'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
   'value' => 'CIRCULARSTRING(220268 150415 1,220227 150505 2,220227 150406 3)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

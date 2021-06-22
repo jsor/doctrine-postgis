@@ -63,6 +63,6 @@ class ST_ZMinTest extends AbstractFunctionalTestCase
   'value' => 3,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

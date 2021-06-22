@@ -63,7 +63,7 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
   'value' => 'POINT(3 3)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_EndPointTest extends AbstractFunctionalTestCase
   'value' => null,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

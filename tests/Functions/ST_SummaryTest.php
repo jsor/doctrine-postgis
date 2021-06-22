@@ -64,6 +64,6 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
    ring 0 has 5 points',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

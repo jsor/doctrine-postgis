@@ -63,6 +63,6 @@ class ST_MakeLineTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(1 2,3 4)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

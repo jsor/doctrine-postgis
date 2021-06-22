@@ -23,10 +23,11 @@
     ],
     "require": {
         "php": ">= 7.4",
-        "doctrine/dbal": "^2.6"
+        "doctrine/dbal": "^2.7.2"
     },
     "require-dev": {
-        "doctrine/orm": "^2.4",
+        "doctrine/orm": "^2.4.8",
+        "doctrine/annotations": "^v1.7.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "symfony/phpunit-bridge": "^5.3"
     },

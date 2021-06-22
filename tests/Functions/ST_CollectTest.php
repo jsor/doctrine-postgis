@@ -63,6 +63,6 @@ class ST_CollectTest extends AbstractFunctionalTestCase
   'value' => 'MULTIPOINT(1 2,-2 3)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

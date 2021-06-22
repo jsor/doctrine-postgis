@@ -63,6 +63,6 @@ class ST_PatchNTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

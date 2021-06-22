@@ -63,6 +63,6 @@ class ST_3DShortestLineTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(54.69937988676193 128.93502291722837 11.547586950660556,100 100 30)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

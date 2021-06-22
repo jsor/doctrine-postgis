@@ -48,6 +48,7 @@ jobs:
               php: 7.4
               composer-flag: "'--prefer-lowest'"
               postgres_version: 11
+              phpunit-env: "SYMFONY_DEPRECATIONS_HELPER=weak"
 
     runs-on: ${{ matrix.os }}
 
@@ -66,7 +67,7 @@ jobs:
               restore-keys: composer-php-${{ matrix.php }}-
 
       -   name: Install dependencies
-          run: composer update --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flag }}
+          run: composer update --prefer-dist --no-progress ${{ matrix.composer-flag }}
 
       -   name: Run phpunit tests
-          run: php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-${{ matrix.postgres_version }}-3-1.xml
+          run: ${{ matrix.phpunit-env }} php vendor/bin/simple-phpunit -c ./phpunit.ci.postgis-${{ matrix.postgres_version }}-3-1.xml

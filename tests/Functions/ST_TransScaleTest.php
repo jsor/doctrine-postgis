@@ -63,6 +63,6 @@ class ST_TransScaleTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(1.5 6 3,1.5 4 1)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

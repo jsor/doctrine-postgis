@@ -63,7 +63,7 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
   'value' => 'c0w3hf1s70w3hf1s70w3',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
   'value' => 'c0w3h',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

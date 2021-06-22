@@ -63,6 +63,6 @@ class ST_DifferenceTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(50 150,50 200)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -63,6 +63,6 @@ class ST_MaxDistanceTest extends AbstractFunctionalTestCase
   'value' => 2,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

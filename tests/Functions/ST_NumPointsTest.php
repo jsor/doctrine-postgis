@@ -63,6 +63,6 @@ class ST_NumPointsTest extends AbstractFunctionalTestCase
   'value' => 4,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

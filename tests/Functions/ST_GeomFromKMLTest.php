@@ -63,6 +63,6 @@ class ST_GeomFromKMLTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(-71.1663 42.2614,-71.1667 42.2616)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

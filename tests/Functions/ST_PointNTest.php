@@ -63,6 +63,6 @@ class ST_PointNTest extends AbstractFunctionalTestCase
   'value' => 'POINT(1 1)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

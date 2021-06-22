@@ -63,6 +63,6 @@ class ST_TranslateTest extends AbstractFunctionalTestCase
   'value' => 'POINT(-70.01 42.37)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

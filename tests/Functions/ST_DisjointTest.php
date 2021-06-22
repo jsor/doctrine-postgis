@@ -63,6 +63,6 @@ class ST_DisjointTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

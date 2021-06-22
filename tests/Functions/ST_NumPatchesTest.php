@@ -63,6 +63,6 @@ class ST_NumPatchesTest extends AbstractFunctionalTestCase
   'value' => 6,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

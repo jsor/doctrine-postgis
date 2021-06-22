@@ -63,6 +63,6 @@ class ST_MakeEnvelopeTest extends AbstractFunctionalTestCase
   'value' => 'SRID=4326;POLYGON((10 10,10 11,11 11,11 10,10 10))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

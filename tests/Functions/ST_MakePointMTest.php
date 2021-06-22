@@ -63,6 +63,6 @@ class ST_MakePointMTest extends AbstractFunctionalTestCase
   'value' => 'POINTM(-71.1043443253471 42.3150676015829 10)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

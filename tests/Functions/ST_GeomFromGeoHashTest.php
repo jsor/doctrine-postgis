@@ -63,7 +63,7 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 
     public function testQuery2()
@@ -90,6 +90,6 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((-115.3125 36.03515625,-115.3125 36.2109375,-114.9609375 36.2109375,-114.9609375 36.03515625,-115.3125 36.03515625))',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }

@@ -63,6 +63,6 @@ class ST_PointOnSurfaceTest extends AbstractFunctionalTestCase
   'value' => 'POINT(0 5)',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEquals($expected, $result);
     }
 }
