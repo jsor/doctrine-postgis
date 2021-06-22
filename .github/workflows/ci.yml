@@ -43,6 +43,7 @@ jobs:
               php: 8.1
               composer-flag: "'--ignore-platform-reqs'"
               postgres_version: 13
+              phpunit-env: "SYMFONY_DEPRECATIONS_HELPER=weak"
 
           -   os: [ ubuntu-latest ]
               php: 7.4
