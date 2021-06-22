@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Jsor\Doctrine\PostGIS\Types\Base;
-
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
@@ -22,7 +20,6 @@ class TextArray extends Type
      * @var string
      */
     protected const TYPE_NAME = 'text[]';
-
 
     public function getName(): string
     {
@@ -119,14 +116,14 @@ class TextArray extends Type
                     break;
                 }
 
-                $isInteger = \is_numeric($text) && ''.(int) $text === $text;
+                $isInteger = \is_numeric($text) && '' . (int) $text === $text;
                 if ($isInteger) {
                     $phpArray[$i] = (int) $text;
 
                     continue;
                 }
 
-                $isFloat = \is_numeric($text) && ''.(float) $text === $text;
+                $isFloat = \is_numeric($text) && '' . (float) $text === $text;
                 if ($isFloat) {
                     $phpArray[$i] = (float) $text;
 
@@ -157,12 +154,12 @@ class TextArray extends Type
                 if (\is_numeric($text) || \ctype_digit($text)) {
                     $escapedText = $text;
                 } else {
-                    $escapedText = '"'.\str_replace('"', '\"', $text).'"';
+                    $escapedText = '"' . \str_replace('"', '\"', $text) . '"';
                 }
                 $result[] = $escapedText;
             }
 
-            return '{'.\implode(',', $result).'}';
+            return '{' . \implode(',', $result) . '}';
         };
 
         return $transform($phpArray);

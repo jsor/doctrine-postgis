@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Jsor\Doctrine\PostGIS\Types;
-
 
 use Doctrine\DBAL\Types\TextType;
 
