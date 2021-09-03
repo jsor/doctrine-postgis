@@ -3,8 +3,6 @@
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
@@ -138,8 +136,6 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _setupConfiguration(Configuration $config)
     {
-        $config->setMetadataCacheImpl(new ArrayCache());
-        $config->setQueryCacheImpl(new ArrayCache());
         $config->setProxyDir($GLOBALS['TESTS_TEMP_DIR']);
         $config->setProxyNamespace('Proxy');
         $config->setMetadataDriverImpl($this->_getMappingDriver());
@@ -155,7 +151,6 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     protected function _getMappingDriver()
     {
         $reader = new AnnotationReader();
-        $reader = new CachedReader($reader, new ArrayCache());
 
         return new AnnotationDriver($reader);
     }

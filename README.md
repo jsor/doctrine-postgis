@@ -17,6 +17,10 @@ extension for PostgreSQL. Both PostGIS **1.5** and **2.x** are supported.
 Installation
 ------------
 
+**Note on using with PHP 8**: While it is possible to install this library on
+PHP 8, it is **not** officially support right now. Use with care and at your
+own risk.
+
 Install the latest version with [Composer](https://getcomposer.org).
 
 ```bash
