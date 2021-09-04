@@ -33,11 +33,11 @@
     <php>
         <env name="POSTGIS_VERSION" value="2.1"/>
 
-        <var name="db_type" value="pdo_pgsql"/>
-        <var name="db_host" value="localhost"/>
-        <var name="db_username" value="postgres"/>
-        <var name="db_password" value=""/>
-        <var name="db_name" value="doctrine_postgis_tests"/>
-        <var name="db_port" value="5432"/>
+        <env name="DB_TYPE" value="pdo_pgsql"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_USER" value="postgres"/>
+        <env name="DB_PASSWORD" value="postgres"/>
+        <env name="DB_NAME" value="postgres"/>
+        <env name="DB_PORT" value="5432"/>
     </php>
 </phpunit>

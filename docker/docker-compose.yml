@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  db-13-30:
+    image: postgis/postgis:13-3.0-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db-13-30
+
+  db-13-31:
+    image: postgis/postgis:13-3.1-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db-13-31
+
+networks:
+  db-13-30:
+    name: postgis-13-30
+    driver: bridge
+  db-13-31:
+    name: postgis-13-31
+    driver: bridge

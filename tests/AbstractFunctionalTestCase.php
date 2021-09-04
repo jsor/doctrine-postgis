@@ -77,12 +77,12 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     protected function _getDbParams()
     {
         return [
-            'driver' => $GLOBALS['db_type'],
-            'user' => $GLOBALS['db_username'],
-            'password' => $GLOBALS['db_password'],
-            'host' => $GLOBALS['db_host'],
-            'dbname' => $GLOBALS['db_name'],
-            'port' => $GLOBALS['db_port'],
+            'driver' => getenv('DB_TYPE'),
+            'user' => getenv('DB_USER'),
+            'password' => getenv('DB_PASSWORD'),
+            'host' => getenv('DB_HOST'),
+            'dbname' => getenv('DB_NAME'),
+            'port' => getenv('DB_PORT'),
         ];
     }
 
@@ -95,11 +95,16 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
             Configurator::configure(self::$_conn->getConfiguration());
 
+            if (!Type::hasType('_text')) {
+                Type::addType('_text', 'Doctrine\DBAL\Types\TextType');
+            }
+
             if (!Type::hasType('tsvector')) {
                 Type::addType('tsvector', 'Doctrine\DBAL\Types\TextType');
             }
 
             $platform = self::$_conn->getDatabasePlatform();
+            $platform->registerDoctrineTypeMapping('_text', '_text');
             $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
         }
 
