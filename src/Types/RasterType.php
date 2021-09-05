@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -12,27 +14,27 @@ use Doctrine\DBAL\Types\Type;
  */
 class RasterType extends Type
 {
-    public function getName()
+    public function getName(): string
     {
         return 'raster';
     }
 
-    public function canRequireSQLConversion()
+    public function canRequireSQLConversion(): bool
     {
         return true;
     }
 
-    public function getMappedDatabaseTypes(AbstractPlatform $platform)
+    public function getMappedDatabaseTypes(AbstractPlatform $platform): array
     {
         return [$this->getName()];
     }
 
-    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
         return sprintf('%s::raster', $sqlExpr);
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $this->getName();
     }

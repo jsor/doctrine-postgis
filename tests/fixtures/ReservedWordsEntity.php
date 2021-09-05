@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -19,17 +21,17 @@ class ReservedWordsEntity
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="geometry", name="`user`")
      */
-    private $user;
+    private ?string $user;
 
     /**
      * @ORM\Column(type="geography", name="`primary`")
      */
-    private $primary;
+    private ?string $primary;
 
     public function __construct(array $points)
     {
@@ -38,12 +40,12 @@ class ReservedWordsEntity
         }
     }
 
-    public function getUser()
+    public function getUser(): ?string
     {
         return $this->user;
     }
 
-    public function getPrimary()
+    public function getPrimary(): ?string
     {
         return $this->primary;
     }

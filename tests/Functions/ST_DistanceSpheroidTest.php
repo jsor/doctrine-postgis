@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
+use function is_resource;
+use function is_string;
 
 /**
  * @group postgis-2.x
@@ -13,12 +17,12 @@ use Jsor\Doctrine\PostGIS\PointsEntity;
  */
 class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -43,13 +47,13 @@ class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSpheroid(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326), \'SPHEROID["WGS 84",6378137,298.257223563]\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -67,6 +71,6 @@ class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
   'value' => 123.802076746845,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 }

@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
+use function is_resource;
+use function is_string;
 
 class ST_PolygonTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -39,13 +43,13 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Polygon(ST_GeomFromText(\'LINESTRING(75.15 29.53,77 29,77.6 29.5, 75.15 29.53)\'), 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -63,6 +67,6 @@ class ST_PolygonTest extends AbstractFunctionalTestCase
   'value' => '0103000020E610000001000000040000009A99999999C9524048E17A14AE873D4000000000004053400000000000003D4066666666666653400000000000803D409A99999999C9524048E17A14AE873D40',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 }

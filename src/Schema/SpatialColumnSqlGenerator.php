@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
@@ -9,14 +11,14 @@ use Doctrine\DBAL\Schema\Table;
 
 class SpatialColumnSqlGenerator
 {
-    private $platform;
+    private PostgreSqlPlatform $platform;
 
     public function __construct(PostgreSqlPlatform $platform)
     {
         $this->platform = $platform;
     }
 
-    public function getSql(Column $column, $table)
+    public function getSql(Column $column, Table|string $table): array
     {
         if (!$table instanceof Table) {
             $table = new Identifier($table);
@@ -37,12 +39,12 @@ class SpatialColumnSqlGenerator
 
         $type = strtoupper($normalized['geometry_type']);
 
-        if ('ZM' === substr($type, -2)) {
+        if (str_ends_with($type, 'ZM')) {
             $dimension = 4;
             $type = substr($type, 0, -2);
-        } elseif ('M' === substr($type, -1)) {
+        } elseif (str_ends_with($type, 'M')) {
             $dimension = 3;
-        } elseif ('Z' === substr($type, -1)) {
+        } elseif (str_ends_with($type, 'Z')) {
             $dimension = 3;
             $type = substr($type, 0, -1);
         } else {

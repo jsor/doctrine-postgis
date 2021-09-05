@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Types\Type;
@@ -7,21 +9,21 @@ use Jsor\Doctrine\PostGIS\AbstractTestCase;
 
 abstract class AbstractTypeTestCase extends AbstractTestCase
 {
-    protected $type;
+    protected ?Type $type = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->_registerTypes();
 
         $this->type = Type::getType($this->getTypeName());
     }
 
-    abstract protected function getTypeName();
+    abstract protected function getTypeName(): string;
 
     /**
      * @dataProvider getSQLDeclarationDataProvider
      */
-    public function testGetSQLDeclaration($type)
+    public function testGetSQLDeclaration($type): void
     {
         $defaultSrid = $this->type instanceof GeographyType ? 4326 : 0;
 
@@ -29,7 +31,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
         $this->assertEquals(sprintf('%s(%s, %d)', $this->getTypeName(), $type, 1234), $this->type->getSqlDeclaration(['name' => 'test', 'geometry_type' => $type, 'srid' => 1234], $this->getPlatformMock()));
     }
 
-    public function getSQLDeclarationDataProvider()
+    public function getSQLDeclarationDataProvider(): array
     {
         $dimensions = [
             '',
@@ -59,31 +61,31 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
         return $data;
     }
 
-    public function testConvertToPHPValue()
+    public function testConvertToPHPValue(): void
     {
-        $this->assertInternalType('string', $this->type->convertToPHPValue('foo', $this->getPlatformMock()));
-        $this->assertInternalType('string', $this->type->convertToPHPValue('', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToPHPValue('foo', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToPHPValue('', $this->getPlatformMock()));
     }
 
-    public function testConvertToDatabaseValue()
+    public function testConvertToDatabaseValue(): void
     {
-        $this->assertInternalType('string', $this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
-        $this->assertInternalType('string', $this->type->convertToDatabaseValue('', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToDatabaseValue('foo', $this->getPlatformMock()));
+        $this->assertIsString($this->type->convertToDatabaseValue('', $this->getPlatformMock()));
     }
 
-    public function testNullConversion()
+    public function testNullConversion(): void
     {
         $this->assertNull($this->type->convertToPHPValue(null, $this->getPlatformMock()));
     }
 
-    public function testConvertToPHPValueSQL()
+    public function testConvertToPHPValueSQL(): void
     {
         $this->assertTrue($this->type->canRequireSQLConversion());
 
         $this->assertEquals('ST_AsEWKT(foo::geometry)', $this->type->convertToPHPValueSQL('foo', $this->getPlatformMock()));
     }
 
-    public function testConvertToDatabaseValueSQL()
+    public function testConvertToDatabaseValueSQL(): void
     {
         $this->assertTrue($this->type->canRequireSQLConversion());
 

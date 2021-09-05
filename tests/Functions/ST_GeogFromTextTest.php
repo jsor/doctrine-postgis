@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
+use function is_resource;
+use function is_string;
 
 class ST_GeogFromTextTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -39,13 +43,13 @@ class ST_GeogFromTextTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_GeogFromText(\'SRID=4326;LINESTRING(-71.160281 42.258729,-71.160837 42.259113,-71.161144 42.25932)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -63,6 +67,6 @@ class ST_GeogFromTextTest extends AbstractFunctionalTestCase
   'value' => '0102000020E610000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 }

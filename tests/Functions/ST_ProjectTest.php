@@ -1,23 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
+use function is_resource;
+use function is_string;
 
 /**
  * @group postgis-2.x
  */
 class ST_ProjectTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -42,13 +46,13 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_X(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))) as value1, ST_Y(ST_GeomFromText(ST_AsText(ST_Project(ST_GeomFromText(\'POINT(0 0)\'), 100000, 0.785398163397448)))) AS value2 FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -67,6 +71,6 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
   'value2' => 0.639472334729198,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 }

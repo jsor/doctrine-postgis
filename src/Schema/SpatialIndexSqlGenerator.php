@@ -1,21 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
+use InvalidArgumentException;
+use function count;
 
 class SpatialIndexSqlGenerator
 {
-    private $platform;
+    private PostgreSqlPlatform $platform;
 
     public function __construct(PostgreSqlPlatform $platform)
     {
         $this->platform = $platform;
     }
 
-    public function getSql(Index $index, $table)
+    public function getSql(Index $index, $table): string
     {
         if ($table instanceof Table) {
             $table = $table->getQuotedName($this->platform);
@@ -24,8 +28,8 @@ class SpatialIndexSqlGenerator
         $name = $index->getQuotedName($this->platform);
         $columns = $index->getQuotedColumns($this->platform);
 
-        if (count($columns) === 0) {
-            throw new \InvalidArgumentException("Incomplete definition. 'columns' required.");
+        if (0 === count($columns)) {
+            throw new InvalidArgumentException("Incomplete definition. 'columns' required.");
         }
 
         if ($index->isPrimary()) {

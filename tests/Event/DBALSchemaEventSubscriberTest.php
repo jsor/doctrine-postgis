@@ -1,20 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
+use Jsor\Doctrine\PostGIS\Types\GeographyType;
+use Jsor\Doctrine\PostGIS\Types\GeometryType;
+use LogicException;
+use RuntimeException;
 
 class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
-    /**
-     * @var \Doctrine\DBAL\Schema\AbstractSchemaManager
-     */
-    protected $sm;
+    protected ?AbstractSchemaManager $sm;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -24,16 +33,16 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->sm = $this->_getConnection()->getSchemaManager();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
     }
 
-    protected function createTableSchema()
+    protected function createTableSchema(): Table
     {
-        $table = new \Doctrine\DBAL\Schema\Table('points');
+        $table = new Table('points');
         $table->addColumn('id', 'integer', ['notnull' => true]);
         $table->addColumn('text', 'text', ['notnull' => true]);
         $table->addColumn('tsvector', 'tsvector', ['notnull' => true]);
@@ -122,10 +131,12 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         return $table;
     }
 
-    public function testSubscriberThrowsWhenRegisteredOnMultipleConnections()
+    public function testSubscriberThrowsWhenRegisteredOnMultipleConnections(): void
     {
-        $this->setExpectedException(
-            '\LogicException',
+        $this->expectException(
+            LogicException::class,
+        );
+        $this->expectExceptionMessage(
             'It looks like you have registered the Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber to more than one connection. Please register one instance per connection.'
         );
 
@@ -141,7 +152,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $conn2->connect();
     }
 
-    public function testSubscriberDoesNotThrowWhenRegisteredOnMasterSlaveConnectionAndConnectionSwitches()
+    public function testSubscriberDoesNotThrowWhenRegisteredOnMasterSlaveConnectionAndConnectionSwitches(): void
     {
         $subscriber = new DBALSchemaEventSubscriber();
 
@@ -152,8 +163,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             'driver' => $dbParams['driver'],
             'master' => $dbParams,
             'slaves' => [
-                $dbParams
-            ]
+                $dbParams,
+            ],
         ]);
 
         $conn->getEventManager()->addEventSubscriber($subscriber);
@@ -162,17 +173,17 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $conn->connect('master');
     }
 
-    public function testListTableColumns()
+    public function testListTableColumns(): void
     {
         $columns = $this->sm->listTableColumns('points');
 
         $this->assertArrayHasKey('point', $columns);
         $this->assertEquals('point', strtolower($columns['point']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point']->getType());
-        $this->assertEquals(false, $columns['point']->getUnsigned());
-        $this->assertEquals(true, $columns['point']->getNotnull());
-        $this->assertEquals(null, $columns['point']->getDefault());
-        $this->assertInternalType('array', $columns['point']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point']->getType());
+        $this->assertFalse($columns['point']->getUnsigned());
+        $this->assertTrue($columns['point']->getNotnull());
+        $this->assertNull($columns['point']->getDefault());
+        $this->assertIsArray($columns['point']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(0, $columns['point']->getCustomSchemaOption('srid'));
@@ -181,11 +192,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_2d', $columns);
         $this->assertEquals('point_2d', strtolower($columns['point_2d']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_2d']->getType());
-        $this->assertEquals(false, $columns['point_2d']->getUnsigned());
-        $this->assertEquals(true, $columns['point_2d']->getNotnull());
-        $this->assertEquals(null, $columns['point_2d']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_2d']->getType());
+        $this->assertFalse($columns['point_2d']->getUnsigned());
+        $this->assertTrue($columns['point_2d']->getNotnull());
+        $this->assertNull($columns['point_2d']->getDefault());
+        $this->assertIsArray($columns['point_2d']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_2d']->getCustomSchemaOption('srid'));
@@ -194,11 +205,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_3dz', $columns);
         $this->assertEquals('point_3dz', strtolower($columns['point_3dz']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_3dz']->getType());
-        $this->assertEquals(false, $columns['point_3dz']->getUnsigned());
-        $this->assertEquals(true, $columns['point_3dz']->getNotnull());
-        $this->assertEquals(null, $columns['point_3dz']->getDefault());
-        $this->assertInternalType('array', $columns['point_3dz']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_3dz']->getType());
+        $this->assertFalse($columns['point_3dz']->getUnsigned());
+        $this->assertTrue($columns['point_3dz']->getNotnull());
+        $this->assertNull($columns['point_3dz']->getDefault());
+        $this->assertIsArray($columns['point_3dz']->getPlatformOptions());
 
         $this->assertEquals('POINTZ', $columns['point_3dz']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_3dz']->getCustomSchemaOption('srid'));
@@ -207,11 +218,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_3dm', $columns);
         $this->assertEquals('point_3dm', strtolower($columns['point_3dm']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_3dm']->getType());
-        $this->assertEquals(false, $columns['point_3dm']->getUnsigned());
-        $this->assertEquals(true, $columns['point_3dm']->getNotnull());
-        $this->assertEquals(null, $columns['point_3dm']->getDefault());
-        $this->assertInternalType('array', $columns['point_3dm']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_3dm']->getType());
+        $this->assertFalse($columns['point_3dm']->getUnsigned());
+        $this->assertTrue($columns['point_3dm']->getNotnull());
+        $this->assertNull($columns['point_3dm']->getDefault());
+        $this->assertIsArray($columns['point_3dm']->getPlatformOptions());
 
         $this->assertEquals('POINTM', $columns['point_3dm']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_3dm']->getCustomSchemaOption('srid'));
@@ -220,11 +231,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_2d_nosrid', $columns);
         $this->assertEquals('point_4d', strtolower($columns['point_4d']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_4d']->getType());
-        $this->assertEquals(false, $columns['point_4d']->getUnsigned());
-        $this->assertEquals(true, $columns['point_4d']->getNotnull());
-        $this->assertEquals(null, $columns['point_4d']->getDefault());
-        $this->assertInternalType('array', $columns['point_4d']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_4d']->getType());
+        $this->assertFalse($columns['point_4d']->getUnsigned());
+        $this->assertTrue($columns['point_4d']->getNotnull());
+        $this->assertNull($columns['point_4d']->getDefault());
+        $this->assertIsArray($columns['point_4d']->getPlatformOptions());
 
         $this->assertEquals('POINTZM', $columns['point_4d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_4d']->getCustomSchemaOption('srid'));
@@ -233,11 +244,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_2d_nullable', $columns);
         $this->assertEquals('point_2d_nullable', strtolower($columns['point_2d_nullable']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_2d_nullable']->getType());
-        $this->assertEquals(false, $columns['point_2d_nullable']->getUnsigned());
-        $this->assertEquals(false, $columns['point_2d_nullable']->getNotnull());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_2d_nullable']->getType());
+        $this->assertFalse($columns['point_2d_nullable']->getUnsigned());
+        $this->assertFalse($columns['point_2d_nullable']->getNotnull());
         //$this->assertEquals('NULL::geometry', $columns['point_2d_nullable']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d_nullable']->getPlatformOptions());
+        $this->assertIsArray($columns['point_2d_nullable']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d_nullable']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(3785, $columns['point_2d_nullable']->getCustomSchemaOption('srid'));
@@ -246,11 +257,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_2d_nosrid', $columns);
         $this->assertEquals('point_2d_nosrid', strtolower($columns['point_2d_nosrid']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeometryType', $columns['point_2d_nosrid']->getType());
-        $this->assertEquals(false, $columns['point_2d_nosrid']->getUnsigned());
-        $this->assertEquals(true, $columns['point_2d_nosrid']->getNotnull());
-        $this->assertEquals(null, $columns['point_2d_nosrid']->getDefault());
-        $this->assertInternalType('array', $columns['point_2d_nosrid']->getPlatformOptions());
+        $this->assertInstanceOf(GeometryType::class, $columns['point_2d_nosrid']->getType());
+        $this->assertFalse($columns['point_2d_nosrid']->getUnsigned());
+        $this->assertTrue($columns['point_2d_nosrid']->getNotnull());
+        $this->assertNull($columns['point_2d_nosrid']->getDefault());
+        $this->assertIsArray($columns['point_2d_nosrid']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d_nosrid']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(0, $columns['point_2d_nosrid']->getCustomSchemaOption('srid'));
@@ -259,11 +270,11 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_geography_2d', $columns);
         $this->assertEquals('point_geography_2d', strtolower($columns['point_geography_2d']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeographyType', $columns['point_geography_2d']->getType());
-        $this->assertEquals(false, $columns['point_geography_2d']->getUnsigned());
-        $this->assertEquals(true, $columns['point_geography_2d']->getNotnull());
-        $this->assertEquals(null, $columns['point_geography_2d']->getDefault());
-        $this->assertInternalType('array', $columns['point_geography_2d']->getPlatformOptions());
+        $this->assertInstanceOf(GeographyType::class, $columns['point_geography_2d']->getType());
+        $this->assertFalse($columns['point_geography_2d']->getUnsigned());
+        $this->assertTrue($columns['point_geography_2d']->getNotnull());
+        $this->assertNull($columns['point_geography_2d']->getDefault());
+        $this->assertIsArray($columns['point_geography_2d']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_geography_2d']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(4326, $columns['point_geography_2d']->getCustomSchemaOption('srid'));
@@ -272,28 +283,28 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $this->assertArrayHasKey('point_geography_2d_srid', $columns);
         $this->assertEquals('point_geography_2d_srid', strtolower($columns['point_geography_2d_srid']->getName()));
-        $this->assertInstanceOf('Jsor\Doctrine\PostGIS\Types\GeographyType', $columns['point_geography_2d_srid']->getType());
-        $this->assertEquals(false, $columns['point_geography_2d_srid']->getUnsigned());
-        $this->assertEquals(true, $columns['point_geography_2d_srid']->getNotnull());
-        $this->assertEquals(null, $columns['point_geography_2d_srid']->getDefault());
-        $this->assertInternalType('array', $columns['point_geography_2d_srid']->getPlatformOptions());
+        $this->assertInstanceOf(GeographyType::class, $columns['point_geography_2d_srid']->getType());
+        $this->assertFalse($columns['point_geography_2d_srid']->getUnsigned());
+        $this->assertTrue($columns['point_geography_2d_srid']->getNotnull());
+        $this->assertNull($columns['point_geography_2d_srid']->getDefault());
+        $this->assertIsArray($columns['point_geography_2d_srid']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_geography_2d_srid']->getCustomSchemaOption('geometry_type'));
         $this->assertEquals(4326, $columns['point_geography_2d_srid']->getCustomSchemaOption('srid'));
     }
 
-    public function testDiffListTableColumns()
+    public function testDiffListTableColumns(): void
     {
         $offlineTable = $this->createTableSchema();
         $onlineTable = $this->sm->listTableDetails('points');
 
-        $comparator = new \Doctrine\DBAL\Schema\Comparator();
+        $comparator = new Comparator();
         $diff = $comparator->diffTable($offlineTable, $onlineTable);
 
         $this->assertFalse($diff, 'No differences should be detected with the offline vs online schema.');
     }
 
-    public function testListTableIndexes()
+    public function testListTableIndexes(): void
     {
         $indexes = $this->sm->listTableIndexes('points');
 
@@ -329,7 +340,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-2.x
      */
-    public function testGetCreateTableSqlPostGIS2x()
+    public function testGetCreateTableSqlPostGIS2x(): void
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -358,7 +369,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-1.5
      */
-    public function testGetCreateTableSqlPostGIS15()
+    public function testGetCreateTableSqlPostGIS15(): void
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -409,7 +420,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-2.x
      */
-    public function testGetDropTableSqlPostGIS2x()
+    public function testGetDropTableSqlPostGIS2x(): void
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -421,7 +432,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-1.5
      */
-    public function testGetDropTableSqlPostGIS15()
+    public function testGetDropTableSqlPostGIS15(): void
     {
         $table = $this->sm->listTableDetails('points');
 
@@ -430,15 +441,15 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals("SELECT DropGeometryTable('points')", $sql);
     }
 
-    public function testAlterTableScenario()
+    public function testAlterTableScenario(): void
     {
         $table = $this->sm->listTableDetails('points');
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedColumns['linestring'] = new \Doctrine\DBAL\Schema\Column('linestring', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $tableDiff->addedColumns['linestring'] = new Column('linestring', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
         $tableDiff->removedColumns['point'] = $table->getColumn('point');
-        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new \Doctrine\DBAL\Schema\Column('point_3dm', Type::getType('geometry'), ['customSchemaOptions' => ['srid' => 4326]]), ['srid'], $table->getColumn('point_3dm'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new Column('point_3dm', Type::getType('geometry'), ['customSchemaOptions' => ['srid' => 4326]]), ['srid'], $table->getColumn('point_3dm'));
 
         $this->sm->alterTable($tableDiff);
 
@@ -447,9 +458,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertTrue($table->hasColumn('linestring'));
         $this->assertEquals(4326, $table->getColumn('point_3dm')->getCustomSchemaOption('srid'));
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', ['linestring'], false, false, ['spatial']);
+        $tableDiff->addedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, ['spatial']);
 
         $this->sm->alterTable($tableDiff);
 
@@ -460,9 +471,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertFalse($table->getIndex('linestring_idx')->isPrimary());
         $this->assertFalse($table->getIndex('linestring_idx')->isUnique());
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new \Doctrine\DBAL\Schema\Index('linestring_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $tableDiff->changedIndexes[] = new Index('linestring_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
 
         $this->sm->alterTable($tableDiff);
 
@@ -470,12 +481,12 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertTrue($table->hasIndex('linestring_idx'));
         $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
 
         // renamedIndexes added in 2.5
         if (isset($tableDiff->renamedIndexes)) {
             $tableDiff->fromTable = $table;
-            $tableDiff->renamedIndexes['linestring_idx'] = new \Doctrine\DBAL\Schema\Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+            $tableDiff->renamedIndexes['linestring_idx'] = new Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
 
             $this->sm->alterTable($tableDiff);
 
@@ -488,26 +499,30 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         }
     }
 
-    public function testAlterTableThrowsExceptionForChangedType()
+    public function testAlterTableThrowsExceptionForChangedType(): void
     {
-        $this->setExpectedException('\RuntimeException', 'The type of a spatial column cannot be changed (Requested changing type from "geometry" to "geography" for column "point_2d" in table "points")');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The type of a spatial column cannot be changed (Requested changing type from "geometry" to "geography" for column "point_2d" in table "points")');
+
         $table = $this->sm->listTableDetails('points');
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geography'), []), ['type'], $table->getColumn('point_2d'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new Column('point_2d', Type::getType('geography'), []), ['type'], $table->getColumn('point_2d'));
 
         $this->sm->alterTable($tableDiff);
     }
 
-    public function testAlterTableThrowsExceptionForChangedSpatialType()
+    public function testAlterTableThrowsExceptionForChangedSpatialType(): void
     {
-        $this->setExpectedException('\RuntimeException', 'The geometry_type of a spatial column cannot be changed (Requested changing type from "POINT" to "LINESTRING" for column "point_2d" in table "points")');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The geometry_type of a spatial column cannot be changed (Requested changing type from "POINT" to "LINESTRING" for column "point_2d" in table "points")');
+
         $table = $this->sm->listTableDetails('points');
 
-        $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
+        $tableDiff = new TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new Column('point_2d', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
 
         $this->sm->alterTable($tableDiff);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
@@ -8,12 +10,12 @@ use Doctrine\DBAL\Schema\Table;
 
 class CreateTableSqlGenerator
 {
-    private $platform;
-    private $isPostGis2;
-    private $spatialColumnSqlGenerator;
-    private $spatialIndexSqlGenerator;
+    private PostgreSqlPlatform $platform;
+    private bool $isPostGis2;
+    private SpatialColumnSqlGenerator $spatialColumnSqlGenerator;
+    private SpatialIndexSqlGenerator $spatialIndexSqlGenerator;
 
-    public function __construct(PostgreSqlPlatform $platform, $isPostGis2 = true)
+    public function __construct(PostgreSqlPlatform $platform, bool $isPostGis2 = true)
     {
         $this->platform = $platform;
         $this->isPostGis2 = $isPostGis2;
@@ -21,7 +23,7 @@ class CreateTableSqlGenerator
         $this->spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
     }
 
-    public function getSql(Table $table, array $columns, array $options = [])
+    public function getSql(Table $table, array $columns, array $options = []): array
     {
         $spatialGeometryColumns = [];
 
@@ -68,7 +70,7 @@ class CreateTableSqlGenerator
         return $sql;
     }
 
-    public function getCreateTableSQL(Table $table, array $columns, array $options = [])
+    public function getCreateTableSQL(Table $table, array $columns, array $options = []): array
     {
         $tableName = $table->getQuotedName($this->platform);
 
@@ -90,11 +92,11 @@ class CreateTableSqlGenerator
      * Full replacement of Doctrine\DBAL\Platforms\PostgreSqlPlatform::_getCreateTableSQL,
      * check on updates!
      */
-    public function _getCreateTableSQL($tableName, array $columns, array $options = [])
+    public function _getCreateTableSQL(string $tableName, array $columns, array $options = []): array
     {
         $queryFields = $this->platform->getColumnDeclarationListSQL($columns);
 
-        if (isset($options['primary']) && ! empty($options['primary'])) {
+        if (isset($options['primary']) && !empty($options['primary'])) {
             $keyColumns = array_unique(array_values($options['primary']));
             $queryFields .= ', PRIMARY KEY(' . implode(', ', $keyColumns) . ')';
         }
@@ -103,7 +105,7 @@ class CreateTableSqlGenerator
 
         $sql[] = $query;
 
-        if (isset($options['indexes']) && ! empty($options['indexes'])) {
+        if (isset($options['indexes']) && !empty($options['indexes'])) {
             foreach ($options['indexes'] as $index) {
                 $sql[] = $this->platform->getCreateIndexSQL($index, $tableName);
             }
@@ -122,12 +124,12 @@ class CreateTableSqlGenerator
      * Full replacement of Doctrine\DBAL\Platforms\AbstractPlatform::getColumnComment,
      * check on updates!
      */
-    protected function getColumnComment(Column $column)
+    protected function getColumnComment(Column $column): ?string
     {
         $comment = $column->getComment();
 
         if ($this->platform->isCommentedDoctrineType($column->getType())) {
-            $comment .= $this->platform->getDoctrineTypeComment($column->getType());
+            $comment = ($comment ?? '') . $this->platform->getDoctrineTypeComment($column->getType());
         }
 
         return $comment;

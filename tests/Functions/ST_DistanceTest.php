@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\PointsEntity;
+use function is_resource;
+use function is_string;
 
 class ST_DistanceTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity'
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -39,13 +43,13 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    public function testQuery1()
+    public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -63,19 +67,19 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   'value' => 0.00150567726382822,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 
     /**
      * @group postgis-2.x
      */
-    public function testQuery2()
+    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -93,19 +97,19 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   'value' => 123.475736916,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 
     /**
      * @group postgis-1.5
      */
-    public function testQuery3()
+    public function testQuery3(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 
@@ -123,6 +127,6 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
   'value' => 123.475736916397,
 ];
 
-        $this->assertEquals($expected, $result, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.0001);
     }
 }

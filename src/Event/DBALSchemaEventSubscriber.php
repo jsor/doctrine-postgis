@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableAddColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs;
@@ -26,25 +29,17 @@ use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Jsor\Doctrine\PostGIS\Types\RasterType;
+use LogicException;
+use RuntimeException;
+use function count;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $connection;
+    protected Connection $connection;
+    protected SchemaManager $schemaManager;
+    protected bool $postConnectCalled = false;
 
-    /**
-     * @var \Jsor\Doctrine\PostGIS\Schema\SchemaManager
-     */
-    protected $schemaManager;
-
-    /**
-     * @var bool
-     */
-    protected $postConnectCalled = false;
-
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::postConnect,
@@ -60,7 +55,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ];
     }
 
-    public function postConnect(ConnectionEventArgs $args)
+    public function postConnect(ConnectionEventArgs $args): void
     {
         if ($this->postConnectCalled) {
             // Allows multiple postConnect calls for the same connection
@@ -70,10 +65,10 @@ class DBALSchemaEventSubscriber implements EventSubscriber
                 return;
             }
 
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf(
                     'It looks like you have registered the %s to more than one connection. Please register one instance per connection.',
-                    get_class($this)
+                    static::class
                 )
             );
         }
@@ -95,7 +90,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         }
     }
 
-    public function onSchemaCreateTable(SchemaCreateTableEventArgs $args)
+    public function onSchemaCreateTable(SchemaCreateTableEventArgs $args): void
     {
         $generator = new CreateTableSqlGenerator(
             $args->getPlatform(),
@@ -114,7 +109,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ;
     }
 
-    public function onSchemaDropTable(SchemaDropTableEventArgs $args)
+    public function onSchemaDropTable(SchemaDropTableEventArgs $args): void
     {
         if ($this->schemaManager->isPostGis2()) {
             return;
@@ -130,7 +125,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         }
     }
 
-    public function onSchemaAlterTable(SchemaAlterTableEventArgs $args)
+    public function onSchemaAlterTable(SchemaAlterTableEventArgs $args): void
     {
         $platform = $args->getPlatform();
         $diff = $args->getTableDiff();
@@ -174,7 +169,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ;
     }
 
-    public function onSchemaAlterTableAddColumn(SchemaAlterTableAddColumnEventArgs $args)
+    public function onSchemaAlterTableAddColumn(SchemaAlterTableAddColumnEventArgs $args): void
     {
         $column = $args->getColumn();
 
@@ -198,7 +193,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ;
     }
 
-    public function onSchemaAlterTableRemoveColumn(SchemaAlterTableRemoveColumnEventArgs $args)
+    public function onSchemaAlterTableRemoveColumn(SchemaAlterTableRemoveColumnEventArgs $args): void
     {
         $column = $args->getColumn();
 
@@ -236,7 +231,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             ->preventDefault();
     }
 
-    public function onSchemaAlterTableChangeColumn(SchemaAlterTableChangeColumnEventArgs $args)
+    public function onSchemaAlterTableChangeColumn(SchemaAlterTableChangeColumnEventArgs $args): void
     {
         $columnDiff = $args->getColumnDiff();
         $column = $columnDiff->column;
@@ -249,11 +244,11 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
 
         if ($columnDiff->hasChanged('type')) {
-            throw new \RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $columnDiff->fromColumn->getType()->getName() . '" to "' . $column->getType()->getName() . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+            throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $columnDiff->fromColumn->getType()->getName() . '" to "' . $column->getType()->getName() . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
         if ($columnDiff->hasChanged('geometry_type')) {
-            throw new \RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('geometry_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+            throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('geometry_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
         if ($columnDiff->hasChanged('srid')) {
@@ -266,7 +261,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         }
     }
 
-    public function onSchemaAlterTableRenameColumn(SchemaAlterTableRenameColumnEventArgs $args)
+    public function onSchemaAlterTableRenameColumn(SchemaAlterTableRenameColumnEventArgs $args): void
     {
         $column = $args->getColumn();
 
@@ -278,13 +273,13 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             return;
         }
 
-        throw new \RuntimeException('Spatial columns cannot be renamed (Requested renaming column "' . $args->getOldColumnName() . '" to "' . $column->getName() . '" in table "' . $args->getTableDiff()->name . '")');
+        throw new RuntimeException('Spatial columns cannot be renamed (Requested renaming column "' . $args->getOldColumnName() . '" to "' . $column->getName() . '" in table "' . $args->getTableDiff()->name . '")');
     }
 
-    public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args)
+    public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args): void
     {
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
-        $table       = $args->getTable();
+        $table = $args->getTable();
 
         $info = null;
 
@@ -309,7 +304,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $options = [
             'notnull' => (bool) $tableColumn['isnotnull'],
             'default' => $default,
-            'comment' => isset($tableColumn['comment']) ? $tableColumn['comment'] : null,
+            'comment' => $tableColumn['comment'] ?? null,
         ];
 
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);
@@ -324,7 +319,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             ->preventDefault();
     }
 
-    public function onSchemaIndexDefinition(SchemaIndexDefinitionEventArgs $args)
+    public function onSchemaIndexDefinition(SchemaIndexDefinitionEventArgs $args): void
     {
         $index = $args->getTableIndex();
 
@@ -348,7 +343,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ;
     }
 
-    public function isSpatialColumnType(Column $column)
+    public function isSpatialColumnType(Column $column): bool
     {
         return $column->getType() instanceof PostGISType;
     }

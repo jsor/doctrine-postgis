@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
@@ -8,10 +10,10 @@ use Jsor\Doctrine\PostGIS\ReservedWordsEntity;
 
 class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
-    public function testEntity()
+    public function testEntity(): void
     {
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\PointsEntity',
+            PointsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -40,7 +42,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $em->flush();
         $em->clear();
 
-        $entity = $em->find('Jsor\Doctrine\PostGIS\PointsEntity', 1);
+        $entity = $em->find(PointsEntity::class, 1);
 
         $this->assertEquals('POINT(1 1)', $entity->getPoint());
         $this->assertEquals('SRID=3785;POINT(1 1)', $entity->getPoint2D());
@@ -53,10 +55,10 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals('SRID=4326;POINT(1 1)', $entity->getPointGeography2dSrid());
     }
 
-    public function testEntityWithReservedWords()
+    public function testEntityWithReservedWords(): void
     {
         $this->_setUpEntitySchema([
-            'Jsor\Doctrine\PostGIS\ReservedWordsEntity',
+            ReservedWordsEntity::class,
         ]);
 
         $em = $this->_getEntityManager();
@@ -70,7 +72,7 @@ class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $em->flush();
         $em->clear();
 
-        $entity = $em->find('Jsor\Doctrine\PostGIS\ReservedWordsEntity', 1);
+        $entity = $em->find(ReservedWordsEntity::class, 1);
 
         $this->assertEquals('POINT(1 1)', $entity->getUser());
         $this->assertEquals('SRID=4326;POINT(1 1)', $entity->getPrimary());

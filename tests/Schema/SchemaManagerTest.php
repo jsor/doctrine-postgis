@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 
 class SchemaManagerTest extends AbstractFunctionalTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,7 +19,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_create.sql');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -26,7 +28,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_drop.sql');
     }
 
-    public function testListSpatialIndexes()
+    public function testListSpatialIndexes(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -63,7 +65,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->listSpatialIndexes('foo.points'));
     }
 
-    public function testListSpatialGeometryColumns()
+    public function testListSpatialGeometryColumns(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -81,18 +83,18 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('foo.points'));
     }
 
-    public function testListSpatialGeometryColumnsWithReservedWords()
+    public function testListSpatialGeometryColumnsWithReservedWords(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
         $expected = [
-            'user'
+            'user',
         ];
 
         $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('"user"'));
     }
 
-    public function testGetGeometrySpatialColumnInfo()
+    public function testGetGeometrySpatialColumnInfo(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -147,7 +149,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('points', 'point_2d_nosrid'));
     }
 
-    public function testGetGeographySpatialColumnInfo()
+    public function testGetGeographySpatialColumnInfo(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -172,7 +174,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('points', 'point_geography_2d_srid'));
     }
 
-    public function testGetGeometrySpatialColumnInfoWithReservedWords()
+    public function testGetGeometrySpatialColumnInfoWithReservedWords(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -183,7 +185,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertEquals($expected, $schemaManager->getGeometrySpatialColumnInfo('"user"', '"user"'));
     }
 
-    public function testGetGeographySpatialColumnInfoWithReservedWords()
+    public function testGetGeographySpatialColumnInfoWithReservedWords(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -197,7 +199,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-1.5
      */
-    public function testIsPostGis2OnPostGIS15()
+    public function testIsPostGis2OnPostGIS15(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 
@@ -207,7 +209,7 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     /**
      * @group postgis-2.x
      */
-    public function testIsPostGis2OnPostGIS2x()
+    public function testIsPostGis2OnPostGIS2x(): void
     {
         $schemaManager = new SchemaManager($this->_getConnection());
 

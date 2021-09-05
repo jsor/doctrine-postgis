@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
@@ -7,7 +9,7 @@ use Doctrine\ORM\Tools\ToolEvents;
 
 class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
 {
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return array_merge(
             parent::getSubscribedEvents(),
@@ -17,7 +19,7 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
         );
     }
 
-    public function postGenerateSchemaTable(GenerateSchemaTableEventArgs $args)
+    public function postGenerateSchemaTable(GenerateSchemaTableEventArgs $args): void
     {
         $table = $args->getClassTable();
 

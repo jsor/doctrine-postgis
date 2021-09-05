@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -18,12 +20,12 @@ class InvalidPointsEntity
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="geometry", name="point", options={})
      */
-    private $point;
+    private ?string $point = null;
 
     public function __construct(array $points)
     {
@@ -32,12 +34,12 @@ class InvalidPointsEntity
         }
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPoint()
+    public function getPoint(): ?string
     {
         return $this->point;
     }

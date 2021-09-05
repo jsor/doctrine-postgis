@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
@@ -11,9 +13,9 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class ST_Box2dFromGeoHash extends FunctionNode
 {
-    protected $expressions = [];
+    protected array $expressions = [];
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
@@ -22,7 +24,7 @@ class ST_Box2dFromGeoHash extends FunctionNode
 
         $lexer = $parser->getLexer();
 
-        if ($lexer->lookahead['type'] === Lexer::T_COMMA) {
+        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
@@ -30,7 +32,7 @@ class ST_Box2dFromGeoHash extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $arguments = [];
 

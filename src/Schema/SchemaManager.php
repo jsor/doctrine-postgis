@@ -1,29 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Connection;
 
 class SchemaManager
 {
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
-    public function isPostGis2()
+    public function isPostGis2(): bool
     {
         $version = $this->connection->executeQuery('SELECT PostGIS_Lib_Version()')->fetchColumn();
 
-        return version_compare($version, '2.0.0', '>=');
+        return (bool) version_compare($version, '2.0.0', '>=');
     }
 
-    public function listSpatialIndexes($table)
+    public function listSpatialIndexes(string $table): array
     {
-        if (false !== strpos($table, '.')) {
-            list(, $table) = explode('.', $table);
+        if (str_contains($table, '.')) {
+            [, $table] = explode('.', $table);
         }
 
         $sql = "SELECT distinct i.relname, d.indkey, pg_get_indexdef(d.indexrelid) AS inddef, t.oid
@@ -39,7 +41,7 @@ class SchemaManager
         $tableIndexes = $this->connection->fetchAll(
             $sql,
             [
-                $this->trimQuotes($table)
+                $this->trimQuotes($table),
             ]
         );
 
@@ -75,10 +77,10 @@ class SchemaManager
         return $indexes;
     }
 
-    public function listSpatialGeometryColumns($table)
+    public function listSpatialGeometryColumns(string $table): array
     {
-        if (false !== strpos($table, '.')) {
-            list(, $table) = explode('.', $table);
+        if (str_contains($table, '.')) {
+            [, $table] = explode('.', $table);
         }
 
         $sql = 'SELECT f_geometry_column
@@ -88,7 +90,7 @@ class SchemaManager
         $tableColumns = $this->connection->fetchAll(
             $sql,
             [
-                $this->trimQuotes($table)
+                $this->trimQuotes($table),
             ]
         );
 
@@ -100,10 +102,10 @@ class SchemaManager
         return $columns;
     }
 
-    public function getGeometrySpatialColumnInfo($table, $column)
+    public function getGeometrySpatialColumnInfo(string $table, string $column): ?array
     {
-        if (false !== strpos($table, '.')) {
-            list(, $table) = explode('.', $table);
+        if (str_contains($table, '.')) {
+            [, $table] = explode('.', $table);
         }
 
         $sql = 'SELECT coord_dimension, srid, type
@@ -115,7 +117,7 @@ class SchemaManager
             $sql,
             [
                 $this->trimQuotes($table),
-                $this->trimQuotes($column)
+                $this->trimQuotes($column),
             ]
         );
 
@@ -126,10 +128,10 @@ class SchemaManager
         return $this->buildSpatialColumnInfo($row);
     }
 
-    public function getGeographySpatialColumnInfo($table, $column)
+    public function getGeographySpatialColumnInfo(string $table, string $column): ?array
     {
-        if (false !== strpos($table, '.')) {
-            list(, $table) = explode('.', $table);
+        if (str_contains($table, '.')) {
+            [, $table] = explode('.', $table);
         }
 
         $sql = 'SELECT coord_dimension, srid, type
@@ -141,7 +143,7 @@ class SchemaManager
             $sql,
             [
                 $this->trimQuotes($table),
-                $this->trimQuotes($column)
+                $this->trimQuotes($column),
             ]
         );
 
@@ -152,11 +154,11 @@ class SchemaManager
         return $this->buildSpatialColumnInfo($row);
     }
 
-    protected function buildSpatialColumnInfo($row)
+    protected function buildSpatialColumnInfo(array $row): array
     {
         $type = strtoupper($row['type']);
 
-        if ('M' !== substr($type, -1)) {
+        if (!str_ends_with($type, 'M')) {
             if (4 === (int) $row['coord_dimension']) {
                 $type .= 'ZM';
             }
@@ -176,7 +178,7 @@ class SchemaManager
      * Copied from Doctrine\DBAL\Schema\AbstractAsset::trimQuotes,
      * check on updates!
      */
-    protected function trimQuotes($identifier)
+    protected function trimQuotes(string $identifier): string
     {
         return str_replace(['`', '"', '[', ']'], '', $identifier);
     }

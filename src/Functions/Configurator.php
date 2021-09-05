@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* This file is auto-generated. Don't edit directly! */
 
 namespace Jsor\Doctrine\PostGIS\Functions;
@@ -8,7 +10,7 @@ use Doctrine\ORM\Configuration;
 
 class Configurator
 {
-    public static function configure(Configuration $configuration)
+    public static function configure(Configuration $configuration): void
     {
         $configuration->addCustomStringFunction('Geometry', Geometry::class);
         $configuration->addCustomStringFunction('Geography', Geography::class);

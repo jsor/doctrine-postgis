@@ -1,42 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private static $_conn;
+    private static ?Connection $_conn = null;
 
     /**
      * Array of entity class name to their tables that were created.
-     *
-     * @var array
      */
-    private static $_entityTablesCreated = [];
+    private static array $_entityTablesCreated = [];
 
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $_em;
+    private ?EntityManagerInterface $_em = null;
 
-    /**
-     * @var \Doctrine\ORM\Tools\SchemaTool
-     */
-    private $_schemaTool;
+    private ?SchemaTool $_schemaTool = null;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -56,7 +50,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         self::$_entityTablesCreated = [];
     }
 
-    protected function _setUpEntitySchema($classNames)
+    protected function _setUpEntitySchema($classNames): void
     {
         $em = $this->_getEntityManager();
 
@@ -74,7 +68,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         }
     }
 
-    protected function _getDbParams()
+    protected function _getDbParams(): array
     {
         return [
             'driver' => getenv('DB_TYPE'),
@@ -86,7 +80,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         ];
     }
 
-    protected function _getConnection()
+    protected function _getConnection(): Connection
     {
         if (!isset(self::$_conn)) {
             self::$_conn = DriverManager::getConnection($this->_getDbParams(), new Configuration());
@@ -111,7 +105,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return self::$_conn;
     }
 
-    protected function _getEntityManager(Configuration $config = null)
+    protected function _getEntityManager(Configuration $config = null): EntityManager
     {
         if (null !== $this->_em) {
             return $this->_em;
@@ -130,7 +124,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return $this->_em = $em;
     }
 
-    protected function _getSchemaTool()
+    protected function _getSchemaTool(): SchemaTool
     {
         if (null !== $this->_schemaTool) {
             return $this->_schemaTool;
@@ -139,7 +133,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return $this->_schemaTool = new SchemaTool($this->_getEntityManager());
     }
 
-    protected function _setupConfiguration(Configuration $config)
+    protected function _setupConfiguration(Configuration $config): Configuration
     {
         $config->setProxyDir($GLOBALS['TESTS_TEMP_DIR']);
         $config->setProxyNamespace('Proxy');
@@ -148,19 +142,14 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return $config;
     }
 
-    /**
-     * Creates default mapping driver.
-     *
-     * @return \Doctrine\Common\Persistence\Mapping\Driver\MappingDriver
-     */
-    protected function _getMappingDriver()
+    protected function _getMappingDriver(): MappingDriver
     {
         $reader = new AnnotationReader();
 
         return new AnnotationDriver($reader);
     }
 
-    protected function _execFile($fileName)
+    protected function _execFile($fileName): int
     {
         return $this->_getConnection()->exec(file_get_contents(__DIR__ . '/fixtures/' . $fileName));
     }

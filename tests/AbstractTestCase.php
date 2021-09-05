@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected function _registerTypes()
+    protected function _registerTypes(): void
     {
         if (!Type::hasType('geometry')) {
             Type::addType('geometry', 'Jsor\Doctrine\PostGIS\Types\GeometryType');
@@ -24,12 +27,11 @@ abstract class AbstractTestCase extends TestCase
 
     protected function getPlatformMock()
     {
-        $platform = $this->getMockForAbstractClass('Doctrine\DBAL\Platforms\AbstractPlatform');
+        $platform = $this->getMockForAbstractClass(AbstractPlatform::class);
 
         $platform
-            ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('postgresql'));
+            ->willReturn('postgresql');
 
         return $platform;
     }

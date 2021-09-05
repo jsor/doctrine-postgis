@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,67 +24,67 @@ class PointsEntity
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text", name="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\Column(type="geometry", name="geometry")
      */
-    private $geometry;
+    private ?string $geometry;
 
     /**
      * @ORM\Column(type="geometry", name="point", options={"geometry_type"="point"})
      */
-    private $point;
+    private ?string $point;
 
     /**
      * @ORM\Column(type="geometry", name="point_2d", options={"geometry_type"="point", "srid"=3785})
      */
-    private $point2D;
+    private ?string $point2D;
 
     /**
      * @ORM\Column(type="geometry", name="point_3dz", options={"geometry_type"="pointz", "srid"=3785})
      */
-    private $point3DZ;
+    private ?string $point3DZ;
 
     /**
      * @ORM\Column(type="geometry", name="point_3dm", options={"geometry_type"="pointm", "srid"=3785})
      */
-    private $point3DM;
+    private ?string $point3DM;
 
     /**
      * @ORM\Column(type="geometry", name="point_4d", options={"geometry_type"="pointzm", "srid"=3785})
      */
-    private $point4D;
+    private ?string $point4D;
 
     /**
      * @ORM\Column(type="geometry", nullable=true, name="point_2d_nullable", options={"geometry_type"="point", "srid"=3785})
      */
-    private $point2DNullable;
+    private ?string $point2DNullable;
 
     /**
      * @ORM\Column(type="geometry", name="point_2d_nosrid", options={"geometry_type"="point"})
      */
-    private $point2DNoSrid;
+    private ?string $point2DNoSrid;
 
     /**
      * @ORM\Column(type="geography", name="geography")
      */
-    private $geography;
+    private ?string $geography;
 
     /**
      * @ORM\Column(type="geography", name="point_geography_2d", options={"geometry_type"="point"})
      */
-    private $pointGeography2d;
+    private ?string $pointGeography2d;
 
     /**
      * @ORM\Column(type="geography", name="point_geography_2d_srid", options={"geometry_type"="point", "srid"=4326})
      */
-    private $pointGeography2dSrid;
+    private ?string $pointGeography2dSrid;
 
     public function __construct(array $points)
     {
@@ -91,62 +93,62 @@ class PointsEntity
         }
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getGeometry()
+    public function getGeometry(): ?string
     {
         return $this->geometry;
     }
 
-    public function getPoint()
+    public function getPoint(): ?string
     {
         return $this->point;
     }
 
-    public function getPoint2D()
+    public function getPoint2D(): ?string
     {
         return $this->point2D;
     }
 
-    public function getPoint3DZ()
+    public function getPoint3DZ(): ?string
     {
         return $this->point3DZ;
     }
 
-    public function getPoint3DM()
+    public function getPoint3DM(): ?string
     {
         return $this->point3DM;
     }
 
-    public function getPoint4D()
+    public function getPoint4D(): ?string
     {
         return $this->point4D;
     }
 
-    public function getPoint2DNullable()
+    public function getPoint2DNullable(): ?string
     {
         return $this->point2DNullable;
     }
 
-    public function getPoint2DNoSrid()
+    public function getPoint2DNoSrid(): ?string
     {
         return $this->point2DNoSrid;
     }
 
-    public function getGeography()
+    public function getGeography(): ?string
     {
         return $this->geography;
     }
 
-    public function getPointGeography2D()
+    public function getPointGeography2D(): ?string
     {
         return $this->pointGeography2d;
     }
 
-    public function getPointGeography2DSrid()
+    public function getPointGeography2DSrid(): ?string
     {
         return $this->pointGeography2dSrid;
     }

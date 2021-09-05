@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -7,33 +9,33 @@ use Doctrine\DBAL\Types\Type;
 
 abstract class PostGISType extends Type
 {
-    const GEOMETRY = 'geometry';
-    const GEOGRAPHY = 'geography';
+    public const GEOMETRY = 'geometry';
+    public const GEOGRAPHY = 'geography';
 
-    public function canRequireSQLConversion()
+    public function canRequireSQLConversion(): bool
     {
         return true;
     }
 
-    public function getMappedDatabaseTypes(AbstractPlatform $platform)
+    public function getMappedDatabaseTypes(AbstractPlatform $platform): array
     {
         return [$this->getName()];
     }
 
-    public function convertToPHPValueSQL($sqlExpr, $platform)
+    public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
         // ::geometry type cast needed for 1.5
         return sprintf('ST_AsEWKT(%s::geometry)', $sqlExpr);
     }
 
-    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
         return sprintf('ST_GeomFromText(%s)', $sqlExpr);
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $options = $this->getNormalizedPostGISColumnOptions($fieldDeclaration);
+        $options = $this->getNormalizedPostGISColumnOptions($column);
 
         return sprintf(
             '%s(%s, %d)',
@@ -43,9 +45,5 @@ abstract class PostGISType extends Type
         );
     }
 
-    /**
-     *
-     * @return mixed
-     */
-    abstract public function getNormalizedPostGISColumnOptions(array $options = []);
+    abstract public function getNormalizedPostGISColumnOptions(array $options = []): array;
 }
