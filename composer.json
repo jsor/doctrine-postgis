@@ -38,6 +38,11 @@
             "Jsor\\Doctrine\\PostGIS\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Jsor\\Doctrine\\PostGIS\\": ["tests/fixtures", "tests/"]
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"

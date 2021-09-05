@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->addPsr4('Jsor\Doctrine\PostGIS\\', __DIR__ . '/fixtures');
-$loader->addPsr4('Jsor\Doctrine\PostGIS\\', __DIR__);
+require __DIR__ . '/../vendor/autoload.php';
 
 $GLOBALS['TESTS_TEMP_DIR'] = __DIR__ . '/temp';
 
