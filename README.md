@@ -258,5 +258,5 @@ doctrine:
 License
 -------
 
-Copyright (c) 2014-2019 Jan Sorgalla.
+Copyright (c) 2014-2021 Jan Sorgalla.
 Released under the [MIT License](LICENSE).
