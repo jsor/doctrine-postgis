@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;
 
 class CreateTableSqlGenerator
 {
-    private PostgreSqlPlatform $platform;
+    private AbstractPlatform $platform;
     private bool $isPostGis2;
     private SpatialColumnSqlGenerator $spatialColumnSqlGenerator;
     private SpatialIndexSqlGenerator $spatialIndexSqlGenerator;
 
-    public function __construct(PostgreSqlPlatform $platform, bool $isPostGis2 = true)
+    public function __construct(AbstractPlatform $platform, bool $isPostGis2 = true)
     {
         $this->platform = $platform;
         $this->isPostGis2 = $isPostGis2;

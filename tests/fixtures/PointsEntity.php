@@ -10,10 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(
  *     name="points",
- *     options={"engine"="MyISAM", "spatial_indexes"={"idx_point", "idx_not_existing"}},
  *     indexes={
  *         @ORM\Index(name="idx_text", columns={"text"}),
- *         @ORM\Index(name="idx_point", columns={"point"})
+ *         @ORM\Index(name="idx_point", columns={"point"}, flags={"spatial"})
  *     }
  * )
  */

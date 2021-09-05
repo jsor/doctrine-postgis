@@ -29,7 +29,8 @@ for all available versions.
 Setup
 -----
 
-All you have to do is, to register an event subscriber.
+To use the library with the Doctrine ORM (version 2.9 or higher is supported),
+register  an event subscriber.
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
@@ -37,7 +38,8 @@ use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 $entityManager->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 ```
 
-You can also use this library with the DBAL only.
+The library can also be used with DBAL only (versions 2.13 or higher and 3.1 or
+higher are supported).
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
@@ -59,7 +61,7 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
 ```
 
-It is also recommended to register the DBAL types in the
+It is also recommended registering the DBAL types in the
 [doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
 of the `config/packages/doctrine.yaml` config file.
 
@@ -189,28 +191,6 @@ Simply set the `spatial` flag for indexes.
  *     indexes={
  *         @Index(name="idx_point", columns={"point"}, flags={"spatial"}),
  *         @Index(name="idx_polygon", columns={"polygon"}, flags={"spatial"})
- *     }
- * )
- */
-class MyEntity
-{
-}
-```
-
-This uses [index flags](https://docs.doctrine-project.org/projects/doctrine-orm/en/2.7/changelog/migration_2_5.html#mapping-allow-configuring-index-flags)
-introduced in Doctrine ORM 2.5.
-
-If you need to support Doctrine versions < 2.5, you have to define which indexes
-should be spatial indexes through the table options.
-
-```php
-/**
- * @Entity
- * @Table(
- *     options={"spatial_indexes"={"idx_point", "idx_polygon"}},
- *     indexes={
- *         @Index(name="idx_point", columns={"point"}),
- *         @Index(name="idx_polygon", columns={"polygon"})
  *     }
  * )
  */

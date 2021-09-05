@@ -59,8 +59,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     {
         if ($this->postConnectCalled) {
             // Allows multiple postConnect calls for the same connection
-            // instance. This is done by MasterSlaveConnection for example when
-            // switching master/slave connections.
+            // instance. This is done by PrimaryReadReplicaConnection for example
+            // when switching primary/replica connections.
             if ($this->connection === $args->getConnection()) {
                 return;
             }

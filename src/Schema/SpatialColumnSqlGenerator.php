@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Table;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use function is_string;
 
 class SpatialColumnSqlGenerator
 {
-    private PostgreSqlPlatform $platform;
+    private AbstractPlatform $platform;
 
-    public function __construct(PostgreSqlPlatform $platform)
+    public function __construct(AbstractPlatform $platform)
     {
         $this->platform = $platform;
     }
 
-    public function getSql(Column $column, Table|string $table): array
+    public function getSql(Column $column, Table|Identifier|string $table): array
     {
-        if (!$table instanceof Table) {
+        if (is_string($table)) {
             $table = new Identifier($table);
         }
 
         $sql = [];
 
-        $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
+        /** @var PostGISType $type */
+        $type = $column->getType();
+
+        $normalized = $type->getNormalizedPostGISColumnOptions(
             $column->getCustomSchemaOptions()
         );
 

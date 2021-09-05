@@ -17,7 +17,7 @@ class SchemaManager
 
     public function isPostGis2(): bool
     {
-        $version = $this->connection->executeQuery('SELECT PostGIS_Lib_Version()')->fetchColumn();
+        $version = $this->connection->executeQuery('SELECT PostGIS_Lib_Version()')->fetchOne();
 
         return (bool) version_compare($version, '2.0.0', '>=');
     }
@@ -38,7 +38,7 @@ class SchemaManager
                 AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
                 ORDER BY i.relname";
 
-        $tableIndexes = $this->connection->fetchAll(
+        $tableIndexes = $this->connection->fetchAllAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -58,7 +58,7 @@ class SchemaManager
                     AND a.atttypid = t.oid';
 
             $stmt = $this->connection->executeQuery($sql);
-            $indexColumns = $stmt->fetchAll();
+            $indexColumns = $stmt->fetchAllAssociative();
 
             foreach ($indexColumns as $indexRow) {
                 if ('geometry' !== $indexRow['typname'] &&
@@ -87,7 +87,7 @@ class SchemaManager
                 FROM geometry_columns
                 WHERE f_table_name = ?';
 
-        $tableColumns = $this->connection->fetchAll(
+        $tableColumns = $this->connection->fetchAllAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -113,7 +113,7 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geometry_column = ?';
 
-        $row = $this->connection->fetchAssoc(
+        $row = $this->connection->fetchAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -139,7 +139,7 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geography_column = ?';
 
-        $row = $this->connection->fetchAssoc(
+        $row = $this->connection->fetchAssociative(
             $sql,
             [
                 $this->trimQuotes($table),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
+use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
@@ -152,25 +153,30 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $conn2->connect();
     }
 
-    public function testSubscriberDoesNotThrowWhenRegisteredOnMasterSlaveConnectionAndConnectionSwitches(): void
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testSubscriberDoesNotThrowWhenRegisteredOnPrimaryReplicaConnectionAndConnectionSwitches(): void
     {
         $subscriber = new DBALSchemaEventSubscriber();
 
         $dbParams = $this->_getDbParams();
 
+        /** @var PrimaryReadReplicaConnection $conn */
         $conn = DriverManager::getConnection([
-            'wrapperClass' => 'Doctrine\DBAL\Connections\MasterSlaveConnection',
+            'wrapperClass' => PrimaryReadReplicaConnection::class,
             'driver' => $dbParams['driver'],
-            'master' => $dbParams,
-            'slaves' => [
+            'primary' => $dbParams,
+            'replica' => [
                 $dbParams,
             ],
+            'keepReplica' => true,
         ]);
 
         $conn->getEventManager()->addEventSubscriber($subscriber);
 
-        $conn->connect('slave');
-        $conn->connect('master');
+        $conn->ensureConnectedToPrimary();
+        $conn->ensureConnectedToReplica();
     }
 
     public function testListTableColumns(): void
@@ -483,20 +489,17 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new TableDiff('points');
 
-        // renamedIndexes added in 2.5
-        if (isset($tableDiff->renamedIndexes)) {
-            $tableDiff->fromTable = $table;
-            $tableDiff->renamedIndexes['linestring_idx'] = new Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $tableDiff->fromTable = $table;
+        $tableDiff->renamedIndexes['linestring_idx'] = new Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
 
-            $this->sm->alterTable($tableDiff);
+        $this->sm->alterTable($tableDiff);
 
-            $table = $this->sm->listTableDetails('points');
-            $this->assertTrue($table->hasIndex('linestring_renamed_idx'));
-            $this->assertFalse($table->hasIndex('linestring_idx'));
-            $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_renamed_idx')->getColumns()));
-            $this->assertFalse($table->getIndex('linestring_renamed_idx')->isPrimary());
-            $this->assertFalse($table->getIndex('linestring_renamed_idx')->isUnique());
-        }
+        $table = $this->sm->listTableDetails('points');
+        $this->assertTrue($table->hasIndex('linestring_renamed_idx'));
+        $this->assertFalse($table->hasIndex('linestring_idx'));
+        $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_renamed_idx')->getColumns()));
+        $this->assertFalse($table->getIndex('linestring_renamed_idx')->isPrimary());
+        $this->assertFalse($table->getIndex('linestring_renamed_idx')->isUnique());
     }
 
     public function testAlterTableThrowsExceptionForChangedType(): void

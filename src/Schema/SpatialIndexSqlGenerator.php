@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use InvalidArgumentException;
@@ -12,9 +12,9 @@ use function count;
 
 class SpatialIndexSqlGenerator
 {
-    private PostgreSqlPlatform $platform;
+    private AbstractPlatform $platform;
 
-    public function __construct(PostgreSqlPlatform $platform)
+    public function __construct(AbstractPlatform $platform)
     {
         $this->platform = $platform;
     }

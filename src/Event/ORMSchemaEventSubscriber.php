@@ -6,6 +6,7 @@ namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
 class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
 {
@@ -28,23 +29,15 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
                 continue;
             }
 
-            $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
+            /** @var PostGISType $type */
+            $type = $column->getType();
+
+            $normalized = $type->getNormalizedPostGISColumnOptions(
                 $column->getCustomSchemaOptions()
             );
 
             foreach ($normalized as $name => $value) {
                 $column->setCustomSchemaOption($name, $value);
-            }
-        }
-
-        // Add spatial flags to indexes
-        if ($table->hasOption('spatial_indexes')) {
-            foreach ((array) $table->getOption('spatial_indexes') as $indexName) {
-                if (!$table->hasIndex($indexName)) {
-                    continue;
-                }
-
-                $table->getIndex($indexName)->addFlag('spatial');
             }
         }
     }
