@@ -23,7 +23,6 @@ use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use Jsor\Doctrine\PostGIS\Types\RasterType;
 use LogicException;
 use RuntimeException;
 
@@ -73,10 +72,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
         if (!Type::hasType('geography')) {
             Type::addType('geography', GeographyType::class);
-        }
-
-        if (!Type::hasType('raster')) {
-            Type::addType('raster', RasterType::class);
         }
     }
 

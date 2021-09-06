@@ -78,9 +78,6 @@ doctrine:
             geometry:
                 class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
                 commented: false
-            raster:
-                class: 'Jsor\Doctrine\PostGIS\Types\RasterType'
-                commented: false
 ```
 
 #### Migrations (:fire: important :fire:)
