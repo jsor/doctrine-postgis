@@ -24,13 +24,12 @@ abstract class PostGISType extends Type
 
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
-        // ::geometry type cast needed for 1.5
-        return sprintf('ST_AsEWKT(%s::geometry)', $sqlExpr);
+        return sprintf('ST_AsEWKT(%s)', $sqlExpr);
     }
 
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
-        return sprintf('ST_GeomFromText(%s)', $sqlExpr);
+        return sprintf('ST_GeomFromEWKT(%s)', $sqlExpr);
     }
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
