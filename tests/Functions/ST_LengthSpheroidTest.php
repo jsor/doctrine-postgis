@@ -11,6 +11,7 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @group orm
  * @group functions
  */
 class ST_LengthSpheroidTest extends AbstractFunctionalTestCase

@@ -37,7 +37,7 @@ class SpatialIndexSqlGenerator
         }
 
         $query = 'CREATE INDEX ' . $name . ' ON ' . $table;
-        $query .= ' USING gist(' . $this->platform->getIndexFieldDeclarationListSQL($columns) . ')';
+        $query .= ' USING gist(' . implode(', ', $index->getQuotedColumns($this->platform)) . ')';
 
         return $query;
     }

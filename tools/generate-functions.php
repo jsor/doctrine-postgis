@@ -146,6 +146,7 @@ use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 
 /**
+ * @group orm
  * @group functions
 <?php foreach ($options['tests']['groups'] ?? [] as $group) { ?>
  * @group <?php echo $group; ?>

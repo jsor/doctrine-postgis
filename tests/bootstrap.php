@@ -6,4 +6,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $GLOBALS['TESTS_TEMP_DIR'] = __DIR__ . '/temp';
 
-Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
+if (class_exists(Doctrine\Common\Annotations\AnnotationRegistry::class)) {
+    Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
+}

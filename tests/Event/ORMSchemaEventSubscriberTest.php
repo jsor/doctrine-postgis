@@ -8,6 +8,9 @@ use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use Jsor\Doctrine\PostGIS\Entity\ReservedWordsEntity;
 
+/**
+ * @group orm
+ */
 class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
     public function testEntity(): void

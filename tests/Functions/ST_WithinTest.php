@@ -12,6 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @group orm
  * @group functions
  */
 class ST_WithinTest extends AbstractFunctionalTestCase

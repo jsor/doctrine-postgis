@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\DBAL\Configuration as DBALConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\Configuration;
+use Doctrine\ORM\Configuration as ORMConfiguration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
 
@@ -83,11 +85,17 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     protected function _getConnection(): Connection
     {
         if (!isset(self::$_conn)) {
-            self::$_conn = DriverManager::getConnection($this->_getDbParams(), new Configuration());
+            if (class_exists(ORMConfiguration::class)) {
+                self::$_conn = DriverManager::getConnection($this->_getDbParams(), new ORMConfiguration());
 
-            self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
+                self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 
-            Configurator::configure(self::$_conn->getConfiguration());
+                Configurator::configure(self::$_conn->getConfiguration());
+            } else {
+                self::$_conn = DriverManager::getConnection($this->_getDbParams(), new DBALConfiguration());
+
+                self::$_conn->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
+            }
 
             if (!Type::hasType('_text')) {
                 Type::addType('_text', 'Doctrine\DBAL\Types\TextType');
@@ -105,7 +113,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return self::$_conn;
     }
 
-    protected function _getEntityManager(Configuration $config = null): EntityManager
+    protected function _getEntityManager(ORMConfiguration $config = null): EntityManager
     {
         if (null !== $this->_em) {
             return $this->_em;
@@ -133,7 +141,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return $this->_schemaTool = new SchemaTool($this->_getEntityManager());
     }
 
-    protected function _setupConfiguration(Configuration $config): Configuration
+    protected function _setupConfiguration(ORMConfiguration $config): ORMConfiguration
     {
         $config->setProxyDir($GLOBALS['TESTS_TEMP_DIR']);
         $config->setProxyNamespace('Proxy');
