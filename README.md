@@ -1,8 +1,8 @@
 PostGIS extension for Doctrine
 ==============================
 
-[![Build Status](https://travis-ci.org/jsor/doctrine-postgis.svg?branch=master)](https://travis-ci.org/jsor/doctrine-postgis)
-[![Coverage Status](https://coveralls.io/repos/jsor/doctrine-postgis/badge.svg?branch=master&service=github)](https://coveralls.io/github/jsor/doctrine-postgis?branch=master)
+[![Build Status](https://github.com/jsor/doctrine-postgis/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jsor/doctrine-postgis/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/jsor/doctrine-postgis/badge.svg?branch=main&service=github)](https://coveralls.io/github/jsor/doctrine-postgis?branch=main)
 
 This library allows you to use Doctrine with PostGIS, the spatial database
 extension for PostgreSQL.
