@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php }}, PostgreSQL ${{ matrix.postgres }}, PostGIS ${{ matrix.postgis }}, ORM ${{ matrix.orm || 'default' }}, DBAL ${{ matrix.dbal || 'default' }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          # Lowest deps
+          - php: '8.0'
+            postgres: '11'
+            postgis: '3.0'
+            phpunit-flags: '--exclude-group=postgis-3.1'
+            composer-flags: '--prefer-stable --prefer-lowest'
+
+          # PostgresSQL / PostGIS matrix with ORM
+          - php: '8.0'
+            postgres: '11'
+            postgis: '3.0'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.1'
+          - php: '8.0'
+            postgres: '11'
+            postgis: '3.1'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.0'
+          - php: '8.0'
+            postgres: '12'
+            postgis: '3.0'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.1'
+          - php: '8.0'
+            postgres: '12'
+            postgis: '3.1'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.0'
+          - php: '8.0'
+            postgres: '13'
+            postgis: '3.0'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.1'
+          - php: '8.0'
+            postgres: '13'
+            postgis: '3.1'
+            orm: '2.9'
+            phpunit-flags: '--exclude-group=postgis-3.0'
+            code-coverage: 'yes'
+
+          # DBAL only
+          - php: '8.0'
+            postgres: '11'
+            postgis: '3.0'
+            dbal: '2.13'
+            phpunit-flags: '--exclude-group=postgis-3.1 --exclude-group=orm'
+          - php: '8.0'
+            postgres: '13'
+            postgis: '3.1'
+            dbal: '3.1'
+            phpunit-flags: '--exclude-group=postgis-3.0 --exclude-group=orm'
+
+          # Next PHP version
+          - php: '8.1'
+            postgres: '13'
+            postgis: '3.1'
+            phpunit-flags: '--exclude-group=postgis-3.0'
+            composer-flags: '--ignore-platform-reqs'
+            experimental: true
+    services:
+      postgis:
+        image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-alpine
+        env:
+          POSTGRES_PASSWORD: 'postgres'
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_pgsql
+          coverage: pcov
+
+      - name: Install Doctrine ORM
+        if: matrix.orm != ''
+        run: composer require --no-interaction --no-update "doctrine/orm:${{ matrix.orm }}"
+
+      - name: Install Doctrine DBAL
+        if: matrix.dbal != ''
+        run: |
+          composer remove --no-interaction --no-update --dev doctrine/orm
+          composer require --no-interaction --no-update "doctrine/dbal:${{ matrix.dbal }}"
+
+      - name: Install dependencies
+        run: |
+          composer update --no-interaction --no-progress --prefer-dist ${{ matrix.composer-flags }}
+          composer info -D
+
+      - name: Run tests
+        if: matrix.code-coverage != 'yes'
+        run: vendor/bin/phpunit ${{ matrix.phpunit-flags }}
+
+      - name: Run tests with code coverage
+        if: matrix.code-coverage == 'yes'
+        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml ${{ matrix.phpunit-flags }}
+
+      - name: Upload coverage results to Coveralls
+        if: matrix.code-coverage == 'yes'
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls -v --coverage_clover=build/logs/clover.xml
