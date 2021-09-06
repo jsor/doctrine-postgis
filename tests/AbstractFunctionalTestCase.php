@@ -97,17 +97,16 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
                 self::$_conn->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
             }
 
-            if (!Type::hasType('_text')) {
-                Type::addType('_text', 'Doctrine\DBAL\Types\TextType');
-            }
-
             if (!Type::hasType('tsvector')) {
                 Type::addType('tsvector', 'Doctrine\DBAL\Types\TextType');
             }
 
             $platform = self::$_conn->getDatabasePlatform();
-            $platform->registerDoctrineTypeMapping('_text', '_text');
             $platform->registerDoctrineTypeMapping('tsvector', 'tsvector');
+
+            // Prevent "Unknown database type..." exceptions thrown during
+            // database inspections by the schema tool
+            $platform->registerDoctrineTypeMapping('_text', 'string');
         }
 
         return self::$_conn;
