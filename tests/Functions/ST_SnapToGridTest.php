@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_SnapToGridTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SnapToGrid(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\'),0.001)) as value1, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)\'), ST_GeomFromEWKT(\'POINT(1.12 2.22 3.2 4.4444)\'), 0.1, 0.1, 0.1, 0.01)) as value2, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)\'), 0.01)) AS value3 FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_SnapToGrid(ST_GeomFromText(\'LINESTRING(1.1115678 2.123, 4.111111 3.2374897, 4.11112 3.23748667)\'),0.001)) as value1, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 2.3456 1.11111, 4.111111 3.2374897 3.1234 1.1111, -1.11111112 2.123 2.3456 1.1111112)\'), ST_GeomFromEWKT(\'POINT(1.12 2.22 3.2 4.4444)\'), 0.1, 0.1, 0.1, 0.01)) as value2, ST_AsEWKT(ST_SnapToGrid(ST_GeomFromEWKT(\'LINESTRING(-1.1115678 2.123 3 2.3456, 4.111111 3.2374897 3.1234 1.1111)\'), 0.01)) AS value3 FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

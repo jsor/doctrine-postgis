@@ -143,7 +143,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 
 <?php if (!empty($options['tests']['group'])) { ?>
 /**
@@ -196,11 +196,11 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 <?php } ?>
     public function testQuery<?php echo $index + 1; ?>(): void
     {
-        $query = $this->_getEntityManager()->createQuery(<?php echo var_export(str_replace('{function}', $name, $query['sql']) . ' FROM Jsor\Doctrine\PostGIS\PointsEntity point'); ?>);
+        $query = $this->_getEntityManager()->createQuery(<?php echo var_export(str_replace('{function}', $name, $query['sql']) . ' FROM Jsor\Doctrine\PostGIS\Entity\PointsEntity point'); ?>);
 
         $result = $query->getSingleResult();
 
-        array_walk_recursive($result, static function (&$data) {
+        array_walk_recursive($result, static function (&$data): void {
             if (is_resource($data)) {
                 $data = stream_get_contents($data);
 

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -49,7 +49,7 @@ class ST_3DDWithinTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_3DDWithin(ST_GeomFromEWKT(\'POINT(1 1 2)\'), ST_GeomFromEWKT(\'LINESTRING(1 5 2, 2 7 20, 1 9 100, 14 12 3)\'), 10) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

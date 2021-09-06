@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_HausdorffDistanceTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_HausdorffDistance(ST_GeomFromText(\'LINESTRING (130 0, 0 0, 0 150)\'), ST_GeomFromText(\'LINESTRING (10 10, 10 150, 130 10)\'), 0.5) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_HausdorffDistance(ST_GeomFromText(\'LINESTRING (130 0, 0 0, 0 150)\'), ST_GeomFromText(\'LINESTRING (10 10, 10 150, 130 10)\'), 0.5) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

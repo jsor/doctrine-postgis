@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(\'LINESTRING(1 2 3, 4 5 6)\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(\'LINESTRING(1 2 3, 4 5 6)\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -72,7 +72,7 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

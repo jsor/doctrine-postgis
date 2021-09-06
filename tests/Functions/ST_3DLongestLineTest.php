@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -49,7 +49,7 @@ class ST_3DLongestLineTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DLongestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DLongestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

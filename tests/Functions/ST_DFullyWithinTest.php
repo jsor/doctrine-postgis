@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_DFullyWithinTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_DFullyWithin(ST_GeomFromText(\'POINT(1 1)\'), ST_GeomFromText(\'LINESTRING(1 5, 2 7, 1 9, 14 12)\'), 20) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_DFullyWithin(ST_GeomFromText(\'POINT(1 1)\'), ST_GeomFromText(\'LINESTRING(1 5, 2 7, 1 9, 14 12)\'), 20) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

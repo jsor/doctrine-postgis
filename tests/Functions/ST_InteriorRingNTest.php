@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_InteriorRingN(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\'), 1)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_InteriorRingN(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\'), 1)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -72,7 +72,7 @@ class ST_InteriorRingNTest extends AbstractFunctionalTestCase
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_InteriorRingN(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\'), 3)) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_InteriorRingN(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\'), 3)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

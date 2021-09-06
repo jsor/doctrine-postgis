@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_LineCrossingDirectionTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -72,7 +72,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -102,7 +102,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
      */
     public function testQuery3(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

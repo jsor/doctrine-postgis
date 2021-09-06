@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_NumInteriorRingTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumInteriorRing(ST_GeomFromText(\'POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumInteriorRing(ST_GeomFromText(\'POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2),(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

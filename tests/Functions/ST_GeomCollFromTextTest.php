@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\') AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -72,7 +72,7 @@ class ST_GeomCollFromTextTest extends AbstractFunctionalTestCase
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_GeomCollFromText(\'GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(1 2, 3 4))\', 4326) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

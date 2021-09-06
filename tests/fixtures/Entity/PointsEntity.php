@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jsor\Doctrine\PostGIS;
+namespace Jsor\Doctrine\PostGIS\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

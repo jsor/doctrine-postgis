@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
@@ -45,7 +45,7 @@ class ST_BufferTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, \'quad_segs=8\')) AS value FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, \'quad_segs=8\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -72,7 +72,7 @@ class ST_BufferTest extends AbstractFunctionalTestCase
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50)) AS promisingcircle_pcount, ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, 2)) AS lamecircle_pcount FROM Jsor\\Doctrine\\PostGIS\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50)) AS promisingcircle_pcount, ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, 2)) AS lamecircle_pcount FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 

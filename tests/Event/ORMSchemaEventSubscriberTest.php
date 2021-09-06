@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
-use Jsor\Doctrine\PostGIS\PointsEntity;
-use Jsor\Doctrine\PostGIS\ReservedWordsEntity;
+use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
+use Jsor\Doctrine\PostGIS\Entity\ReservedWordsEntity;
 
 class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
