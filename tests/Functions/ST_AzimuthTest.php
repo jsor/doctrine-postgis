@@ -9,8 +9,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_AzimuthTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -58,15 +60,13 @@ class ST_AzimuthTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 0.737815060120465,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

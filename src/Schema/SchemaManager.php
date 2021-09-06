@@ -15,13 +15,6 @@ class SchemaManager
         $this->connection = $connection;
     }
 
-    public function isPostGis2(): bool
-    {
-        $version = $this->connection->executeQuery('SELECT PostGIS_Lib_Version()')->fetchOne();
-
-        return (bool) version_compare($version, '2.0.0', '>=');
-    }
-
     public function listSpatialIndexes(string $table): array
     {
         if (str_contains($table, '.')) {
@@ -75,31 +68,6 @@ class SchemaManager
         }
 
         return $indexes;
-    }
-
-    public function listSpatialGeometryColumns(string $table): array
-    {
-        if (str_contains($table, '.')) {
-            [, $table] = explode('.', $table);
-        }
-
-        $sql = 'SELECT f_geometry_column
-                FROM geometry_columns
-                WHERE f_table_name = ?';
-
-        $tableColumns = $this->connection->fetchAllAssociative(
-            $sql,
-            [
-                $this->trimQuotes($table),
-            ]
-        );
-
-        $columns = [];
-        foreach ($tableColumns as $row) {
-            $columns[] = $row['f_geometry_column'];
-        }
-
-        return $columns;
     }
 
     public function getGeometrySpatialColumnInfo(string $table, string $column): ?array

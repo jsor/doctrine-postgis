@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_MLineFromTextTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,7 +70,7 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
   'value' => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -94,6 +97,6 @@ class ST_MLineFromTextTest extends AbstractFunctionalTestCase
   'value' => null,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -43,6 +46,9 @@ class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.0
+     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_MinimumBoundingCircle(ST_GeomFromEWKT(\'MULTIPOINT((10 10), (20 20), (10 20), (15 19))\'), 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -64,9 +70,39 @@ class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((22.0710678118655 15,20 10,15 7.92893218813452,10 9.99999999999999,7.92893218813452 15,9.99999999999998 20,15 22.0710678118655,20 20,22.0710678118655 15))',
+  'value' => 'POLYGON((15 22.6536686473018,20.411961001462 20.411961001462,22.6536686473018 15,20.411961001462 9.58803899853803,15 7.3463313526982,9.58803899853803 9.58803899853803,7.3463313526982 15,9.58803899853803 20.411961001462,15 22.6536686473018))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    /**
+     * @group postgis-3.1
+     */
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_MinimumBoundingCircle(ST_GeomFromEWKT(\'MULTIPOINT((10 10), (20 20), (10 20), (15 19))\'), 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'POLYGON((15 22.653668647301796,20.411961001461968 20.41196100146197,22.653668647301796 15,20.41196100146197 9.58803899853803,15.000000000000002 7.346331352698204,9.58803899853803 9.588038998538028,7.346331352698204 14.999999999999998,9.588038998538028 20.411961001461968,14.999999999999998 22.653668647301796))',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

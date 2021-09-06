@@ -7,7 +7,7 @@
     bootstrap="tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Jsor\Doctrine Test Suite">
+        <testsuite name="Doctrine PostGIS Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
@@ -18,16 +18,7 @@
         </include>
     </coverage>
 
-    <groups>
-        <exclude>
-            <group>postgis-1.5</group>
-            <group>postgis-2.0</group>
-        </exclude>
-    </groups>
-
     <php>
-        <env name="POSTGIS_VERSION" value="2.1"/>
-
         <env name="DB_TYPE" value="pdo_pgsql"/>
         <env name="DB_HOST" value="localhost"/>
         <env name="DB_USER" value="postgres"/>

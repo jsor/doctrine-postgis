@@ -7,14 +7,10 @@ namespace Jsor\Doctrine\PostGIS\Event;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Event\SchemaAlterTableAddColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableEventArgs;
-use Doctrine\DBAL\Event\SchemaAlterTableRemoveColumnEventArgs;
-use Doctrine\DBAL\Event\SchemaAlterTableRenameColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
 use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
-use Doctrine\DBAL\Event\SchemaDropTableEventArgs;
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
 use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Schema\Column;
@@ -23,7 +19,6 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
-use Jsor\Doctrine\PostGIS\Schema\SpatialColumnSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
@@ -31,7 +26,6 @@ use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use Jsor\Doctrine\PostGIS\Types\RasterType;
 use LogicException;
 use RuntimeException;
-use function count;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
@@ -44,14 +38,10 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         return [
             Events::postConnect,
             Events::onSchemaCreateTable,
-            Events::onSchemaDropTable,
             Events::onSchemaColumnDefinition,
             Events::onSchemaIndexDefinition,
             Events::onSchemaAlterTable,
-            Events::onSchemaAlterTableAddColumn,
-            Events::onSchemaAlterTableRemoveColumn,
             Events::onSchemaAlterTableChangeColumn,
-            Events::onSchemaAlterTableRenameColumn,
         ];
     }
 
@@ -92,10 +82,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function onSchemaCreateTable(SchemaCreateTableEventArgs $args): void
     {
-        $generator = new CreateTableSqlGenerator(
-            $args->getPlatform(),
-            $this->schemaManager->isPostGis2()
-        );
+        $generator = new CreateTableSqlGenerator($args->getPlatform());
 
         $args
             ->addSql(
@@ -107,22 +94,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             )
             ->preventDefault()
         ;
-    }
-
-    public function onSchemaDropTable(SchemaDropTableEventArgs $args): void
-    {
-        if ($this->schemaManager->isPostGis2()) {
-            return;
-        }
-
-        $table = $args->getTable();
-        $hasSpatialGeometryColumn = count($this->schemaManager->listSpatialGeometryColumns($table->getName())) > 0;
-
-        if ($hasSpatialGeometryColumn) {
-            $args
-                ->setSql("SELECT DropGeometryTable('" . $table->getName() . "')")
-                ->preventDefault();
-        }
     }
 
     public function onSchemaAlterTable(SchemaAlterTableEventArgs $args): void
@@ -169,68 +140,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ;
     }
 
-    public function onSchemaAlterTableAddColumn(SchemaAlterTableAddColumnEventArgs $args): void
-    {
-        $column = $args->getColumn();
-
-        if (!$this->isSpatialColumnType($column)) {
-            return;
-        }
-
-        if ('geometry' !== $column->getType()->getName() ||
-            $this->schemaManager->isPostGis2()) {
-            return;
-        }
-
-        $diff = $args->getTableDiff();
-        $table = false !== $diff->newName ? $diff->newName : $diff->name;
-
-        $spatialColumnSqlGenerator = new SpatialColumnSqlGenerator($args->getPlatform());
-
-        $args
-            ->addSql($spatialColumnSqlGenerator->getSql($column, $table))
-            ->preventDefault()
-        ;
-    }
-
-    public function onSchemaAlterTableRemoveColumn(SchemaAlterTableRemoveColumnEventArgs $args): void
-    {
-        $column = $args->getColumn();
-
-        if (!$this->isSpatialColumnType($column)) {
-            return;
-        }
-
-        if ('geometry' !== $column->getType()->getName() ||
-            $this->schemaManager->isPostGis2()) {
-            return;
-        }
-
-        $platform = $args->getPlatform();
-
-        $diff = $args->getTableDiff();
-        $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
-
-        if ($column->getNotnull()) {
-            // Remove NOT NULL constraint from the field
-            $args->addSql(sprintf(
-                'ALTER TABLE %s ALTER %s SET DEFAULT NULL',
-                $table->getQuotedName($platform),
-                $column->getQuotedName($platform)
-            ));
-        }
-
-        // We use DropGeometryColumn() to also drop entries from the geometry_columns table
-        $args->addSql(sprintf(
-            "SELECT DropGeometryColumn('%s', '%s')",
-            $table->getName(),
-            $column->getName()
-        ));
-
-        $args
-            ->preventDefault();
-    }
-
     public function onSchemaAlterTableChangeColumn(SchemaAlterTableChangeColumnEventArgs $args): void
     {
         $columnDiff = $args->getColumnDiff();
@@ -259,21 +168,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
                 $column->getCustomSchemaOption('srid')
             ));
         }
-    }
-
-    public function onSchemaAlterTableRenameColumn(SchemaAlterTableRenameColumnEventArgs $args): void
-    {
-        $column = $args->getColumn();
-
-        if (!$this->isSpatialColumnType($column)) {
-            return;
-        }
-
-        if ($this->schemaManager->isPostGis2()) {
-            return;
-        }
-
-        throw new RuntimeException('Spatial columns cannot be renamed (Requested renaming column "' . $args->getOldColumnName() . '" to "' . $column->getName() . '" in table "' . $args->getTableDiff()->name . '")');
     }
 
     public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args): void

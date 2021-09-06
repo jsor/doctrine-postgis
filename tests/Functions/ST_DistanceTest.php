@@ -9,8 +9,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_DistanceTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -58,21 +60,16 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 0.00150567726382822,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -88,45 +85,13 @@ class ST_DistanceTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 123.475736916,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testQuery3(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance(ST_GeographyFromText(\'SRID=4326;POINT(-72.1235 42.3521)\'), ST_GeographyFromText(\'SRID=4326;LINESTRING(-72.1260 42.45, -72.123 42.1546)\'), false) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-  'value' => 123.475736916397,
-];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

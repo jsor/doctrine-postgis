@@ -11,36 +11,14 @@ use Doctrine\DBAL\Schema\Table;
 class CreateTableSqlGenerator
 {
     private AbstractPlatform $platform;
-    private bool $isPostGis2;
-    private SpatialColumnSqlGenerator $spatialColumnSqlGenerator;
-    private SpatialIndexSqlGenerator $spatialIndexSqlGenerator;
 
-    public function __construct(AbstractPlatform $platform, bool $isPostGis2 = true)
+    public function __construct(AbstractPlatform $platform)
     {
         $this->platform = $platform;
-        $this->isPostGis2 = $isPostGis2;
-        $this->spatialColumnSqlGenerator = new SpatialColumnSqlGenerator($platform);
-        $this->spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
     }
 
     public function getSql(Table $table, array $columns, array $options = []): array
     {
-        $spatialGeometryColumns = [];
-
-        if (!$this->isPostGis2) {
-            $normalColumns = [];
-
-            foreach ($columns as $name => $columnData) {
-                if ('geometry' !== $columnData['type']->getName()) {
-                    $normalColumns[$name] = $columnData;
-                } else {
-                    $spatialGeometryColumns[] = $table->getColumn($name);
-                }
-            }
-
-            $columns = $normalColumns;
-        }
-
         $spatialIndexes = [];
 
         if (isset($options['indexes']) && !empty($options['indexes'])) {
@@ -59,12 +37,10 @@ class CreateTableSqlGenerator
 
         $sql = $this->getCreateTableSQL($table, $columns, $options);
 
-        foreach ($spatialGeometryColumns as $column) {
-            $sql = array_merge($sql, $this->spatialColumnSqlGenerator->getSql($column, $table));
-        }
+        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this->platform);
 
         foreach ($spatialIndexes as $index) {
-            $sql[] = $this->spatialIndexSqlGenerator->getSql($index, $table);
+            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
         }
 
         return $sql;

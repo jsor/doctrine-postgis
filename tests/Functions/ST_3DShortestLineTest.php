@@ -12,8 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.1
+ * @group functions
  */
 class ST_3DShortestLineTest extends AbstractFunctionalTestCase
 {
@@ -47,6 +46,9 @@ class ST_3DShortestLineTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.0
+     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DShortestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -71,6 +73,36 @@ class ST_3DShortestLineTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    /**
+     * @group postgis-3.1
+     */
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DShortestLine(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'LINESTRING(54.69937988676193 128.93502291722837 11.547586950660556,100 100 30)',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

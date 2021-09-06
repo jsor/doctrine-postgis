@@ -9,11 +9,9 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.2
+ * @group functions
  */
 class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
 {
@@ -47,9 +45,6 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -65,45 +60,13 @@ class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 85204.5207711805,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testQuery2(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_LengthSpheroid(ST_GeomFromText(\'MULTILINESTRING((-118.584 38.374,-118.583 38.5),(-71.05957 42.3589 , -71.061 43))\'),\'SPHEROID["GRS_1980",6378137,298.257222101]\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-  'value' => 85204.5207562954,
-];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_PointTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,6 +70,6 @@ class ST_PointTest extends AbstractFunctionalTestCase
   'value' => '0101000000000000000000F03F0000000000000040',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

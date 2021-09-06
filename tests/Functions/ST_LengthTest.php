@@ -9,8 +9,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_LengthTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -58,16 +60,14 @@ class ST_LengthTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 122.630744000095,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -85,15 +85,13 @@ class ST_LengthTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 34346.2060960742,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

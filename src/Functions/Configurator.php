@@ -34,7 +34,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_LinestringFromWKB', ST_LinestringFromWKB::class);
         $configuration->addCustomStringFunction('ST_MakeBox2D', ST_MakeBox2D::class);
         $configuration->addCustomStringFunction('ST_3DMakeBox', ST_3DMakeBox::class);
-        $configuration->addCustomStringFunction('ST_MakeBox3D', ST_MakeBox3D::class);
         $configuration->addCustomStringFunction('ST_MakeLine', ST_MakeLine::class);
         $configuration->addCustomStringFunction('ST_MakeEnvelope', ST_MakeEnvelope::class);
         $configuration->addCustomStringFunction('ST_MakePolygon', ST_MakePolygon::class);
@@ -105,7 +104,6 @@ class Configurator
         $configuration->addCustomStringFunction('ST_AsGeoJSON', ST_AsGeoJSON::class);
         $configuration->addCustomStringFunction('ST_AsGML', ST_AsGML::class);
         $configuration->addCustomStringFunction('ST_AsHEXEWKB', ST_AsHEXEWKB::class);
-        $configuration->addCustomStringFunction('ST_AsKML', ST_AsKML::class);
         $configuration->addCustomStringFunction('ST_AsSVG', ST_AsSVG::class);
         $configuration->addCustomStringFunction('ST_GeoHash', ST_GeoHash::class);
         $configuration->addCustomStringFunction('ST_AsLatLonText', ST_AsLatLonText::class);
@@ -132,9 +130,7 @@ class Configurator
         $configuration->addCustomNumericFunction('ST_Distance', ST_Distance::class);
         $configuration->addCustomNumericFunction('ST_HausdorffDistance', ST_HausdorffDistance::class);
         $configuration->addCustomNumericFunction('ST_MaxDistance', ST_MaxDistance::class);
-        $configuration->addCustomNumericFunction('ST_Distance_Sphere', ST_Distance_Sphere::class);
         $configuration->addCustomNumericFunction('ST_DistanceSphere', ST_DistanceSphere::class);
-        $configuration->addCustomNumericFunction('ST_Distance_Spheroid', ST_Distance_Spheroid::class);
         $configuration->addCustomNumericFunction('ST_DistanceSpheroid', ST_DistanceSpheroid::class);
         $configuration->addCustomStringFunction('ST_DFullyWithin', ST_DFullyWithin::class);
         $configuration->addCustomStringFunction('ST_DWithin', ST_DWithin::class);
@@ -143,10 +139,7 @@ class Configurator
         $configuration->addCustomStringFunction('ST_Intersects', ST_Intersects::class);
         $configuration->addCustomNumericFunction('ST_Length', ST_Length::class);
         $configuration->addCustomNumericFunction('ST_3DLength', ST_3DLength::class);
-        $configuration->addCustomNumericFunction('ST_Length3D', ST_Length3D::class);
-        $configuration->addCustomNumericFunction('ST_Length_Spheroid', ST_Length_Spheroid::class);
         $configuration->addCustomNumericFunction('ST_LengthSpheroid', ST_LengthSpheroid::class);
-        $configuration->addCustomNumericFunction('ST_Length2D_Spheroid', ST_Length2D_Spheroid::class);
         $configuration->addCustomStringFunction('ST_LongestLine', ST_LongestLine::class);
         $configuration->addCustomStringFunction('ST_OrderingEquals', ST_OrderingEquals::class);
         $configuration->addCustomStringFunction('ST_Overlaps', ST_Overlaps::class);
@@ -163,7 +156,7 @@ class Configurator
         $configuration->addCustomStringFunction('ST_FlipCoordinates', ST_FlipCoordinates::class);
         $configuration->addCustomStringFunction('ST_Intersection', ST_Intersection::class);
         $configuration->addCustomStringFunction('ST_MinimumBoundingCircle', ST_MinimumBoundingCircle::class);
-        $configuration->addCustomStringFunction('ST_Shift_Longitude', ST_Shift_Longitude::class);
+        $configuration->addCustomStringFunction('ST_ShiftLongitude', ST_ShiftLongitude::class);
         $configuration->addCustomStringFunction('ST_Split', ST_Split::class);
         $configuration->addCustomStringFunction('ST_SymDifference', ST_SymDifference::class);
         $configuration->addCustomStringFunction('ST_Union', ST_Union::class);

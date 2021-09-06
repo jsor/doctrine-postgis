@@ -11,7 +11,10 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
-class ST_Distance_SpheroidTest extends AbstractFunctionalTestCase
+/**
+ * @group functions
+ */
+class ST_ShiftLongitudeTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {
@@ -43,9 +46,12 @@ class ST_Distance_SpheroidTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.0
+     */
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Distance_Spheroid(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326), \'SPHEROID["WGS 84",6378137,298.257223563]\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShiftLongitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -64,9 +70,39 @@ class ST_Distance_SpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.802076746845,
+  'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    /**
+     * @group postgis-3.1
+     */
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShiftLongitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'LINESTRING(241.42000000000002 38.38,241.8 38.45)',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

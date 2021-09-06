@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -43,10 +46,34 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery1(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(ST_AsGML(ST_GeomFromText(\'POLYGON((0 0,0 1,1 1,1 0,0 0))\')))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:Polygon srsName="EPSG:4326"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
@@ -70,13 +97,10 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
   'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
-    /**
-     * @group postgis-2.x
-     */
-    public function testQuery2(): void
+    public function testQuery3(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_GeomFromGML(\'<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
@@ -100,6 +124,6 @@ class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
   'value' => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

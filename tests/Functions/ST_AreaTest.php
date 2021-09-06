@@ -9,8 +9,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_AreaTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -58,15 +60,38 @@ class ST_AreaTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 928.625,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Area(ST_GeographyFromText(\'POLYGON((743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416))\'), true) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            $data = (float) $data;
+        });
+
+        $expected = [
+  'value' => 7635253966144.121,
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

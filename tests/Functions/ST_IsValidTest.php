@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_IsValidTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,7 +70,7 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   'value' => false,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -94,12 +97,9 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery3(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_IsValid(ST_GeomFromText(\'LINESTRING(0 0, 1 1)\'), 1) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -124,6 +124,6 @@ class ST_IsValidTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

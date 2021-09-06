@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
 {
@@ -70,7 +70,7 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
   'value' => 'POINT(-48.23456 20.12345)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -97,6 +97,6 @@ class ST_GeomFromGeoJSONTest extends AbstractFunctionalTestCase
   'value' => 'LINESTRING Z (1 2 3,4 5 6,7 8 9)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

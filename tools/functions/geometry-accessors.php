@@ -185,7 +185,6 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)')) AS value",
@@ -254,7 +253,7 @@ return [
                     ],
                 ],
                 [
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((1 2, 3 4, 5 6, 1 2))')) AS value",
+                    'sql' => "SELECT {function}(ST_GeomFromText('Point(1 2)')) AS value",
                     'result' => [
                         'value' => true,
                     ],
@@ -280,7 +279,6 @@ return [
                     ],
                 ],
                 [
-                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(0 0, 1 1)'), 1) AS value",
                     'result' => [
                         'value' => true,
@@ -301,7 +299,6 @@ return [
                     ],
                 ],
                 [
-                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(220227 150406,2220227 150407,222020 150410)'), 1) AS value",
                     'result' => [
                         'value' => 'Valid Geometry',
@@ -314,7 +311,6 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(1 1, 1 1)')) AS value",
@@ -409,17 +405,7 @@ return [
         'return_type' => 'numeric',
         'tests' => [
             'queries' => [
-                // PostGIS 1.5: ST_NumGeometries returns NULL for single geometries
                 [
-                    'group' => 'postgis-1.5',
-                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
-                    'result' => [
-                        'value' => null,
-                    ],
-                ],
-                // PostGIS 2.x: ST_NumGeometries returns NULL for single geometries
-                [
-                    'group' => 'postgis-2.x',
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)')) AS value",
                     'result' => [
                         'value' => 1,
@@ -457,7 +443,6 @@ return [
         'total_arguments' => 1,
         'return_type' => 'numeric',
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )')) AS value",
@@ -487,7 +472,6 @@ return [
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromText('POLYHEDRALSURFACE( ((0 0 0, 0 0 1, 0 1 1, 0 1 0, 0 0 0)), ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 0, 1 1 1, 1 0 1, 1 0 0, 1 1 0)), ((0 1 0, 0 1 1, 1 1 1, 1 1 0, 0 1 0)), ((0 0 1, 1 0 1, 1 1 1, 0 1 1, 0 0 1)) )'), 2)) AS value",
@@ -549,7 +533,7 @@ return [
                 [
                     'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0, 1 1, 1 2, 1 1, 0 0))')) AS value",
                     'result' => [
-                        'value' => 'Polygon[B] with 1 rings
+                        'value' => 'Polygon[B] with 1 ring:
    ring 0 has 5 points',
                     ],
                 ],

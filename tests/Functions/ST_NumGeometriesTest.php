@@ -9,8 +9,10 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_NumGeometriesTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -43,9 +45,6 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-1.5
-     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -61,49 +60,17 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-  'value' => null,
-];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
-    }
-
-    /**
-     * @group postgis-2.x
-     */
-    public function testQuery2(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 1,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
-    public function testQuery3(): void
+    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_NumGeometries(ST_GeomFromText(\'GEOMETRYCOLLECTION(MULTIPOINT(-2 3 , -2 2),LINESTRING(5 5 ,10 10),POLYGON((-7 4.2,-7.1 5,-7.1 4.3,-7 4.2)))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
@@ -118,15 +85,13 @@ class ST_NumGeometriesTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 3,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

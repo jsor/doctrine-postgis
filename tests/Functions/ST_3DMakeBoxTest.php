@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
 {
@@ -70,6 +70,6 @@ class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
   'value' => 'BOX3D(-989502.1875 528439.5625 10,-987121.375 529933.1875 10)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_PatchNTest extends AbstractFunctionalTestCase
 {
@@ -70,6 +70,6 @@ class ST_PatchNTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

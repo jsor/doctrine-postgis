@@ -12,8 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.1
+ * @group functions
  */
 class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
 {
@@ -47,6 +46,9 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.0
+     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -71,10 +73,40 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
+    /**
+     * @group postgis-3.1
+     */
     public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    public function testQuery3(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_GeomFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 4)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
@@ -98,6 +130,6 @@ class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
   'value' => 'POLYGON((-115.3125 36.03515625,-115.3125 36.2109375,-114.9609375 36.2109375,-114.9609375 36.03515625,-115.3125 36.03515625))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

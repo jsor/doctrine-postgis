@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_SummaryTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -64,10 +67,10 @@ class ST_SummaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Polygon[B] with 1 rings
+  'value' => 'Polygon[B] with 1 ring:
    ring 0 has 5 points',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

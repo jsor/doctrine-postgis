@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_IsValidDetailTest extends AbstractFunctionalTestCase
 {
@@ -70,7 +70,7 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
   'value' => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -97,6 +97,6 @@ class ST_IsValidDetailTest extends AbstractFunctionalTestCase
   'value' => '(t,,)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

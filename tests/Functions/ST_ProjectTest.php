@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_ProjectTest extends AbstractFunctionalTestCase
 {
@@ -71,6 +71,6 @@ class ST_ProjectTest extends AbstractFunctionalTestCase
   'value2' => 0.639472334729198,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

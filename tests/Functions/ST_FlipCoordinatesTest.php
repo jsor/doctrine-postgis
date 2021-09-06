@@ -12,8 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.1
+ * @group functions
  */
 class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
 {
@@ -71,6 +70,6 @@ class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
   'value' => 'POINT(2 1)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

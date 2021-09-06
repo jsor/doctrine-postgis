@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_IntersectsTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,12 +70,12 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeographyFromText(\'SRID=4326;LINESTRING(-43.23456 72.4567,-43.23456 72.4568)\'), ST_GeographyFromText(\'SRID=4326;POINT(-43.23456 72.4567772)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_Intersects(ST_GeomFromText(\'POINT(0 0)\'), ST_GeomFromText(\'LINESTRING(2 0, 0 2)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -91,9 +94,9 @@ class ST_IntersectsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
+  'value' => false,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

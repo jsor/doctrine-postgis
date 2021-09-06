@@ -145,14 +145,13 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 
-<?php if (!empty($options['tests']['group'])) { ?>
 /**
-<?php foreach ((array) $options['tests']['group'] as $group) { ?>
+ * @group functions
+<?php foreach ($options['tests']['groups'] ?? [] as $group) { ?>
  * @group <?php echo $group; ?>
 
 <?php } ?>
  */
-<?php } ?>
 class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -186,9 +185,9 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
     }
 <?php foreach ($queries as $index => $query) { ?>
 
-<?php if (!empty($query['group'])) { ?>
+<?php if (isset($query['groups'])) { ?>
     /**
-<?php foreach ((array) $query['group'] as $group) { ?>
+<?php foreach ($query['groups'] as $group) { ?>
      * @group <?php echo $group; ?>
 
 <?php } ?>
@@ -208,15 +207,20 @@ class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
                     $data = substr($data, $pos + 1);
                 }
             }
+<?php if ('numeric' === ($options['return_type'] ?? null)) { ?>
+
+            $data = (float) $data;
+<?php } else { ?>
 
             if (is_string($data)) {
                 $data = trim($data);
             }
+<?php } ?>
         });
 
         $expected = <?php echo var_export($query['result'], true); ?>;
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 <?php } ?>
 }
@@ -247,7 +251,7 @@ class Configurator
         $options = array_replace_recursive($functions[$options['alias_for']], $options);
     }
 ?>
-        $configuration->addCustom<?php echo isset($options['return_type']) ? ucfirst($options['return_type']) : 'String'; ?>Function('<?php echo $name; ?>', <?php echo $name; ?>::class);
+        $configuration->addCustom<?php echo ucfirst($options['return_type'] ?? 'String'); ?>Function('<?php echo $name; ?>', <?php echo $name; ?>::class);
 <?php } ?>
     }
 }

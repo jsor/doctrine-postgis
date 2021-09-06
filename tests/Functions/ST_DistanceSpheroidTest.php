@@ -9,11 +9,9 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.2
+ * @group functions
  */
 class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
@@ -62,15 +60,13 @@ class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 123.802076746845,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

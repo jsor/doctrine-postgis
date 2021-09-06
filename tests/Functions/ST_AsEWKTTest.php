@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_AsEWKTTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,7 +70,7 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
   'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -94,6 +97,6 @@ class ST_AsEWKTTest extends AbstractFunctionalTestCase
   'value' => 'CIRCULARSTRING(220268 150415 1,220227 150505 2,220227 150406 3)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

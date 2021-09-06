@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_TranslateTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -45,7 +48,7 @@ class ST_TranslateTest extends AbstractFunctionalTestCase
 
     public function testQuery1(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Translate(ST_GeomFromText(\'POINT(-71.01 42.37)\',4326),1,0)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Translate(ST_GeomFromText(\'POINT(-71.01 42.37)\',4326),1,0,0)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -67,6 +70,6 @@ class ST_TranslateTest extends AbstractFunctionalTestCase
   'value' => 'POINT(-70.01 42.37)',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

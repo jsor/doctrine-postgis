@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_IsSimpleTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,12 +70,12 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
   'value' => false,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'POLYGON((1 2, 3 4, 5 6, 1 2))\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_IsSimple(ST_GeomFromText(\'Point(1 2)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -94,6 +97,6 @@ class ST_IsSimpleTest extends AbstractFunctionalTestCase
   'value' => true,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

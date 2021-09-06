@@ -9,11 +9,9 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
-use function is_string;
 
 /**
- * @group postgis-2.x
- * @group postgis-2.2
+ * @group functions
  */
 class ST_DistanceSphereTest extends AbstractFunctionalTestCase
 {
@@ -47,9 +45,6 @@ class ST_DistanceSphereTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-2.x
-     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -65,45 +60,13 @@ class ST_DistanceSphereTest extends AbstractFunctionalTestCase
                 }
             }
 
-            if (is_string($data)) {
-                $data = trim($data);
-            }
+            $data = (float) $data;
         });
 
         $expected = [
   'value' => 123.475736916,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testQuery2(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_DistanceSphere(ST_GeomFromText(\'POINT(-72.1235 42.3521)\', 4326), ST_GeomFromText(\'LINESTRING(-72.1260 42.45, -72.123 42.1546)\', 4326)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-  'value' => 123.475736916405,
-];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

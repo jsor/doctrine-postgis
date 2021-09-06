@@ -78,7 +78,7 @@ return [
                     ],
                 ],
                 [
-                    'sql' => "SELECT {function}(1, ST_GeomFromText('LINESTRING(1 2 3, 4 5 6)', 4326), 15, 2) AS value",
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(1 2 3, 4 5 6)', 4326), 14, 2) AS value",
                     'result' => [
                         'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
                     ],
@@ -98,9 +98,9 @@ return [
                     ],
                 ],
                 [
-                    'sql' => "SELECT {function}(3, ST_GeomFromText('POINT(5.234234233242 6.34534534534)',4326), 5, 17) AS value",
+                    'sql' => "SELECT {function}(3, ST_GeomFromText('POINT(5.234234233242 6.34534534534)',4326), 5, 17, '') AS value",
                     'result' => [
-                        'value' => '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326"><gml:pos srsDimension="2">6.34535 5.23423</gml:pos></gml:Point>',
+                        'value' => '<Point srsName="urn:ogc:def:crs:EPSG::4326"><pos srsDimension="2">6.34535 5.23423</pos></Point>',
                     ],
                 ],
             ],
@@ -126,27 +126,6 @@ return [
             ],
         ],
     ],
-    'ST_AsKML' => [
-        'required_arguments' => 1,
-        'total_arguments' => 4,
-        'tests' => [
-            'queries' => [
-                [
-                    'sql' => "SELECT {function}(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))',4326)) AS value",
-                    'result' => [
-                        'value' => '<Polygon><outerBoundaryIs><LinearRing><coordinates>0,0 0,1 1,1 1,0 0,0</coordinates></LinearRing></outerBoundaryIs></Polygon>',
-                    ],
-                ],
-                [
-                    'group' => ['postgis-2.x', 'postgis-2.1'],
-                    'sql' => "SELECT {function}(2, ST_GeomFromText('SRID=4326;POINT(5.234234233242 6.34534534534)'), 5, 'kmlprefix') AS value",
-                    'result' => [
-                        'value' => '<kmlprefix:Point><kmlprefix:coordinates>5.23423,6.34535</kmlprefix:coordinates></kmlprefix:Point>',
-                    ],
-                ],
-            ],
-        ],
-    ],
     'ST_AsSVG' => [
         'required_arguments' => 1,
         'total_arguments' => 3,
@@ -159,7 +138,6 @@ return [
                     ],
                 ],
                 [
-                    'group' => ['postgis-2.x', 'postgis-2.1'],
                     'sql' => "SELECT {function}(ST_GeomFromText('SRID=4326;POINT(5.234234233242 6.34534534534)'), 1, 5) AS value",
                     'result' => [
                         'value' => 'x="5.23423" y="-6.34535"',
@@ -180,7 +158,6 @@ return [
                     ],
                 ],
                 [
-                    'group' => ['postgis-2.x', 'postgis-2.1'],
                     'sql' => "SELECT {function}(ST_GeomFromText('SRID=4326;POINT(-126 48)'), 5) AS value",
                     'result' => [
                         'value' => 'c0w3h',
@@ -193,7 +170,6 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT {function}('POINT (-3.2342342 -2.32498)') AS value",

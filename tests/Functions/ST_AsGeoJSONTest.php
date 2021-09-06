@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,12 +70,12 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   'value' => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
     {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(1, ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 15, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsGeoJSON(ST_GeomFromText(\'LINESTRING(1 2 3, 4 5 6)\', 4326), 14, 2) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
         $result = $query->getSingleResult();
 
@@ -94,6 +97,6 @@ class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
   'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

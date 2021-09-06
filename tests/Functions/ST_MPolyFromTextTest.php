@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,7 +70,7 @@ class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
   'value' => '01060000A0E6100000010000000103000080020000000500000000000000000000000000000000000000000000000000F03F00000000000034400000000000000000000000000000F03F00000000000034400000000000003440000000000000F03F00000000000000000000000000003440000000000000F03F00000000000000000000000000000000000000000000F03F0500000000000000000014400000000000001440000000000000084000000000000014400000000000001C4000000000000008400000000000001C400000000000001C4000000000000008400000000000001C4000000000000014400000000000000840000000000000144000000000000014400000000000000840',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -94,6 +97,6 @@ class ST_MPolyFromTextTest extends AbstractFunctionalTestCase
   'value' => null,
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

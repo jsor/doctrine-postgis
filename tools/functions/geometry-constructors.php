@@ -10,12 +10,19 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => [
-            'group' => ['postgis-2.x', 'postgis-2.1'],
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0'],
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0') AS value",
                     'result' => [
                         'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.1'],
+                    'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0') AS value",
+                    'result' => [
+                        'value' => 'BOX(-115.17281600000001 36.11464599999999,-115.172816 36.114646)',
                     ],
                 ],
                 [
@@ -25,9 +32,17 @@ return [
                     ],
                 ],
                 [
+                    'groups' => ['postgis-3.0'],
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0', 10) AS value",
                     'result' => [
                         'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.1'],
+                    'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0', 10) AS value",
+                    'result' => [
+                        'value' => 'BOX(-115.17282128334045 36.11464083194733,-115.1728105545044 36.114646196365356)',
                     ],
                 ],
             ],
@@ -54,7 +69,6 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT ST_AsText({function}(ST_GeogFromText('LINESTRING(-113.98 39.198,-113.981 39.195)'))) AS value",
@@ -117,12 +131,19 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => [
-            'group' => ['postgis-2.x', 'postgis-2.1'],
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0'],
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
                     'result' => [
                         'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.1'],
+                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
+                    'result' => [
+                        'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
                     ],
                 ],
                 [
@@ -139,23 +160,19 @@ return [
         'total_arguments' => 2,
         'tests' => [
             'queries' => [
-                // @TODO: Get this to work with PostGIS 1.5 (SQLSTATE[XX000]: Internal error: 7 ERROR:  invalid GML representation)
-                // See https://travis-ci.org/jsor/doctrine-postgis/jobs/55927677
-                /*array(
-                    'sql' => "SELECT ST_AsEWKT({function}(ST_AsGML(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))')))) AS value",
-                    'result' => array(
-                        'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))'
-                    )
-                ),*/
                 [
-                    'group' => 'postgis-2.x',
+                    'sql' => "SELECT ST_AsEWKT({function}(ST_AsGML(ST_GeomFromText('POLYGON((0 0,0 1,1 1,1 0,0 0))')))) AS value",
+                    'result' => [
+                        'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+                    ],
+                ],
+                [
                     'sql' => "SELECT ST_AsEWKT({function}('<gml:Polygon srsName=\"EPSG:4326\"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>')) AS value",
                     'result' => [
                         'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
                     ],
                 ],
                 [
-                    'group' => 'postgis-2.x',
                     'sql' => "SELECT ST_AsEWKT({function}('<gml:LineString><gml:coordinates>-71.16028,42.258729 -71.160837,42.259112 -71.161143,42.25932</gml:coordinates></gml:LineString>', 4326)) AS value",
                     'result' => [
                         'value' => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
@@ -168,7 +185,6 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 1,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => "SELECT ST_AsText({function}('{\"type\":\"Point\",\"coordinates\":[-48.23456,20.12345]}')) AS value",
@@ -311,7 +327,6 @@ return [
         'required_arguments' => 2,
         'total_arguments' => 2,
         'tests' => [
-            'group' => 'postgis-2.x',
             'queries' => [
                 [
                     'sql' => 'SELECT {function}(ST_MakePoint(-989502.1875, 528439.5625, 10), ST_MakePoint(-987121.375 ,529933.1875, 10)) AS value',
@@ -320,12 +335,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-    'ST_MakeBox3D' => [
-        'alias_for' => 'ST_3DMakeBox',
-        'tests' => [
-            'group' => 'postgis-1.5',
         ],
     ],
     'ST_MakeLine' => [
@@ -476,12 +485,19 @@ return [
         'required_arguments' => 1,
         'total_arguments' => 2,
         'tests' => [
-            'group' => ['postgis-2.x', 'postgis-2.1'],
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0'],
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
                     'result' => [
                         'value' => 'POINT(-115.172816 36.114646)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.1'],
+                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
+                    'result' => [
+                        'value' => 'POINT(-115.17281600000001 36.11464599999999)',
                     ],
                 ],
                 [

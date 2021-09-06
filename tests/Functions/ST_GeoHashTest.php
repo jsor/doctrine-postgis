@@ -11,6 +11,9 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 use function is_string;
 
+/**
+ * @group functions
+ */
 class ST_GeoHashTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
@@ -67,13 +70,9 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
   'value' => 'c0w3hf1s70w3hf1s70w3',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
-    /**
-     * @group postgis-2.x
-     * @group postgis-2.1
-     */
     public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_GeoHash(ST_GeomFromText(\'SRID=4326;POINT(-126 48)\'), 5) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -98,6 +97,6 @@ class ST_GeoHashTest extends AbstractFunctionalTestCase
   'value' => 'c0w3h',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }

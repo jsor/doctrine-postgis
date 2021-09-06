@@ -12,20 +12,20 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
     {
         parent::setUp();
 
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_create.sql');
+        $this->_execFile('points_drop.sql');
+        $this->_execFile('points_create.sql');
 
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_drop.sql');
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_create.sql');
+        $this->_execFile('reserved-words_drop.sql');
+        $this->_execFile('reserved-words_create.sql');
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_points_drop.sql');
+        $this->_execFile('points_drop.sql');
 
-        $this->_execFile('postgis-' . getenv('POSTGIS_VERSION') . '_reserved-words_drop.sql');
+        $this->_execFile('reserved-words_drop.sql');
     }
 
     public function testListSpatialIndexes(): void
@@ -63,35 +63,6 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
         ];
 
         $this->assertEquals($expected, $schemaManager->listSpatialIndexes('foo.points'));
-    }
-
-    public function testListSpatialGeometryColumns(): void
-    {
-        $schemaManager = new SchemaManager($this->_getConnection());
-
-        $expected = [
-            'geometry',
-            'point',
-            'point_2d',
-            'point_3dz',
-            'point_3dm',
-            'point_4d',
-            'point_2d_nullable',
-            'point_2d_nosrid',
-        ];
-
-        $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('foo.points'));
-    }
-
-    public function testListSpatialGeometryColumnsWithReservedWords(): void
-    {
-        $schemaManager = new SchemaManager($this->_getConnection());
-
-        $expected = [
-            'user',
-        ];
-
-        $this->assertEquals($expected, $schemaManager->listSpatialGeometryColumns('"user"'));
     }
 
     public function testGetGeometrySpatialColumnInfo(): void
@@ -194,25 +165,5 @@ class SchemaManagerTest extends AbstractFunctionalTestCase
             'srid' => 4326,
         ];
         $this->assertEquals($expected, $schemaManager->getGeographySpatialColumnInfo('"user"', '"primary"'));
-    }
-
-    /**
-     * @group postgis-1.5
-     */
-    public function testIsPostGis2OnPostGIS15(): void
-    {
-        $schemaManager = new SchemaManager($this->_getConnection());
-
-        $this->assertFalse($schemaManager->isPostGis2());
-    }
-
-    /**
-     * @group postgis-2.x
-     */
-    public function testIsPostGis2OnPostGIS2x(): void
-    {
-        $schemaManager = new SchemaManager($this->_getConnection());
-
-        $this->assertTrue($schemaManager->isPostGis2());
     }
 }

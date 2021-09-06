@@ -12,7 +12,7 @@ use function is_resource;
 use function is_string;
 
 /**
- * @group postgis-2.x
+ * @group functions
  */
 class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
 {
@@ -70,7 +70,7 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
   'value' => '2°19\'29.928"S 3°14\'3.243"W',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
     public function testQuery2(): void
@@ -97,6 +97,6 @@ class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
   'value' => '2°19\'29.928"S 3°14\'3.243"W',
 ];
 
-        $this->assertEqualsWithDelta($expected, $result, 0.0001);
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 }
