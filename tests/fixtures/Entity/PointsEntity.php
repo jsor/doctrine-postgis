@@ -4,85 +4,60 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
-/**
- * @ORM\Entity
- * @ORM\Table(
- *     name="points",
- *     indexes={
- *         @ORM\Index(name="idx_text", columns={"text"}),
- *         @ORM\Index(name="idx_point", columns={"point"}, flags={"spatial"})
- *     }
- * )
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'points')]
+#[ORM\Index(
+    fields: ['text'],
+    name: 'idx_text',
+)]
+#[ORM\Index(
+    fields: ['point'],
+    name: 'idx_point',
+    flags: ['spatial'],
+)]
 class PointsEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="text", name="text")
-     */
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $text;
 
-    /**
-     * @ORM\Column(type="geometry", name="geometry")
-     */
+    #[ORM\Column(type: PostGISType::GEOMETRY)]
     private ?string $geometry;
 
-    /**
-     * @ORM\Column(type="geometry", name="point", options={"geometry_type"="point"})
-     */
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'point'])]
     private ?string $point;
 
-    /**
-     * @ORM\Column(type="geometry", name="point_2d", options={"geometry_type"="point", "srid"=3785})
-     */
-    private ?string $point2D;
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'point', 'srid' => 3785])]
+    private ?string $point2d;
 
-    /**
-     * @ORM\Column(type="geometry", name="point_3dz", options={"geometry_type"="pointz", "srid"=3785})
-     */
-    private ?string $point3DZ;
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'pointz', 'srid' => 3785])]
+    private ?string $point3dz;
 
-    /**
-     * @ORM\Column(type="geometry", name="point_3dm", options={"geometry_type"="pointm", "srid"=3785})
-     */
-    private ?string $point3DM;
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'pointm', 'srid' => 3785])]
+    private ?string $point3dm;
 
-    /**
-     * @ORM\Column(type="geometry", name="point_4d", options={"geometry_type"="pointzm", "srid"=3785})
-     */
-    private ?string $point4D;
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'pointzm', 'srid' => 3785])]
+    private ?string $point4d;
 
-    /**
-     * @ORM\Column(type="geometry", nullable=true, name="point_2d_nullable", options={"geometry_type"="point", "srid"=3785})
-     */
-    private ?string $point2DNullable;
+    #[ORM\Column(type: PostGISType::GEOMETRY, nullable: true, options: ['geometry_type' => 'point', 'srid' => 3785])]
+    private ?string $point2dNullable;
 
-    /**
-     * @ORM\Column(type="geometry", name="point_2d_nosrid", options={"geometry_type"="point"})
-     */
-    private ?string $point2DNoSrid;
+    #[ORM\Column(type: PostGISType::GEOMETRY, options: ['geometry_type' => 'point'])]
+    private ?string $point2dNoSrid;
 
-    /**
-     * @ORM\Column(type="geography", name="geography")
-     */
+    #[ORM\Column(type: PostGISType::GEOGRAPHY)]
     private ?string $geography;
 
-    /**
-     * @ORM\Column(type="geography", name="point_geography_2d", options={"geometry_type"="point"})
-     */
+    #[ORM\Column(type: PostGISType::GEOGRAPHY, options: ['geometry_type' => 'point'])]
     private ?string $pointGeography2d;
 
-    /**
-     * @ORM\Column(type="geography", name="point_geography_2d_srid", options={"geometry_type"="point", "srid"=4326})
-     */
+    #[ORM\Column(type: PostGISType::GEOGRAPHY, options: ['geometry_type' => 'point', 'srid' => 4326])]
     private ?string $pointGeography2dSrid;
 
     public function __construct(array $points)
@@ -107,34 +82,34 @@ class PointsEntity
         return $this->point;
     }
 
-    public function getPoint2D(): ?string
+    public function getPoint2d(): ?string
     {
-        return $this->point2D;
+        return $this->point2d;
     }
 
-    public function getPoint3DZ(): ?string
+    public function getPoint3dz(): ?string
     {
-        return $this->point3DZ;
+        return $this->point3dz;
     }
 
-    public function getPoint3DM(): ?string
+    public function getPoint3dm(): ?string
     {
-        return $this->point3DM;
+        return $this->point3dm;
     }
 
-    public function getPoint4D(): ?string
+    public function getPoint4d(): ?string
     {
-        return $this->point4D;
+        return $this->point4d;
     }
 
-    public function getPoint2DNullable(): ?string
+    public function getPoint2dNullable(): ?string
     {
-        return $this->point2DNullable;
+        return $this->point2dNullable;
     }
 
-    public function getPoint2DNoSrid(): ?string
+    public function getPoint2dNoSrid(): ?string
     {
-        return $this->point2DNoSrid;
+        return $this->point2dNoSrid;
     }
 
     public function getGeography(): ?string
@@ -142,12 +117,12 @@ class PointsEntity
         return $this->geography;
     }
 
-    public function getPointGeography2D(): ?string
+    public function getPointGeography2d(): ?string
     {
         return $this->pointGeography2d;
     }
 
-    public function getPointGeography2DSrid(): ?string
+    public function getPointGeography2dSrid(): ?string
     {
         return $this->pointGeography2dSrid;
     }

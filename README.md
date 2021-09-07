@@ -114,18 +114,17 @@ Once the event subscriber is registered, you can use the column types
 to understand the difference between these two types).
 
 ```php
-/** @Entity */
+use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
+
+#[ORM\Entity]
 class MyEntity
 {
-    /**
-     * @Column(type="geometry")
-     */
-    private $geometry;
+    #[ORM\Column(type: PostGISType::GEOMETRY)]
+    private string $geometry;
 
-    /**
-     * @Column(type="geography")
-     */
-    private $geography;
+    #[ORM\Column(type: PostGISType::GEOGRAPHY)]
+    private string $geography;
 }
 ```
 
@@ -140,23 +139,39 @@ There are 2 options you can set to define the geometry.
 ### Example
 
 ```php
-/** @Entity */
+use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
+
+#[ORM\Entity]
 class MyEntity
 {
-    /**
-     * @Column(type="geometry", options={"geometry_type"="POINT"})
-     */
-    private $point;
+    #[ORM\Column(
+        type: PostGISType::GEOMETRY, 
+        options: ['geometry_type' => 'POINT'],
+    )]
+    public string $point;
 
-    /**
-     * @Column(type="geometry", options={"geometry_type"="POINTZM"})
-     */
-    private $point4D;
+    #[ORM\Column(
+        type: PostGISType::GEOMETRY, 
+        options: ['geometry_type' => 'POINTZM'],
+   )]
+    public string $point4D;
 
-    /**
-     * @Column(type="geometry", options={"geometry_type"="POINT", "srid"=3785})
-     */
-    private $pointWithSRID;
+    #[ORM\Column(
+        type: PostGISType::GEOMETRY, 
+        options: ['geometry_type' => 'POINT', 'srid' => 3785],
+    )]
+    public string $pointWithSRID;
+
+    public function __construct(
+        string $point,
+        string $point4D,
+        string $pointWithSRID,
+    ) {
+        $this->point = $point;
+        $this->point4D = $point4D;
+        $this->pointWithSRID = $pointWithSRID;
+    }
 }
 ```
 
@@ -169,31 +184,29 @@ to retain as much information as possible (like SRID's). Read more in the
 ### Example
 
 ```php
-$entity = new MyEntity();
-
-$entity->setPoint('POINT(37.4220761 -122.0845187)');
-$entity->setPoint4D('POINT(1 2 3 4)');
-$entity->setPointWithSRID('SRID=3785;POINT(37.4220761 -122.0845187)');
+$entity = new MyEntity(
+    point: 'POINT(37.4220761 -122.0845187)',
+    point4D: 'POINT(1 2 3 4)',
+    pointWithSRID: 'SRID=3785;POINT(37.4220761 -122.0845187)',
+);
 ```
 
 Spatial Indexes
 ---------------
 
 You can define [spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
-for your geometry columns.
+for your geometry fields.
 
 Simply set the `spatial` flag for indexes.
 
 ```php
-/**
- * @Entity
- * @Table(
- *     indexes={
- *         @Index(name="idx_point", columns={"point"}, flags={"spatial"}),
- *         @Index(name="idx_polygon", columns={"polygon"}, flags={"spatial"})
- *     }
- * )
- */
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+#[ORM\Index(
+    fields: ['pointWithSRID'],
+    flags: ['spatial'],
+)]
 class MyEntity
 {
 }
@@ -222,7 +235,7 @@ $configuration = new Doctrine\ORM\Configuration();
 
 $configuration->addCustomStringFunction(
     'ST_Distance',
-    'Jsor\Doctrine\PostGIS\Functions\ST_Distance'
+    Jsor\Doctrine\PostGIS\Functions\ST_Distance::class
 );
 
 $dbParams = [/***/];

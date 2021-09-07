@@ -5,32 +5,22 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
 /**
  * Entity with reserved words as table and column names.
- *
- * @ORM\Entity
- * @ORM\Table(
- *     name="`user`"
- * )
  */
+#[ORM\Entity]
+#[ORM\Table(name: '`user`')]
 class ReservedWordsEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id;
 
-    /**
-     * @ORM\Column(type="geometry", name="`user`")
-     */
+    #[ORM\Column(name: '`user`', type: PostGISType::GEOMETRY)]
     private ?string $user;
 
-    /**
-     * @ORM\Column(type="geography", name="`primary`")
-     */
+    #[ORM\Column(name: '`primary`', type: PostGISType::GEOGRAPHY)]
     private ?string $primary;
 
     public function __construct(array $points)

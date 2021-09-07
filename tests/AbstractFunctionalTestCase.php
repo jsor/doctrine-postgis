@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\DBAL\Configuration as DBALConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
@@ -12,7 +11,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration as ORMConfiguration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
@@ -151,9 +150,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _getMappingDriver(): MappingDriver
     {
-        $reader = new AnnotationReader();
-
-        return new AnnotationDriver($reader);
+        return new AttributeDriver([__DIR__ . '/fixtures/Entity']);
     }
 
     protected function _execFile($fileName): int
