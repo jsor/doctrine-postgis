@@ -67,12 +67,12 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $this->schemaManager = new SchemaManager($this->connection);
         $this->postConnectCalled = true;
 
-        if (!Type::hasType('geometry')) {
-            Type::addType('geometry', GeometryType::class);
+        if (!Type::hasType(PostGISType::GEOMETRY)) {
+            Type::addType(PostGISType::GEOMETRY, GeometryType::class);
         }
 
-        if (!Type::hasType('geography')) {
-            Type::addType('geography', GeographyType::class);
+        if (!Type::hasType(PostGISType::GEOGRAPHY)) {
+            Type::addType(PostGISType::GEOGRAPHY, GeographyType::class);
         }
     }
 
