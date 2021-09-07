@@ -15,7 +15,7 @@ use function is_string;
  * @group orm
  * @group functions
  */
-class ST_PatchNTest extends AbstractFunctionalTestCase
+final class ST_PatchNTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

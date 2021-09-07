@@ -34,6 +34,7 @@ abstract class PostGISType extends Type
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
+        /** @var array{geometry_type?: string|null, srid?: int|string|null} $column */
         $options = $this->getNormalizedPostGISColumnOptions($column);
 
         return sprintf(
@@ -44,5 +45,10 @@ abstract class PostGISType extends Type
         );
     }
 
+    /**
+     * @param array{geometry_type?: string|null, srid?: int|string|null} $options
+     *
+     * @return array{geometry_type: string, srid: int}
+     */
     abstract public function getNormalizedPostGISColumnOptions(array $options = []): array;
 }

@@ -73,11 +73,12 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class <?php echo $name; ?> extends FunctionNode
+final class <?php echo $name; ?> extends FunctionNode
 {
     protected array $expressions = [];
 
@@ -100,7 +101,7 @@ class <?php echo $name; ?> extends FunctionNode
         $lexer = $parser->getLexer();
         <?php } ?>
 
-        if ($lexer->lookahead['type'] === Lexer::T_COMMA) {
+        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
@@ -115,6 +116,7 @@ class <?php echo $name; ?> extends FunctionNode
 <?php if ($totalArguments > 0) { ?>
         $arguments = [];
 
+        /** @var Node $expression */
         foreach ($this->expressions as $expression) {
             $arguments[] = $expression->dispatch($sqlWalker);
         }
@@ -153,7 +155,7 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 
 <?php } ?>
  */
-class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
+final class <?php echo $name; ?>Test extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {
@@ -242,7 +244,7 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Configuration;
 
-class Configurator
+final class Configurator
 {
     public static function configure(Configuration $configuration): void
     {

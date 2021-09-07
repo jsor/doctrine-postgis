@@ -6,7 +6,7 @@ namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Connection;
 
-class SchemaManager
+final class SchemaManager
 {
     private Connection $connection;
 
@@ -31,6 +31,7 @@ class SchemaManager
                 AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
                 ORDER BY i.relname";
 
+        /** @var array<array{relname: string, indkey: string, inddef: string, oid: string}> $tableIndexes */
         $tableIndexes = $this->connection->fetchAllAssociative(
             $sql,
             [
@@ -51,6 +52,8 @@ class SchemaManager
                     AND a.atttypid = t.oid';
 
             $stmt = $this->connection->executeQuery($sql);
+
+            /** @var array<array{attname: string, typname: string}> $indexColumns */
             $indexColumns = $stmt->fetchAllAssociative();
 
             foreach ($indexColumns as $indexRow) {
@@ -81,6 +84,7 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geometry_column = ?';
 
+        /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
         $row = $this->connection->fetchAssociative(
             $sql,
             [
@@ -107,6 +111,7 @@ class SchemaManager
                 WHERE f_table_name = ?
                 AND f_geography_column = ?';
 
+        /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
         $row = $this->connection->fetchAssociative(
             $sql,
             [
@@ -122,7 +127,10 @@ class SchemaManager
         return $this->buildSpatialColumnInfo($row);
     }
 
-    protected function buildSpatialColumnInfo(array $row): array
+    /**
+     * @param array{coord_dimension: string, srid: string|int|null, type: string} $row
+     */
+    private function buildSpatialColumnInfo(array $row): array
     {
         $type = strtoupper($row['type']);
 
@@ -146,7 +154,7 @@ class SchemaManager
      * Copied from Doctrine\DBAL\Schema\AbstractAsset::trimQuotes,
      * check on updates!
      */
-    protected function trimQuotes(string $identifier): string
+    private function trimQuotes(string $identifier): string
     {
         return str_replace(['`', '"', '[', ']'], '', $identifier);
     }

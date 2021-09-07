@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
@@ -25,16 +27,17 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
         $table = $args->getClassTable();
 
         foreach ($table->getColumns() as $column) {
-            if (!$this->isSpatialColumnType($column)) {
+            if (!$column->getType() instanceof PostGISType) {
                 continue;
             }
 
             /** @var PostGISType $type */
             $type = $column->getType();
 
-            $normalized = $type->getNormalizedPostGISColumnOptions(
-                $column->getCustomSchemaOptions()
-            );
+            /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
+            $options = $column->getCustomSchemaOptions();
+
+            $normalized = $type->getNormalizedPostGISColumnOptions($options);
 
             foreach ($normalized as $name => $value) {
                 $column->setCustomSchemaOption($name, $value);

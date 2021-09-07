@@ -7,11 +7,12 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class ST_AsGeoJSON extends FunctionNode
+final class ST_AsGeoJSON extends FunctionNode
 {
     protected array $expressions = [];
 
@@ -24,17 +25,17 @@ class ST_AsGeoJSON extends FunctionNode
 
         $lexer = $parser->getLexer();
 
-        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
+        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
 
-        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
+        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
 
-        if (Lexer::T_COMMA === $lexer->lookahead['type']) {
+        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
@@ -46,6 +47,7 @@ class ST_AsGeoJSON extends FunctionNode
     {
         $arguments = [];
 
+        /** @var Node $expression */
         foreach ($this->expressions as $expression) {
             $arguments[] = $expression->dispatch($sqlWalker);
         }

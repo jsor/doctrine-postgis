@@ -20,7 +20,7 @@ use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use LogicException;
 use RuntimeException;
 
-class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
+final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 {
     protected ?AbstractSchemaManager $sm;
 
@@ -41,7 +41,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->_execFile('points_drop.sql');
     }
 
-    protected function createTableSchema(): Table
+    private function createTableSchema(): Table
     {
         $table = new Table('points');
         $table->addColumn('id', 'integer', ['notnull' => true]);

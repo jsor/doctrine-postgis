@@ -15,7 +15,7 @@ use function is_string;
  * @group orm
  * @group functions
  */
-class ST_ProjectTest extends AbstractFunctionalTestCase
+final class ST_ProjectTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

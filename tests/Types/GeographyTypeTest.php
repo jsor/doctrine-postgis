@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Types;
 
-class GeographyTypeTest extends AbstractTypeTestCase
+final class GeographyTypeTest extends AbstractTypeTestCase
 {
     protected function getTypeName(): string
     {

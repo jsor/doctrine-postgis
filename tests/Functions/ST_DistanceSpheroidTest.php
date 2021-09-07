@@ -14,7 +14,7 @@ use function is_resource;
  * @group orm
  * @group functions
  */
-class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
+final class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

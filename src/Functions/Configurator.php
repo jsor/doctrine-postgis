@@ -8,7 +8,7 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Configuration;
 
-class Configurator
+final class Configurator
 {
     public static function configure(Configuration $configuration): void
     {

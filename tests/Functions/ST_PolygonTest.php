@@ -15,7 +15,7 @@ use function is_string;
  * @group orm
  * @group functions
  */
-class ST_PolygonTest extends AbstractFunctionalTestCase
+final class ST_PolygonTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

@@ -15,7 +15,7 @@ use function is_string;
  * @group orm
  * @group functions
  */
-class GeographyTest extends AbstractFunctionalTestCase
+final class GeographyTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

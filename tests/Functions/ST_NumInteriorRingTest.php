@@ -14,7 +14,7 @@ use function is_resource;
  * @group orm
  * @group functions
  */
-class ST_NumInteriorRingTest extends AbstractFunctionalTestCase
+final class ST_NumInteriorRingTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

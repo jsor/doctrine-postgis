@@ -6,7 +6,7 @@ namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 
-class SchemaManagerTest extends AbstractFunctionalTestCase
+final class SchemaManagerTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

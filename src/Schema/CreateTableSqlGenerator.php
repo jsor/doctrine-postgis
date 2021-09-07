@@ -6,9 +6,12 @@ namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
+use function is_array;
 
-class CreateTableSqlGenerator
+final class CreateTableSqlGenerator
 {
     private AbstractPlatform $platform;
 
@@ -17,6 +20,12 @@ class CreateTableSqlGenerator
         $this->platform = $platform;
     }
 
+    /**
+     * @param array<array>                                                                                                           $columns
+     * @param array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options
+     *
+     * @return array<string>
+     */
     public function getSql(Table $table, array $columns, array $options = []): array
     {
         $spatialIndexes = [];
@@ -46,11 +55,18 @@ class CreateTableSqlGenerator
         return $sql;
     }
 
-    public function getCreateTableSQL(Table $table, array $columns, array $options = []): array
+    /**
+     * @param array<array>                                                                                                           $columns
+     * @param array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options
+     *
+     * @return array<string>
+     */
+    private function getCreateTableSQL(Table $table, array $columns, array $options = []): array
     {
         $tableName = $table->getQuotedName($this->platform);
 
         $sql = $this->_getCreateTableSQL($tableName, $columns, $options);
+
         if ($this->platform->supportsCommentOnStatement()) {
             foreach ($table->getColumns() as $column) {
                 $comment = $this->getColumnComment($column);
@@ -67,8 +83,13 @@ class CreateTableSqlGenerator
     /**
      * Full replacement of Doctrine\DBAL\Platforms\PostgreSqlPlatform::_getCreateTableSQL,
      * check on updates!
+     *
+     * @param array<array>                                                                                                           $columns
+     * @param array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options
+     *
+     * @return array<string>
      */
-    public function _getCreateTableSQL(string $tableName, array $columns, array $options = []): array
+    private function _getCreateTableSQL(string $tableName, array $columns, array $options = []): array
     {
         $queryFields = $this->platform->getColumnDeclarationListSQL($columns);
 
@@ -79,7 +100,7 @@ class CreateTableSqlGenerator
 
         $query = 'CREATE TABLE ' . $tableName . ' (' . $queryFields . ')';
 
-        $sql[] = $query;
+        $sql = [$query];
 
         if (isset($options['indexes']) && !empty($options['indexes'])) {
             foreach ($options['indexes'] as $index) {
@@ -88,7 +109,9 @@ class CreateTableSqlGenerator
         }
 
         if (isset($options['foreignKeys'])) {
-            foreach ((array) $options['foreignKeys'] as $definition) {
+            $foreignKeys = is_array($options['foreignKeys']) ? $options['foreignKeys'] : [$options['foreignKeys']];
+
+            foreach ($foreignKeys as $definition) {
                 $sql[] = $this->platform->getCreateForeignKeySQL($definition, $tableName);
             }
         }
@@ -100,7 +123,7 @@ class CreateTableSqlGenerator
      * Full replacement of Doctrine\DBAL\Platforms\AbstractPlatform::getColumnComment,
      * check on updates!
      */
-    protected function getColumnComment(Column $column): ?string
+    private function getColumnComment(Column $column): ?string
     {
         $comment = $column->getComment();
 

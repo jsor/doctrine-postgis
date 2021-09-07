@@ -155,6 +155,6 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _execFile($fileName): int
     {
-        return $this->_getConnection()->exec(file_get_contents(__DIR__ . '/fixtures/' . $fileName));
+        return $this->_getConnection()->executeStatement(file_get_contents(__DIR__ . '/fixtures/' . $fileName));
     }
 }

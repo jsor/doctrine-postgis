@@ -15,7 +15,7 @@ use function is_string;
  * @group orm
  * @group functions
  */
-class ST_3DDFullyWithinTest extends AbstractFunctionalTestCase
+final class ST_3DDFullyWithinTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

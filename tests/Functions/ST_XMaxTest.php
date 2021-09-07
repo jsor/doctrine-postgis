@@ -14,7 +14,7 @@ use function is_resource;
  * @group orm
  * @group functions
  */
-class ST_XMaxTest extends AbstractFunctionalTestCase
+final class ST_XMaxTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

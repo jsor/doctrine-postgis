@@ -7,11 +7,12 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
+use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
-class ST_3DDistance extends FunctionNode
+final class ST_3DDistance extends FunctionNode
 {
     protected array $expressions = [];
 
@@ -33,6 +34,7 @@ class ST_3DDistance extends FunctionNode
     {
         $arguments = [];
 
+        /** @var Node $expression */
         foreach ($this->expressions as $expression) {
             $arguments[] = $expression->dispatch($sqlWalker);
         }

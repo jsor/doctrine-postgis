@@ -14,7 +14,7 @@ use function is_resource;
  * @group orm
  * @group functions
  */
-class ST_AreaTest extends AbstractFunctionalTestCase
+final class ST_AreaTest extends AbstractFunctionalTestCase
 {
     protected function setUp(): void
     {

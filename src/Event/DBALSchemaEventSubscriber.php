@@ -14,6 +14,7 @@ use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
 use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
@@ -28,8 +29,8 @@ use RuntimeException;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
-    protected Connection $connection;
-    protected SchemaManager $schemaManager;
+    protected ?Connection $connection = null;
+    protected ?SchemaManager $schemaManager = null;
     protected bool $postConnectCalled = false;
 
     public function getSubscribedEvents(): array
@@ -79,12 +80,15 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     {
         $generator = new CreateTableSqlGenerator($args->getPlatform());
 
+        /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
+        $options = $args->getOptions();
+
         $args
             ->addSql(
                 $generator->getSql(
                     $args->getTable(),
                     $args->getColumns(),
-                    $args->getOptions()
+                    $options
                 )
             )
             ->preventDefault()
@@ -124,10 +128,9 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $sql = [];
 
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
-        $tableName = $table->getQuotedName($platform);
 
         foreach ($spatialIndexes as $index) {
-            $sql[] = $spatialIndexSqlGenerator->getSql($index, $tableName);
+            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
         }
 
         $args
@@ -140,7 +143,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $columnDiff = $args->getColumnDiff();
         $column = $columnDiff->column;
 
-        if (!$this->isSpatialColumnType($column)) {
+        if (!$column->getType() instanceof PostGISType) {
             return;
         }
 
@@ -148,11 +151,11 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
 
         if ($columnDiff->hasChanged('type')) {
-            throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $columnDiff->fromColumn->getType()->getName() . '" to "' . $column->getType()->getName() . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+            throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . ($columnDiff->fromColumn?->getType()?->getName() ?? 'N/A') . '" to "' . $column->getType()->getName() . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
         if ($columnDiff->hasChanged('geometry_type')) {
-            throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('geometry_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+            throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper((string) ($columnDiff->fromColumn?->getCustomSchemaOption('geometry_type') ?? 'N/A')) . '" to "' . strtoupper((string) $column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
         if ($columnDiff->hasChanged('srid')) {
@@ -160,22 +163,23 @@ class DBALSchemaEventSubscriber implements EventSubscriber
                 "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                 $table->getName(),
                 $column->getName(),
-                $column->getCustomSchemaOption('srid')
+                (int) $column->getCustomSchemaOption('srid')
             ));
         }
     }
 
     public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args): void
     {
+        /** @var array{type: string, default: string, field: string, isnotnull: int|bool} $tableColumn */
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
         $table = $args->getTable();
 
         $info = null;
 
         if ('geometry' === $tableColumn['type']) {
-            $info = $this->schemaManager->getGeometrySpatialColumnInfo($table, $tableColumn['field']);
+            $info = $this->schemaManager?->getGeometrySpatialColumnInfo($table, $tableColumn['field']);
         } elseif ('geography' === $tableColumn['type']) {
-            $info = $this->schemaManager->getGeographySpatialColumnInfo($table, $tableColumn['field']);
+            $info = $this->schemaManager?->getGeographySpatialColumnInfo($table, $tableColumn['field']);
         }
 
         if (!$info) {
@@ -210,9 +214,10 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function onSchemaIndexDefinition(SchemaIndexDefinitionEventArgs $args): void
     {
+        /** @var array{name: string, columns: array<string>, unique: bool, primary: bool, flags: array<string>} $index */
         $index = $args->getTableIndex();
 
-        $spatialIndexes = $this->schemaManager->listSpatialIndexes($args->getTable());
+        $spatialIndexes = $this->schemaManager?->listSpatialIndexes($args->getTable());
 
         if (!isset($spatialIndexes[$index['name']])) {
             return;
@@ -230,10 +235,5 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             ->setIndex($spatialIndex)
             ->preventDefault()
         ;
-    }
-
-    public function isSpatialColumnType(Column $column): bool
-    {
-        return $column->getType() instanceof PostGISType;
     }
 }
