@@ -58,7 +58,8 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
             ->setCustomSchemaOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 0,
-            ]);
+            ])
+            ->setComment('This is a comment for column point');
 
         $table->addColumn('point_2d', 'geometry', ['notnull' => true])
             ->setCustomSchemaOptions([
@@ -126,6 +127,8 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table->addIndex(['point_2d_nosrid'], null, ['spatial']);
         $table->addIndex(['point_geography_2d'], null, ['spatial']);
         $table->addIndex(['point_geography_2d_srid'], null, ['spatial']);
+
+        $table->setComment('This is a comment for table points');
 
         $table->setPrimaryKey(['id']);
 
@@ -352,6 +355,9 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geometry geometry(GEOMETRY, 0) NOT NULL, point geometry(POINT, 0) NOT NULL, point_2d geometry(POINT, 3785) NOT NULL, point_3dz geometry(POINTZ, 3785) NOT NULL, point_3dm geometry(POINTM, 3785) NOT NULL, point_4d geometry(POINTZM, 3785) NOT NULL, point_2d_nullable geometry(POINT, 3785) DEFAULT NULL, point_2d_nosrid geometry(POINT, 0) NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
         $this->assertContains($expected, $sql);
 
+        $this->assertContains("COMMENT ON TABLE points IS 'This is a comment for table points'", $sql);
+        $this->assertContains("COMMENT ON COLUMN points.point IS 'This is a comment for column point'", $sql);
+
         $spatialIndexes = [
             'CREATE INDEX idx_27ba8e29b7a5f324 ON points USING gist(point)',
             'CREATE INDEX idx_27ba8e2999674a3d ON points USING gist(point_2d)',
@@ -369,7 +375,7 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         }
     }
 
-    public function testGetDropTableSqlx(): void
+    public function testGetDropTableSql(): void
     {
         $table = $this->sm->listTableDetails('points');
 

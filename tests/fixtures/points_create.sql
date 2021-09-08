@@ -12,3 +12,6 @@ CREATE INDEX IDX_27BA8E293C257075 ON points USING GIST (point_2d_nullable);
 CREATE INDEX IDX_27BA8E293D5FE69E ON points USING GIST (point_2d_nosrid);
 CREATE INDEX IDX_27BA8E295F51A43C ON points USING GIST (point_geography_2d);
 CREATE INDEX IDX_27BA8E295AFBB72D ON points USING GIST (point_geography_2d_srid);
+
+COMMENT ON TABLE points IS 'This is a comment for table points';
+COMMENT ON COLUMN points.point IS 'This is a comment for column point';

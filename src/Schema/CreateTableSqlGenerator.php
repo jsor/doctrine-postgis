@@ -68,6 +68,14 @@ final class CreateTableSqlGenerator
         $sql = $this->_getCreateTableSQL($tableName, $columns, $options);
 
         if ($this->platform->supportsCommentOnStatement()) {
+            if ($table->hasOption('comment')) {
+                $sql[] = sprintf(
+                    'COMMENT ON TABLE %s IS %s',
+                    $table->getQuotedName($this->platform),
+                    $this->platform->quoteStringLiteral((string) $table->getOption('comment'))
+                );
+            }
+
             foreach ($table->getColumns() as $column) {
                 $comment = $this->getColumnComment($column);
 
