@@ -12,10 +12,12 @@ on PostgreSQL 11, 12 and 13.
 
 * [Installation](#installation)
 * [Setup](#setup)
+  * [Symfony](#symfony)
 * [Property Mapping](#property-mapping)
 * [Spatial Indexes](#spatial-indexes)
 * [Schema Tool](#schema-tool)
 * [DQL Functions](#dql-functions)
+* [Known Problems](#known-problems)
 
 Installation
 ------------
@@ -33,7 +35,7 @@ Setup
 -----
 
 To use the library with the Doctrine ORM (version 2.9 or higher is supported),
-register  an event subscriber.
+register an event subscriber.
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
@@ -49,67 +51,16 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 
 $connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
 ```
+### Symfony
 
-### Symfony 5
-
-If you use Symfony, see the [documentation](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
-on how to register event subscribers.
-
-A setup could look like this in the `services.yml`.
-
-```yaml
-services:
-    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-```
-
-It is also recommended registering the DBAL types in the
-[doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
-of the `config/packages/doctrine.yaml` config file.
-
-```yaml
-doctrine:
-    dbal:
-        types:
-            geography:
-                class: 'Jsor\Doctrine\PostGIS\Types\GeographyType'
-                commented: false
-            geometry:
-                class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
-                commented: false
-```
-
-#### Migrations (:fire: important :fire:)
-
-By default, Symfony's console commands `make:migrations` and `doctrine:migrations:diff` would try to drop **everything** in the *tiger*, *tiger_data* and *topology* schemas. This can be avoided by using the `schema_filter` option to the aforementioned `config/packages/doctrine.yaml` file, e.g. like this:
-
-```yaml
-doctrine:
-    dbal:
-        schema_filter: ~^(?!tiger)(?!topology)~
-```
-
-The above value (`~^(?!tiger)(?!topology)~`) uses [lookahead regular expressions](https://www.rexegg.com/regex-lookarounds.html) to filter out all the namespaced tables beginning with "tiger" and "topology".
-
-*See also*: [Manual tables](https://symfony.com/doc/current/bundles/DoctrineMigrationsBundle/index.html#manual-tables) in Symfony Docs.
-
-#### Mapping types
-
-In the aforementioned `config/packages/doctrine.yaml` file, please add the following lines:
-
-```yaml
-doctrine:
-    dbal:
-        mapping_types:
-            _text: string
-```
+For integrating this library into a Symfony project, read the dedicated
+[Symfony Documentation](docs/symfony.md).
 
 Property Mapping
 ----------------
 
-Once the event subscriber is registered, you can use the column types
-`geometry` and `geography` in your property mappings (please read the
+Once the event subscriber is registered, the column types `geometry` and
+`geography` can be used in property mappings (please read the
 [PostGIS docs](https://postgis.net/docs/using_postgis_dbmanagement.html#PostGIS_Geography)
 to understand the difference between these two types).
 
@@ -128,7 +79,7 @@ class MyEntity
 }
 ```
 
-There are 2 options you can set to define the geometry.
+There are 2 options to configure the geometry.
 
 * `geometry_type`
    This defines the type of the geometry, like `POINT`, `LINESTRING` etc.
@@ -194,10 +145,8 @@ $entity = new MyEntity(
 Spatial Indexes
 ---------------
 
-You can define [spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
-for your geometry fields.
-
-Simply set the `spatial` flag for indexes.
+[Spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
+can be defined for geometry fields by setting the `spatial` flag.
 
 ```php
 use Doctrine\ORM\Mapping as ORM;
@@ -223,17 +172,23 @@ DQL Functions
 -------------
 
 Most [PostGIS functions](https://postgis.net/docs/reference.html) are also
-available for the DQL under the `Jsor\Doctrine\PostGIS\Functions` namespace.
+available for the [Doctrine Query Language](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/dql-doctrine-query-language.html)
+(DQL) under the `Jsor\Doctrine\PostGIS\Functions` namespace.
 
 For a full list of all supported functions, see the
 [Function Index](docs/function-index.md).
 
-You can register the functions with a `Doctrine\ORM\Configuration` instance.
+The functions must be registered with the `Doctrine\ORM\Configuration` instance.
  
 ```php
 $configuration = new Doctrine\ORM\Configuration();
 
 $configuration->addCustomStringFunction(
+    'ST_Within',
+    Jsor\Doctrine\PostGIS\Functions\ST_Within::class
+);
+
+$configuration->addCustomNumericFunction(
     'ST_Distance',
     Jsor\Doctrine\PostGIS\Functions\ST_Distance::class
 );
@@ -243,7 +198,7 @@ $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 
 There's a convenience Configurator class which can be used to register all
-at once.
+functions at once.
 
 ```php
 $configuration = new Doctrine\ORM\Configuration();
@@ -254,19 +209,64 @@ $dbParams = [/***/];
 $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 
-### Symfony
+Read the dedicated [Symfony documentation](docs/symfony.md#dql-functions) on
+how to configure the functions with Symfony.
 
-If you use Symfony, you need to setup the functions in the
-[doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
-of the `config.yml`.
+Known Problems
+--
 
-```yaml
-doctrine:
-    orm:
-        dql:
-            string_functions:
-                ST_Distance: Jsor\Doctrine\PostGIS\Functions\ST_Distance
+Read the dedicated [Symfony documentation](docs/symfony.md#known-problems) on
+how to handle those problems with Symfony.
+
+### PostGIS Schema Exclusion
+
+Since PostGIS can add a few new schemas, like `topology`, `tiger` and
+`tiger_data`, you might want to exclude them from being handled by Doctrine.
+
+This can be done by configuring a schema assets filter.
+
+```php
+$configuration = new Doctrine\ORM\Configuration();
+
+$configuration->setSchemaAssetsFilter(static function ($assetName): bool {
+     if ($assetName instanceof AbstractAsset) {
+         $assetName = $assetName->getName();
+     }
+
+     return (bool) preg_match('/^(?!tiger)(?!topology)/', $assetName);
+});
+
+$dbParams = [/***/];
+$entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
+
+### Unknown Database Types
+
+Sometimes, the schema tool stumbles upon database types it can't handle.
+A common exception is something like
+
+```
+Doctrine\DBAL\Exception: Unknown database type _text requested, Doctrine\DBAL\Platforms\PostgreSQL100Platform may not support it.
+```
+
+To solve this, the unknown database types can be mapped to known types.
+
+```php
+$configuration = new Doctrine\ORM\Configuration();
+
+$dbParams = [/***/];
+$entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
+
+$entityManager->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('_text', 'string');
+```
+
+**Note:** This type is then not suited to be used in entity mappings.
+It just prevents "Unknown database type..." exceptions thrown during database
+inspections by the schema tool.
+
+If you want to use this type in your entities, you have to configure real
+database types, e.g. with the [PostgreSQL for Doctrine](https://github.com/martin-georgiev/postgresql-for-doctrine)
+package.
 
 License
 -------

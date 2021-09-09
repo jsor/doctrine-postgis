@@ -284,15 +284,30 @@ passthru(__DIR__ . '/../vendor/bin/php-cs-fixer --verbose --config=' . __DIR__ .
 
 $md = <<<MD
 Function Index
-==============
+==
+
+This is a complete list of all supported functions which can be use with the
+[Doctrine Query Language](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/dql-doctrine-query-language.html)
+(DQL).
+
+For more information about how to setup and use these functions, refer to the
+[DQL Functions documentation](../README.md#dql-functions) of this library.
+
 
 MD;
 
 foreach ($functionIndex as $section) {
     $md .= <<<MD
+* [{$section['title']}](#{$section['anchor']})
 
-[{$section['title']}](https://postgis.net/docs/reference.html#{$section['anchor']})
-----------
+MD;
+}
+
+foreach ($functionIndex as $section) {
+    $md .= <<<MD
+
+<a name="{$section['anchor']}"></a>
+## [{$section['title']}](https://postgis.net/docs/reference.html#{$section['anchor']})
 
 
 MD;
@@ -303,4 +318,5 @@ MD;
 MD;
     }
 }
+
 file_put_contents($docsPath . '/function-index.md', $md);

@@ -1,14 +1,30 @@
 Function Index
-==============
+==
 
-[PostgreSQL PostGIS Geometry/Geography/Box Types](https://postgis.net/docs/reference.html#PostGIS_Types)
-----------
+This is a complete list of all supported functions which can be use with the
+[Doctrine Query Language](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/dql-doctrine-query-language.html)
+(DQL).
+
+For more information about how to setup and use these functions, refer to the
+[DQL Functions documentation](../README.md#dql-functions) of this library.
+
+* [PostgreSQL PostGIS Geometry/Geography/Box Types](#PostGIS_Types)
+* [Geometry Constructors](#Geometry_Constructors)
+* [Geometry Accessors](#Geometry_Accessors)
+* [Geometry Editors](#Geometry_Editors)
+* [Geometry Outputs](#Geometry_Outputs)
+* [Spatial Relationships and Measurements](#Spatial_Relationships_Measurements)
+* [Geometry Processing](#Geometry_Processing)
+* [Miscellaneous Functions](#Miscellaneous_Functions)
+
+<a name="PostGIS_Types"></a>
+## [PostgreSQL PostGIS Geometry/Geography/Box Types](https://postgis.net/docs/reference.html#PostGIS_Types)
 
 * [Geometry](https://postgis.net/docs/Geometry.html)
 * [Geography](https://postgis.net/docs/Geography.html)
 
-[Geometry Constructors](https://postgis.net/docs/reference.html#Geometry_Constructors)
-----------
+<a name="Geometry_Constructors"></a>
+## [Geometry Constructors](https://postgis.net/docs/reference.html#Geometry_Constructors)
 
 * [ST_Box2dFromGeoHash](https://postgis.net/docs/ST_Box2dFromGeoHash.html)
 * [ST_GeogFromText](https://postgis.net/docs/ST_GeogFromText.html)
@@ -45,8 +61,8 @@ Function Index
 * [ST_Polygon](https://postgis.net/docs/ST_Polygon.html)
 * [ST_PolygonFromText](https://postgis.net/docs/ST_PolygonFromText.html)
 
-[Geometry Accessors](https://postgis.net/docs/reference.html#Geometry_Accessors)
-----------
+<a name="Geometry_Accessors"></a>
+## [Geometry Accessors](https://postgis.net/docs/reference.html#Geometry_Accessors)
 
 * [GeometryType](https://postgis.net/docs/GeometryType.html)
 * [ST_Boundary](https://postgis.net/docs/ST_Boundary.html)
@@ -91,8 +107,8 @@ Function Index
 * [ST_Zmflag](https://postgis.net/docs/ST_Zmflag.html)
 * [ST_ZMin](https://postgis.net/docs/ST_ZMin.html)
 
-[Geometry Editors](https://postgis.net/docs/reference.html#Geometry_Editors)
-----------
+<a name="Geometry_Editors"></a>
+## [Geometry Editors](https://postgis.net/docs/reference.html#Geometry_Editors)
 
 * [ST_AddPoint](https://postgis.net/docs/ST_AddPoint.html)
 * [ST_Multi](https://postgis.net/docs/ST_Multi.html)
@@ -103,8 +119,8 @@ Function Index
 * [ST_Translate](https://postgis.net/docs/ST_Translate.html)
 * [ST_TransScale](https://postgis.net/docs/ST_TransScale.html)
 
-[Geometry Outputs](https://postgis.net/docs/reference.html#Geometry_Outputs)
-----------
+<a name="Geometry_Outputs"></a>
+## [Geometry Outputs](https://postgis.net/docs/reference.html#Geometry_Outputs)
 
 * [ST_AsBinary](https://postgis.net/docs/ST_AsBinary.html)
 * [ST_AsEWKB](https://postgis.net/docs/ST_AsEWKB.html)
@@ -117,8 +133,8 @@ Function Index
 * [ST_AsLatLonText](https://postgis.net/docs/ST_AsLatLonText.html)
 * [ST_AsText](https://postgis.net/docs/ST_AsText.html)
 
-[Spatial Relationships and Measurements](https://postgis.net/docs/reference.html#Spatial_Relationships_Measurements)
-----------
+<a name="Spatial_Relationships_Measurements"></a>
+## [Spatial Relationships and Measurements](https://postgis.net/docs/reference.html#Spatial_Relationships_Measurements)
 
 * [ST_3DClosestPoint](https://postgis.net/docs/ST_3DClosestPoint.html)
 * [ST_3DDistance](https://postgis.net/docs/ST_3DDistance.html)
@@ -163,8 +179,8 @@ Function Index
 * [ST_Touches](https://postgis.net/docs/ST_Touches.html)
 * [ST_Within](https://postgis.net/docs/ST_Within.html)
 
-[Geometry Processing](https://postgis.net/docs/reference.html#Geometry_Processing)
-----------
+<a name="Geometry_Processing"></a>
+## [Geometry Processing](https://postgis.net/docs/reference.html#Geometry_Processing)
 
 * [ST_Buffer](https://postgis.net/docs/ST_Buffer.html)
 * [ST_Collect](https://postgis.net/docs/ST_Collect.html)
@@ -177,7 +193,7 @@ Function Index
 * [ST_SymDifference](https://postgis.net/docs/ST_SymDifference.html)
 * [ST_Union](https://postgis.net/docs/ST_Union.html)
 
-[Miscellaneous Functions](https://postgis.net/docs/reference.html#Miscellaneous_Functions)
-----------
+<a name="Miscellaneous_Functions"></a>
+## [Miscellaneous Functions](https://postgis.net/docs/reference.html#Miscellaneous_Functions)
 
 * [ST_Extent](https://postgis.net/docs/ST_Extent.html)
