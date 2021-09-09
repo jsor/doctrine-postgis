@@ -4,8 +4,9 @@ PostGIS extension for Doctrine
 [![Build Status](https://github.com/jsor/doctrine-postgis/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jsor/doctrine-postgis/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/jsor/doctrine-postgis/badge.svg?branch=main&service=github)](https://coveralls.io/github/jsor/doctrine-postgis?branch=main)
 
-This library allows you to use Doctrine with PostGIS, the spatial database
-extension for PostgreSQL.
+This library allows you to use [Doctrine](https://www.doctrine-project.org/)
+with [PostGIS](https://postgis.net/), the spatial database extension for
+[PostgreSQL](https://www.postgresql.org/).
 
 The officially supported versions by this library are PostGIS 3.0 and 3.1
 on PostgreSQL 11, 12 and 13.
