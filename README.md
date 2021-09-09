@@ -5,12 +5,10 @@ PostGIS extension for Doctrine
 [![Coverage Status](https://coveralls.io/repos/jsor/doctrine-postgis/badge.svg?branch=main&service=github)](https://coveralls.io/github/jsor/doctrine-postgis?branch=main)
 
 This library allows you to use [Doctrine](https://www.doctrine-project.org/)
-with [PostGIS](https://postgis.net/), the spatial database extension for
-[PostgreSQL](https://www.postgresql.org/).
+(ORM or DBAL) with [PostGIS](https://postgis.net/), the spatial database
+extension for [PostgreSQL](https://www.postgresql.org/).
 
-The officially supported versions by this library are PostGIS 3.0 and 3.1
-on PostgreSQL 11, 12 and 13.
-
+* [Supported Versions](#supported-versions)
 * [Installation](#installation)
 * [Setup](#setup)
   * [Symfony](#symfony)
@@ -20,8 +18,21 @@ on PostgreSQL 11, 12 and 13.
 * [DQL Functions](#dql-functions)
 * [Known Problems](#known-problems)
 
+Supported Versions
+--
+
+The following table shows the versions which are officially supported by this
+library.
+
+| Dependency    | Supported Versions  |
+|:--------------|:--------------------|
+| PostGIS       | 3.0 and 3.1         |
+| PostgreSQL    | 11, 12 and 13       |
+| Doctrine ORM  | 2.9                 |
+| Doctrine DBAL | 2.13 and 3.1        |
+
 Installation
-------------
+--
 
 Install the latest version with [Composer](https://getcomposer.org).
 
@@ -33,10 +44,10 @@ Check the [Packagist page](https://packagist.org/packages/jsor/doctrine-postgis)
 for all available versions.
 
 Setup
------
+--
 
-To use the library with the Doctrine ORM (version 2.9 or higher is supported),
-register an event subscriber.
+To use the library with the Doctrine ORM, register the
+`ORMSchemaEventSubscriber` event subscriber.
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
@@ -44,8 +55,8 @@ use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 $entityManager->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
 ```
 
-The library can also be used with DBAL only (versions 2.13 or higher and 3.1 or
-higher are supported).
+To use it with the DBAL only, register the `DBALSchemaEventSubscriber` event
+subscriber.
 
 ```php
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
@@ -58,7 +69,7 @@ For integrating this library into a Symfony project, read the dedicated
 [Symfony Documentation](docs/symfony.md).
 
 Property Mapping
-----------------
+--
 
 Once the event subscriber is registered, the column types `geometry` and
 `geography` can be used in property mappings (please read the
@@ -144,7 +155,7 @@ $entity = new MyEntity(
 ```
 
 Spatial Indexes
----------------
+--
 
 [Spatial indexes](https://postgis.net/docs/using_postgis_dbmanagement.html#gist_indexes)
 can be defined for geometry fields by setting the `spatial` flag.
@@ -163,14 +174,14 @@ class MyEntity
 ```
 
 Schema Tool
------------
+--
 
 Full support for the [ORM Schema Tool](https://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html)
 and the [DBAL Schema Manager](https://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/schema-manager.html)
 is provided.
 
 DQL Functions
--------------
+--
 
 Most [PostGIS functions](https://postgis.net/docs/reference.html) are also
 available for the [Doctrine Query Language](https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/dql-doctrine-query-language.html)
@@ -270,7 +281,7 @@ database types, e.g. with the [PostgreSQL for Doctrine](https://github.com/marti
 package.
 
 License
--------
+--
 
 Copyright (c) 2014-2021 Jan Sorgalla.
 Released under the [MIT License](LICENSE).
