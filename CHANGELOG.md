@@ -4,7 +4,7 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org).
 
-1.8.0 - 21-09-03
+1.8.0 - 2021-09-03
 ------------------
 
 * This release now allows installation on PHP 8.
