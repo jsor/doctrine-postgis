@@ -27,12 +27,11 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
         $table = $args->getClassTable();
 
         foreach ($table->getColumns() as $column) {
-            if (!$column->getType() instanceof PostGISType) {
+            $type = $column->getType();
+
+            if (!$type instanceof PostGISType) {
                 continue;
             }
-
-            /** @var PostGISType $type */
-            $type = $column->getType();
 
             /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
             $options = $column->getCustomSchemaOptions();
