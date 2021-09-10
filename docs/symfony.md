@@ -5,8 +5,11 @@ Before integrating this library into a Symfony project, read the general
 [installation instructions](../README.md#installation) and install the library
 via Composer.
 
+* [Setup](#setup)
+* [Known Problems](#known-problems)
+
 Setup
------
+--
 
 To use the library with the Doctrine ORM (version 2.9 or higher is supported),
 register a [Doctrine event subscriber](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
