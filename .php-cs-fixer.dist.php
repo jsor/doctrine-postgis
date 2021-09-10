@@ -14,6 +14,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => [
             'spacing' => 'one',
         ],
+        'declare_strict_types' => true,
         'global_namespace_import' => [
             'import_classes' => true,
             'import_constants' => null,
