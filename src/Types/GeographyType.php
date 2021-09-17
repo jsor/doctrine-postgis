@@ -6,7 +6,7 @@ namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-final class GeographyType extends PostGISType
+class GeographyType extends PostGISType
 {
     public function getName(): string
     {

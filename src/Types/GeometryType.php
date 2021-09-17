@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Types;
 
-final class GeometryType extends PostGISType
+class GeometryType extends PostGISType
 {
     public function getName(): string
     {
