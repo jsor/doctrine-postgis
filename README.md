@@ -17,6 +17,7 @@ extension for [PostgreSQL](https://www.postgresql.org/).
 * [Schema Tool](#schema-tool)
 * [DQL Functions](#dql-functions)
 * [Known Problems](#known-problems)
+* [Running the Tests](#running-the-tests)
 
 Supported Versions
 --
@@ -279,6 +280,46 @@ inspections by the schema tool.
 If you want to use this type in your entities, you have to configure real
 database types, e.g. with the [PostgreSQL for Doctrine](https://github.com/martin-georgiev/postgresql-for-doctrine)
 package.
+
+Running the Tests
+--
+
+A simple Docker setup is included to run the test suite against the different
+PostgreSQL / PostGIS combinations.
+
+All commands here should be run from the project root.
+
+First, build the PHP 8.0 container. This must be done only once.
+
+```bash
+./docker/build-php.sh
+```
+
+Next, start the database containers.
+
+```bash
+docker compose -f ./docker/docker-compose.yml up -d
+```
+
+There are a number of shortcut scripts available to execute commands inside the
+PHP container connected to specific database containers.
+
+The script names follow the pattern
+`run-php-<PHP_VERSION>-<POSTGRESQL_VERSION>-<POSTGIS_VERSION>.sh`.
+
+To run the test suited with PHP 8.0 against PostgreSQL 13 with PostGIS 3.1,
+use the script `./docker/run-php-80-13-31.sh`.
+
+```bash
+./docker/run-php-80-13-31.sh vendor/bin/phpunit --exclude-group=postgis-3.0
+```
+
+Note, that we exclude tests targeted at PostGIS 3.0 here. When running tests
+against PostGIS 3.0, exclude the tests for 3.1.
+
+```bash
+./docker/run-php-80-13-30.sh vendor/bin/phpunit --exclude-group=postgis-3.1
+```
 
 License
 --
