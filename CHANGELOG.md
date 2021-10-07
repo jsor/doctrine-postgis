@@ -4,6 +4,39 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org).
 
+2.0.0 - 2021-10-07
+--
+
+New major release which introduces a new dependency version support matrix.
+
+| Dependency    | Supported Versions  |
+|:--------------|:--------------------|
+| PHP           | ^8.0                |
+| PostGIS       | 3.0 and 3.1         |
+| PostgreSQL    | 11, 12 and 13       |
+| Doctrine ORM  | ^2.9                |
+| Doctrine DBAL | ^2.13 and ^3.1      |
+
+### Other Changes
+
+* The following DQL functions have been removed, mostly because they are also no
+  longer available in PostGIS:
+
+  * `ST_MakeBox3D` (use `ST_3DMakeBox` instead)
+  * `ST_AsKML`
+  * `ST_Distance_Sphere` (use `ST_DistanceSphere` instead)
+  * `ST_Distance_Spheroid` (use `ST_DistanceSpheroid` instead)
+  * `ST_Length3D` (use `ST_3DLength` instead)
+  * `ST_Length_Spheroid` (use `ST_LengthSpheroid` instead)
+  * `ST_Length2D_Spheroid`
+  * `ST_Shift_Longitude` (use `ST_ShiftLongitude` instead)
+* The dummy `RasterType` has been removed. Register a custom type mapping
+  instead, e.g. `$platform->registerDoctrineTypeMapping('raster', 'string')`.
+* Add parameter and return type declarations.
+* Switch from Travis CI to GitHub Actions for running CI pipeline.
+* Add Docker setup to allow running tests against the different supported
+  PostgreSQL / PostGIS versions.
+
 1.8.0 - 2021-09-03
 ------------------
 
