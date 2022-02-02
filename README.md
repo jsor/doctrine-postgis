@@ -289,7 +289,7 @@ PostgreSQL / PostGIS combinations.
 
 All commands here should be run from the project root.
 
-First, build the PHP 8.0 container. This must be done only once.
+First, build the PHP container. This must be done only once.
 
 ```bash
 ./docker/build-php.sh
@@ -305,20 +305,20 @@ There are a number of shortcut scripts available to execute commands inside the
 PHP container connected to specific database containers.
 
 The script names follow the pattern
-`run-php-<PHP_VERSION>-<POSTGRESQL_VERSION>-<POSTGIS_VERSION>.sh`.
+`run-<POSTGRESQL_VERSION>-<POSTGIS_VERSION>.sh`.
 
-To run the test suited with PHP 8.0 against PostgreSQL 13 with PostGIS 3.1,
-use the script `./docker/run-php-80-13-31.sh`.
+To run the test suite against PostgreSQL 13 with PostGIS 3.1, use the script 
+`./docker/run-13-31.sh`.
 
 ```bash
-./docker/run-php-80-13-31.sh vendor/bin/phpunit --exclude-group=postgis-3.0
+./docker/run-13-31.sh vendor/bin/phpunit --exclude-group=postgis-3.0
 ```
 
 Note, that we exclude tests targeted at PostGIS 3.0 here. When running tests
 against PostGIS 3.0, exclude the tests for 3.1.
 
 ```bash
-./docker/run-php-80-13-30.sh vendor/bin/phpunit --exclude-group=postgis-3.1
+./docker/run-13-30.sh vendor/bin/phpunit --exclude-group=postgis-3.1
 ```
 
 License
