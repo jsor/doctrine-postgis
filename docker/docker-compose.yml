@@ -45,20 +45,20 @@ services:
 
 networks:
   db-11-30:
-    name: postgis-11-30
+    name: doctrine-postgis-11-30
     driver: bridge
   db-11-31:
-    name: postgis-11-31
+    name: doctrine-postgis-11-31
     driver: bridge
   db-12-30:
-    name: postgis-12-30
+    name: doctrine-postgis-12-30
     driver: bridge
   db-12-31:
-    name: postgis-12-31
+    name: doctrine-postgis-12-31
     driver: bridge
   db-13-30:
-    name: postgis-13-30
+    name: doctrine-postgis-13-30
     driver: bridge
   db-13-31:
-    name: postgis-13-31
+    name: doctrine-postgis-13-31
     driver: bridge
