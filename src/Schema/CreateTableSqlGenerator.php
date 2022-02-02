@@ -135,7 +135,7 @@ final class CreateTableSqlGenerator
     {
         $comment = $column->getComment();
 
-        if ($this->platform->isCommentedDoctrineType($column->getType())) {
+        if ($column->getType()->requiresSQLCommentHint($this->platform)) {
             $comment = ($comment ?? '') . $this->platform->getDoctrineTypeComment($column->getType());
         }
 
