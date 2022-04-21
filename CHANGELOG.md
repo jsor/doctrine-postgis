@@ -4,6 +4,13 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org).
 
+2.1.0 - 2022-04-21
+------------------
+
+* Remove persistent Connection/SchemaManager instance from event listeners.
+  The event listeners now always use the connection instance provided by the
+  event args.
+
 2.0.0 - 2021-10-07
 --
 
