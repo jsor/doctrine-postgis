@@ -191,6 +191,9 @@ available for the [Doctrine Query Language](https://www.doctrine-project.org/pro
 For a full list of all supported functions, see the
 [Function Index](docs/function-index.md).
 
+> Read the dedicated [Symfony documentation](docs/symfony.md#dql-functions) on
+> how to configure the functions with Symfony.
+
 The functions must be registered with the `Doctrine\ORM\Configuration` instance.
  
 ```php
@@ -222,14 +225,11 @@ $dbParams = [/***/];
 $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $configuration);
 ```
 
-Read the dedicated [Symfony documentation](docs/symfony.md#dql-functions) on
-how to configure the functions with Symfony.
-
 Known Problems
 --
 
-Read the dedicated [Symfony documentation](docs/symfony.md#known-problems) on
-how to handle those problems with Symfony.
+> Read the dedicated [Symfony documentation](docs/symfony.md#known-problems) on
+> how to handle those problems with Symfony.
 
 ### PostGIS Schema Exclusion
 
