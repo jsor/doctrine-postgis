@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Event;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs;
 use Doctrine\DBAL\Event\SchemaAlterTableEventArgs;
 use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
@@ -24,15 +22,10 @@ use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use LogicException;
 use RuntimeException;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
-    protected ?Connection $connection = null;
-    protected ?SchemaManager $schemaManager = null;
-    protected bool $postConnectCalled = false;
-
     public function getSubscribedEvents(): array
     {
         return [
@@ -45,28 +38,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         ];
     }
 
-    public function postConnect(ConnectionEventArgs $args): void
+    public function postConnect(): void
     {
-        if ($this->postConnectCalled) {
-            // Allows multiple postConnect calls for the same connection
-            // instance. This is done by PrimaryReadReplicaConnection for example
-            // when switching primary/replica connections.
-            if ($this->connection === $args->getConnection()) {
-                return;
-            }
-
-            throw new LogicException(
-                sprintf(
-                    'It looks like you have registered the %s to more than one connection. Please register one instance per connection.',
-                    static::class
-                )
-            );
-        }
-
-        $this->connection = $args->getConnection();
-        $this->schemaManager = new SchemaManager($this->connection);
-        $this->postConnectCalled = true;
-
         if (!Type::hasType(PostGISType::GEOMETRY)) {
             Type::addType(PostGISType::GEOMETRY, GeometryType::class);
         }
@@ -174,12 +147,13 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
         $table = $args->getTable();
 
+        $schemaManager = new SchemaManager($args->getConnection());
         $info = null;
 
         if ('geometry' === $tableColumn['type']) {
-            $info = $this->schemaManager?->getGeometrySpatialColumnInfo($table, $tableColumn['field']);
+            $info = $schemaManager->getGeometrySpatialColumnInfo($table, $tableColumn['field']);
         } elseif ('geography' === $tableColumn['type']) {
-            $info = $this->schemaManager?->getGeographySpatialColumnInfo($table, $tableColumn['field']);
+            $info = $schemaManager->getGeographySpatialColumnInfo($table, $tableColumn['field']);
         }
 
         if (!$info) {
@@ -217,7 +191,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         /** @var array{name: string, columns: array<string>, unique: bool, primary: bool, flags: array<string>} $index */
         $index = $args->getTableIndex();
 
-        $spatialIndexes = $this->schemaManager?->listSpatialIndexes($args->getTable());
+        $schemaManager = new SchemaManager($args->getConnection());
+        $spatialIndexes = $schemaManager->listSpatialIndexes($args->getTable());
 
         if (!isset($spatialIndexes[$index['name']])) {
             return;

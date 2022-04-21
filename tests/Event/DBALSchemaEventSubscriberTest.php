@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
-use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
-use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -17,7 +15,6 @@ use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
-use LogicException;
 use RuntimeException;
 
 final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
@@ -135,53 +132,6 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         return $table;
     }
 
-    public function testSubscriberThrowsWhenRegisteredOnMultipleConnections(): void
-    {
-        $this->expectException(
-            LogicException::class,
-        );
-        $this->expectExceptionMessage(
-            'It looks like you have registered the Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber to more than one connection. Please register one instance per connection.'
-        );
-
-        $subscriber = new DBALSchemaEventSubscriber();
-
-        $conn1 = DriverManager::getConnection($this->_getDbParams());
-        $conn1->getEventManager()->addEventSubscriber($subscriber);
-
-        $conn2 = DriverManager::getConnection($this->_getDbParams());
-        $conn2->getEventManager()->addEventSubscriber($subscriber);
-
-        $conn1->connect();
-        $conn2->connect();
-    }
-
-    public function testSubscriberDoesNotThrowWhenRegisteredOnPrimaryReplicaConnectionAndConnectionSwitches(): void
-    {
-        $subscriber = new DBALSchemaEventSubscriber();
-
-        $dbParams = $this->_getDbParams();
-
-        /** @var PrimaryReadReplicaConnection $conn */
-        $conn = DriverManager::getConnection([
-            'wrapperClass' => PrimaryReadReplicaConnection::class,
-            'driver' => $dbParams['driver'],
-            'primary' => $dbParams,
-            'replica' => [
-                $dbParams,
-            ],
-            'keepReplica' => true,
-        ]);
-
-        $conn->getEventManager()->addEventSubscriber($subscriber);
-
-        $conn->ensureConnectedToPrimary();
-        $conn->ensureConnectedToReplica();
-
-        // Dummy assertion to include test in code coverage
-        $this->assertTrue(true);
-    }
-
     public function testListTableColumns(): void
     {
         $columns = $this->sm->listTableColumns('points');
@@ -256,7 +206,7 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertInstanceOf(GeometryType::class, $columns['point_2d_nullable']->getType());
         $this->assertFalse($columns['point_2d_nullable']->getUnsigned());
         $this->assertFalse($columns['point_2d_nullable']->getNotnull());
-        //$this->assertEquals('NULL::geometry', $columns['point_2d_nullable']->getDefault());
+        // $this->assertEquals('NULL::geometry', $columns['point_2d_nullable']->getDefault());
         $this->assertIsArray($columns['point_2d_nullable']->getPlatformOptions());
 
         $this->assertEquals('POINT', $columns['point_2d_nullable']->getCustomSchemaOption('geometry_type'));
