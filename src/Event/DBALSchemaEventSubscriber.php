@@ -56,16 +56,17 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
         $options = $args->getOptions();
 
-        $args
-            ->addSql(
-                $generator->getSql(
-                    $args->getTable(),
-                    $args->getColumns(),
-                    $options
-                )
-            )
-            ->preventDefault()
-        ;
+        $sqls = $generator->getSql(
+            $args->getTable(),
+            $args->getColumns(),
+            $options
+        );
+
+        foreach ($sqls as $sql) {
+            $args->addSql($sql);
+        }
+
+        $args->preventDefault();
     }
 
     public function onSchemaAlterTable(SchemaAlterTableEventArgs $args): void
@@ -98,17 +99,16 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $diff->changedIndexes = $changedIndexes;
 
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
-        $sql = [];
 
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
 
         foreach ($spatialIndexes as $index) {
-            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
+            $args
+                ->addSql(
+                    $spatialIndexSqlGenerator->getSql($index, $table)
+                )
+            ;
         }
-
-        $args
-            ->addSql($sql)
-        ;
     }
 
     public function onSchemaAlterTableChangeColumn(SchemaAlterTableChangeColumnEventArgs $args): void
