@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "doctrine/orm": "^2.9",
-        "friendsofphp/php-cs-fixer": "^3.1",
+        "friendsofphp/php-cs-fixer": "^3.13",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.10",
         "symfony/doctrine-bridge": "^6.2",

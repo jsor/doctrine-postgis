@@ -9,6 +9,7 @@ use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use InvalidArgumentException;
+
 use function count;
 
 final class SpatialIndexSqlGenerator

@@ -253,14 +253,14 @@ final class Configurator
     if (isset($options['alias_for'])) {
         $options = array_replace_recursive($functions[$options['alias_for']], $options);
     }
-?>
+    ?>
         $configuration->addCustom<?php echo ucfirst($options['return_type'] ?? 'String'); ?>Function('<?php echo $name; ?>', <?php echo $name; ?>::class);
 <?php } ?>
     }
 }
 <?php
 
-    return ob_get_clean();
+        return ob_get_clean();
 }
 
 foreach ($functions as $name => $options) {
