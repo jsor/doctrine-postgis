@@ -29,7 +29,9 @@
         "doctrine/orm": "^2.9",
         "friendsofphp/php-cs-fixer": "^3.1",
         "phpunit/phpunit": "^9.5",
-        "vimeo/psalm": "^4.10"
+        "vimeo/psalm": "^4.10",
+        "symfony/doctrine-bridge": "^6.2",
+        "symfony/doctrine-messenger": "^6.2"
     },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"

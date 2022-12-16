@@ -17,10 +17,17 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
+use Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaSubscriber;
+use Symfony\Component\Messenger\Bridge\Doctrine\Transport\Connection as MessengerConnection;
+use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransport;
+use Symfony\Component\Messenger\Bridge\Doctrine\Transport\PostgreSqlConnection;
+use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
     private static ?Connection $_conn = null;
+
+    private static ?MessengerConnection $_messengerConn = null;
 
     /**
      * Array of entity class name to their tables that were created.
@@ -86,13 +93,33 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         if (!isset(self::$_conn)) {
             if (class_exists(ORMConfiguration::class)) {
                 self::$_conn = DriverManager::getConnection($this->_getDbParams(), new ORMConfiguration());
-
-                self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
-
                 Configurator::configure(self::$_conn->getConfiguration());
             } else {
                 self::$_conn = DriverManager::getConnection($this->_getDbParams(), new DBALConfiguration());
+            }
 
+            self::$_messengerConn = new PostgreSqlConnection(
+                [
+                    'table_name' => 'messenger_messages',
+                    'auto_setup' => false,
+                ],
+                self::$_conn,
+            );
+
+            self::$_conn->getEventManager()->addEventSubscriber(
+                new MessengerTransportDoctrineSchemaSubscriber(
+                    [
+                        new DoctrineTransport(
+                            self::$_messengerConn,
+                            new PhpSerializer(),
+                        ),
+                    ],
+                ),
+            );
+
+            if (class_exists(ORMConfiguration::class)) {
+                self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
+            } else {
                 self::$_conn->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
             }
 
@@ -109,6 +136,13 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         }
 
         return self::$_conn;
+    }
+
+    protected function _getMessengerConnection(): MessengerConnection
+    {
+        self::_getConnection();
+
+        return self::$_messengerConn;
     }
 
     protected function _getEntityManager(ORMConfiguration $config = null): EntityManager

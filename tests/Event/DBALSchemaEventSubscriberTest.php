@@ -9,6 +9,7 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
@@ -323,6 +324,24 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         foreach ($spatialIndexes as $spatialIndex) {
             $this->assertContains($spatialIndex, $sql);
         }
+    }
+
+    public function testGetCreateTableSqlSkipsAlreadyAddedTable(): void
+    {
+        $schema = new Schema([], [], $this->sm->createSchemaConfig());
+
+        $this->_getMessengerConnection()->configureSchema($schema, $this->_getConnection());
+
+        $sql = $this->_getConnection()->getDatabasePlatform()->getCreateTableSQL($schema->getTable('messenger_messages'));
+
+        $expected = $sql[0];
+        $this->assertStringStartsWith('CREATE TABLE messenger_messages', $expected);
+
+        unset($sql[0]);
+
+        // Assert that the CREATE TABLE statement for the messenger_messages
+        // table exists only once
+        $this->assertNotContains($expected, $sql);
     }
 
     public function testGetDropTableSql(): void
