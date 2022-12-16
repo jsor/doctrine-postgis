@@ -12,11 +12,9 @@ use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
 use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\Schema\CreateTableSqlGenerator;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
@@ -26,6 +24,8 @@ use RuntimeException;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
+    private const PROCESSING_TABLE_FLAG = self::class . ':processing';
+
     public function getSubscribedEvents(): array
     {
         return [
@@ -51,19 +51,37 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function onSchemaCreateTable(SchemaCreateTableEventArgs $args): void
     {
-        $generator = new CreateTableSqlGenerator($args->getPlatform());
+        $table = $args->getTable();
 
-        /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
-        $options = $args->getOptions();
+        // Avoid this listener from creating a loop on this table when calling
+        // $platform->getCreateTableSQL() later
+        if ($table->hasOption(self::PROCESSING_TABLE_FLAG)) {
+            return;
+        }
 
-        $sqls = $generator->getSql(
-            $args->getTable(),
-            $args->getColumns(),
-            $options
-        );
+        $table->addOption(self::PROCESSING_TABLE_FLAG, true);
 
-        foreach ($sqls as $sql) {
+        $spatialIndexes = [];
+
+        foreach ($table->getIndexes() as $index) {
+            if (!$index->hasFlag('spatial')) {
+                continue;
+            }
+
+            $spatialIndexes[] = $index;
+            $table->dropIndex($index->getName());
+        }
+
+        $platform = $args->getPlatform();
+
+        foreach ($platform->getCreateTableSQL($table) as $sql) {
             $args->addSql($sql);
+        }
+
+        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
+
+        foreach ($spatialIndexes as $index) {
+            $args->addSql($spatialIndexSqlGenerator->getSql($index, $table));
         }
 
         $args->preventDefault();
