@@ -30,8 +30,8 @@
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.10",
-        "symfony/doctrine-bridge": "^6.2",
-        "symfony/doctrine-messenger": "^6.2"
+        "symfony/doctrine-bridge": "^5.4 || ^6.0",
+        "symfony/doctrine-messenger": "^5.4 || ^6.0"
     },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"
