@@ -25,7 +25,10 @@ final class ST_Length extends FunctionNode
 
         $lexer = $parser->getLexer();
 
-        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
+        /** @psalm-suppress DeprecatedMethod */
+        $nextType = $lexer->lookahead['type'] ?? $lexer->lookahead->type ?? null;
+
+        if (Lexer::T_COMMA === $nextType) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }

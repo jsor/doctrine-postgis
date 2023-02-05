@@ -101,7 +101,10 @@ final class <?php echo $name; ?> extends FunctionNode
         $lexer = $parser->getLexer();
         <?php } ?>
 
-        if (($lexer->lookahead['type'] ?? null) === Lexer::T_COMMA) {
+        /** @psalm-suppress DeprecatedMethod */
+        $nextType = $lexer->lookahead['type'] ?? $lexer->lookahead->type ?? null;
+
+        if (Lexer::T_COMMA === $nextType) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
