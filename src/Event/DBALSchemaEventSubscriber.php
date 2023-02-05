@@ -22,6 +22,8 @@ use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use RuntimeException;
 
+use function count;
+
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
     private const PROCESSING_TABLE_FLAG = self::class . ':processing';
@@ -53,14 +55,6 @@ class DBALSchemaEventSubscriber implements EventSubscriber
     {
         $table = $args->getTable();
 
-        // Avoid this listener from creating a loop on this table when calling
-        // $platform->getCreateTableSQL() later
-        if ($table->hasOption(self::PROCESSING_TABLE_FLAG)) {
-            return;
-        }
-
-        $table->addOption(self::PROCESSING_TABLE_FLAG, true);
-
         $spatialIndexes = [];
 
         foreach ($table->getIndexes() as $index) {
@@ -71,6 +65,18 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $spatialIndexes[] = $index;
             $table->dropIndex($index->getName());
         }
+
+        if (0 === count($spatialIndexes)) {
+            return;
+        }
+
+        // Avoid this listener from creating a loop on this table when calling
+        // $platform->getCreateTableSQL() later
+        if ($table->hasOption(self::PROCESSING_TABLE_FLAG)) {
+            return;
+        }
+
+        $table->addOption(self::PROCESSING_TABLE_FLAG, true);
 
         $platform = $args->getPlatform();
 
