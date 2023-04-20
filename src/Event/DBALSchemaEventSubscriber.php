@@ -167,7 +167,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
 
     public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args): void
     {
-        /** @var array{type: string, default: string, field: string, isnotnull: int|bool} $tableColumn */
+        /** @var array{type: string, default: string, field: string, isnotnull: int|bool, comment: string|null} $tableColumn */
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
         $table = $args->getTable();
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Event;
 
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\ORM\Tools\Event\GenerateSchemaTableEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
@@ -33,7 +31,7 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
                 continue;
             }
 
-            /** @var array{primary?: array<string>, indexes?: array<Index>, foreignKeys?: ForeignKeyConstraint|array<ForeignKeyConstraint>} $options */
+            /** @var array{geometry_type?: string|null, srid?: int|string|null} $options */
             $options = $column->getCustomSchemaOptions();
 
             $normalized = $type->getNormalizedPostGISColumnOptions($options);
