@@ -13,7 +13,7 @@ abstract class AbstractTypeTestCase extends AbstractTestCase
 
     protected function setUp(): void
     {
-        $this->_registerTypes();
+        static::_registerTypes();
 
         $this->type = Type::getType($this->getTypeName());
     }

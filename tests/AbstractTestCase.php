@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected function _registerTypes(): void
+    protected static function _registerTypes(): void
     {
         if (!Type::hasType('geometry')) {
             Type::addType('geometry', GeometryType::class);
