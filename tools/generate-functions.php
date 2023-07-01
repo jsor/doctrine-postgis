@@ -148,6 +148,8 @@ use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\<?php echo preg_replace('/Test$/', '', $name), PHP_EOL; ?>
+ *
  * @group orm
  * @group functions
 <?php foreach ($options['tests']['groups'] ?? [] as $group) { ?>

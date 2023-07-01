@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DLength
+ *
  * @group orm
  * @group functions
  */
