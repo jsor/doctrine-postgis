@@ -28,9 +28,6 @@
         </DeprecatedClass>
         <DeprecatedMethod>
             <errorLevel type="suppress">
-                <referencedMethod name="Doctrine\DBAL\Schema\Column::getCustomSchemaOption"/>
-                <referencedMethod name="Doctrine\DBAL\Schema\Column::getCustomSchemaOptions"/>
-                <referencedMethod name="Doctrine\DBAL\Schema\Column::setCustomSchemaOption"/>
                 <referencedMethod name="Doctrine\DBAL\Schema\ColumnDiff::hasChanged"/>
                 <referencedMethod name="Doctrine\DBAL\Types\Type::getName"/>
             </errorLevel>
