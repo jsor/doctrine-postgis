@@ -330,7 +330,7 @@ final class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
     {
         $schema = new Schema([], [], $this->sm->createSchemaConfig());
 
-        $this->_getMessengerConnection()->configureSchema($schema, $this->_getConnection());
+        $this->_getMessengerConnection()->configureSchema($schema, $this->_getConnection(), static fn () => false);
 
         $sql = $this->_getConnection()->getDatabasePlatform()->getCreateTableSQL($schema->getTable('messenger_messages'));
 
