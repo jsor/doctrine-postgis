@@ -330,5 +330,5 @@ against PostGIS 3.0, exclude the tests for 3.1.
 License
 --
 
-Copyright (c) 2014-2023 Jan Sorgalla.
+Copyright (c) 2014-2024 Jan Sorgalla.
 Released under the [MIT License](LICENSE).
