@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Geometry Constructors
  * http://postgis.net/docs/reference.html#Geometry_Constructors.

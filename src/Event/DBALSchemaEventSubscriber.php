@@ -180,15 +180,15 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $info = $schemaManager->getGeographySpatialColumnInfo($table, $tableColumn['field']);
         }
 
-        if (!$info) {
+        if (null === $info) {
             return;
         }
 
         $default = null;
 
-        if (isset($tableColumn['default']) &&
-            'NULL::geometry' !== $tableColumn['default'] &&
-            'NULL::geography' !== $tableColumn['default']) {
+        if (isset($tableColumn['default'])
+            && 'NULL::geometry' !== $tableColumn['default']
+            && 'NULL::geography' !== $tableColumn['default']) {
             $default = $tableColumn['default'];
         }
 

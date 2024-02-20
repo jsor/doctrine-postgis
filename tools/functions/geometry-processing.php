@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Geometry Processing
  * http://postgis.net/docs/reference.html#Geometry_Processing.

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * PostgreSQL PostGIS Geometry/Geography/Box Types
  * http://postgis.net/docs/reference.html#Miscellaneous_Functions.

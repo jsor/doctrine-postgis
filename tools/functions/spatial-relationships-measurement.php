@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Spatial Relationships and Measurements
  * http://postgis.net/docs/reference.html#Spatial_Relationships_Measurements.

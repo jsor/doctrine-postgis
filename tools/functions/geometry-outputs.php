@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Geometry Outputs
  * http://postgis.net/docs/reference.html#Geometry_Outputs.

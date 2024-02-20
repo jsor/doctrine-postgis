@@ -57,8 +57,8 @@ final class SchemaManager
             $indexColumns = $stmt->fetchAllAssociative();
 
             foreach ($indexColumns as $indexRow) {
-                if ('geometry' !== $indexRow['typname'] &&
-                    'geography' !== $indexRow['typname']) {
+                if ('geometry' !== $indexRow['typname']
+                    && 'geography' !== $indexRow['typname']) {
                     continue;
                 }
 

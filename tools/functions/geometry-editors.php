@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Geometry Editors
  * http://postgis.net/docs/reference.html#Geometry_Editors.

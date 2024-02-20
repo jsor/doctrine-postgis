@@ -145,7 +145,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return self::$_messengerConn;
     }
 
-    protected function _getEntityManager(ORMConfiguration $config = null): EntityManager
+    protected function _getEntityManager(?ORMConfiguration $config = null): EntityManager
     {
         if (null !== $this->_em) {
             return $this->_em;
