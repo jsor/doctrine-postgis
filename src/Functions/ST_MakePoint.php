@@ -29,18 +29,12 @@ final class ST_MakePoint extends FunctionNode
 
         $lexer = $parser->getLexer();
 
-        /** @psalm-suppress DeprecatedMethod */
-        $nextType = $lexer->lookahead['type'] ?? $lexer->lookahead->type ?? null;
-
-        if (Lexer::T_COMMA === $nextType) {
+        if ($lexer->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
 
-        /** @psalm-suppress DeprecatedMethod */
-        $nextType = $lexer->lookahead['type'] ?? $lexer->lookahead->type ?? null;
-
-        if (Lexer::T_COMMA === $nextType) {
+        if ($lexer->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
