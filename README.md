@@ -295,6 +295,12 @@ First, build the PHP container. This must be done only once.
 ./docker/build-php.sh
 ```
 
+Install dependencies via Composer.
+
+```bash
+./docker/run-php.sh composer install
+```
+
 Next, start the database containers.
 
 ```bash
