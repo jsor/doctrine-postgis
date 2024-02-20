@@ -101,7 +101,7 @@ final class <?php echo $name; ?> extends FunctionNode
         $lexer = $parser->getLexer();
         <?php } ?>
 
-        if ($lexer->isNextToken(Lexer::T_COMMA)) {
+        if ($lexer->isNextTo(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
