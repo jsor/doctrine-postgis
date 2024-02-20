@@ -8,4 +8,4 @@ Running with:
 * PostGIS 3.0
 "
 
-docker run -it --rm --network doctrine-postgis-13-30 -e DB_HOST=db-13-30 -v "$(PWD)":/app doctrine-postgis-php "$@"
+docker run -it --rm --network doctrine-postgis-13-30 -e DB_HOST=db-13-30 -v "${PWD}":/app doctrine-postgis-php "$@"
