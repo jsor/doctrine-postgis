@@ -32,12 +32,12 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
             }
 
             /** @var array{geometry_type?: string|null, srid?: int|string|null} $options */
-            $options = $column->getCustomSchemaOptions();
+            $options = $column->getPlatformOptions();
 
             $normalized = $type->getNormalizedPostGISColumnOptions($options);
 
             foreach ($normalized as $name => $value) {
-                $column->setCustomSchemaOption($name, $value);
+                $column->setPlatformOption($name, $value);
             }
         }
     }
