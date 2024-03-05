@@ -7,6 +7,7 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
     findUnusedCode="false"
+    errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src" />
@@ -14,38 +15,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-    <issueHandlers>
-        <DeprecatedClass>
-            <errorLevel type="suppress">
-                <referencedClass name="Doctrine\DBAL\Event\SchemaAlterTableChangeColumnEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Event\SchemaAlterTableEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Event\SchemaCreateTableEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Event\SchemaEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs"/>
-                <referencedClass name="Doctrine\DBAL\Events"/>
-            </errorLevel>
-        </DeprecatedClass>
-        <DeprecatedMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="Doctrine\DBAL\Schema\ColumnDiff::hasChanged"/>
-                <referencedMethod name="Doctrine\DBAL\Types\Type::getName"/>
-            </errorLevel>
-        </DeprecatedMethod>
-        <DeprecatedProperty>
-            <errorLevel type="suppress">
-                <referencedProperty name="Doctrine\DBAL\Schema\TableDiff::$newName"/>
-                <referencedProperty name="Doctrine\DBAL\Schema\TableDiff::$name"/>
-            </errorLevel>
-        </DeprecatedProperty>
-        <InternalProperty>
-            <errorLevel type="suppress">
-                <referencedProperty name="Doctrine\DBAL\Schema\ColumnDiff::$column"/>
-                <referencedProperty name="Doctrine\DBAL\Schema\ColumnDiff::$fromColumn"/>
-                <referencedProperty name="Doctrine\DBAL\Schema\TableDiff::$addedIndexes"/>
-                <referencedProperty name="Doctrine\DBAL\Schema\TableDiff::$changedIndexes"/>
-                <referencedProperty name="Doctrine\DBAL\Schema\TableDiff::$removedIndexes"/>
-            </errorLevel>
-        </InternalProperty>
-    </issueHandlers>
 </psalm>
