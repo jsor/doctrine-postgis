@@ -51,9 +51,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0', 'postgis-3.1', 'postgis-3.2'],
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(1 2)'), ST_GeomFromText('POINT(-2 3)') )) AS value",
                     'result' => [
                         'value' => 'MULTIPOINT(1 2,-2 3)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.3'],
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(1 2)'), ST_GeomFromText('POINT(-2 3)') )) AS value",
+                    'result' => [
+                        'value' => 'MULTIPOINT((1 2),(-2 3))',
                     ],
                 ],
             ],
@@ -228,9 +236,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0', 'postgis-3.1', 'postgis-3.2'],
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(1 2)'), ST_GeomFromText('POINT(-2 3)'))) AS value",
                     'result' => [
                         'value' => 'MULTIPOINT(1 2,-2 3)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.3'],
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(1 2)'), ST_GeomFromText('POINT(-2 3)'))) AS value",
+                    'result' => [
+                        'value' => 'MULTIPOINT((1 2),(-2 3))',
                     ],
                 ],
             ],

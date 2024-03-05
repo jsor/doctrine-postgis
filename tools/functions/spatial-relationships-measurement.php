@@ -286,9 +286,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0', 'postgis-3.1', 'postgis-3.2'],
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
                     'result' => [
                         'value' => -3,
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.3'],
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
+                    'result' => [
+                        'value' => 3.0,
                     ],
                 ],
             ],
