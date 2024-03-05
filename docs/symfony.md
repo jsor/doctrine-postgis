@@ -34,7 +34,7 @@ services:
 
 ### Database Types
 
-It is also recommended registering the DBAL types in the
+Register the DBAL types in the
 [doctrine section](https://symfony.com/doc/current/reference/configuration/doctrine.html)
 of the `config/packages/doctrine.yaml` config file.
 
