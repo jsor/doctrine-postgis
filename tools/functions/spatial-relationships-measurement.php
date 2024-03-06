@@ -286,9 +286,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0', 'postgis-3.1', 'postgis-3.2'],
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
                     'result' => [
                         'value' => -3,
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.3'],
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
+                    'result' => [
+                        'value' => 3.0,
                     ],
                 ],
             ],
@@ -607,10 +615,19 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.0', 'postgis-3.1', 'postgis-3.2', 'postgis-3.3'],
                     'sql' => "SELECT ST_X(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) as value1, ST_Y(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) AS value2",
                     'result' => [
                         'value1' => 0.635231029125537,
                         'value2' => 0.639472334729198,
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.4'],
+                    'sql' => "SELECT ST_X(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) as value1, ST_Y(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) AS value2",
+                    'result' => [
+                        'value1' => 70710.67811865476,
+                        'value2' => 70710.67811865475,
                     ],
                 ],
             ],

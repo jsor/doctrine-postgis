@@ -48,6 +48,12 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.0
+     * @group postgis-3.1
+     * @group postgis-3.2
+     * @group versioned
+     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Boundary(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -70,6 +76,38 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
 
         $expected = [
   'value' => 'MULTIPOINT(1 1,-1 1)',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    /**
+     * @group postgis-3.3
+     * @group postgis-3.4
+     * @group versioned
+     */
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Boundary(ST_GeomFromText(\'LINESTRING(1 1,0 0, -1 1)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'MULTIPOINT((1 1),(-1 1))',
 ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);

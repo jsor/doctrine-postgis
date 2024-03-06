@@ -43,6 +43,27 @@ services:
     networks:
       - db-13-31
 
+  db-13-32:
+    image: postgis/postgis:13-3.2-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db-13-32
+
+  db-13-33:
+    image: postgis/postgis:13-3.3-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db-13-33
+
+  db-13-34:
+    image: postgis/postgis:13-3.4-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - db-13-34
+
 networks:
   db-11-30:
     name: doctrine-postgis-11-30
@@ -61,4 +82,13 @@ networks:
     driver: bridge
   db-13-31:
     name: doctrine-postgis-13-31
+    driver: bridge
+  db-13-32:
+    name: doctrine-postgis-13-32
+    driver: bridge
+  db-13-33:
+    name: doctrine-postgis-13-33
+    driver: bridge
+  db-13-34:
+    name: doctrine-postgis-13-34
     driver: bridge

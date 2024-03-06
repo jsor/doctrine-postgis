@@ -263,6 +263,45 @@ final class Configurator
         return ob_get_clean();
 }
 
+function normalize_versioned_groups(array $queries): array
+{
+    $postGisVersions = ['3.0', '3.1', '3.2', '3.3', '3.4'];
+
+    $queryGroups = [];
+    foreach ($queries as $query) {
+        if (!isset($query['groups'])) {
+            continue;
+        }
+        foreach ($query['groups'] as $group) {
+            $version = str_replace('postgis-', '', $group);
+            if (in_array($version, $postGisVersions, true)) {
+                $queryGroups[$version] = $version;
+            }
+        }
+    }
+    rsort($queryGroups, SORT_NUMERIC);
+
+    $highest = reset($queryGroups);
+    if (false === $highest) {
+        return $queries;
+    }
+
+    $needed = array_map(fn ($v) => "postgis-$v", array_filter($postGisVersions, fn ($v) => $v > $highest));
+    foreach ($queries as &$query) {
+        if (!isset($query['groups'])) {
+            continue;
+        }
+        foreach ($query['groups'] as $group) {
+            if ($group === "postgis-$highest") {
+                $query['groups'] = [...$query['groups'], ...$needed];
+            }
+        }
+        $query['groups'][] = 'versioned';
+    }
+
+    return $queries;
+}
+
 foreach ($functions as $name => $options) {
     $srcFile = $srcPath . '/' . $name . '.php';
     $testFile = $testPath . '/' . $name . 'Test.php';
@@ -270,6 +309,8 @@ foreach ($functions as $name => $options) {
     if (isset($options['alias_for'])) {
         $options = array_replace_recursive($functions[$options['alias_for']], $options);
     }
+
+    $options['tests']['queries'] = normalize_versioned_groups($options['tests']['queries']);
 
     file_put_contents($srcFile, "<?php\n\n" . get_function_src_class_code($name, $options));
     file_put_contents($testFile, "<?php\n\n" . get_function_test_class_code($name, $options));
