@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractTestCase;
+use Jsor\Doctrine\PostGIS\Driver\PostGISPlatform;
 
 /**
  * @covers \Jsor\Doctrine\PostGIS\Schema\SpatialIndexes
@@ -27,38 +26,43 @@ final class SpatialIndexesTest extends AbstractTestCase
 
     public function providerFilterTableDiff(): iterable
     {
-        $baseTable = new Table('points');
-        $baseTable->addColumn('name', 'string', ['length' => 42]);
-        $baseTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
-        $baseTable->addColumn('linestring', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $comparator = new Comparator(new PostGISPlatform());
 
-        $table = clone $baseTable;
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new Index('name_idx', ['name']);
-        $tableDiff->addedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, ['spatial']);
+        $makeTable = static function (): Table {
+            $table = new Table('points');
+            $table->addColumn('name', 'string', ['length' => 42]);
+            $table->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
+            $table->addColumn('linestring', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
 
-        yield 'Added spatial' => [$tableDiff, 1, 0];
+            return $table;
+        };
 
-        $table = clone $baseTable;
-        $table->addIndex(['name'], 'name_idx', []);
-        $table->addIndex(['point'], 'point_idx', []);
+        $fromTable = $makeTable();
+        $toTable = $makeTable();
+        $toTable->addIndex(['name'], 'name_idx');
+        $toTable->addIndex(['linestring'], 'linestring_idx', ['spatial']);
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new Index('name_idx', ['name']);
-        $tableDiff->changedIndexes[] = new Index('point_idx', ['point'], false, false, ['spatial']);
+        yield 'Added spatial' => [$comparator->compareTables($fromTable, $toTable), 1, 0];
 
-        yield 'Changed spatial' => [$tableDiff, 0, 1];
+        $fromTable = $makeTable();
+        $fromTable->addIndex(['name'], 'name_idx', []);
+        $fromTable->addIndex(['point'], 'point_idx', []);
+
+        $toTable = $makeTable();
+        $toTable->addIndex(['name'], 'name_idx');
+        $toTable->addIndex(['point', 'linestring'], 'point_idx');
+        $toTable->addIndex(['linestring'], 'linestring_idx', ['spatial']);
+
+        yield 'Changed spatial' => [$comparator->compareTables($fromTable, $toTable), 0, 1];
     }
 
     /** @dataProvider providerFilterTableDiff */
-    public function testFilterTableDiff(TableDiff $tableDiff, int $addedIndexes, int $changedIndexes): void
+    public function testFilterTableDiff(TableDiff $tableDiff, int $addedIndexes, int $modifiedIndexes): void
     {
-        SpatialIndexes::filterTableDiff($tableDiff);
+        $tableDiff = SpatialIndexes::filterTableDiff($tableDiff);
 
-        static::assertCount($addedIndexes, $tableDiff->addedIndexes);
-        static::assertCount($changedIndexes, $tableDiff->changedIndexes);
+        static::assertCount($addedIndexes, $tableDiff->getAddedIndexes(), 'Incorrect added index count');
+        static::assertCount($modifiedIndexes, $tableDiff->getModifiedIndexes(), 'Incorrect modified index count');
     }
 
     public function providerEnsureTableFlag(): iterable
@@ -82,50 +86,58 @@ final class SpatialIndexesTest extends AbstractTestCase
     /** @dataProvider providerEnsureTableFlag */
     public function testEnsureTableFlag(Table $table): void
     {
-        $spatialIndexes = SpatialIndexes::ensureTableFlag($table);
+        SpatialIndexes::ensureSpatialIndexFlags($table);
+        $spatialIndexes = SpatialIndexes::extractSpatialIndicies($table->getIndexes());
 
         static::assertCount(1, $spatialIndexes);
-        static::assertSame('linestring_idx', $spatialIndexes[0]->getName());
-        static::assertTrue($spatialIndexes[0]->hasFlag('spatial'));
+        static::assertSame('linestring_idx', $spatialIndexes['linestring_idx']->getName());
+        static::assertTrue($spatialIndexes['linestring_idx']->hasFlag('spatial'));
     }
 
-    public function providerEnsureTableDiffs(): iterable
+    public function providerEnsureSpatialIndexFlags(): iterable
     {
         static::_registerTypes();
 
-        $table = new Table('points');
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedColumns[] = (new Column('linestring', Type::getType('geometry')))->setPlatformOptions(['geometry_type' => 'linestring', 'srid' => 3785]);
-        $tableDiff->addedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, []);
+        $comparator = new Comparator(new PostGISPlatform());
 
-        yield 'Added column and index' => [0, $tableDiff];
+        $fromTable = new Table('points');
 
-        $table = new Table('points');
-        $table->addColumn('linestring', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
-        $table->addIndex(['linestring'], 'linestring_idx', []);
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, ['spatial']);
+        $toTable = new Table('points');
+        $toTable->addColumn('linestring', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $toTable->addIndex(['linestring'], 'linestring_idx', ['spatial']);
+
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
+
+        yield 'Added column and index' => [1, $tableDiff];
+
+        $fromTable = new Table('points');
+        $fromTable->addColumn('linestring_1', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $fromTable->addColumn('linestring_2', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $fromTable->addIndex(['linestring_1'], 'linestring_idx', []);
+
+        $toTable = new Table('points');
+        $toTable->addColumn('linestring_1', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $toTable->addColumn('linestring_2', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $toTable->addIndex(['linestring_1', 'linestring_2'], 'linestring_idx', ['spatial']);
+
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         yield 'Changed index' => [1, $tableDiff];
-
-        $tableDiff = new TableDiff('points');
-        $tableDiff->addedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, ['spatial']);
-        $tableDiff->changedIndexes[] = new Index('point_idx', ['point'], false, false, ['spatial']);
-
-        yield 'Empty fromTable is skipped' => [0, $tableDiff];
     }
 
-    /** @dataProvider providerEnsureTableDiffs */
-    public function testEnsureTableDiffFlag(int $expected, TableDiff $tableDiff): void
+    /** @dataProvider providerEnsureSpatialIndexFlags */
+    public function testEnsureSpatialIndexFlags(int $expected, TableDiff $tableDiff): void
     {
-        $spatialIndexes = SpatialIndexes::ensureTableDiffFlag($tableDiff);
+        SpatialIndexes::ensureSpatialIndexFlags($tableDiff);
+        $spatialIndexes = array_merge(
+            SpatialIndexes::extractSpatialIndicies($tableDiff->getAddedIndexes()),
+            SpatialIndexes::extractSpatialIndicies($tableDiff->getModifiedIndexes()),
+        );
 
         static::assertCount($expected, $spatialIndexes);
 
         foreach ($spatialIndexes as $spatialIndex) {
-            static::assertTrue($spatialIndex->hasFlag('spatial'));
+            static::assertTrue($spatialIndex->hasFlag('spatial'), 'Missing spatial flag');
         }
     }
 }

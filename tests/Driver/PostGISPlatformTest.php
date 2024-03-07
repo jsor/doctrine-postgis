@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Driver;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
@@ -55,41 +52,29 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
     {
         static::_registerTypes();
 
-        $baseTable = new Table('points');
-        $baseTable->addColumn('id', 'integer');
-        $baseTable->addColumn('text', 'text');
-        $baseTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
+        $comparator = new Comparator(new PostGISPlatform());
 
-        $table = $baseTable;
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new Index('point_idx', ['point'], false, false, ['spatial']);
-        $schemaDiff = new SchemaDiff();
-        $schemaDiff->changedTables[] = $tableDiff;
+        $fromTable = new Table('points');
+        $fromTable->addColumn('id', 'integer');
+        $fromTable->addColumn('text', 'text');
+        $fromTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
 
-        yield 'Create index' => [$schemaDiff, ['CREATE INDEX point_idx ON points USING gist(point)'], []];
+        $toTable = clone $fromTable;
+        $toTable->addIndex(['point'], 'point_idx', ['spatial']);
 
-        $table = $baseTable;
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new Index('point_idx', ['point'], false, false, ['spatial']);
-        $tableDiff->changedColumns[] = new ColumnDiff(
-            'point',
-            new Column('point', Type::getType('geometry'), ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]),
-            ['srid'],
-            new Column('point', Type::getType('geometry'), ['platformOptions' => ['geometry_type' => 'point', 'srid' => 4326]]),
-        );
-        $schemaDiff = new SchemaDiff();
-        $schemaDiff->changedTables[] = $tableDiff;
+        $diff = $comparator->compareSchemas(new Schema([$fromTable]), new Schema([$toTable]));
 
-        yield 'Modify SRID' => [$schemaDiff, ['CREATE INDEX point_idx ON points USING gist(point)'], []];
+        yield 'Create index' => [$diff, ['CREATE INDEX point_idx ON points USING gist(point)'], []];
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->addedIndexes[] = new Index('point_idx', ['point'], false, false, ['spatial']);
-        $schemaDiff = new SchemaDiff();
-        $schemaDiff->changedTables[] = $tableDiff;
+        $fromTable = new Table('points');
+        $fromTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
 
-        yield 'Missing fromTable' => [$schemaDiff, [], ['CREATE INDEX point_idx ON points USING gist(point)']];
+        $toTable = new Table('points');
+        $toTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 4326]]);
+
+        $diff = $comparator->compareSchemas(new Schema([$fromTable]), new Schema([$toTable]));
+
+        yield 'Modify SRID' => [$diff, ["SELECT UpdateGeometrySRID('points', 'point', 4326)"], []];
     }
 
     /** @dataProvider providerAlterSql */
@@ -103,7 +88,7 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
     /** @dataProvider providerAlterSql */
     public function testGetAlterTableSQL(SchemaDiff $schemaDiff, array $expected, array $unexpected): void
     {
-        $tableDiffs = $schemaDiff->getAlteredTables();
+        $tableDiffs = array_values($schemaDiff->getAlteredTables());
         $sql = (new PostGISPlatform())->getAlterTableSQL($tableDiffs[0]);
 
         static::assertIndexes($expected, $unexpected, $sql);
@@ -115,12 +100,18 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
             Type::addType('geojson', GeoJsonType::class);
         }
 
-        $table = new Table('points');
-        $table->addColumn('id', 'integer');
-        $table->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
-        $tableDiff = new TableDiff('points');
-        $tableDiff->addedColumns[] = new Column('boundary', Type::getType('geojson'), ['platformOptions' => ['geometry_type' => 'multipolygon', 'srid' => 3785]]);
-        $tableDiff->changedColumns[] = new ColumnDiff('point', new Column('point', Type::getType('geojson'), ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]), ['type']);
+        $comparator = new Comparator(new PostGISPlatform());
+
+        $fromTable = new Table('points');
+        $fromTable->addColumn('id', 'integer');
+        $fromTable->addColumn('point', 'geometry', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
+
+        $toTable = new Table('points');
+        $toTable->addColumn('id', 'integer');
+        $toTable->addColumn('point', 'geojson', ['platformOptions' => ['geometry_type' => 'point', 'srid' => 3785]]);
+        $toTable->addColumn('boundary', 'geojson', ['platformOptions' => ['geometry_type' => 'multipolygon', 'srid' => 3785]]);
+
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $sql = (new PostGISPlatform())->getAlterTableSQL($tableDiff);
 
@@ -144,7 +135,7 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
         $table2->addColumn('id', 'integer');
         $table2->addColumn('points_id', 'integer');
         $table2->setPrimaryKey(['id']);
-        $table2->addForeignKeyConstraint($table1, ['points_id'], ['id']);
+        $table2->addForeignKeyConstraint($table1->getName(), ['points_id'], ['id']);
 
         $sql = (new PostGISPlatform())->getCreateTablesSQL([$table1, $table2]);
 
@@ -174,7 +165,7 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
     {
         $table = $this->sm->introspectTable('points');
 
-        $sql = $this->_getConnection()->getDatabasePlatform()->getDropTableSQL($table);
+        $sql = $this->_getConnection()->getDatabasePlatform()->getDropTableSQL($table->getName());
 
         $this->assertEquals('DROP TABLE points', $sql);
     }

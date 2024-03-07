@@ -25,12 +25,6 @@ abstract class AbstractTestCase extends TestCase
 
     protected function getPlatformMock()
     {
-        $platform = $this->getMockForAbstractClass(AbstractPlatform::class);
-
-        $platform
-            ->method('getName')
-            ->willReturn('postgresql');
-
-        return $platform;
+        return $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 }

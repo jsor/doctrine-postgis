@@ -7,7 +7,6 @@ namespace Jsor\Doctrine\PostGIS\Driver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\Table;
@@ -28,31 +27,21 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
     public function getAlterSchemaSQL(SchemaDiff $diff): array
     {
-        $spatialIndexes = [];
-        foreach ($diff->getAlteredTables() as $tableDiff) {
-            $table = $tableDiff->getOldTable();
-            if (!$table) {
-                continue;
-            }
-
-            /** @var Index[] $indices */
-            $indices = [];
-            foreach (SpatialIndexes::ensureTableDiffFlag($tableDiff) as $index) {
-                $indices[] = $index;
-            }
-            $spatialIndexes[$table->getName()] = ['table' => $table, 'indexes' => $indices];
-
-            SpatialIndexes::filterTableDiff($tableDiff);
-        }
-
-        $sql = parent::getAlterSchemaSQL($diff);
+        $sql = parent::getAlterSchemaSQL(SpatialIndexes::filterSchemaDiff($diff));
 
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
-        foreach ($spatialIndexes as $spatialIndex) {
-            /** @var Table $table */
-            $table = $spatialIndex['table'];
-            /** @var Index $index */
-            foreach ($spatialIndex['indexes'] as $index) {
+
+        foreach ($diff->getAlteredTables() as $tableDiff) {
+            $table = $tableDiff->getOldTable();
+
+            SpatialIndexes::ensureSpatialIndexFlags($tableDiff);
+
+            foreach (SpatialIndexes::extractSpatialIndicies($tableDiff->getAddedIndexes()) as $index) {
+                $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
+            }
+
+            foreach (SpatialIndexes::extractSpatialIndicies($tableDiff->getModifiedIndexes()) as $index) {
+                $sql[] = $this->getDropIndexSQL($index->getName(), $table->getName());
                 $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
             }
         }
@@ -62,8 +51,9 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
     public function getCreateTableSQL(Table $table, $createFlags = self::CREATE_INDEXES): array
     {
-        $spatialIndexes = SpatialIndexes::ensureTableFlag($table);
+        SpatialIndexes::ensureSpatialIndexFlags($table);
 
+        $spatialIndexes = SpatialIndexes::extractSpatialIndicies($table->getIndexes());
         foreach ($spatialIndexes as $index) {
             $table->dropIndex($index->getName());
         }
@@ -85,8 +75,9 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
         /** @var Table $table */
         foreach ($tables as $table) {
-            $spatialIndexes = SpatialIndexes::ensureTableFlag($table);
+            SpatialIndexes::ensureSpatialIndexFlags($table);
 
+            $spatialIndexes = SpatialIndexes::extractSpatialIndicies($table->getIndexes());
             foreach ($spatialIndexes as $index) {
                 $table->dropIndex($index->getName());
             }
@@ -116,28 +107,24 @@ final class PostGISPlatform extends PostgreSQLPlatform
     public function getAlterTableSQL(TableDiff $diff): array
     {
         $table = $diff->getOldTable();
-        $spatialIndexes = [];
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
 
-        if ($table) {
-            $spatialIndexes = SpatialIndexes::ensureTableDiffFlag($diff);
-        }
+        SpatialIndexes::ensureSpatialIndexFlags($diff);
 
-        SpatialIndexes::filterTableDiff($diff);
+        $sql = parent::getAlterTableSQL(SpatialIndexes::filterTableDiff($diff));
 
-        $sql = parent::getAlterTableSQL($diff);
-
-        if (!$table) {
-            return $sql;
-        }
-
-        foreach ($spatialIndexes as $spatialIndex) {
+        foreach (SpatialIndexes::extractSpatialIndicies($diff->getAddedIndexes()) as $spatialIndex) {
             $sql[] = $spatialIndexSqlGenerator->getSql($spatialIndex, $table);
+        }
+
+        foreach (SpatialIndexes::extractSpatialIndicies($diff->getModifiedIndexes()) as $index) {
+            $sql[] = $this->getDropIndexSQL($index->getName(), $table->getName());
+            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
         }
 
         /** @var ColumnDiff $columnDiff */
         foreach ($diff->getModifiedColumns() as $columnDiff) {
-            if ($columnDiff->hasChanged('srid')) {
+            if ($columnDiff->getOldColumn()->getPlatformOption('srid') !== $columnDiff->getNewColumn()->getPlatformOption('srid')) {
                 $sql[] = sprintf(
                     "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                     $table->getName(),

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
@@ -18,9 +21,6 @@ final class SchemaManager extends PostgreSQLSchemaManager
     public function alterTable(TableDiff $tableDiff): void
     {
         $oldTable = $tableDiff->getOldTable();
-        if (!$oldTable) {
-            return;
-        }
 
         foreach ($tableDiff->getModifiedColumns() as $columnDiff) {
             if (!$columnDiff->getNewColumn()->getType() instanceof PostGISType) {
@@ -31,11 +31,16 @@ final class SchemaManager extends PostgreSQLSchemaManager
             $oldColumn = $columnDiff->getOldColumn();
 
             if ($columnDiff->hasTypeChanged()) {
-                throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . ($oldColumn?->getType()?->getName() ?? 'N/A') . '" to "' . $newColumn->getType()->getName() . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
+                $oldType = Type::lookupName($oldColumn->getType());
+                $newType = Type::lookupName($newColumn->getType());
+
+                throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $oldType . '" to "' . $newType . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
             }
 
-            if ($columnDiff->hasChanged('geometry_type')) {
-                throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper((string) ($oldColumn?->getPlatformOption('geometry_type') ?? 'N/A')) . '" to "' . strtoupper((string) $newColumn->getPlatformOption('geometry_type')) . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
+            $oldGT = (string) ($oldColumn->hasPlatformOption('geometry_type') ? $oldColumn->getPlatformOption('geometry_type') : 'N/A');
+            $newGT = (string) ($newColumn->hasPlatformOption('geometry_type') ? $newColumn->getPlatformOption('geometry_type') : 'N/A');
+            if (strtolower($oldGT) !== strtolower($newGT)) {
+                throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($oldGT) . '" to "' . strtoupper($newGT) . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
             }
         }
 
@@ -46,11 +51,16 @@ final class SchemaManager extends PostgreSQLSchemaManager
     {
         $table = parent::introspectTable($name);
 
-        SpatialIndexes::ensureTableFlag($table);
+        SpatialIndexes::ensureSpatialIndexFlags($table);
 
         return $table;
     }
 
+    /**
+     * @param string $table
+     *
+     * @return array<string, Index>
+     */
     public function listTableIndexes($table): array
     {
         $indexes = parent::listTableIndexes($table);
@@ -85,7 +95,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
                 ORDER BY i.relname";
 
         /** @var array<array{relname: string, indkey: string, inddef: string, oid: string}> $tableIndexes */
-        $tableIndexes = $this->_conn->fetchAllAssociative(
+        $tableIndexes = $this->getConnection()->fetchAllAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -104,7 +114,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
                     AND a.attnum IN (" . implode(',', explode(' ', $row['indkey'])) . ')
                     AND a.atttypid = t.oid';
 
-            $stmt = $this->_conn->executeQuery($sql);
+            $stmt = $this->getConnection()->executeQuery($sql);
 
             /** @var array<array{attname: string, typname: string}> $indexColumns */
             $indexColumns = $stmt->fetchAllAssociative();
@@ -138,7 +148,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
                 AND f_geometry_column = ?';
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
-        $row = $this->_conn->fetchAssociative(
+        $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -165,7 +175,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
                 AND f_geography_column = ?';
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
-        $row = $this->_conn->fetchAssociative(
+        $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
                 $this->trimQuotes($table),
@@ -180,6 +190,13 @@ final class SchemaManager extends PostgreSQLSchemaManager
         return $this->buildSpatialColumnInfo($row);
     }
 
+    /**
+     * @param string                           $table
+     * @param string                           $database
+     * @param array<int, array<string, mixed>> $tableColumns
+     *
+     * @return array<string, Column>
+     */
     protected function _getPortableTableColumnList($table, $database, $tableColumns): array
     {
         $columns = parent::_getPortableTableColumnList($table, $database, $tableColumns);
@@ -195,7 +212,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
     {
         $column = parent::_getPortableTableColumnDefinition($tableColumn);
 
-        if ($tableColumn['table_name'] ?? false) {
+        if (isset($tableColumn['table_name'])) {
             $this->resolveSpatialColumnInfo($column, (string) $tableColumn['table_name']);
         }
 
@@ -214,7 +231,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
             default => null,
         };
 
-        if (!$info) {
+        if ($info === null) {
             return;
         }
 
@@ -225,7 +242,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
         }
 
         $column
-            ->setType(PostGISType::getType($column->getType()->getName()))
+            ->setType(PostGISType::getType(Type::lookupName($column->getType())))
             ->setDefault($default)
             ->setPlatformOption('geometry_type', $info['type'])
             ->setPlatformOption('srid', $info['srid'])
@@ -262,5 +279,15 @@ final class SchemaManager extends PostgreSQLSchemaManager
     private function trimQuotes(string $identifier): string
     {
         return str_replace(['`', '"', '[', ']'], '', $identifier);
+    }
+
+    private function getConnection(): Connection
+    {
+        // DBAL v3
+        if (property_exists($this, '_conn')) {
+            return $this->_conn;
+        }
+
+        return $this->connection;
     }
 }

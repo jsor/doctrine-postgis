@@ -34,7 +34,7 @@ final class GeoJsonType extends GeographyType
         return sprintf('ST_GeomFromGeoJSON(%s)::geography', $sqlExpr);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return parent::convertToDatabaseValue(json_encode($value), $platform);
     }

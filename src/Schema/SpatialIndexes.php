@@ -5,62 +5,116 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Schema;
 
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Jsor\Doctrine\PostGIS\Utils\Doctrine;
 
 final class SpatialIndexes
 {
     /**
+     * @return Index[] the spacial indicies
+     */
+    public static function extractSpatialIndicies(array $indicies): array
+    {
+        return array_filter($indicies, static fn (Index $idx) => $idx->hasFlag('spatial'));
+    }
+
+    public static function filterSchemaDiff(SchemaDiff $schemaDiff): SchemaDiff
+    {
+        $filter = static fn (TableDiff $diff): TableDiff => self::filterTableDiff($diff);
+
+        if (Doctrine::isV3()) {
+            return new SchemaDiff(
+                $schemaDiff->getCreatedTables(),
+                array_map($filter, $schemaDiff->getAlteredTables()),
+                $schemaDiff->getDroppedTables(),
+                $schemaDiff->fromSchema,
+                $schemaDiff->getCreatedSchemas(),
+                $schemaDiff->getDroppedSchemas(),
+                $schemaDiff->getCreatedSequences(),
+                $schemaDiff->getAlteredSequences(),
+                $schemaDiff->getDroppedSequences(),
+            );
+        }
+
+        return new SchemaDiff(
+            $schemaDiff->getCreatedSchemas(),
+            $schemaDiff->getDroppedSchemas(),
+            $schemaDiff->getCreatedTables(),
+            array_map($filter, $schemaDiff->getAlteredTables()),
+            $schemaDiff->getDroppedTables(),
+            $schemaDiff->getCreatedSequences(),
+            $schemaDiff->getAlteredSequences(),
+            $schemaDiff->getDroppedSequences(),
+        );
+    }
+
+    /**
      * Filter spatial indexes from a TableDiff to prevent duplicate index SQL generation.
      */
-    public static function filterTableDiff(TableDiff $tableDiff): void
+    public static function filterTableDiff(TableDiff $tableDiff): TableDiff
     {
-        $tableDiff->addedIndexes = array_filter($tableDiff->addedIndexes, static fn (Index $idx) => !$idx->hasFlag('spatial'));
+        $spatialFilter = static fn (Index $idx): bool => !$idx->hasFlag('spatial');
 
-        $changedIndexes = [];
-        /** @var Index $index */
-        foreach ($tableDiff->changedIndexes as $index) {
-            if ($index->hasFlag('spatial')) {
-                $tableDiff->removedIndexes[] = $index;
-            } else {
-                $changedIndexes[] = $index;
-            }
+        if (Doctrine::isV3()) {
+            return new TableDiff(
+                (string) $tableDiff->getOldTable()?->getName(),
+                $tableDiff->getAddedColumns(),
+                $tableDiff->getModifiedColumns(),
+                $tableDiff->getDroppedColumns(),
+                array_filter($tableDiff->getAddedIndexes(), $spatialFilter),
+                array_filter($tableDiff->getModifiedIndexes(), $spatialFilter),
+                $tableDiff->getDroppedIndexes(),
+                $tableDiff->getOldTable(),
+                $tableDiff->getAddedForeignKeys(),
+                $tableDiff->getModifiedForeignKeys(),
+                $tableDiff->getDroppedForeignKeys(),
+                $tableDiff->getRenamedColumns(),
+                $tableDiff->getRenamedIndexes(),
+            );
         }
-        $tableDiff->changedIndexes = $changedIndexes;
+
+        return new TableDiff(
+            $tableDiff->getOldTable(),
+            $tableDiff->getAddedColumns(),
+            $tableDiff->getModifiedColumns(),
+            $tableDiff->getDroppedColumns(),
+            $tableDiff->getRenamedColumns(),
+            array_filter($tableDiff->getAddedIndexes(), $spatialFilter),
+            array_filter($tableDiff->getModifiedIndexes(), $spatialFilter),
+            $tableDiff->getDroppedIndexes(),
+            $tableDiff->getRenamedIndexes(),
+            $tableDiff->getAddedForeignKeys(),
+            $tableDiff->getModifiedForeignKeys(),
+            $tableDiff->getDroppedForeignKeys(),
+        );
     }
 
     /**
-     * Ensure the 'spatial' flag is set on PostGIS columns in a Table.
-     *
-     * @return Index[] the spacial indicies
+     * Ensure the 'spatial' flag is set on PostGIS columns.
      */
-    public static function ensureTableFlag(Table $table): array
+    public static function ensureSpatialIndexFlags(Table|TableDiff $table): void
     {
-        return static::ensureFlag($table, $table->getIndexes());
-    }
+        if ($table instanceof Table) {
+            static::applySpatialIndexFlag($table, $table->getIndexes());
 
-    /**
-     * Ensure the 'spatial' flag is set on PostGIS columns in a TableDiff.
-     *
-     * @return Index[] the spacial indicies
-     */
-    public static function ensureTableDiffFlag(TableDiff $tableDiff): array
-    {
+            return;
+        }
+
+        $tableDiff = $table;
         $table = $tableDiff->getOldTable();
         if (!$table) {
-            return [];
+            return;
         }
 
-        $addedSpatialIndexes = static::ensureFlag($table, $tableDiff->getAddedIndexes());
-
-        $modifiedSpatialIndexes = static::ensureFlag($table, $tableDiff->getModifiedIndexes());
-
-        return array_merge($addedSpatialIndexes, $modifiedSpatialIndexes);
+        static::applySpatialIndexFlag($table, $tableDiff->getAddedIndexes());
+        static::applySpatialIndexFlag($table, $tableDiff->getModifiedIndexes());
     }
 
     /** @return Index[] */
-    private static function ensureFlag(Table $table, array $indexes): array
+    private static function applySpatialIndexFlag(Table $table, array $indexes): array
     {
         $spatialIndexes = [];
 

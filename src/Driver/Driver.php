@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Driver;
 
 use Doctrine\DBAL;
+use Doctrine\DBAL\Connection\StaticServerVersionProvider;
 use Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
 use Doctrine\DBAL\Driver\API\ExceptionConverter;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\ServerVersionProvider;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use Jsor\Doctrine\PostGIS\Utils\Doctrine;
 
 final class Driver extends AbstractPostgreSQLDriver
 {
@@ -36,14 +40,22 @@ final class Driver extends AbstractPostgreSQLDriver
         return $connection;
     }
 
-    public function getDatabasePlatform(): AbstractPlatform
+    public function getDatabasePlatform(?ServerVersionProvider $versionProvider = null): PostgreSQLPlatform
     {
         return new PostGISPlatform();
     }
 
+    /**
+     * @param string $version
+     */
     public function createDatabasePlatformForVersion($version): AbstractPlatform
     {
-        return $this->getDatabasePlatform();
+        // Remove when DBAL v3 support is dropped.
+        if (Doctrine::isV3()) {
+            return $this->getDatabasePlatform();
+        }
+
+        return $this->getDatabasePlatform(new StaticServerVersionProvider($version));
     }
 
     public function getExceptionConverter(): ExceptionConverter

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
+use Jsor\Doctrine\PostGIS\Driver\PostGISPlatform;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use RuntimeException;
@@ -188,11 +186,12 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->expectExceptionMessage('The type of a spatial column cannot be changed (Requested changing type from "geometry" to "geography" for column "point_2d" in table "points")');
 
         $schemaManager = $this->getSchemaManager();
-        $table = $schemaManager->introspectTable('points');
+        $comparator = $schemaManager->createComparator();
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new Column('point_2d', Type::getType('geography'), []), ['type'], $table->getColumn('point_2d'));
+        $fromTable = $schemaManager->introspectTable('points');
+        $toTable = clone $fromTable;
+        $toTable->modifyColumn('point_2d', ['type' => Type::getType('geography')]);
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
     }
@@ -203,11 +202,12 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->expectExceptionMessage('The geometry_type of a spatial column cannot be changed (Requested changing type from "POINT" to "LINESTRING" for column "point_2d" in table "points")');
 
         $schemaManager = $this->getSchemaManager();
-        $table = $schemaManager->introspectTable('points');
+        $comparator = $schemaManager->createComparator();
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new Column('point_2d', Type::getType('geometry'), ['platformOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
+        $fromTable = $schemaManager->introspectTable('points');
+        $toTable = clone $fromTable;
+        $toTable->modifyColumn('point_2d', ['platformOptions' => ['geometry_type' => 'LINESTRING']]);
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
     }
@@ -361,7 +361,7 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $offlineTable = $this->createTableSchema();
         $onlineTable = $this->getSchemaManager()->introspectTable('points');
 
-        $comparator = new Comparator();
+        $comparator = new Comparator(new PostGISPlatform());
         $diff = $comparator->compareTables($offlineTable, $onlineTable);
 
         $this->assertEmpty($diff->getAddedColumns(), 'No differences should be detected with the offline vs online schema.');
@@ -510,13 +510,14 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
     public function testAlterTableScenario(): void
     {
         $schemaManager = $this->getSchemaManager();
-        $table = $schemaManager->introspectTable('points');
+        $comparator = $schemaManager->createComparator();
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedColumns['linestring'] = (new Column('linestring', Type::getType('geometry')))->setPlatformOptions(['geometry_type' => 'linestring', 'srid' => 3785]);
-        $tableDiff->removedColumns['point'] = $table->getColumn('point');
-        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', (new Column('point_3dm', Type::getType('geometry')))->setPlatformOption('srid', 4326), ['srid'], $table->getColumn('point_3dm'));
+        $fromTable = $schemaManager->introspectTable('points');
+        $toTable = clone $fromTable;
+        $toTable->addColumn('linestring', 'geometry', ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $toTable->dropColumn('point');
+        $toTable->modifyColumn('point_3dm', ['platformOptions' => ['geometry_type' => 'pointm', 'srid' => 4326]]);
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
 
@@ -525,9 +526,10 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertTrue($table->hasColumn('linestring'));
         $this->assertEquals(4326, $table->getColumn('point_3dm')->getPlatformOption('srid'));
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->addedIndexes[] = new Index('linestring_idx', ['linestring'], false, false, ['spatial']);
+        $fromTable = $schemaManager->introspectTable('points');
+        $toTable = clone $fromTable;
+        $toTable->addIndex(['linestring'], 'linestring_idx', ['spatial']);
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
 
@@ -538,9 +540,18 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertFalse($table->getIndex('linestring_idx')->isPrimary());
         $this->assertFalse($table->getIndex('linestring_idx')->isUnique());
 
-        $tableDiff = new TableDiff('points');
-        $tableDiff->fromTable = $table;
-        $tableDiff->changedIndexes[] = new Index('linestring_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $fromTable = $schemaManager->introspectTable('points');
+        $indexes = $fromTable->getIndexes();
+        $indexes['linestring_idx'] = new Index('linestring_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $toTable = new Table(
+            $fromTable->getName(),
+            $fromTable->getColumns(),
+            $indexes,
+            $fromTable->getUniqueConstraints(),
+            $fromTable->getForeignKeys(),
+            $fromTable->getOptions(),
+        );
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
 
@@ -548,10 +559,19 @@ final class SchemaManagerTest extends AbstractFunctionalTestCase
         $this->assertTrue($table->hasIndex('linestring_idx'));
         $this->assertEquals(['linestring', 'point_2d'], array_map('strtolower', $table->getIndex('linestring_idx')->getColumns()));
 
-        $tableDiff = new TableDiff('points');
-
-        $tableDiff->fromTable = $table;
-        $tableDiff->renamedIndexes['linestring_idx'] = new Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $fromTable = $schemaManager->introspectTable('points');
+        $indexes = $fromTable->getIndexes();
+        unset($indexes['linestring_idx']);
+        $indexes['linestring_renamed_idx'] = new Index('linestring_renamed_idx', ['linestring', 'point_2d'], false, false, ['spatial']);
+        $toTable = new Table(
+            $fromTable->getName(),
+            $fromTable->getColumns(),
+            $indexes,
+            $fromTable->getUniqueConstraints(),
+            $fromTable->getForeignKeys(),
+            $fromTable->getOptions(),
+        );
+        $tableDiff = $comparator->compareTables($fromTable, $toTable);
 
         $schemaManager->alterTable($tableDiff);
 

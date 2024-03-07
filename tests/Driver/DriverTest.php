@@ -47,15 +47,15 @@ final class DriverTest extends TestCase
 
     public function providerVersions(): iterable
     {
-        yield [11];
-        yield [12];
-        yield [13];
-        yield [14];
-        yield [15];
+        yield ['11'];
+        yield ['12'];
+        yield ['13'];
+        yield ['14'];
+        yield ['15'];
     }
 
     /** @dataProvider providerVersions */
-    public function testCreateDatabasePlatformForVersion(int $version): void
+    public function testCreateDatabasePlatformForVersion(string $version): void
     {
         $driver = $this->getDriver();
 
