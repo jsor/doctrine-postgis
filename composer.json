@@ -23,15 +23,16 @@
     ],
     "require": {
         "php": "^8.0",
-        "doctrine/dbal": "^3.2"
+        "doctrine/dbal": "^3.7 || ^4.0"
     },
     "require-dev": {
-        "doctrine/orm": "^2.9",
+        "doctrine/collections": "^2.0 || ^3.0",
+        "doctrine/orm": "^2.19 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.13",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9.6",
         "vimeo/psalm": "^5.9",
-        "symfony/doctrine-bridge": "^5.4 || ^6.0",
-        "symfony/doctrine-messenger": "^5.4 || ^6.0"
+        "symfony/doctrine-bridge": "^6.4",
+        "symfony/doctrine-messenger": "^6.4"
     },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"
