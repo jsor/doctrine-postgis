@@ -124,12 +124,21 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
         /** @var ColumnDiff $columnDiff */
         foreach ($diff->getModifiedColumns() as $columnDiff) {
-            if ($columnDiff->getOldColumn()->getPlatformOption('srid') !== $columnDiff->getNewColumn()->getPlatformOption('srid')) {
+            $oldColumn = $columnDiff->getOldColumn();
+            $newColumn = $columnDiff->getNewColumn();
+            $oldSrid = $oldColumn->hasPlatformOption('srid') ? $oldColumn->getPlatformOption('srid') : null;
+            $newSrid = $newColumn->hasPlatformOption('srid') ? $newColumn->getPlatformOption('srid') : null;
+
+            if (!$oldSrid && !$newSrid) {
+                continue;
+            }
+
+            if ($newSrid !== null && $oldSrid !== $newSrid) {
                 $sql[] = sprintf(
                     "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                     $table->getName(),
-                    $columnDiff->getNewColumn()->getName(),
-                    (int) $columnDiff->getNewColumn()->getPlatformOption('srid')
+                    $newColumn->getName(),
+                    (int) $newSrid
                 );
             }
         }
