@@ -9,9 +9,13 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use Jsor\Doctrine\PostGIS\Entity\ReservedWordsEntity;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener
+ *
  * @group orm
+ *
+ * @internal
  */
-final class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
+final class ORMSchemaEventListenerTest extends AbstractFunctionalTestCase
 {
     public function testEntity(): void
     {
@@ -21,8 +25,8 @@ final class ORMSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $em = $this->_getEntityManager();
 
-        $sm = $em->getConnection()->getSchemaManager();
-        $table = $sm->listTableDetails('points');
+        $sm = $em->getConnection()->createSchemaManager();
+        $table = $sm->introspectTable('points');
         $this->assertTrue($table->hasIndex('idx_point'));
         $this->assertTrue($table->getIndex('idx_point')->hasFlag('spatial'));
 

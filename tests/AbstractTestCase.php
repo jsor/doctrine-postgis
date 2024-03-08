@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected function _registerTypes(): void
+    protected static function _registerTypes(): void
     {
         if (!Type::hasType('geometry')) {
             Type::addType('geometry', GeometryType::class);
@@ -25,12 +25,6 @@ abstract class AbstractTestCase extends TestCase
 
     protected function getPlatformMock()
     {
-        $platform = $this->getMockForAbstractClass(AbstractPlatform::class);
-
-        $platform
-            ->method('getName')
-            ->willReturn('postgresql');
-
-        return $platform;
+        return $this->getMockForAbstractClass(AbstractPlatform::class);
     }
 }

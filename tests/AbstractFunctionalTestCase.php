@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS;
 
+use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration as DBALConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
@@ -13,11 +14,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\ToolEvents;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
-use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
-use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
+use Jsor\Doctrine\PostGIS\Driver\Middleware;
+use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
-use Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaSubscriber;
+use Jsor\Doctrine\PostGIS\Schema\SchemaManagerFactory;
+use Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaListener;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\Connection as MessengerConnection;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransport;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\PostgreSqlConnection;
@@ -26,6 +29,8 @@ use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
     private static ?Connection $_conn = null;
+
+    private static ?EventManager $_eventManager = null;
 
     private static ?MessengerConnection $_messengerConn = null;
 
@@ -37,6 +42,13 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
     private ?EntityManagerInterface $_em = null;
 
     private ?SchemaTool $_schemaTool = null;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        static::_registerTypes();
+    }
 
     protected function tearDown(): void
     {
@@ -88,15 +100,28 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         ];
     }
 
+    protected function _getEventManager(): EventManager
+    {
+        if (!self::$_eventManager) {
+            self::$_eventManager = new EventManager();
+        }
+
+        return self::$_eventManager;
+    }
+
     protected function _getConnection(): Connection
     {
         if (!isset(self::$_conn)) {
             if (class_exists(ORMConfiguration::class)) {
-                self::$_conn = DriverManager::getConnection($this->_getDbParams(), new ORMConfiguration());
-                Configurator::configure(self::$_conn->getConfiguration());
+                $config = new ORMConfiguration();
+                Configurator::configure($config);
             } else {
-                self::$_conn = DriverManager::getConnection($this->_getDbParams(), new DBALConfiguration());
+                $config = new DBALConfiguration();
             }
+            $config->setMiddlewares([new Middleware()]);
+            $config->setSchemaManagerFactory(new SchemaManagerFactory());
+
+            self::$_conn = DriverManager::getConnection($this->_getDbParams(), $config, $this->_getEventManager());
 
             self::$_messengerConn = new PostgreSqlConnection(
                 [
@@ -106,8 +131,9 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
                 self::$_conn,
             );
 
-            self::$_conn->getEventManager()->addEventSubscriber(
-                new MessengerTransportDoctrineSchemaSubscriber(
+            $this->_getEventManager()->addEventListener(
+                ToolEvents::postGenerateSchema,
+                new MessengerTransportDoctrineSchemaListener(
                     [
                         new DoctrineTransport(
                             self::$_messengerConn,
@@ -118,9 +144,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
             );
 
             if (class_exists(ORMConfiguration::class)) {
-                self::$_conn->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
-            } else {
-                self::$_conn->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
+                $this->_getEventManager()->addEventListener('postGenerateSchemaTable', new ORMSchemaEventListener());
             }
 
             if (!Type::hasType('tsvector')) {
@@ -145,7 +169,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         return self::$_messengerConn;
     }
 
-    protected function _getEntityManager(?ORMConfiguration $config = null): EntityManager
+    protected function _getEntityManager(?ORMConfiguration $config = null): EntityManagerInterface
     {
         if (null !== $this->_em) {
             return $this->_em;
@@ -159,7 +183,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
         $this->_setupConfiguration($config);
 
-        $em = EntityManager::create($connection, $config);
+        $em = new EntityManager($connection, $config, $this->_getEventManager());
 
         return $this->_em = $em;
     }
