@@ -436,9 +436,9 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->addedColumns['linestring'] = new \Doctrine\DBAL\Schema\Column('linestring', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
+        $tableDiff->addedColumns['linestring'] = new \Doctrine\DBAL\Schema\Column('linestring', Type::getType('geometry'), ['platformOptions' => ['geometry_type' => 'linestring', 'srid' => 3785]]);
         $tableDiff->removedColumns['point'] = $table->getColumn('point');
-        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new \Doctrine\DBAL\Schema\Column('point_3dm', Type::getType('geometry'), ['customSchemaOptions' => ['srid' => 4326]]), ['srid'], $table->getColumn('point_3dm'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_3dm', new \Doctrine\DBAL\Schema\Column('point_3dm', Type::getType('geometry'), ['platformOptions' => ['srid' => 4326]]), ['srid'], $table->getColumn('point_3dm'));
 
         $this->sm->alterTable($tableDiff);
 
@@ -507,7 +507,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
-        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geometry'), ['customSchemaOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
+        $tableDiff->changedColumns[] = new ColumnDiff('point_2d', new \Doctrine\DBAL\Schema\Column('point_2d', Type::getType('geometry'), ['platformOptions' => ['geometry_type' => 'LINESTRING']]), ['geometry_type'], $table->getColumn('point_2d'));
 
         $this->sm->alterTable($tableDiff);
     }
