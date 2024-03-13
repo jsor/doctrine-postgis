@@ -253,7 +253,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         }
 
         if ($columnDiff->hasChanged('geometry_type')) {
-            throw new \RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getCustomSchemaOption('geometry_type')) . '" to "' . strtoupper($column->getCustomSchemaOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
+            throw new \RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($columnDiff->fromColumn->getPlatformOption('geometry_type')) . '" to "' . strtoupper($column->getPlatformOption('geometry_type')) . '" for column "' . $column->getName() . '" in table "' . $table->getName() . '")');
         }
 
         if ($columnDiff->hasChanged('srid')) {
@@ -261,7 +261,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
                 "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                 $table->getName(),
                 $column->getName(),
-                $column->getCustomSchemaOption('srid')
+                $column->getPlatformOption('srid')
             ));
         }
     }
@@ -315,8 +315,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $column = new Column($tableColumn['field'], PostGISType::getType($tableColumn['type']), $options);
 
         $column
-            ->setCustomSchemaOption('geometry_type', $info['type'])
-            ->setCustomSchemaOption('srid', $info['srid'])
+            ->setPlatformOption('geometry_type', $info['type'])
+            ->setPlatformOption('srid', $info['srid'])
         ;
 
         $args
