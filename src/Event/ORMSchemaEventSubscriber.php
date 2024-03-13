@@ -27,11 +27,11 @@ class ORMSchemaEventSubscriber extends DBALSchemaEventSubscriber
             }
 
             $normalized = $column->getType()->getNormalizedPostGISColumnOptions(
-                $column->getCustomSchemaOptions()
+                $column->getPlatformOptions()
             );
 
             foreach ($normalized as $name => $value) {
-                $column->setCustomSchemaOption($name, $value);
+                $column->setPlatformOption($name, $value);
             }
         }
 
