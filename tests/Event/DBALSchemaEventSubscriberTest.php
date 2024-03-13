@@ -39,67 +39,67 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table->addColumn('tsvector', 'tsvector', ['notnull' => true]);
 
         $table->addColumn('geometry', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'GEOMETRY',
                 'srid' => 0,
             ]);
 
         $table->addColumn('point', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 0,
             ]);
 
         $table->addColumn('point_2d', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 3785,
             ]);
 
         $table->addColumn('point_3dz', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINTZ',
                 'srid' => 3785,
             ]);
 
         $table->addColumn('point_3dm', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINTM',
                 'srid' => 3785,
             ]);
 
         $table->addColumn('point_4d', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINTZM',
                 'srid' => 3785,
             ]);
 
         $table->addColumn('point_2d_nullable', 'geometry', ['notnull' => false])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 3785,
             ]);
 
         $table->addColumn('point_2d_nosrid', 'geometry', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 0,
             ]);
 
         $table->addColumn('geography', 'geography', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'GEOMETRY',
                 'srid' => 4326,
             ]);
 
         $table->addColumn('point_geography_2d', 'geography', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 4326,
             ]);
 
         $table->addColumn('point_geography_2d_srid', 'geography', ['notnull' => true])
-            ->setCustomSchemaOptions([
+            ->setPlatformOptions([
                 'geometry_type' => 'POINT',
                 'srid' => 4326,
             ]);
@@ -174,8 +174,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point']->getDefault());
         $this->assertInternalType('array', $columns['point']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(0, $columns['point']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point']->getPlatformOption('geometry_type'));
+        $this->assertEquals(0, $columns['point']->getPlatformOption('srid'));
 
         // ---
 
@@ -187,8 +187,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_2d']->getDefault());
         $this->assertInternalType('array', $columns['point_2d']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point_2d']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(3785, $columns['point_2d']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point_2d']->getPlatformOption('geometry_type'));
+        $this->assertEquals(3785, $columns['point_2d']->getPlatformOption('srid'));
 
         // ---
 
@@ -200,8 +200,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_3dz']->getDefault());
         $this->assertInternalType('array', $columns['point_3dz']->getPlatformOptions());
 
-        $this->assertEquals('POINTZ', $columns['point_3dz']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(3785, $columns['point_3dz']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINTZ', $columns['point_3dz']->getPlatformOption('geometry_type'));
+        $this->assertEquals(3785, $columns['point_3dz']->getPlatformOption('srid'));
 
         // ---
 
@@ -213,8 +213,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_3dm']->getDefault());
         $this->assertInternalType('array', $columns['point_3dm']->getPlatformOptions());
 
-        $this->assertEquals('POINTM', $columns['point_3dm']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(3785, $columns['point_3dm']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINTM', $columns['point_3dm']->getPlatformOption('geometry_type'));
+        $this->assertEquals(3785, $columns['point_3dm']->getPlatformOption('srid'));
 
         // ---
 
@@ -226,8 +226,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_4d']->getDefault());
         $this->assertInternalType('array', $columns['point_4d']->getPlatformOptions());
 
-        $this->assertEquals('POINTZM', $columns['point_4d']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(3785, $columns['point_4d']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINTZM', $columns['point_4d']->getPlatformOption('geometry_type'));
+        $this->assertEquals(3785, $columns['point_4d']->getPlatformOption('srid'));
 
         // ---
 
@@ -239,8 +239,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         //$this->assertEquals('NULL::geometry', $columns['point_2d_nullable']->getDefault());
         $this->assertInternalType('array', $columns['point_2d_nullable']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point_2d_nullable']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(3785, $columns['point_2d_nullable']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point_2d_nullable']->getPlatformOption('geometry_type'));
+        $this->assertEquals(3785, $columns['point_2d_nullable']->getPlatformOption('srid'));
 
         // ---
 
@@ -252,8 +252,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_2d_nosrid']->getDefault());
         $this->assertInternalType('array', $columns['point_2d_nosrid']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point_2d_nosrid']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(0, $columns['point_2d_nosrid']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point_2d_nosrid']->getPlatformOption('geometry_type'));
+        $this->assertEquals(0, $columns['point_2d_nosrid']->getPlatformOption('srid'));
 
         // ---
 
@@ -265,8 +265,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_geography_2d']->getDefault());
         $this->assertInternalType('array', $columns['point_geography_2d']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point_geography_2d']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(4326, $columns['point_geography_2d']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point_geography_2d']->getPlatformOption('geometry_type'));
+        $this->assertEquals(4326, $columns['point_geography_2d']->getPlatformOption('srid'));
 
         // ---
 
@@ -278,8 +278,8 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $this->assertEquals(null, $columns['point_geography_2d_srid']->getDefault());
         $this->assertInternalType('array', $columns['point_geography_2d_srid']->getPlatformOptions());
 
-        $this->assertEquals('POINT', $columns['point_geography_2d_srid']->getCustomSchemaOption('geometry_type'));
-        $this->assertEquals(4326, $columns['point_geography_2d_srid']->getCustomSchemaOption('srid'));
+        $this->assertEquals('POINT', $columns['point_geography_2d_srid']->getPlatformOption('geometry_type'));
+        $this->assertEquals(4326, $columns['point_geography_2d_srid']->getPlatformOption('srid'));
     }
 
     public function testDiffListTableColumns()
@@ -445,7 +445,7 @@ class DBALSchemaEventSubscriberTest extends AbstractFunctionalTestCase
         $table = $this->sm->listTableDetails('points');
         $this->assertFalse($table->hasColumn('point'));
         $this->assertTrue($table->hasColumn('linestring'));
-        $this->assertEquals(4326, $table->getColumn('point_3dm')->getCustomSchemaOption('srid'));
+        $this->assertEquals(4326, $table->getColumn('point_3dm')->getPlatformOption('srid'));
 
         $tableDiff = new \Doctrine\DBAL\Schema\TableDiff('points');
         $tableDiff->fromTable = $table;
