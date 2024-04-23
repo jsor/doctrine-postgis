@@ -55,7 +55,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PgSQL\Driver;
 use Jsor\Doctrine\PostGIS\Driver\Middleware;
-use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
+use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManagerFactory;
 
 $params = [
@@ -73,9 +73,10 @@ Additionally, to also use the library with the Doctrine ORM, register the
 `ORMSchemaEventListener` event subscriber.
 
 ```php
+use Doctrine\ORM\Tools\ToolEvents;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener;
 
-$entityManager->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
+$entityManager->getEventManager()->addEventListener(ToolEvents::postGenerateSchemaTable, new ORMSchemaEventListener());
 ```
 
 ### Symfony
