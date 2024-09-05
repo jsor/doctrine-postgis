@@ -149,9 +149,9 @@ to retain as much information as possible (like SRID's). Read more in the
 
 ```php
 $entity = new MyEntity(
-    point: 'POINT(37.4220761 -122.0845187)',
+    point: 'POINT(-122.0845187 37.4220761)',
     point4D: 'POINT(1 2 3 4)',
-    pointWithSRID: 'SRID=3785;POINT(37.4220761 -122.0845187)',
+    pointWithSRID: 'SRID=3785;POINT(-122.0845187 37.4220761)',
 );
 ```
 
