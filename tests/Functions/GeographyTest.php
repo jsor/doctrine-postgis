@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\Geography
+ *
  * @group orm
  * @group functions
  */
