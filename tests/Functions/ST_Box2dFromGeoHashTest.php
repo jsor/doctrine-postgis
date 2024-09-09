@@ -50,6 +50,7 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.0
+     * @group versioned
      */
     public function testQuery1(): void
     {
@@ -80,6 +81,10 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.1
+     * @group postgis-3.2
+     * @group postgis-3.3
+     * @group postgis-3.4
+     * @group versioned
      */
     public function testQuery2(): void
     {
@@ -137,6 +142,7 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.0
+     * @group versioned
      */
     public function testQuery4(): void
     {
@@ -167,6 +173,10 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.1
+     * @group postgis-3.2
+     * @group postgis-3.3
+     * @group postgis-3.4
+     * @group versioned
      */
     public function testQuery5(): void
     {

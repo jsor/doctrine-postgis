@@ -25,12 +25,12 @@ Supported Versions
 The following table shows the versions which are officially supported by this
 library.
 
-| Dependency    | Supported Versions  |
-|:--------------|:--------------------|
-| PostGIS       | 3.0 and 3.1         |
-| PostgreSQL    | 11, 12 and 13       |
-| Doctrine ORM  | ^2.9                |
-| Doctrine DBAL | ^2.13 and ^3.1      |
+| Dependency    | Supported Versions         |
+|:--------------|:---------------------------|
+| PostGIS       | 3.0, 3.1, 3.2, 3.3 and 3.4 |
+| PostgreSQL    | 11, 12 and 13              |
+| Doctrine ORM  | ^2.9                       |
+| Doctrine DBAL | ^2.13 and ^3.1             |
 
 Installation
 --
@@ -316,15 +316,21 @@ The script names follow the pattern
 To run the test suite against PostgreSQL 13 with PostGIS 3.1, use the script 
 `./docker/run-13-31.sh`.
 
+Tests are either PostGIS version specific (versioned) or agnostic, and are run
+separately using PHPUnit groups.
+
+e.g. for PostGIS 3.1 and PostgreSQL 13
+
 ```bash
-./docker/run-13-31.sh vendor/bin/phpunit --exclude-group=postgis-3.0
+./docker/run-13-31.sh vendor/bin/phpunit --exclude-group=versioned
+./docker/run-13-31.sh vendor/bin/phpunit --group=postgis-3.1
 ```
 
-Note, that we exclude tests targeted at PostGIS 3.0 here. When running tests
-against PostGIS 3.0, exclude the tests for 3.1.
+e.g. for PostGIS 3.0 and PostgreSQL 13
 
 ```bash
-./docker/run-13-30.sh vendor/bin/phpunit --exclude-group=postgis-3.1
+./docker/run-13-30.sh vendor/bin/phpunit --exclude-group=versioned
+./docker/run-13-30.sh vendor/bin/phpunit --group=postgis-3.0
 ```
 
 License

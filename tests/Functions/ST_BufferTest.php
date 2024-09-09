@@ -50,6 +50,7 @@ final class ST_BufferTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.0
+     * @group versioned
      */
     public function testQuery1(): void
     {
@@ -80,6 +81,7 @@ final class ST_BufferTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.1
+     * @group versioned
      */
     public function testQuery2(): void
     {
@@ -108,7 +110,40 @@ final class ST_BufferTest extends AbstractFunctionalTestCase
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
 
+    /**
+     * @group postgis-3.2
+     * @group postgis-3.3
+     * @group postgis-3.4
+     * @group versioned
+     */
     public function testQuery3(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, \'quad_segs=8\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            if (is_string($data)) {
+                $data = trim($data);
+            }
+        });
+
+        $expected = [
+  'value' => 'POLYGON((150 90,149.0392640201615 80.24548389919359,146.19397662556435 70.86582838174552,141.57348061512727 62.22148834901989,135.35533905932738 54.64466094067263,127.77851165098011 48.42651938487274,119.1341716182545 43.80602337443566,109.75451610080641 40.960735979838475,100 40,90.24548389919359 40.960735979838475,80.86582838174552 43.80602337443566,72.2214883490199 48.426519384872734,64.64466094067262 54.64466094067262,58.426519384872734 62.22148834901989,53.80602337443566 70.8658283817455,50.960735979838475 80.24548389919357,50 90,50.960735979838475 99.75451610080641,53.80602337443566 109.13417161825448,58.42651938487273 117.7785116509801,64.64466094067262 125.35533905932738,72.22148834901989 131.57348061512727,80.86582838174549 136.19397662556432,90.24548389919357 139.0392640201615,99.99999999999999 140,109.75451610080641 139.0392640201615,119.1341716182545 136.19397662556435,127.7785116509801 131.57348061512727,135.35533905932738 125.35533905932738,141.57348061512727 117.77851165098011,146.19397662556432 109.13417161825453,149.0392640201615 99.75451610080644,150 90))',
+];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    public function testQuery4(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50)) AS promisingcircle_pcount, ST_NPoints(ST_Buffer(ST_GeomFromText(\'POINT(100 90)\'), 50, 2)) AS lamecircle_pcount FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
