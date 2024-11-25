@@ -162,10 +162,12 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
         $this->_setupConfiguration($config);
         $reflection = new ReflectionMethod(EntityManager::class, '__construct');
-        if ($reflection->isProtected() && function_exists('Doctrine\ORM\EntityManager::create')) {
+        if (function_exists('Doctrine\ORM\EntityManager::create')) {
             $em = EntityManager::create($connection, $config);
-        } else {
+        } else if ($reflection->isPublic()) {
             $em = new EntityManager($connection, $config);
+        } else {
+            throw new \RuntimeException('Cannot create entity manager');
         }
 
         return $this->_em = $em;
