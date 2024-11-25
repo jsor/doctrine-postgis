@@ -247,6 +247,11 @@ final class Configurator
 {
     public static function configure(Configuration $configuration): void
     {
+        if (defined('Doctrine\ORM\Query\Lexer::T_IDENTIFIER')) {
+            class_alias('Doctrine\ORM\Query\Lexer', 'Jsor\Doctrine\PostGIS\Functions\ConstantWrapper');
+        } else {
+            class_alias('Doctrine\ORM\Query\TokenType', 'Jsor\Doctrine\PostGIS\Functions\ConstantWrapper');
+        }
 <?php foreach ($functions as $name => $options) { ?>
 <?php
     if (isset($options['alias_for'])) {

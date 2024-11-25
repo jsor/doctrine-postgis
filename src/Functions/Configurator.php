@@ -8,10 +8,17 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Configuration;
 
+use function defined;
+
 final class Configurator
 {
     public static function configure(Configuration $configuration): void
     {
+        if (defined('Doctrine\ORM\Query\Lexer::T_IDENTIFIER')) {
+            class_alias('Doctrine\ORM\Query\Lexer', 'Jsor\Doctrine\PostGIS\Functions\ConstantWrapper');
+        } else {
+            class_alias('Doctrine\ORM\Query\TokenType', 'Jsor\Doctrine\PostGIS\Functions\ConstantWrapper');
+        }
         $configuration->addCustomStringFunction('Geometry', Geometry::class);
         $configuration->addCustomStringFunction('Geography', Geography::class);
         $configuration->addCustomStringFunction('ST_Box2dFromGeoHash', ST_Box2dFromGeoHash::class);

@@ -18,13 +18,12 @@ use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
 use ReflectionMethod;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaSubscriber;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\Connection as MessengerConnection;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransport;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\PostgreSqlConnection;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
-
-use function function_exists;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
@@ -164,10 +163,10 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         $reflection = new ReflectionMethod(EntityManager::class, '__construct');
         if ($reflection->isProtected()) {
             $em = EntityManager::create($connection, $config);
-        } else if ($reflection->isPublic()) {
+        } elseif ($reflection->isPublic()) {
             $em = new EntityManager($connection, $config);
         } else {
-            throw new \RuntimeException('Cannot create entity manager');
+            throw new RuntimeException('Cannot create entity manager');
         }
 
         return $this->_em = $em;
