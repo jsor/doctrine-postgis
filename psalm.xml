@@ -13,6 +13,14 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="src/Functions" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <directory name="src/Functions" />
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
 </psalm>
