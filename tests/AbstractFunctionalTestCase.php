@@ -17,11 +17,14 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
 use Jsor\Doctrine\PostGIS\Functions\Configurator;
+use ReflectionMethod;
 use Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaSubscriber;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\Connection as MessengerConnection;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransport;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\PostgreSqlConnection;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
+
+use function function_exists;
 
 abstract class AbstractFunctionalTestCase extends AbstractTestCase
 {
@@ -158,8 +161,8 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
         }
 
         $this->_setupConfiguration($config);
-
-        if (function_exists(' Doctrine\ORM\EntityManager::create')) {
+        $reflection = new ReflectionMethod(EntityManager::class, '__construct');
+        if ($reflection->isProtected() && function_exists('Doctrine\ORM\EntityManager::create')) {
             $em = EntityManager::create($connection, $config);
         } else {
             $em = new EntityManager($connection, $config);
