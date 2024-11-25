@@ -69,8 +69,8 @@ final class ST_EqualsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
-];
+            'value' => true,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

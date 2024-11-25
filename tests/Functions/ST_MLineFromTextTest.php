@@ -69,8 +69,8 @@ final class ST_MLineFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
-];
+            'value' => '0105000020E610000002000000010200000002000000000000000000F03F0000000000000040000000000000084000000000000010400102000000020000000000000000001040000000000000144000000000000018400000000000001C40',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_MLineFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => null,
-];
+            'value' => null,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

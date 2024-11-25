@@ -66,8 +66,8 @@ final class ST_NumPatchesTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 6,
-];
+            'value' => 6,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -69,8 +69,8 @@ final class ST_GeogFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
-];
+            'value' => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

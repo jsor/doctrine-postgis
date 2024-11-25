@@ -72,8 +72,8 @@ final class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2.30769230769231 3.30769230769231)',
-];
+            'value' => 'POINT(2.30769230769231 3.30769230769231)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -102,8 +102,8 @@ final class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2.307692307692308 3.307692307692308)',
-];
+            'value' => 'POINT(2.307692307692308 3.307692307692308)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

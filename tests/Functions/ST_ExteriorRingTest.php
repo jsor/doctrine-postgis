@@ -69,8 +69,8 @@ final class ST_ExteriorRingTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(0 0 1,1 1 1,1 2 1,1 1 1,0 0 1)',
-];
+            'value' => 'LINESTRING(0 0 1,1 1 1,1 2 1,1 1 1,0 0 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -66,8 +66,8 @@ final class ST_3DLengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 122.704716741457,
-];
+            'value' => 122.704716741457,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

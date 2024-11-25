@@ -8,7 +8,6 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
@@ -18,16 +17,16 @@ final class ST_Contains extends FunctionNode
 
     public function parse(Parser $parser): void
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(ConstantWrapper::T_IDENTIFIER);
+        $parser->match(ConstantWrapper::T_OPEN_PARENTHESIS);
 
         $this->expressions[] = $parser->ArithmeticFactor();
 
-        $parser->match(Lexer::T_COMMA);
+        $parser->match(ConstantWrapper::T_COMMA);
 
         $this->expressions[] = $parser->ArithmeticFactor();
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(ConstantWrapper::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string

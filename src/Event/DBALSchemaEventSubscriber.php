@@ -23,6 +23,7 @@ use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use RuntimeException;
 
 use function count;
+use function sprintf;
 
 class DBALSchemaEventSubscriber implements EventSubscriber
 {

@@ -69,9 +69,9 @@ final class ST_SummaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Polygon[B] with 1 ring:
+            'value' => 'Polygon[B] with 1 ring:
    ring 0 has 5 points',
-];
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

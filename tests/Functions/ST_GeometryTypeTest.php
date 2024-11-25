@@ -69,8 +69,8 @@ final class ST_GeometryTypeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'ST_LineString',
-];
+            'value' => 'ST_LineString',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

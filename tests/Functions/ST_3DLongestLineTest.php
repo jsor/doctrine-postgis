@@ -69,8 +69,8 @@ final class ST_3DLongestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(50 75 1000,100 100 30)',
-];
+            'value' => 'LINESTRING(50 75 1000,100 100 30)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

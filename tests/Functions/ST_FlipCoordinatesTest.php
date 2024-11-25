@@ -69,8 +69,8 @@ final class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2 1)',
-];
+            'value' => 'POINT(2 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

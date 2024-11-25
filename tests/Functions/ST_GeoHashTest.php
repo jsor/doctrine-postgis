@@ -69,8 +69,8 @@ final class ST_GeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'c0w3hf1s70w3hf1s70w3',
-];
+            'value' => 'c0w3hf1s70w3hf1s70w3',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_GeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'c0w3h',
-];
+            'value' => 'c0w3h',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

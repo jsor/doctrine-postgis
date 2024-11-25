@@ -7,6 +7,8 @@ namespace Jsor\Doctrine\PostGIS\Types;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractTestCase;
 
+use function sprintf;
+
 abstract class AbstractTypeTestCase extends AbstractTestCase
 {
     protected ?Type $type = null;

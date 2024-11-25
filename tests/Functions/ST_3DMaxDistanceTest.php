@@ -66,8 +66,8 @@ final class ST_3DMaxDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 1.73205080756888,
-];
+            'value' => 1.73205080756888,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

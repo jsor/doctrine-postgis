@@ -69,8 +69,8 @@ final class ST_AsSVGTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'M 0 0 L 0 -1 1 -1 1 0 Z',
-];
+            'value' => 'M 0 0 L 0 -1 1 -1 1 0 Z',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_AsSVGTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'x="5.23423" y="-6.34535"',
-];
+            'value' => 'x="5.23423" y="-6.34535"',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -69,8 +69,8 @@ final class ST_LineFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0102000020E610000002000000000000000000F03F000000000000004000000000000008400000000000001040',
-];
+            'value' => '0102000020E610000002000000000000000000F03F000000000000004000000000000008400000000000001040',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_LineFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => null,
-];
+            'value' => null,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

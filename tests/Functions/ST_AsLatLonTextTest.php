@@ -69,8 +69,8 @@ final class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '2°19\'29.928"S 3°14\'3.243"W',
-];
+            'value' => '2°19\'29.928"S 3°14\'3.243"W',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_AsLatLonTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '2°19\'29.928"S 3°14\'3.243"W',
-];
+            'value' => '2°19\'29.928"S 3°14\'3.243"W',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

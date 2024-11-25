@@ -69,8 +69,8 @@ final class ST_MakeBox2DTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
-];
+            'value' => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

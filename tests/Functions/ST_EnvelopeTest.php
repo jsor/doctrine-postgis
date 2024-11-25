@@ -69,8 +69,8 @@ final class ST_EnvelopeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((0 0,0 3,1 3,1 0,0 0))',
-];
+            'value' => 'POLYGON((0 0,0 3,1 3,1 0,0 0))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

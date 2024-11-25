@@ -69,8 +69,8 @@ final class ST_InteriorRingNTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)',
-];
+            'value' => 'LINESTRING(77.29 29.07,77.42 29.26,77.27 29.31,77.29 29.07)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_InteriorRingNTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => null,
-];
+            'value' => null,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

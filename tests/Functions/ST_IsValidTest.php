@@ -69,8 +69,8 @@ final class ST_IsValidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => false,
-];
+            'value' => false,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_IsValidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
-];
+            'value' => true,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -123,8 +123,8 @@ final class ST_IsValidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
-];
+            'value' => true,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

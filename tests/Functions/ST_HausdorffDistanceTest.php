@@ -66,8 +66,8 @@ final class ST_HausdorffDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 70,
-];
+            'value' => 70,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

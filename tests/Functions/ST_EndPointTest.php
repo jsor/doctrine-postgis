@@ -69,8 +69,8 @@ final class ST_EndPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(3 3)',
-];
+            'value' => 'POINT(3 3)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_EndPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => null,
-];
+            'value' => null,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -66,8 +66,8 @@ final class ST_AzimuthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 0.737815060120465,
-];
+            'value' => 0.737815060120465,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

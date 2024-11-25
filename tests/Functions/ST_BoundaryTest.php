@@ -69,8 +69,8 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'MULTIPOINT(1 1,-1 1)',
-];
+            'value' => 'MULTIPOINT(1 1,-1 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

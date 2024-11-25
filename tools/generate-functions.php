@@ -74,7 +74,6 @@ namespace Jsor\Doctrine\PostGIS\Functions;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
-use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
@@ -84,13 +83,13 @@ final class <?php echo $name; ?> extends FunctionNode
 
     public function parse(Parser $parser): void
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+        $parser->match(ConstantWrapper::T_IDENTIFIER);
+        $parser->match(ConstantWrapper::T_OPEN_PARENTHESIS);
 <?php if ($totalArguments > 0) { ?>
     <?php for ($i = 0; $i < $requiredArguments; ++$i) { ?>
         <?php if ($i > 0) { ?>
 
-        $parser->match(Lexer::T_COMMA);
+        $parser->match(ConstantWrapper::T_COMMA);
         <?php } ?>
 
         $this->expressions[] = $parser->ArithmeticFactor();
@@ -101,14 +100,14 @@ final class <?php echo $name; ?> extends FunctionNode
         $lexer = $parser->getLexer();
         <?php } ?>
 
-        if ($lexer->isNextToken(Lexer::T_COMMA)) {
-            $parser->match(Lexer::T_COMMA);
+        if ($lexer->isNextToken(ConstantWrapper::T_COMMA)) {
+            $parser->match(ConstantWrapper::T_COMMA);
             $this->expressions[] = $parser->ArithmeticFactor();
         }
     <?php } ?>
 <?php } ?>
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        $parser->match(ConstantWrapper::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string

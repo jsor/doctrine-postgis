@@ -69,8 +69,8 @@ final class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
-];
+            'value' => 'POLYGON((0 0,0 1,1 1,1 0,0 0))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
-];
+            'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -123,8 +123,8 @@ final class ST_GeomFromGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
-];
+            'value' => 'SRID=4326;LINESTRING(-71.16028 42.258729,-71.160837 42.259112,-71.161143 42.25932)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

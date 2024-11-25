@@ -69,8 +69,8 @@ final class ST_MPointFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
-];
+            'value' => '0104000020E61000000200000001010000004C37894160BD51C0C976BE9F1A0F45400101000000E10B93A982BD51C08126C286A70F4540',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +96,8 @@ final class ST_MPointFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => null,
-];
+            'value' => null,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

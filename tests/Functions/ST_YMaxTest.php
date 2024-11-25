@@ -66,8 +66,8 @@ final class ST_YMaxTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 5,
-];
+            'value' => 5,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

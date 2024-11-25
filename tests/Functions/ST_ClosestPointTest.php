@@ -69,8 +69,8 @@ final class ST_ClosestPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(100 100)',
-];
+            'value' => 'POINT(100 100)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

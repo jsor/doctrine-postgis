@@ -66,8 +66,8 @@ final class ST_ZTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 3,
-];
+            'value' => 3,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
