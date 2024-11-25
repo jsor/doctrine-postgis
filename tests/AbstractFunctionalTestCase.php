@@ -159,7 +159,7 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
         $this->_setupConfiguration($config);
 
-        if (function_exists(' Doctrine\ORM\EntityManage::create')) {
+        if (function_exists(' Doctrine\ORM\EntityManager::create')) {
             $em = EntityManager::create($connection, $config);
         } else {
             $em = new EntityManager($connection, $config);
