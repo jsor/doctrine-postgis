@@ -29,7 +29,7 @@ library.
 |:--------------|:-------------------|
 | PostGIS       | 3.0 and 3.1        |
 | PostgreSQL    | 11, 12 and 13      |
-| Doctrine ORM  | ^2.9 \|\| 3.2.*    |
+| Doctrine ORM  | ^2.9 \|\| ^3.2     |
 | Doctrine DBAL | ^2.13 and ^3.1     |
 
 Installation
