@@ -5,32 +5,7 @@ Before integrating this library into a Symfony project, read the general
 [installation instructions](../README.md#installation) and install the library
 via Composer.
 
-* [Setup](#setup)
 * [Known Problems](#known-problems)
-
-Setup
---
-
-To use the library with the Doctrine ORM (version 2.9 or higher is supported),
-register a [Doctrine event subscriber](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
-in `config/services.yml`.
-
-```yaml
-services:
-    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-```
-
-The library can also be used with DBAL only (versions 2.13 or higher and 3.1 or
-higher are supported).
-
-```yaml
-services:
-    Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-```
 
 ### Database Types
 
