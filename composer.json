@@ -1,5 +1,6 @@
 {
     "name": "jsor/doctrine-postgis",
+    "type": "symfony-bundle",
     "description": "Spatial and Geographic Data with PostGIS and Doctrine.",
     "keywords": [
         "spatial",
@@ -54,13 +55,8 @@
     "extra": {
         "branch-alias": {
             "dev-main": "2.x-dev"
-        },
-        "symfony": {
-            "allow-contrib": true,
-            "auto-config": true
         }
     },
-
     "config": {
         "allow-plugins": {
             "symfony/runtime": true
