@@ -23,15 +23,20 @@
     ],
     "require": {
         "php": "^8.0",
-        "doctrine/dbal": "^2.13 || ^3.1 || ^4.1.1"
+        "doctrine/dbal": "^4.1.1",
+        "symfony/framework-bundle": "^7.2",
+        "symfony/runtime": "^7.2"
     },
     "require-dev": {
-        "doctrine/orm": "^2.9",
+        "doctrine/orm": "^3.0.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^5.9",
         "symfony/doctrine-bridge": "^5.4 || ^6.0",
-        "symfony/doctrine-messenger": "^5.4 || ^6.0"
+        "symfony/doctrine-messenger": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0",
+        "symfony/config": "^5.4 || ^6.0 || ^7.0"
     },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"
@@ -49,6 +54,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "2.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
         }
     }
 }
