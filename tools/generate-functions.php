@@ -284,6 +284,8 @@ file_put_contents(
     "<?php\n\n" . get_configurator_class_code($functions)
 );
 
+copy(__DIR__ . '/../ConstantWrapper.php', $srcPath . '/ConstantWrapper.php');
+
 passthru(__DIR__ . '/../vendor/bin/php-cs-fixer --verbose --config=' . __DIR__ . '/../.php-cs-fixer.dist.php fix');
 
 $md = <<<MD
