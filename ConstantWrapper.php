@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Functions;
 
-use Doctrine\ORM\Query\TokenType;
 use Doctrine\ORM\Query\Lexer;
+use Doctrine\ORM\Query\TokenType;
 
 use function defined;
 
