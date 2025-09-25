@@ -15,6 +15,8 @@ use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexes;
 use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 
+use function sprintf;
+
 final class PostGISPlatform extends PostgreSQLPlatform
 {
     public function createSchemaManager(Connection $connection): PostgreSQLSchemaManager
@@ -133,7 +135,7 @@ final class PostGISPlatform extends PostgreSQLPlatform
                 continue;
             }
 
-            if ($newSrid !== null && $oldSrid !== $newSrid) {
+            if (null !== $newSrid && $oldSrid !== $newSrid) {
                 $sql[] = sprintf(
                     "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                     $table->getName(),

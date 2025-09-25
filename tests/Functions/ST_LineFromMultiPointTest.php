@@ -71,8 +71,8 @@ final class ST_LineFromMultiPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(1 2 3,4 5 6,7 8 9)',
-];
+            'value' => 'LINESTRING(1 2 3,4 5 6,7 8 9)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

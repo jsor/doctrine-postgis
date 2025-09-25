@@ -71,8 +71,8 @@ final class ST_3DIntersectsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => false,
-];
+            'value' => false,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

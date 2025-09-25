@@ -68,8 +68,8 @@ final class ST_DistanceSphereTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.475736916,
-];
+            'value' => 123.475736916,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

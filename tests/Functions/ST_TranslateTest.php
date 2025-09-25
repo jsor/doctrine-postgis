@@ -71,8 +71,8 @@ final class ST_TranslateTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(-70.01 42.37)',
-];
+            'value' => 'POINT(-70.01 42.37)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

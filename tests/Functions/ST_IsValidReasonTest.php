@@ -71,8 +71,8 @@ final class ST_IsValidReasonTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Valid Geometry',
-];
+            'value' => 'Valid Geometry',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -98,8 +98,8 @@ final class ST_IsValidReasonTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Valid Geometry',
-];
+            'value' => 'Valid Geometry',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

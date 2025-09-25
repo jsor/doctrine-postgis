@@ -71,8 +71,8 @@ final class ST_StartPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(0 1)',
-];
+            'value' => 'POINT(0 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

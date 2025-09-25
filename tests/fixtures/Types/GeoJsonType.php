@@ -6,6 +6,8 @@ namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
+use function sprintf;
+
 final class GeoJsonType extends GeographyType
 {
     public const NAME = 'geojson';

@@ -231,7 +231,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
             default => null,
         };
 
-        if ($info === null) {
+        if (null === $info) {
             return;
         }
 

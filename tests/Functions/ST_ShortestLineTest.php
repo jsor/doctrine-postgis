@@ -74,8 +74,8 @@ final class ST_ShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
-];
+            'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -104,8 +104,8 @@ final class ST_ShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(100 100,73.07692307692307 115.38461538461539)',
-];
+            'value' => 'LINESTRING(100 100,73.07692307692307 115.38461538461539)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

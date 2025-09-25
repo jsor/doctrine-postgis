@@ -68,8 +68,8 @@ final class ST_AreaTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 928.625,
-];
+            'value' => 928.625,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -93,8 +93,8 @@ final class ST_AreaTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 7635253966144.121,
-];
+            'value' => 7635253966144.121,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

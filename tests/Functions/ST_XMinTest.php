@@ -68,8 +68,8 @@ final class ST_XMinTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 1,
-];
+            'value' => 1,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

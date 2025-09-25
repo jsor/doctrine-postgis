@@ -71,8 +71,8 @@ final class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
-];
+            'value' => '{"type":"LineString","coordinates":[[1,2,3],[4,5,6]]}',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -98,8 +98,8 @@ final class ST_AsGeoJSONTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
-];
+            'value' => '{"type":"LineString","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[[1,2,3],[4,5,6]]}',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

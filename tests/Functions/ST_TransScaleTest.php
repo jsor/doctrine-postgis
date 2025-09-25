@@ -71,8 +71,8 @@ final class ST_TransScaleTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(1.5 6 3,1.5 4 1)',
-];
+            'value' => 'LINESTRING(1.5 6 3,1.5 4 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -71,8 +71,8 @@ final class ST_MakeLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(1 2,3 4)',
-];
+            'value' => 'LINESTRING(1 2,3 4)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -71,8 +71,8 @@ final class ST_DifferenceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(50 150,50 200)',
-];
+            'value' => 'LINESTRING(50 150,50 200)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -68,8 +68,8 @@ final class ST_NPointsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 4,
-];
+            'value' => 4,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -93,8 +93,8 @@ final class ST_NPointsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 4,
-];
+            'value' => 4,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

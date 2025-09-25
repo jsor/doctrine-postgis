@@ -71,8 +71,8 @@ final class GeometryTypeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING',
-];
+            'value' => 'LINESTRING',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

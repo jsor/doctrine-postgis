@@ -71,9 +71,9 @@ final class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value1' => 0.635231029125537,
-  'value2' => 0.639472334729198,
-];
+            'value1' => 0.635231029125537,
+            'value2' => 0.639472334729198,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -71,8 +71,8 @@ final class ST_OrderingEqualsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
-];
+            'value' => true,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -71,8 +71,8 @@ final class ST_SetSRIDTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;POINT(-123.365556 48.428611)',
-];
+            'value' => 'SRID=4326;POINT(-123.365556 48.428611)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

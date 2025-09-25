@@ -68,8 +68,8 @@ final class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 0.00150567726382822,
-];
+            'value' => 0.00150567726382822,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -93,8 +93,8 @@ final class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.475736916,
-];
+            'value' => 123.475736916,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

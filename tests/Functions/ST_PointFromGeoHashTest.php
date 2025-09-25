@@ -74,8 +74,8 @@ final class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(-115.172816 36.114646)',
-];
+            'value' => 'POINT(-115.172816 36.114646)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -104,8 +104,8 @@ final class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(-115.17281600000001 36.11464599999999)',
-];
+            'value' => 'POINT(-115.17281600000001 36.11464599999999)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -131,8 +131,8 @@ final class ST_PointFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(-115.13671875 36.123046875)',
-];
+            'value' => 'POINT(-115.13671875 36.123046875)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

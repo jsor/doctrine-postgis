@@ -6,6 +6,8 @@ namespace Jsor\Doctrine\PostGIS\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
+use function sprintf;
+
 class GeographyType extends PostGISType
 {
     public function getName(): string

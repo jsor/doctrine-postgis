@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "doctrine/dbal": "^3.7 || ^4.0"
     },
     "require-dev": {

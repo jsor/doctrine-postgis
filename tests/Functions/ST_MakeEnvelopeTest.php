@@ -71,8 +71,8 @@ final class ST_MakeEnvelopeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;POLYGON((10 10,10 11,11 11,11 10,10 10))',
-];
+            'value' => 'SRID=4326;POLYGON((10 10,10 11,11 11,11 10,10 10))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

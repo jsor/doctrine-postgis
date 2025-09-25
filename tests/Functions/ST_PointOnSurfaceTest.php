@@ -71,8 +71,8 @@ final class ST_PointOnSurfaceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(0 5)',
-];
+            'value' => 'POINT(0 5)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

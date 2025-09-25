@@ -71,8 +71,8 @@ final class ST_MakePointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '01010000C0000000000000F03F0000000000000040000000000000F83F0000000000000040',
-];
+            'value' => '01010000C0000000000000F03F0000000000000040000000000000F83F0000000000000040',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

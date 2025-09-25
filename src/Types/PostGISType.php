@@ -7,6 +7,8 @@ namespace Jsor\Doctrine\PostGIS\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+use function sprintf;
+
 abstract class PostGISType extends Type
 {
     public const GEOMETRY = 'geometry';

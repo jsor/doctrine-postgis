@@ -68,8 +68,8 @@ final class ST_DistanceSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.802076746845,
-];
+            'value' => 123.802076746845,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -68,8 +68,8 @@ final class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 2,
-];
+            'value' => 2,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -93,8 +93,8 @@ final class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 3,
-];
+            'value' => 3,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

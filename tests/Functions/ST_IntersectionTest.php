@@ -71,8 +71,8 @@ final class ST_IntersectionTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(0 0)',
-];
+            'value' => 'POINT(0 0)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
