@@ -34,6 +34,9 @@
         "symfony/doctrine-bridge": "^6.4",
         "symfony/doctrine-messenger": "^6.4"
     },
+    "conflict": {
+        "doctrine/orm": "<2.18"
+    },
     "suggest": {
         "doctrine/orm": "For using with the Doctrine ORM"
     },
