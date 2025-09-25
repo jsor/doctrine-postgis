@@ -29,7 +29,9 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
     public function getAlterSchemaSQL(SchemaDiff $diff): array
     {
-        $sql = parent::getAlterSchemaSQL(SpatialIndexes::filterSchemaDiff($diff));
+        /** @var list<string> $sql */
+        $sql = parent::getAlterSchemaSQL($diff);
+        $sql = $this->filterSpatialIndexFromSQL($sql, $this->collectSpatialIndexNamesFromSchemaDiff($diff));
 
         $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
 
@@ -113,7 +115,9 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
         SpatialIndexes::ensureSpatialIndexFlags($diff);
 
-        $sql = parent::getAlterTableSQL(SpatialIndexes::filterTableDiff($diff));
+        /** @var list<string> $sql */
+        $sql = parent::getAlterTableSQL($diff);
+        $sql = $this->filterSpatialIndexFromSQL($sql, $this->collectSpatialIndexNamesFromTableDiff($diff));
 
         foreach (SpatialIndexes::extractSpatialIndicies($diff->getAddedIndexes()) as $spatialIndex) {
             $sql[] = $spatialIndexSqlGenerator->getSql($spatialIndex, $table);
@@ -124,14 +128,21 @@ final class PostGISPlatform extends PostgreSQLPlatform
             $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
         }
 
+        /** @psalm-suppress DeprecatedMethod */
+        $modifiedColumns = method_exists($diff, 'getChangedColumns')
+            ? $diff->getChangedColumns()
+            : @$diff->getModifiedColumns();
+
         /** @var ColumnDiff $columnDiff */
-        foreach ($diff->getModifiedColumns() as $columnDiff) {
+        foreach ($modifiedColumns as $columnDiff) {
             $oldColumn = $columnDiff->getOldColumn();
             $newColumn = $columnDiff->getNewColumn();
+            /** @var int|null $oldSrid */
             $oldSrid = $oldColumn->hasPlatformOption('srid') ? $oldColumn->getPlatformOption('srid') : null;
+            /** @var int|null $newSrid */
             $newSrid = $newColumn->hasPlatformOption('srid') ? $newColumn->getPlatformOption('srid') : null;
 
-            if (!$oldSrid && !$newSrid) {
+            if (null === $oldSrid && null === $newSrid) {
                 continue;
             }
 
@@ -140,11 +151,76 @@ final class PostGISPlatform extends PostgreSQLPlatform
                     "SELECT UpdateGeometrySRID('%s', '%s', %d)",
                     $table->getName(),
                     $newColumn->getName(),
-                    (int) $newSrid
+                    $newSrid
                 );
             }
         }
 
         return $sql;
+    }
+
+    /**
+     * @param list<string> $sql               Generated standard SQL
+     * @param list<string> $spatialIndexNames Names of spatial indexes to filter out
+     *
+     * @return list<string> SQL without spatial index statements
+     */
+    private function filterSpatialIndexFromSQL(array $sql, array $spatialIndexNames): array
+    {
+        if (empty($spatialIndexNames)) {
+            return $sql;
+        }
+
+        $filtered = array_filter($sql, function (string $sqlStatement) use ($spatialIndexNames) {
+            foreach ($spatialIndexNames as $indexName) {
+                if (false !== stripos($sqlStatement, $indexName)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        return array_values($filtered);
+    }
+
+    /**
+     * @param SchemaDiff $diff Schema diff
+     *
+     * @return list<string> Names of spatial indexes
+     */
+    private function collectSpatialIndexNamesFromSchemaDiff(SchemaDiff $diff): array
+    {
+        $spatialIndexNames = [];
+
+        foreach ($diff->getAlteredTables() as $tableDiff) {
+            SpatialIndexes::ensureSpatialIndexFlags($tableDiff);
+            $spatialIndexNames = array_merge(
+                $spatialIndexNames,
+                $this->collectSpatialIndexNamesFromTableDiff($tableDiff)
+            );
+        }
+
+        return $spatialIndexNames;
+    }
+
+    /**
+     * @param TableDiff $diff Table diff
+     *
+     * @return list<string> Name of spatial indexes
+     */
+    private function collectSpatialIndexNamesFromTableDiff(TableDiff $diff): array
+    {
+        $spatialIndexNames = [];
+
+        foreach (SpatialIndexes::extractSpatialIndicies($diff->getAddedIndexes()) as $index) {
+            $spatialIndexNames[] = $index->getName();
+        }
+
+        foreach (SpatialIndexes::extractSpatialIndicies($diff->getModifiedIndexes()) as $index) {
+            $spatialIndexNames[] = $index->getName();
+        }
+
+        return $spatialIndexNames;
     }
 }

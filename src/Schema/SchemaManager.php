@@ -22,7 +22,12 @@ final class SchemaManager extends PostgreSQLSchemaManager
     {
         $oldTable = $tableDiff->getOldTable();
 
-        foreach ($tableDiff->getModifiedColumns() as $columnDiff) {
+        /** @psalm-suppress DeprecatedMethod */
+        $modifiedColumns = method_exists($tableDiff, 'getChangedColumns')
+            ? $tableDiff->getChangedColumns()
+            : @$tableDiff->getModifiedColumns();
+
+        foreach ($modifiedColumns as $columnDiff) {
             if (!$columnDiff->getNewColumn()->getType() instanceof PostGISType) {
                 continue;
             }

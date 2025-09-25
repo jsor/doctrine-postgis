@@ -15,7 +15,6 @@ use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
-use Jsor\Doctrine\PostGIS\Utils\Doctrine;
 
 final class Driver extends AbstractPostgreSQLDriver
 {
@@ -51,7 +50,7 @@ final class Driver extends AbstractPostgreSQLDriver
     public function createDatabasePlatformForVersion($version): AbstractPlatform
     {
         // Remove when DBAL v3 support is dropped.
-        if (Doctrine::isV3()) {
+        if (!class_exists(StaticServerVersionProvider::class)) {
             return $this->getDatabasePlatform();
         }
 
