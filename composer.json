@@ -23,7 +23,8 @@
     ],
     "require": {
         "php": "^8.1",
-        "doctrine/dbal": "^3.7 || ^4.0"
+        "doctrine/dbal": "^3.7 || ^4.0",
+        "doctrine/deprecations": "^0.5.3 || ^1.0"
     },
     "require-dev": {
         "doctrine/collections": "^2.0 || ^3.0",

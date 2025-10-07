@@ -38,6 +38,9 @@ final class PostGISPlatform extends PostgreSQLPlatform
         return new SchemaManager($connection, $platform);
     }
 
+    /**
+     * @param string $table
+     */
     public function getCreateIndexSQL(Index $index, $table): string
     {
         // Standard PostgreSQL index
@@ -72,10 +75,11 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
     /**
      * @param string|Index $nameOrIndex
-     * @param Index|null $index
      *
      * @psalm-suppress ParamNameMismatch
      * @psalm-suppress PossiblyNullReference
+     * @psalm-suppress InternalMethod
+     * @psalm-suppress InvalidArgument
      */
     public function getIndexDeclarationSQL($nameOrIndex, ?Index $index = null): string
     {
@@ -93,14 +97,12 @@ final class PostGISPlatform extends PostgreSQLPlatform
             return '';
         }
 
-        /** @psalm-suppress InternalMethod, InvalidArgument */
         if ($nameOrIndex instanceof Index) {
             // DBAL 4.x
             return parent::getIndexDeclarationSQL($nameOrIndex);
         }
 
         // DBAL 3.x
-        /** @psalm-suppress InternalMethod, InvalidArgument */
         return parent::getIndexDeclarationSQL($nameOrIndex, $actualIndex);
     }
 
