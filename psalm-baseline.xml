@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
-  <file src="src/Driver/PostGISPlatform.php">
-    <DeprecatedConstant>
-      <code><![CDATA[self::CREATE_INDEXES]]></code>
-    </DeprecatedConstant>
-    <InternalMethod>
-      <code><![CDATA[getCreateTableWithoutForeignKeysSQL]]></code>
-    </InternalMethod>
-    <MissingParamType>
-      <code><![CDATA[$createFlags]]></code>
-    </MissingParamType>
-  </file>
   <file src="src/Schema/SchemaManager.php">
     <MixedAssignment>
       <code><![CDATA[$default]]></code>
@@ -24,15 +13,5 @@
     <UndefinedThisPropertyFetch>
       <code><![CDATA[$this->_conn]]></code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="src/Schema/SpatialIndexes.php">
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[Index[]]]></code>
-      <code><![CDATA[array_filter($indicies, static fn (Index $idx) => $idx->hasFlag('spatial'))]]></code>
-    </MixedReturnTypeCoercion>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!$table]]></code>
-      <code><![CDATA[$table]]></code>
-    </TypeDoesNotContainType>
   </file>
 </files>

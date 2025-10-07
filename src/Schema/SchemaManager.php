@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
@@ -52,15 +52,6 @@ final class SchemaManager extends PostgreSQLSchemaManager
         parent::alterTable($tableDiff);
     }
 
-    public function introspectTable(string $name): Table
-    {
-        $table = parent::introspectTable($name);
-
-        SpatialIndexes::ensureSpatialIndexFlags($table);
-
-        return $table;
-    }
-
     /**
      * @param string $table
      *
@@ -89,22 +80,22 @@ final class SchemaManager extends PostgreSQLSchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = "SELECT distinct i.relname, d.indkey, pg_get_indexdef(d.indexrelid) AS inddef, t.oid
-                FROM pg_class t
-                INNER JOIN pg_index d ON t.oid = d.indrelid
-                INNER JOIN pg_class i ON d.indexrelid = i.oid
-                WHERE i.relkind = 'i'
+        $sql = <<<SQL
+            SELECT DISTINCT i.relname, d.indkey, pg_get_indexdef(d.indexrelid) AS inddef, t.oid
+            FROM pg_class t
+            INNER JOIN pg_index d ON t.oid = d.indrelid
+            INNER JOIN pg_class i ON d.indexrelid = i.oid
+            WHERE i.relkind = 'i'
                 AND d.indisprimary = 'f'
-                AND t.relname = ?
-                AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
-                ORDER BY i.relname";
+                AND t.relname = :table
+                AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)))
+            ORDER BY i.relname
+        SQL;
 
         /** @var array<array{relname: string, indkey: string, inddef: string, oid: string}> $tableIndexes */
         $tableIndexes = $this->getConnection()->fetchAllAssociative(
             $sql,
-            [
-                $this->trimQuotes($table),
-            ]
+            ['table' => $this->trimQuotes($table)]
         );
 
         $indexes = [];
@@ -113,16 +104,22 @@ final class SchemaManager extends PostgreSQLSchemaManager
                 continue;
             }
 
-            $sql = "SELECT a.attname, t.typname
-                    FROM pg_attribute a, pg_type t
-                    WHERE a.attrelid = {$row['oid']}
-                    AND a.attnum IN (" . implode(',', explode(' ', $row['indkey'])) . ')
-                    AND a.atttypid = t.oid';
+            $keyPositions = array_map('intval', explode(' ', $row['indkey']));
 
-            $stmt = $this->getConnection()->executeQuery($sql);
+            $sql = <<<SQL
+                SELECT a.attname, t.typname
+                FROM pg_attribute a
+                INNER JOIN pg_type t ON a.atttypid = t.oid
+                WHERE a.attrelid = :oid
+                    AND a.attnum IN (:positions)
+            SQL;
 
             /** @var array<array{attname: string, typname: string}> $indexColumns */
-            $indexColumns = $stmt->fetchAllAssociative();
+            $indexColumns = $this->getConnection()->fetchAllAssociative(
+                $sql,
+                ['oid' => (int) $row['oid'], 'positions' => $keyPositions],
+                ['positions' => ArrayParameterType::INTEGER]
+            );
 
             foreach ($indexColumns as $indexRow) {
                 if ('geometry' !== $indexRow['typname']
@@ -147,17 +144,19 @@ final class SchemaManager extends PostgreSQLSchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = 'SELECT coord_dimension, srid, type
-                FROM geometry_columns
-                WHERE f_table_name = ?
-                AND f_geometry_column = ?';
+        $sql = <<<SQL
+            SELECT coord_dimension, srid, type
+            FROM geometry_columns
+            WHERE f_table_name = :table
+                AND f_geometry_column = :column
+        SQL;
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
         $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
-                $this->trimQuotes($table),
-                $this->trimQuotes($column),
+                'table' => $this->trimQuotes($table),
+                'column' => $this->trimQuotes($column),
             ]
         );
 
@@ -174,17 +173,19 @@ final class SchemaManager extends PostgreSQLSchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = 'SELECT coord_dimension, srid, type
-                FROM geography_columns
-                WHERE f_table_name = ?
-                AND f_geography_column = ?';
+        $sql = <<<SQL
+            SELECT coord_dimension, srid, type
+            FROM geography_columns
+            WHERE f_table_name = :table
+                AND f_geography_column = :column
+        SQL;
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
         $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
-                $this->trimQuotes($table),
-                $this->trimQuotes($column),
+                'table' => $this->trimQuotes($table),
+                'column' => $this->trimQuotes($column),
             ]
         );
 
@@ -193,6 +194,11 @@ final class SchemaManager extends PostgreSQLSchemaManager
         }
 
         return $this->buildSpatialColumnInfo($row);
+    }
+
+    public function createPostGISExtension(): void
+    {
+        $this->getConnection()->executeStatement('CREATE EXTENSION IF NOT EXISTS postgis');
     }
 
     /**

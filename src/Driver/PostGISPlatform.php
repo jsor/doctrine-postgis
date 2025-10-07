@@ -7,18 +7,29 @@ namespace Jsor\Doctrine\PostGIS\Driver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
-use Doctrine\DBAL\Schema\SchemaDiff;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use InvalidArgumentException;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
-use Jsor\Doctrine\PostGIS\Schema\SpatialIndexes;
-use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
+use function count;
+use function implode;
 use function sprintf;
 
 final class PostGISPlatform extends PostgreSQLPlatform
 {
+    protected function initializeDoctrineTypeMappings(): void
+    {
+        parent::initializeDoctrineTypeMappings();
+
+        // Map PostgreSQL native geometry/geography types to Doctrine PostGIS types
+        // This is essential for schema introspection to work correctly
+        $this->doctrineTypeMapping['geometry'] = PostGISType::GEOMETRY;
+        $this->doctrineTypeMapping['geography'] = PostGISType::GEOGRAPHY;
+    }
+
     public function createSchemaManager(Connection $connection): PostgreSQLSchemaManager
     {
         /** @var PostgreSQLPlatform $platform */
@@ -27,106 +38,79 @@ final class PostGISPlatform extends PostgreSQLPlatform
         return new SchemaManager($connection, $platform);
     }
 
-    public function getAlterSchemaSQL(SchemaDiff $diff): array
+    public function getCreateIndexSQL(Index $index, $table): string
     {
-        /** @var list<string> $sql */
-        $sql = parent::getAlterSchemaSQL($diff);
-        $sql = $this->filterSpatialIndexFromSQL($sql, $this->collectSpatialIndexNamesFromSchemaDiff($diff));
-
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
-
-        foreach ($diff->getAlteredTables() as $tableDiff) {
-            $table = $tableDiff->getOldTable();
-
-            SpatialIndexes::ensureSpatialIndexFlags($tableDiff);
-
-            foreach (SpatialIndexes::extractSpatialIndicies($tableDiff->getAddedIndexes()) as $index) {
-                $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
-            }
-
-            foreach (SpatialIndexes::extractSpatialIndicies($tableDiff->getModifiedIndexes()) as $index) {
-                $sql[] = $this->getDropIndexSQL($index->getName(), $table->getName());
-                $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
-            }
+        // Standard PostgreSQL index
+        if (!$index->hasFlag('spatial')) {
+            return parent::getCreateIndexSQL($index, $table);
         }
 
-        return $sql;
+        // Handle spatial indexes with GIST
+        $name = $index->getQuotedName($this);
+        $columns = $index->getColumns();
+
+        if (0 === count($columns)) {
+            throw new InvalidArgumentException(sprintf(
+                'Incomplete or invalid index definition %s on table %s',
+                $name,
+                $table,
+            ));
+        }
+
+        if ($index->isPrimary()) {
+            return $this->getCreatePrimaryKeySQL($index, $table);
+        }
+
+        $query = 'CREATE ' . $this->getCreateIndexSQLFlags($index) . 'INDEX ' . $name . ' ON ' . $table;
+        $query .= ' USING gist(' . implode(', ', $index->getQuotedColumns($this)) . ')';
+
+        // Support partial indexes (WHERE clause)
+        $query .= $this->getPartialIndexSQL($index);
+
+        return $query;
     }
 
-    public function getCreateTableSQL(Table $table, $createFlags = self::CREATE_INDEXES): array
+    /**
+     * @param string|Index $nameOrIndex
+     * @param Index|null $index
+     *
+     * @psalm-suppress ParamNameMismatch
+     * @psalm-suppress PossiblyNullReference
+     */
+    public function getIndexDeclarationSQL($nameOrIndex, ?Index $index = null): string
     {
-        SpatialIndexes::ensureSpatialIndexFlags($table);
-
-        $spatialIndexes = SpatialIndexes::extractSpatialIndicies($table->getIndexes());
-        foreach ($spatialIndexes as $index) {
-            $table->dropIndex($index->getName());
+        // DBAL 4.x: single Index parameter
+        // DBAL 3.x: name + Index parameters
+        if ($nameOrIndex instanceof Index) {
+            $actualIndex = $nameOrIndex;
+        } else {
+            $actualIndex = $index;
         }
 
-        $sql = parent::getCreateTableSQL($table, $createFlags);
-
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
-        foreach ($spatialIndexes as $index) {
-            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
+        // Spatial indexes cannot be declared inline in CREATE TABLE
+        // They will be created separately via getCreateIndexSQL
+        if ($actualIndex->hasFlag('spatial')) {
+            return '';
         }
 
-        return $sql;
-    }
-
-    public function getCreateTablesSQL(array $tables): array
-    {
-        $sql = [];
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
-
-        /** @var Table $table */
-        foreach ($tables as $table) {
-            SpatialIndexes::ensureSpatialIndexFlags($table);
-
-            $spatialIndexes = SpatialIndexes::extractSpatialIndicies($table->getIndexes());
-            foreach ($spatialIndexes as $index) {
-                $table->dropIndex($index->getName());
-            }
-            $sql = [...$sql, ...$this->getCreateTableWithoutForeignKeysSQL($table)];
-
-            foreach ($spatialIndexes as $index) {
-                $table->addIndex($index->getColumns(), $index->getName(), $index->getFlags(), $index->getOptions());
-            }
-
-            foreach ($spatialIndexes as $spatialIndex) {
-                $sql[] = $spatialIndexSqlGenerator->getSql($spatialIndex, $table);
-            }
+        /** @psalm-suppress InternalMethod, InvalidArgument */
+        if ($nameOrIndex instanceof Index) {
+            // DBAL 4.x
+            return parent::getIndexDeclarationSQL($nameOrIndex);
         }
 
-        foreach ($tables as $table) {
-            foreach ($table->getForeignKeys() as $foreignKey) {
-                $sql[] = $this->getCreateForeignKeySQL(
-                    $foreignKey,
-                    $table->getQuotedName($this),
-                );
-            }
-        }
-
-        return $sql;
+        // DBAL 3.x
+        /** @psalm-suppress InternalMethod, InvalidArgument */
+        return parent::getIndexDeclarationSQL($nameOrIndex, $actualIndex);
     }
 
     public function getAlterTableSQL(TableDiff $diff): array
     {
-        $table = $diff->getOldTable();
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($this);
-
-        SpatialIndexes::ensureSpatialIndexFlags($diff);
-
-        /** @var list<string> $sql */
+        // getCreateIndexSQL will handle spatial indexes with USING gist automatically
         $sql = parent::getAlterTableSQL($diff);
-        $sql = $this->filterSpatialIndexFromSQL($sql, $this->collectSpatialIndexNamesFromTableDiff($diff));
 
-        foreach (SpatialIndexes::extractSpatialIndicies($diff->getAddedIndexes()) as $spatialIndex) {
-            $sql[] = $spatialIndexSqlGenerator->getSql($spatialIndex, $table);
-        }
-
-        foreach (SpatialIndexes::extractSpatialIndicies($diff->getModifiedIndexes()) as $index) {
-            $sql[] = $this->getDropIndexSQL($index->getName(), $table->getName());
-            $sql[] = $spatialIndexSqlGenerator->getSql($index, $table);
-        }
+        // Handle SRID updates for spatial columns
+        $table = $diff->getOldTable();
 
         /** @psalm-suppress DeprecatedMethod */
         $modifiedColumns = method_exists($diff, 'getChangedColumns')
@@ -157,70 +141,5 @@ final class PostGISPlatform extends PostgreSQLPlatform
         }
 
         return $sql;
-    }
-
-    /**
-     * @param list<string> $sql               Generated standard SQL
-     * @param list<string> $spatialIndexNames Names of spatial indexes to filter out
-     *
-     * @return list<string> SQL without spatial index statements
-     */
-    private function filterSpatialIndexFromSQL(array $sql, array $spatialIndexNames): array
-    {
-        if (empty($spatialIndexNames)) {
-            return $sql;
-        }
-
-        $filtered = array_filter($sql, function (string $sqlStatement) use ($spatialIndexNames) {
-            foreach ($spatialIndexNames as $indexName) {
-                if (false !== stripos($sqlStatement, $indexName)) {
-                    return false;
-                }
-            }
-
-            return true;
-        });
-
-        return array_values($filtered);
-    }
-
-    /**
-     * @param SchemaDiff $diff Schema diff
-     *
-     * @return list<string> Names of spatial indexes
-     */
-    private function collectSpatialIndexNamesFromSchemaDiff(SchemaDiff $diff): array
-    {
-        $spatialIndexNames = [];
-
-        foreach ($diff->getAlteredTables() as $tableDiff) {
-            SpatialIndexes::ensureSpatialIndexFlags($tableDiff);
-            $spatialIndexNames = array_merge(
-                $spatialIndexNames,
-                $this->collectSpatialIndexNamesFromTableDiff($tableDiff)
-            );
-        }
-
-        return $spatialIndexNames;
-    }
-
-    /**
-     * @param TableDiff $diff Table diff
-     *
-     * @return list<string> Name of spatial indexes
-     */
-    private function collectSpatialIndexNamesFromTableDiff(TableDiff $diff): array
-    {
-        $spatialIndexNames = [];
-
-        foreach (SpatialIndexes::extractSpatialIndicies($diff->getAddedIndexes()) as $index) {
-            $spatialIndexNames[] = $index->getName();
-        }
-
-        foreach (SpatialIndexes::extractSpatialIndicies($diff->getModifiedIndexes()) as $index) {
-            $spatialIndexNames[] = $index->getName();
-        }
-
-        return $spatialIndexNames;
     }
 }

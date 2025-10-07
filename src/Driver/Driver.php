@@ -11,10 +11,6 @@ use Doctrine\DBAL\Driver\API\ExceptionConverter;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\ServerVersionProvider;
-use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\Types\GeographyType;
-use Jsor\Doctrine\PostGIS\Types\GeometryType;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
 
 final class Driver extends AbstractPostgreSQLDriver
 {
@@ -27,16 +23,7 @@ final class Driver extends AbstractPostgreSQLDriver
 
     public function connect(array $params): DBAL\Driver\Connection
     {
-        $connection = $this->decorated->connect($params);
-        if (!Type::hasType(PostGISType::GEOMETRY)) {
-            Type::addType(PostGISType::GEOMETRY, GeometryType::class);
-        }
-
-        if (!Type::hasType(PostGISType::GEOGRAPHY)) {
-            Type::addType(PostGISType::GEOGRAPHY, GeographyType::class);
-        }
-
-        return $connection;
+        return $this->decorated->connect($params);
     }
 
     public function getDatabasePlatform(?ServerVersionProvider $versionProvider = null): PostgreSQLPlatform

@@ -25,12 +25,12 @@ Supported Versions
 The following table shows the versions which are officially supported by this
 library.
 
-| Dependency    | Supported Versions  |
-|:--------------|:--------------------|
-| PostGIS       | 3.0 and 3.1         |
-| PostgreSQL    | 11, 12 and 13       |
-| Doctrine ORM  | ^2.9                |
-| Doctrine DBAL | ^2.13 and ^3.1      |
+| Dependency    | Supported Versions |
+|:--------------|:-------------------|
+| PostGIS       | 3.0 and 3.1        |
+| PostgreSQL    | 11, 12 and 13      |
+| Doctrine ORM  | ^2.19 and ^3.0     |
+| Doctrine DBAL | ^3.7 and ^4.0      |
 
 Installation
 --

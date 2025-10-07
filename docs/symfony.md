@@ -17,17 +17,11 @@ in `config/packages/jsor_doctrine_postgis.yaml`.
 
 ```yaml
 services:
-    Jsor\Doctrine\PostGIS\Schema\SchemaManagerFactory:
-
     Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener:
         tags: [{ name: doctrine.event_listener, event: postGenerateSchemaTable, connection: default }]
 
     Jsor\Doctrine\PostGIS\Driver\Middleware:
         tags: [ doctrine.middleware ]
-
-doctrine:
-    dbal:
-        schema_manager_factory: Jsor\Doctrine\PostGIS\Schema\SchemaManagerFactory
 ```
 
 ### Database Types
@@ -47,6 +41,10 @@ doctrine:
                 class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
                 commented: false
 ```
+
+> **Note:** The PostgreSQL native `geometry` and `geography` types are automatically
+> mapped to Doctrine types during schema introspection. You don't need to add them
+> to the `mapping_types` section.
 
 ### DQL Functions
 
