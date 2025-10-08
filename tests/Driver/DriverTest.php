@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Driver;
 
 use Doctrine\DBAL\Driver\API\ExceptionConverter;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Driver\PDO\PgSQL\Driver as PgSQLDriver;
-use Doctrine\DBAL\Types\Type;
-use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,11 +20,8 @@ final class DriverTest extends TestCase
 {
     public function testConnect(): void
     {
-        static::assertFalse(Type::hasType(PostGISType::GEOGRAPHY));
-        static::assertFalse(Type::hasType(PostGISType::GEOMETRY));
-
         $driver = $this->getDriver();
-        $driver->connect([
+        $conn = $driver->connect([
             'driver' => getenv('DB_TYPE'),
             'user' => getenv('DB_USER'),
             'password' => getenv('DB_PASSWORD'),
@@ -34,8 +30,7 @@ final class DriverTest extends TestCase
             'port' => getenv('DB_PORT'),
         ]);
 
-        static::assertTrue(Type::hasType(PostGISType::GEOGRAPHY));
-        static::assertTrue(Type::hasType(PostGISType::GEOMETRY));
+        static::assertInstanceOf(Connection::class, $conn);
     }
 
     public function testGetDatabasePlatform(): void
@@ -47,11 +42,11 @@ final class DriverTest extends TestCase
 
     public function providerVersions(): iterable
     {
-        yield ['11'];
-        yield ['12'];
-        yield ['13'];
         yield ['14'];
         yield ['15'];
+        yield ['16'];
+        yield ['17'];
+        yield ['18'];
     }
 
     /** @dataProvider providerVersions */

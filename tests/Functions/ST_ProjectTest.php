@@ -51,10 +51,7 @@ final class ST_ProjectTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis-3.0
-     * @group postgis-3.1
      * @group postgis-3.2
-     * @group postgis-3.3
      * @group versioned
      */
     public function testQuery1(): void
@@ -87,6 +84,7 @@ final class ST_ProjectTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.4
+     * @group postgis-3.6
      * @group versioned
      */
     public function testQuery2(): void
@@ -110,9 +108,9 @@ final class ST_ProjectTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value1' => 70710.67811865476,
-  'value2' => 70710.67811865475,
-];
+            'value1' => 70710.67811865476,
+            'value2' => 70710.67811865475,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

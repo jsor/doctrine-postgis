@@ -13,34 +13,13 @@ return [
         'tests' => [
             'queries' => [
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0') AS value",
-                    'result' => [
-                        'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
-                    'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0') AS value",
-                    'result' => [
-                        'value' => 'BOX(-115.17281600000001 36.11464599999999,-115.172816 36.114646)',
-                    ],
-                ],
-                [
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0', 0) AS value",
                     'result' => [
                         'value' => 'BOX(-180 -90,180 90)',
                     ],
                 ],
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0', 10) AS value",
-                    'result' => [
-                        'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
+                    'groups' => ['postgis-3.6'],
                     'sql' => "SELECT {function}('9qqj7nmxncgyy4d0dbxqz0', 10) AS value",
                     'result' => [
                         'value' => 'BOX(-115.17282128334045 36.11464083194733,-115.1728105545044 36.114646196365356)',
@@ -133,20 +112,6 @@ return [
         'total_arguments' => 2,
         'tests' => [
             'queries' => [
-                [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
-                    'result' => [
-                        'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
-                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
-                    'result' => [
-                        'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
-                    ],
-                ],
                 [
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0', 4)) AS value",
                     'result' => [
@@ -487,20 +452,6 @@ return [
         'total_arguments' => 2,
         'tests' => [
             'queries' => [
-                [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
-                    'result' => [
-                        'value' => 'POINT(-115.172816 36.114646)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
-                    'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0')) AS value",
-                    'result' => [
-                        'value' => 'POINT(-115.17281600000001 36.11464599999999)',
-                    ],
-                ],
                 [
                     'sql' => "SELECT ST_AsText({function}('9qqj7nmxncgyy4d0dbxqz0', 4)) AS value",
                     'result' => [

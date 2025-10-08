@@ -50,72 +50,7 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-3.0
-     * @group versioned
-     */
     public function testQuery1(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'BOX(-115.172816 36.114646,-115.172816 36.114646)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     * @group postgis-3.2
-     * @group postgis-3.3
-     * @group postgis-3.4
-     * @group versioned
-     */
-    public function testQuery2(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\') AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'BOX(-115.17281600000001 36.11464599999999,-115.172816 36.114646)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    public function testQuery3(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 0) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
@@ -143,44 +78,9 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis-3.0
-     * @group versioned
+     * @group postgis-3.6
      */
-    public function testQuery4(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 10) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'BOX(-115.17282128334 36.1146408319473,-115.172810554504 36.1146461963654)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     * @group postgis-3.2
-     * @group postgis-3.3
-     * @group postgis-3.4
-     * @group versioned
-     */
-    public function testQuery5(): void
+    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_Box2dFromGeoHash(\'9qqj7nmxncgyy4d0dbxqz0\', 10) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 

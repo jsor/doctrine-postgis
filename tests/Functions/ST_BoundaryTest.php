@@ -51,8 +51,6 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis-3.0
-     * @group postgis-3.1
      * @group postgis-3.2
      * @group versioned
      */
@@ -84,8 +82,8 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
     }
 
     /**
-     * @group postgis-3.3
      * @group postgis-3.4
+     * @group postgis-3.6
      * @group versioned
      */
     public function testQuery2(): void
@@ -109,8 +107,8 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'MULTIPOINT((1 1),(-1 1))',
-];
+            'value' => 'MULTIPOINT((1 1),(-1 1))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -50,45 +50,7 @@ final class ST_ShiftLongitudeTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-3.0
-     * @group versioned
-     */
     public function testQuery1(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShiftLongitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     * @group postgis-3.2
-     * @group postgis-3.3
-     * @group postgis-3.4
-     * @group versioned
-     */
-    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShiftLongitude(ST_GeomFromText(\'LINESTRING(-118.58 38.38, -118.20 38.45)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 

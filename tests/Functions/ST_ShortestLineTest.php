@@ -50,45 +50,7 @@ final class ST_ShortestLineTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-3.0
-     * @group versioned
-     */
     public function testQuery1(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     * @group postgis-3.2
-     * @group postgis-3.3
-     * @group postgis-3.4
-     * @group versioned
-     */
-    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_ShortestLine(ST_GeomFromText(\'POINT(100 100)\'), ST_GeomFromText(\'LINESTRING(20 80, 98 190, 110 180, 50 75)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 
