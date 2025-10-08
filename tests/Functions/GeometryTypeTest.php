@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\GeometryType
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class GeometryTypeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING',
-];
+            'value' => 'LINESTRING',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

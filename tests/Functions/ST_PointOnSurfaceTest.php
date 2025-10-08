@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_PointOnSurface
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_PointOnSurfaceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(0 5)',
-];
+            'value' => 'POINT(0 5)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

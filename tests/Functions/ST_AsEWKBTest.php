@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_AsEWKB
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_AsEWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
-];
+            'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +98,8 @@ final class ST_AsEWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
-];
+            'value' => 'SRID=4326;POLYGON((0 0,0 1,1 1,1 0,0 0))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

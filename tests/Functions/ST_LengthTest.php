@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Length
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 122.630744000095,
-];
+            'value' => 122.630744000095,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -91,8 +93,8 @@ final class ST_LengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 34346.2060960742,
-];
+            'value' => 34346.2060960742,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

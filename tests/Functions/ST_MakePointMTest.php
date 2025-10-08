@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_MakePointM
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_MakePointMTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINTM(-71.1043443253471 42.3150676015829 10)',
-];
+            'value' => 'POINTM(-71.1043443253471 42.3150676015829 10)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

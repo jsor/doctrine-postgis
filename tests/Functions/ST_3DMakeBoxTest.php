@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DMakeBox
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_3DMakeBoxTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'BOX3D(-989502.1875 528439.5625 10,-987121.375 529933.1875 10)',
-];
+            'value' => 'BOX3D(-989502.1875 528439.5625 10,-987121.375 529933.1875 10)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

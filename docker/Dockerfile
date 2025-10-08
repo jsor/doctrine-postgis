@@ -1,4 +1,4 @@
-FROM php:8.1-cli-alpine AS php
+FROM php:8.2-cli-alpine AS php
 
 RUN apk add --no-cache \
         git \

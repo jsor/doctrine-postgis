@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Distance
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 0.00150567726382822,
-];
+            'value' => 0.00150567726382822,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -91,8 +93,8 @@ final class ST_DistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 123.475736916,
-];
+            'value' => 123.475736916,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

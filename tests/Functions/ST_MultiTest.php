@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Multi
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_MultiTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'MULTIPOLYGON(((743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416)))',
-];
+            'value' => 'MULTIPOLYGON(((743238 2967416,743238 2967450,743265 2967450,743265.625 2967416,743238 2967416)))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

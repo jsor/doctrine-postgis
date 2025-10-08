@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_MakePolygon
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_MakePolygonTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((75.15 29.53,77 29,77.6 29.5,75.15 29.53))',
-];
+            'value' => 'POLYGON((75.15 29.53,77 29,77.6 29.5,75.15 29.53))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

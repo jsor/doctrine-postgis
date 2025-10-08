@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_SnapToGrid
+ *
  * @group orm
  * @group functions
  */
@@ -69,10 +71,10 @@ final class ST_SnapToGridTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value1' => 'LINESTRING(1.112 2.123,4.111 3.237)',
-  'value2' => 'LINESTRING(-1.08 2.12 2.3 1.1144,4.12 3.22 3.1 1.1144,-1.08 2.12 2.3 1.1144)',
-  'value3' => 'LINESTRING(-1.11 2.12 3 2.3456,4.11 3.24 3.1234 1.1111)',
-];
+            'value1' => 'LINESTRING(1.112 2.123,4.111 3.237)',
+            'value2' => 'LINESTRING(-1.08 2.12 2.3 1.1144,4.12 3.22 3.1 1.1144,-1.08 2.12 2.3 1.1144)',
+            'value3' => 'LINESTRING(-1.11 2.12 3 2.3456,4.11 3.24 3.1234 1.1111)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

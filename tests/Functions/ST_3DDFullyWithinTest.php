@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DDFullyWithin
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_3DDFullyWithinTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => false,
-];
+            'value' => false,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

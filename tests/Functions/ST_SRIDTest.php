@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_SRID
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_SRIDTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 4326,
-];
+            'value' => 4326,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

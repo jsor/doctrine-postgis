@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_IsValidDetail
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_IsValidDetailTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
-];
+            'value' => '(f,"Too few points in geometry component",0101000000000000000000F03F000000000000F03F)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +98,8 @@ final class ST_IsValidDetailTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '(t,,)',
-];
+            'value' => '(t,,)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

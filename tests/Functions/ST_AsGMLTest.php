@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_AsGML
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_AsGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '<gml:Polygon srsName="EPSG:4326"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>',
-];
+            'value' => '<gml:Polygon srsName="EPSG:4326"><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>0,0 0,1 1,1 1,0 0,0</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +98,8 @@ final class ST_AsGMLTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '<Point srsName="urn:ogc:def:crs:EPSG::4326"><pos srsDimension="2">6.34535 5.23423</pos></Point>',
-];
+            'value' => '<Point srsName="urn:ogc:def:crs:EPSG::4326"><pos srsDimension="2">6.34535 5.23423</pos></Point>',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

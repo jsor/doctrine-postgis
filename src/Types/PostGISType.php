@@ -7,6 +7,8 @@ namespace Jsor\Doctrine\PostGIS\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
+use function sprintf;
+
 abstract class PostGISType extends Type
 {
     public const GEOMETRY = 'geometry';
@@ -19,14 +21,21 @@ abstract class PostGISType extends Type
 
     public function getMappedDatabaseTypes(AbstractPlatform $platform): array
     {
-        return [$this->getName()];
+        return [self::lookupName($this)];
     }
 
+    /**
+     * @param string           $sqlExpr
+     * @param AbstractPlatform $platform
+     */
     public function convertToPHPValueSQL($sqlExpr, $platform): string
     {
         return sprintf('ST_AsEWKT(%s)', $sqlExpr);
     }
 
+    /**
+     * @param string $sqlExpr
+     */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
         return sprintf('ST_GeomFromEWKT(%s)', $sqlExpr);
@@ -39,7 +48,7 @@ abstract class PostGISType extends Type
 
         return sprintf(
             '%s(%s, %d)',
-            $this->getName(),
+            self::lookupName($this),
             $options['geometry_type'],
             $options['srid']
         );

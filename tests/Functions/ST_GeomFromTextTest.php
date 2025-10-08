@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_GeomFromText
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_GeomFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '010200000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
-];
+            'value' => '010200000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +98,8 @@ final class ST_GeomFromTextTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0102000020AD10000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
-];
+            'value' => '0102000020AD10000003000000E44A3D0B42CA51C06EC328081E21454027BF45274BCA51C0F67B629D2A214540957CEC2E50CA51C07099D36531214540',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

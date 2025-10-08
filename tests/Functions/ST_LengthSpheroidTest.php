@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_LengthSpheroid
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_LengthSpheroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 85204.5207711805,
-];
+            'value' => 85204.5207711805,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

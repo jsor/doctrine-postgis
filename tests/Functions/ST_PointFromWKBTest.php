@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_PointFromWKB
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_PointFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0101000020E6100000CB49287D21C451C0F0BF95ECD8244540',
-];
+            'value' => '0101000020E6100000CB49287D21C451C0F0BF95ECD8244540',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Covers
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_CoversTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => true,
-];
+            'value' => true,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

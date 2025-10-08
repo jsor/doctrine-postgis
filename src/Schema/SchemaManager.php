@@ -4,15 +4,74 @@ declare(strict_types=1);
 
 namespace Jsor\Doctrine\PostGIS\Schema;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
+use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
+use Jsor\Doctrine\PostGIS\Types\GeographyType;
+use Jsor\Doctrine\PostGIS\Types\GeometryType;
+use Jsor\Doctrine\PostGIS\Types\PostGISType;
+use RuntimeException;
 
-final class SchemaManager
+final class SchemaManager extends PostgreSQLSchemaManager
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function alterTable(TableDiff $tableDiff): void
     {
-        $this->connection = $connection;
+        $oldTable = $tableDiff->getOldTable();
+
+        /** @psalm-suppress DeprecatedMethod */
+        $modifiedColumns = method_exists($tableDiff, 'getChangedColumns')
+            ? $tableDiff->getChangedColumns()
+            : @$tableDiff->getModifiedColumns();
+
+        foreach ($modifiedColumns as $columnDiff) {
+            if (!$columnDiff->getNewColumn()->getType() instanceof PostGISType) {
+                continue;
+            }
+
+            $newColumn = $columnDiff->getNewColumn();
+            $oldColumn = $columnDiff->getOldColumn();
+
+            if ($columnDiff->hasTypeChanged()) {
+                $oldType = Type::lookupName($oldColumn->getType());
+                $newType = Type::lookupName($newColumn->getType());
+
+                throw new RuntimeException('The type of a spatial column cannot be changed (Requested changing type from "' . $oldType . '" to "' . $newType . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
+            }
+
+            $oldGT = (string) ($oldColumn->hasPlatformOption('geometry_type') ? $oldColumn->getPlatformOption('geometry_type') : 'N/A');
+            $newGT = (string) ($newColumn->hasPlatformOption('geometry_type') ? $newColumn->getPlatformOption('geometry_type') : 'N/A');
+            if (strtolower($oldGT) !== strtolower($newGT)) {
+                throw new RuntimeException('The geometry_type of a spatial column cannot be changed (Requested changing type from "' . strtoupper($oldGT) . '" to "' . strtoupper($newGT) . '" for column "' . $newColumn->getName() . '" in table "' . $oldTable->getName() . '")');
+            }
+        }
+
+        parent::alterTable($tableDiff);
+    }
+
+    /**
+     * @param string $table
+     *
+     * @return array<string, Index>
+     */
+    public function listTableIndexes($table): array
+    {
+        $indexes = parent::listTableIndexes($table);
+        $columns = $this->listTableColumns($table);
+
+        foreach ($indexes as $index) {
+            foreach ($index->getColumns() as $columnName) {
+                $column = $columns[$columnName];
+                if ($column->getType() instanceof PostGISType && !$index->hasFlag('spatial')) {
+                    $index->addFlag('spatial');
+                }
+            }
+        }
+
+        return $indexes;
     }
 
     public function listSpatialIndexes(string $table): array
@@ -21,22 +80,22 @@ final class SchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = "SELECT distinct i.relname, d.indkey, pg_get_indexdef(d.indexrelid) AS inddef, t.oid
-                FROM pg_class t
-                INNER JOIN pg_index d ON t.oid = d.indrelid
-                INNER JOIN pg_class i ON d.indexrelid = i.oid
-                WHERE i.relkind = 'i'
+        $sql = <<<SQL
+            SELECT DISTINCT i.relname, d.indkey, pg_get_indexdef(d.indexrelid) AS inddef, t.oid
+            FROM pg_class t
+            INNER JOIN pg_index d ON t.oid = d.indrelid
+            INNER JOIN pg_class i ON d.indexrelid = i.oid
+            WHERE i.relkind = 'i'
                 AND d.indisprimary = 'f'
-                AND t.relname = ?
-                AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
-                ORDER BY i.relname";
+                AND t.relname = :table
+                AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)))
+            ORDER BY i.relname
+        SQL;
 
         /** @var array<array{relname: string, indkey: string, inddef: string, oid: string}> $tableIndexes */
-        $tableIndexes = $this->connection->fetchAllAssociative(
+        $tableIndexes = $this->getConnection()->fetchAllAssociative(
             $sql,
-            [
-                $this->trimQuotes($table),
-            ]
+            ['table' => $this->trimQuotes($table)]
         );
 
         $indexes = [];
@@ -45,16 +104,22 @@ final class SchemaManager
                 continue;
             }
 
-            $sql = "SELECT a.attname, t.typname
-                    FROM pg_attribute a, pg_type t
-                    WHERE a.attrelid = {$row['oid']}
-                    AND a.attnum IN (" . implode(',', explode(' ', $row['indkey'])) . ')
-                    AND a.atttypid = t.oid';
+            $keyPositions = array_map('intval', explode(' ', $row['indkey']));
 
-            $stmt = $this->connection->executeQuery($sql);
+            $sql = <<<SQL
+                SELECT a.attname, t.typname
+                FROM pg_attribute a
+                INNER JOIN pg_type t ON a.atttypid = t.oid
+                WHERE a.attrelid = :oid
+                    AND a.attnum IN (:positions)
+            SQL;
 
             /** @var array<array{attname: string, typname: string}> $indexColumns */
-            $indexColumns = $stmt->fetchAllAssociative();
+            $indexColumns = $this->getConnection()->fetchAllAssociative(
+                $sql,
+                ['oid' => (int) $row['oid'], 'positions' => $keyPositions],
+                ['positions' => ArrayParameterType::INTEGER]
+            );
 
             foreach ($indexColumns as $indexRow) {
                 if ('geometry' !== $indexRow['typname']
@@ -79,17 +144,19 @@ final class SchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = 'SELECT coord_dimension, srid, type
-                FROM geometry_columns
-                WHERE f_table_name = ?
-                AND f_geometry_column = ?';
+        $sql = <<<SQL
+            SELECT coord_dimension, srid, type
+            FROM geometry_columns
+            WHERE f_table_name = :table
+                AND f_geometry_column = :column
+        SQL;
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
-        $row = $this->connection->fetchAssociative(
+        $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
-                $this->trimQuotes($table),
-                $this->trimQuotes($column),
+                'table' => $this->trimQuotes($table),
+                'column' => $this->trimQuotes($column),
             ]
         );
 
@@ -106,17 +173,19 @@ final class SchemaManager
             [, $table] = explode('.', $table);
         }
 
-        $sql = 'SELECT coord_dimension, srid, type
-                FROM geography_columns
-                WHERE f_table_name = ?
-                AND f_geography_column = ?';
+        $sql = <<<SQL
+            SELECT coord_dimension, srid, type
+            FROM geography_columns
+            WHERE f_table_name = :table
+                AND f_geography_column = :column
+        SQL;
 
         /** @var array{coord_dimension: string, srid: string|int|null, type: string}|null $row */
-        $row = $this->connection->fetchAssociative(
+        $row = $this->getConnection()->fetchAssociative(
             $sql,
             [
-                $this->trimQuotes($table),
-                $this->trimQuotes($column),
+                'table' => $this->trimQuotes($table),
+                'column' => $this->trimQuotes($column),
             ]
         );
 
@@ -125,6 +194,70 @@ final class SchemaManager
         }
 
         return $this->buildSpatialColumnInfo($row);
+    }
+
+    public function createPostGISExtension(): void
+    {
+        $this->getConnection()->executeStatement('CREATE EXTENSION IF NOT EXISTS postgis');
+    }
+
+    /**
+     * @param string                           $table
+     * @param string                           $database
+     * @param array<int, array<string, mixed>> $tableColumns
+     *
+     * @return array<string, Column>
+     */
+    protected function _getPortableTableColumnList($table, $database, $tableColumns): array
+    {
+        $columns = parent::_getPortableTableColumnList($table, $database, $tableColumns);
+
+        foreach ($columns as $column) {
+            $this->resolveSpatialColumnInfo($column, $table);
+        }
+
+        return $columns;
+    }
+
+    protected function _getPortableTableColumnDefinition($tableColumn): Column
+    {
+        $column = parent::_getPortableTableColumnDefinition($tableColumn);
+
+        if (isset($tableColumn['table_name'])) {
+            $this->resolveSpatialColumnInfo($column, (string) $tableColumn['table_name']);
+        }
+
+        return $column;
+    }
+
+    protected function resolveSpatialColumnInfo(Column $column, string $tableName): void
+    {
+        if (!$column->getType() instanceof PostGISType) {
+            return;
+        }
+
+        $info = match ($column->getType()::class) {
+            GeometryType::class => $this->getGeometrySpatialColumnInfo($tableName, $column->getName()),
+            GeographyType::class => $this->getGeographySpatialColumnInfo($tableName, $column->getName()),
+            default => null,
+        };
+
+        if (null === $info) {
+            return;
+        }
+
+        $default = null;
+
+        if ('NULL::geometry' !== $column->getDefault() && 'NULL::geography' !== $column->getDefault()) {
+            $default = $column->getDefault();
+        }
+
+        $column
+            ->setType(PostGISType::getType(Type::lookupName($column->getType())))
+            ->setDefault($default)
+            ->setPlatformOption('geometry_type', $info['type'])
+            ->setPlatformOption('srid', $info['srid'])
+        ;
     }
 
     /**
@@ -157,5 +290,15 @@ final class SchemaManager
     private function trimQuotes(string $identifier): string
     {
         return str_replace(['`', '"', '[', ']'], '', $identifier);
+    }
+
+    private function getConnection(): Connection
+    {
+        // DBAL v3
+        if (property_exists($this, '_conn')) {
+            return $this->_conn;
+        }
+
+        return $this->connection;
     }
 }

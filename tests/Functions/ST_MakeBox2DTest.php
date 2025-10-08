@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_MakeBox2D
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_MakeBox2DTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
-];
+            'value' => 'BOX(-989502.1875 528439.5625,-987121.375 529933.1875)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

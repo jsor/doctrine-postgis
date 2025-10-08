@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_SymDifference
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_SymDifferenceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'MULTILINESTRING((50 150,50 200),(50 50,50 100))',
-];
+            'value' => 'MULTILINESTRING((50 150,50 200),(50 50,50 100))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

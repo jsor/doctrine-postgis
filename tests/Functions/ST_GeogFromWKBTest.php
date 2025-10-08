@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_GeogFromWKB
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_GeogFromWKBTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
-];
+            'value' => 'LINESTRING(-113.98 39.198,-113.981 39.195)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

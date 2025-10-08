@@ -13,23 +13,15 @@ Setup
 
 To use the library with the Doctrine ORM (version 2.9 or higher is supported),
 register a [Doctrine event subscriber](https://symfony.com/doc/current/doctrine/event_listeners_subscribers.html)
-in `config/services.yml`.
+in `config/packages/jsor_doctrine_postgis.yaml`.
 
 ```yaml
 services:
-    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-```
+    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener:
+        tags: [{ name: doctrine.event_listener, event: postGenerateSchemaTable, connection: default }]
 
-The library can also be used with DBAL only (versions 2.13 or higher and 3.1 or
-higher are supported).
-
-```yaml
-services:
-    Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
+    Jsor\Doctrine\PostGIS\Driver\Middleware:
+        tags: [ doctrine.middleware ]
 ```
 
 ### Database Types
@@ -49,6 +41,10 @@ doctrine:
                 class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
                 commented: false
 ```
+
+> **Note:** The PostgreSQL native `geometry` and `geography` types are automatically
+> mapped to Doctrine types during schema introspection. You don't need to add them
+> to the `mapping_types` section.
 
 ### DQL Functions
 

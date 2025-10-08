@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_IsValidReason
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_IsValidReasonTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Valid Geometry',
-];
+            'value' => 'Valid Geometry',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -96,8 +98,8 @@ final class ST_IsValidReasonTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'Valid Geometry',
-];
+            'value' => 'Valid Geometry',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

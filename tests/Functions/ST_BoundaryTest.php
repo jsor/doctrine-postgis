@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Boundary
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_BoundaryTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'MULTIPOINT(1 1,-1 1)',
-];
+            'value' => 'MULTIPOINT(1 1,-1 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

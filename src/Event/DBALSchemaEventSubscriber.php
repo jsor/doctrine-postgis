@@ -11,22 +11,41 @@ use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
 use Doctrine\DBAL\Event\SchemaCreateTableEventArgs;
 use Doctrine\DBAL\Event\SchemaIndexDefinitionEventArgs;
 use Doctrine\DBAL\Events;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\Deprecations\Deprecation;
+use InvalidArgumentException;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
-use Jsor\Doctrine\PostGIS\Schema\SpatialIndexSqlGenerator;
 use Jsor\Doctrine\PostGIS\Types\GeographyType;
 use Jsor\Doctrine\PostGIS\Types\GeometryType;
 use Jsor\Doctrine\PostGIS\Types\PostGISType;
 use RuntimeException;
 
 use function count;
+use function sprintf;
 
+/**
+ * @deprecated Use the new DBAL structure instead. This class will be removed in 3.0.
+ *
+ * @psalm-suppress all
+ */
 class DBALSchemaEventSubscriber implements EventSubscriber
 {
     private const PROCESSING_TABLE_FLAG = self::class . ':processing';
+
+    public function __construct()
+    {
+        Deprecation::trigger(
+            'jsor/doctrine-postgis',
+            'https://github.com/jsor/doctrine-postgis/pull/61',
+            'Since 2.4: The "%s" class is deprecated and will be removed in 3.0. Use the new DBAL structure instead.',
+            self::class
+        );
+    }
 
     public function getSubscribedEvents(): array
     {
@@ -84,10 +103,8 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             $args->addSql($sql);
         }
 
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
-
         foreach ($spatialIndexes as $index) {
-            $args->addSql($spatialIndexSqlGenerator->getSql($index, $table));
+            $args->addSql($this->getIndexSql($platform, $index, $table));
         }
 
         $args->preventDefault();
@@ -122,14 +139,12 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $diff->addedIndexes = $addedIndexes;
         $diff->changedIndexes = $changedIndexes;
 
-        $spatialIndexSqlGenerator = new SpatialIndexSqlGenerator($platform);
-
         $table = new Identifier(false !== $diff->newName ? $diff->newName : $diff->name);
 
         foreach ($spatialIndexes as $index) {
             $args
                 ->addSql(
-                    $spatialIndexSqlGenerator->getSql($index, $table)
+                    $this->getIndexSql($platform, $index, $table)
                 )
             ;
         }
@@ -171,7 +186,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
         $table = $args->getTable();
 
-        $schemaManager = new SchemaManager($args->getConnection());
+        $schemaManager = new SchemaManager($args->getConnection(), $args->getConnection()->getDatabasePlatform());
         $info = null;
 
         if ('geometry' === $tableColumn['type']) {
@@ -215,7 +230,7 @@ class DBALSchemaEventSubscriber implements EventSubscriber
         /** @var array{name: string, columns: array<string>, unique: bool, primary: bool, flags: array<string>} $index */
         $index = $args->getTableIndex();
 
-        $schemaManager = new SchemaManager($args->getConnection());
+        $schemaManager = new SchemaManager($args->getConnection(), $args->getConnection()->getDatabasePlatform());
         $spatialIndexes = $schemaManager->listSpatialIndexes($args->getTable());
 
         if (!isset($spatialIndexes[$index['name']])) {
@@ -234,5 +249,29 @@ class DBALSchemaEventSubscriber implements EventSubscriber
             ->setIndex($spatialIndex)
             ->preventDefault()
         ;
+    }
+
+    private function getIndexSql(AbstractPlatform $platform, Index $index, Table|Identifier $table): string
+    {
+        $name = $index->getQuotedName($platform);
+        $tableName = $table->getQuotedName($platform);
+        $columns = $index->getColumns();
+
+        if (0 === count($columns)) {
+            throw new InvalidArgumentException(sprintf(
+                'Incomplete or invalid index definition %s on table %s.',
+                $name,
+                $tableName
+            ));
+        }
+
+        if ($index->isPrimary()) {
+            return $platform->getCreatePrimaryKeySQL($index, $table);
+        }
+
+        $query = 'CREATE INDEX ' . $name . ' ON ' . $tableName;
+        $query .= ' USING gist(' . implode(', ', $index->getQuotedColumns($platform)) . ')';
+
+        return $query;
     }
 }

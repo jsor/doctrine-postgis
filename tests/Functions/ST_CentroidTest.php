@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Centroid
+ *
  * @group orm
  * @group functions
  */
@@ -72,8 +74,8 @@ final class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2.30769230769231 3.30769230769231)',
-];
+            'value' => 'POINT(2.30769230769231 3.30769230769231)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -102,8 +104,8 @@ final class ST_CentroidTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2.307692307692308 3.307692307692308)',
-];
+            'value' => 'POINT(2.307692307692308 3.307692307692308)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

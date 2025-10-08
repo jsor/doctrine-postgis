@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_FlipCoordinates
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_FlipCoordinatesTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(2 1)',
-];
+            'value' => 'POINT(2 1)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

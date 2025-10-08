@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_AddPoint
+ *
  * @group orm
  * @group functions
  */
@@ -69,9 +71,9 @@ final class ST_AddPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value1' => 'LINESTRING(1.1115678 2.123,4.111111 3.2374897,4.11112 3.23748667,-123.365556 48.428611)',
-  'value2' => 'LINESTRING(1.1115678 2.123,-123.365556 48.428611,4.111111 3.2374897,4.11112 3.23748667)',
-];
+            'value1' => 'LINESTRING(1.1115678 2.123,4.111111 3.2374897,4.11112 3.23748667,-123.365556 48.428611)',
+            'value2' => 'LINESTRING(1.1115678 2.123,-123.365556 48.428611,4.111111 3.2374897,4.11112 3.23748667)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

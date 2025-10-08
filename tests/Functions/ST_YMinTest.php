@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_YMin
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_YMinTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 2,
-];
+            'value' => 2,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

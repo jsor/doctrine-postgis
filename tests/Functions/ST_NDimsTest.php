@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_NDims
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 2,
-];
+            'value' => 2,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -91,8 +93,8 @@ final class ST_NDimsTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 3,
-];
+            'value' => 3,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

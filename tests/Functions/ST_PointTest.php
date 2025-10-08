@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Point
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_PointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => '0101000000000000000000F03F0000000000000040',
-];
+            'value' => '0101000000000000000000F03F0000000000000040',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

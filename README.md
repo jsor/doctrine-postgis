@@ -25,12 +25,12 @@ Supported Versions
 The following table shows the versions which are officially supported by this
 library.
 
-| Dependency    | Supported Versions  |
-|:--------------|:--------------------|
-| PostGIS       | 3.0 and 3.1         |
-| PostgreSQL    | 11, 12 and 13       |
-| Doctrine ORM  | ^2.9                |
-| Doctrine DBAL | ^2.13 and ^3.1      |
+| Dependency    | Supported Versions |
+|:--------------|:-------------------|
+| PostGIS       | 3.0 and 3.1        |
+| PostgreSQL    | 11, 12 and 13      |
+| Doctrine ORM  | ^2.19 and ^3.0     |
+| Doctrine DBAL | ^3.7 and ^4.0      |
 
 Installation
 --
@@ -47,23 +47,38 @@ for all available versions.
 Setup
 --
 
-To use the library with the Doctrine ORM, register the
-`ORMSchemaEventSubscriber` event subscriber.
+Basic setup requires registering Middleware and the SchemaManagerFactory via the
+DBAL connection configuration.
 
 ```php
-use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\PgSQL\Driver;
+use Jsor\Doctrine\PostGIS\Driver\Middleware;
+use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener;
+use Jsor\Doctrine\PostGIS\Schema\SchemaManagerFactory;
 
-$entityManager->getEventManager()->addEventSubscriber(new ORMSchemaEventSubscriber());
+$params = [
+    // your connection parameters …
+];
+$config = new Configuration();
+$config->setMiddlewares([new Middleware]);
+$config->setSchemaManagerFactory(new SchemaManagerFactory());
+
+$connection = new Connection($params, new Driver(), $config);
 ```
 
-To use it with the DBAL only, register the `DBALSchemaEventSubscriber` event
-subscriber.
+
+Additionally, to also use the library with the Doctrine ORM, register the
+`ORMSchemaEventListener` event subscriber.
 
 ```php
-use Jsor\Doctrine\PostGIS\Event\DBALSchemaEventSubscriber;
+use Doctrine\ORM\Tools\ToolEvents;
+use Jsor\Doctrine\PostGIS\Event\ORMSchemaEventListener;
 
-$connection->getEventManager()->addEventSubscriber(new DBALSchemaEventSubscriber());
+$entityManager->getEventManager()->addEventListener(ToolEvents::postGenerateSchemaTable, new ORMSchemaEventListener());
 ```
+
 ### Symfony
 
 For integrating this library into a Symfony project, read the dedicated

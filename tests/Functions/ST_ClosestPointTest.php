@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_ClosestPoint
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_ClosestPointTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POINT(100 100)',
-];
+            'value' => 'POINT(100 100)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

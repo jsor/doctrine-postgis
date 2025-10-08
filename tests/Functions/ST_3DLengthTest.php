@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DLength
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_3DLengthTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 122.704716741457,
-];
+            'value' => 122.704716741457,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

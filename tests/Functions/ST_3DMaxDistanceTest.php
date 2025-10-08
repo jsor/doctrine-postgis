@@ -12,6 +12,8 @@ use Jsor\Doctrine\PostGIS\Entity\PointsEntity;
 use function is_resource;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DMaxDistance
+ *
  * @group orm
  * @group functions
  */
@@ -66,8 +68,8 @@ final class ST_3DMaxDistanceTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 1.73205080756888,
-];
+            'value' => 1.73205080756888,
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

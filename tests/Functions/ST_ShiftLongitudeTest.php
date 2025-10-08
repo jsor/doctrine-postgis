@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_ShiftLongitude
+ *
  * @group orm
  * @group functions
  */
@@ -72,8 +74,8 @@ final class ST_ShiftLongitudeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
-];
+            'value' => 'LINESTRING(241.42 38.38,241.8 38.45)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -102,8 +104,8 @@ final class ST_ShiftLongitudeTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(241.42000000000002 38.38,241.8 38.45)',
-];
+            'value' => 'LINESTRING(241.42000000000002 38.38,241.8 38.45)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

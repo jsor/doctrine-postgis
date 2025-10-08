@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_LongestLine
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_LongestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(100 100,98 190)',
-];
+            'value' => 'LINESTRING(100 100,98 190)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

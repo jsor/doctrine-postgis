@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_3DShortestLine
+ *
  * @group orm
  * @group functions
  */
@@ -72,8 +74,8 @@ final class ST_3DShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
-];
+            'value' => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -102,8 +104,8 @@ final class ST_3DShortestLineTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(54.69937988676193 128.93502291722837 11.547586950660556,100 100 30)',
-];
+            'value' => 'LINESTRING(54.69937988676193 128.93502291722837 11.547586950660556,100 100 30)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_Scale
+ *
  * @group orm
  * @group functions
  */
@@ -69,8 +71,8 @@ final class ST_ScaleTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'LINESTRING(0.5 1.5 2.4,0.5 0.75 0.8)',
-];
+            'value' => 'LINESTRING(0.5 1.5 2.4,0.5 0.75 0.8)',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }

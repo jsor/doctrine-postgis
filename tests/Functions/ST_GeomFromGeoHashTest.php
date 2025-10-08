@@ -13,6 +13,8 @@ use function is_resource;
 use function is_string;
 
 /**
+ * @covers \Jsor\Doctrine\PostGIS\Functions\ST_GeomFromGeoHash
+ *
  * @group orm
  * @group functions
  */
@@ -72,8 +74,8 @@ final class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
-];
+            'value' => 'POLYGON((-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646,-115.172816 36.114646))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -102,8 +104,8 @@ final class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
-];
+            'value' => 'POLYGON((-115.17281600000001 36.11464599999999,-115.17281600000001 36.114646,-115.172816 36.114646,-115.172816 36.11464599999999,-115.17281600000001 36.11464599999999))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
@@ -129,8 +131,8 @@ final class ST_GeomFromGeoHashTest extends AbstractFunctionalTestCase
         });
 
         $expected = [
-  'value' => 'POLYGON((-115.3125 36.03515625,-115.3125 36.2109375,-114.9609375 36.2109375,-114.9609375 36.03515625,-115.3125 36.03515625))',
-];
+            'value' => 'POLYGON((-115.3125 36.03515625,-115.3125 36.2109375,-114.9609375 36.2109375,-114.9609375 36.03515625,-115.3125 36.03515625))',
+        ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);
     }
