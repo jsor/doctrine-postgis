@@ -27,9 +27,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.2'],
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1 1,0 0, -1 1)'))) AS value",
                     'result' => [
                         'value' => 'MULTIPOINT(1 1,-1 1)',
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.4', 'postgis-3.6'],
+                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('LINESTRING(1 1,0 0, -1 1)'))) AS value",
+                    'result' => [
+                        'value' => 'MULTIPOINT((1 1),(-1 1))',
                     ],
                 ],
             ],

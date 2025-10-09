@@ -50,40 +50,7 @@ final class ST_3DClosestPointTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-3.0
-     */
     public function testQuery1(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DClosestPoint(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'POINT(54.6993798867619 128.935022917228 11.5475869506606)',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     */
-    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsEWKT(ST_3DClosestPoint(ST_GeomFromEWKT(\'LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)\'), ST_GeomFromEWKT(\'POINT(100 100 30)\'))) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 

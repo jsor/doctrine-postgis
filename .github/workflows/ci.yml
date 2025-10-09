@@ -3,75 +3,99 @@ name: CI
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 0 * * 0'
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
   tests:
     name: Tests (PHP ${{ matrix.php }}, PostgreSQL ${{ matrix.postgres }}, PostGIS ${{ matrix.postgis }}, ORM ${{ matrix.orm || 'default' }}, DBAL ${{ matrix.dbal || 'default' }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           # Lowest deps
-          - php: '8.0'
-            postgres: '11'
-            postgis: '3.0'
-            phpunit-flags: '--exclude-group=postgis-3.1'
+          - php: '8.1'
+            postgres: '14'
+            postgis: '3.2'
+            phpunit-flags: '--exclude-group=versioned'
+            composer-flags: '--prefer-stable --prefer-lowest'
+          - php: '8.1'
+            postgres: '14'
+            postgis: '3.2'
+            phpunit-flags: '--group=postgis-3.2'
             composer-flags: '--prefer-stable --prefer-lowest'
 
           # PostgresSQL / PostGIS matrix with ORM
+          # PHP 8.1, Postgres 15, ORM 2.19
           - php: '8.1'
-            postgres: '11'
-            postgis: '3.0'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.1'
+            postgres: '15'
+            postgis: '3.4'
+            orm: '2.19'
+            phpunit-flags: '--exclude-group=versioned'
           - php: '8.1'
-            postgres: '11'
-            postgis: '3.1'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.0'
+            postgres: '15'
+            postgis: '3.4'
+            orm: '2.19'
+            phpunit-flags: '--group=postgis-3.4'
+
+          # PHP 8.1, Postgres 16, ORM 2.19
           - php: '8.1'
-            postgres: '12'
-            postgis: '3.0'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.1'
+            postgres: '16'
+            postgis: '3.4'
+            orm: '2.19'
+            phpunit-flags: '--exclude-group=versioned'
           - php: '8.1'
-            postgres: '12'
-            postgis: '3.1'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.0'
+            postgres: '16'
+            postgis: '3.4'
+            orm: '2.19'
+            phpunit-flags: '--group=postgis-3.4'
+
+          # PHP 8.1, Postgres 17, ORM 3.5
           - php: '8.1'
-            postgres: '13'
-            postgis: '3.0'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.1'
+            postgres: '17'
+            postgis: '3.6'
+            orm: '3.5'
+            phpunit-flags: '--exclude-group=versioned'
           - php: '8.1'
-            postgres: '13'
-            postgis: '3.1'
-            orm: '2.9'
-            phpunit-flags: '--exclude-group=postgis-3.0'
+            postgres: '17'
+            postgis: '3.6'
+            orm: '3.5'
+            phpunit-flags: '--group=postgis-3.6'
+
+            # PHP 8.1, Postgres 18, ORM 3.5
+          - php: '8.1'
+            postgres: '18'
+            postgis: '3.6'
+            orm: '3.5'
+            phpunit-flags: '--exclude-group=versioned'
+          - php: '8.1'
+            postgres: '18'
+            postgis: '3.6'
+            orm: '3.5'
+            phpunit-flags: '--group=postgis-3.6'
             code-coverage: 'yes'
 
-          # DBAL only
+          # DBAL only v3 & v4
           - php: '8.1'
-            postgres: '11'
-            postgis: '3.0'
-            dbal: '2.13'
-            phpunit-flags: '--exclude-group=postgis-3.1 --exclude-group=orm'
-          - php: '8.1'
-            postgres: '13'
-            postgis: '3.1'
-            dbal: '3.1'
-            phpunit-flags: '--exclude-group=postgis-3.0 --exclude-group=orm'
+            postgres: '18'
+            postgis: '3.6'
+            dbal: '3.7'
+            phpunit-flags: '--group=postgis-3.6 --exclude-group=orm'
+          - php: '8.4'
+            postgres: '18'
+            postgis: '3.6'
+            dbal: '4.3'
+            phpunit-flags: '--group=postgis-3.6 --exclude-group=orm'
 
           # Next PHP version
-          - php: '8.2'
-            postgres: '13'
-            postgis: '3.1'
-            phpunit-flags: '--exclude-group=postgis-3.0'
-            composer-flags: '--ignore-platform-reqs'
-            experimental: true
+          - php: 'latest'
+            postgres: '18'
+            postgis: '3.6'
+            phpunit-flags: '--exclude-group=versioned'
+
     services:
       postgis:
         image: postgis/postgis:${{ matrix.postgres }}-${{ matrix.postgis }}-alpine
@@ -87,14 +111,25 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: pdo_pgsql
-          coverage: pcov
+          extensions: pdo_pgsql, pgsql
+          coverage: ${{ matrix.code-coverage == 'yes' && 'xdebug' || 'none' }}
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Doctrine ORM
         if: matrix.orm != ''
@@ -109,20 +144,25 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --no-interaction --no-progress --prefer-dist ${{ matrix.composer-flags }}
-          composer info -D
+          composer show -D
+
+      - name: Create coverage directory
+        if: matrix.code-coverage == 'yes'
+        run: mkdir -p build/logs
 
       - name: Run tests
-        if: matrix.code-coverage != 'yes'
-        run: vendor/bin/phpunit ${{ matrix.phpunit-flags }}
-
-      - name: Run tests with code coverage
-        if: matrix.code-coverage == 'yes'
-        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml ${{ matrix.phpunit-flags }}
-
-      - name: Upload coverage results to Coveralls
-        if: matrix.code-coverage == 'yes'
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls -v --coverage_clover=build/logs/clover.xml
+          if [ "${{ matrix.code-coverage }}" == "yes" ]; then
+            vendor/bin/phpunit --coverage-clover build/logs/clover.xml ${{ matrix.phpunit-flags }}
+          else
+            vendor/bin/phpunit ${{ matrix.phpunit-flags }}
+          fi
+
+      - name: Upload coverage to Coveralls
+        if: matrix.code-coverage == 'yes' && success()
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/logs/clover.xml
+          flag-name: php-${{ matrix.php }}-pg${{ matrix.postgres }}-postgis${{ matrix.postgis }}
+          parallel: true

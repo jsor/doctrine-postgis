@@ -49,6 +49,10 @@ final class ST_LineCrossingDirectionTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
+    /**
+     * @group postgis-3.2
+     * @group versioned
+     */
     public function testQuery1(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
@@ -69,6 +73,36 @@ final class ST_LineCrossingDirectionTest extends AbstractFunctionalTestCase
 
         $expected = [
             'value' => -3,
+        ];
+
+        $this->assertEqualsWithDelta($expected, $result, 0.001);
+    }
+
+    /**
+     * @group postgis-3.4
+     * @group postgis-3.6
+     * @group versioned
+     */
+    public function testQuery2(): void
+    {
+        $query = $this->_getEntityManager()->createQuery('SELECT ST_LineCrossingDirection(ST_GeomFromText(\'LINESTRING(25 169,89 114,40 70,86 43)\'), ST_GeomFromText(\'LINESTRING(171 154,20 140,71 74,161 53)\')) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
+
+        $result = $query->getSingleResult();
+
+        array_walk_recursive($result, static function (&$data): void {
+            if (is_resource($data)) {
+                $data = stream_get_contents($data);
+
+                if (false !== ($pos = strpos($data, 'x'))) {
+                    $data = substr($data, $pos + 1);
+                }
+            }
+
+            $data = (float) $data;
+        });
+
+        $expected = [
+            'value' => 3.0,
         ];
 
         $this->assertEqualsWithDelta($expected, $result, 0.001);

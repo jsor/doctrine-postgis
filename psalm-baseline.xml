@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+  <file src="src/Event/ORMSchemaEventListener.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ORMSchemaEventListener]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/Schema/SchemaManager.php">
     <MixedAssignment>
       <code><![CDATA[$default]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[Connection]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->_conn]]></code>
     </MixedReturnStatement>
     <UndefinedThisPropertyFetch>
       <code><![CDATA[$this->_conn]]></code>
     </UndefinedThisPropertyFetch>
+  </file>
+  <file src="src/Types/GeographyType.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeographyType]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Types/GeometryType.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeometryType]]></code>
+    </ClassMustBeFinal>
   </file>
 </files>

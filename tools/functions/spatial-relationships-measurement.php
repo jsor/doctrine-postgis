@@ -13,14 +13,6 @@ return [
         'tests' => [
             'queries' => [
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)'))) AS value",
-                    'result' => [
-                        'value' => 'POINT(54.6993798867619 128.935022917228 11.5475869506606)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)'))) AS value",
                     'result' => [
                         'value' => 'POINT(54.69937988676193 128.93502291722837 11.547586950660556)',
@@ -121,14 +113,6 @@ return [
         'tests' => [
             'queries' => [
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)'))) AS value",
-                    'result' => [
-                        'value' => 'LINESTRING(54.6993798867619 128.935022917228 11.5475869506606,100 100 30)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
                     'sql' => "SELECT ST_AsEWKT({function}(ST_GeomFromEWKT('LINESTRING (20 80 20, 98 190 1, 110 180 3, 50 75 1000)'), ST_GeomFromEWKT('POINT(100 100 30)'))) AS value",
                     'result' => [
                         'value' => 'LINESTRING(54.69937988676193 128.93502291722837 11.547586950660556,100 100 30)',
@@ -179,14 +163,6 @@ return [
         'tests' => [
             'queries' => [
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('MULTIPOINT(-1 0, -1 2, -1 3, -1 4, -1 7, 0 1, 0 3, 1 1, 2 0, 6 0, 7 8, 9 8, 10 6 )'))) AS value",
-                    'result' => [
-                        'value' => 'POINT(2.30769230769231 3.30769230769231)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('MULTIPOINT(-1 0, -1 2, -1 3, -1 4, -1 7, 0 1, 0 3, 1 1, 2 0, 6 0, 7 8, 9 8, 10 6 )'))) AS value",
                     'result' => [
                         'value' => 'POINT(2.307692307692308 3.307692307692308)',
@@ -286,9 +262,17 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.2'],
                     'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
                     'result' => [
                         'value' => -3,
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.4', 'postgis-3.6'],
+                    'sql' => "SELECT {function}(ST_GeomFromText('LINESTRING(25 169,89 114,40 70,86 43)'), ST_GeomFromText('LINESTRING(171 154,20 140,71 74,161 53)')) AS value",
+                    'result' => [
+                        'value' => 3.0,
                     ],
                 ],
             ],
@@ -607,10 +591,19 @@ return [
         'tests' => [
             'queries' => [
                 [
+                    'groups' => ['postgis-3.2'],
                     'sql' => "SELECT ST_X(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) as value1, ST_Y(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) AS value2",
                     'result' => [
                         'value1' => 0.635231029125537,
                         'value2' => 0.639472334729198,
+                    ],
+                ],
+                [
+                    'groups' => ['postgis-3.4', 'postgis-3.6'],
+                    'sql' => "SELECT ST_X(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) as value1, ST_Y(ST_GeomFromText(ST_AsText({function}(ST_GeomFromText('POINT(0 0)'), 100000, 0.785398163397448)))) AS value2",
+                    'result' => [
+                        'value1' => 70710.67811865476,
+                        'value2' => 70710.67811865475,
                     ],
                 ],
             ],
@@ -638,14 +631,6 @@ return [
         'tests' => [
             'queries' => [
                 [
-                    'groups' => ['postgis-3.0'],
-                    'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(100 100)'), ST_GeomFromText('LINESTRING(20 80, 98 190, 110 180, 50 75)'))) AS value",
-                    'result' => [
-                        'value' => 'LINESTRING(100 100,73.0769230769231 115.384615384615)',
-                    ],
-                ],
-                [
-                    'groups' => ['postgis-3.1'],
                     'sql' => "SELECT ST_AsText({function}(ST_GeomFromText('POINT(100 100)'), ST_GeomFromText('LINESTRING(20 80, 98 190, 110 180, 50 75)'))) AS value",
                     'result' => [
                         'value' => 'LINESTRING(100 100,73.07692307692307 115.38461538461539)',

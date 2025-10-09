@@ -50,40 +50,7 @@ final class ST_MinimumBoundingCircleTest extends AbstractFunctionalTestCase
         $em->clear();
     }
 
-    /**
-     * @group postgis-3.0
-     */
     public function testQuery1(): void
-    {
-        $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_MinimumBoundingCircle(ST_GeomFromEWKT(\'MULTIPOINT((10 10), (20 20), (10 20), (15 19))\'), 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
-
-        $result = $query->getSingleResult();
-
-        array_walk_recursive($result, static function (&$data): void {
-            if (is_resource($data)) {
-                $data = stream_get_contents($data);
-
-                if (false !== ($pos = strpos($data, 'x'))) {
-                    $data = substr($data, $pos + 1);
-                }
-            }
-
-            if (is_string($data)) {
-                $data = trim($data);
-            }
-        });
-
-        $expected = [
-            'value' => 'POLYGON((15 22.6536686473018,20.411961001462 20.411961001462,22.6536686473018 15,20.411961001462 9.58803899853803,15 7.3463313526982,9.58803899853803 9.58803899853803,7.3463313526982 15,9.58803899853803 20.411961001462,15 22.6536686473018))',
-        ];
-
-        $this->assertEqualsWithDelta($expected, $result, 0.001);
-    }
-
-    /**
-     * @group postgis-3.1
-     */
-    public function testQuery2(): void
     {
         $query = $this->_getEntityManager()->createQuery('SELECT ST_AsText(ST_MinimumBoundingCircle(ST_GeomFromEWKT(\'MULTIPOINT((10 10), (20 20), (10 20), (15 19))\'), 2)) AS value FROM Jsor\\Doctrine\\PostGIS\\Entity\\PointsEntity point');
 

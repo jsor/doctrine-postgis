@@ -1,64 +1,54 @@
-version: '3.7'
-
 services:
-  db-11-30:
-    image: postgis/postgis:11-3.0-alpine
+  db-14-32:
+    image: postgis/postgis:14-3.2-alpine
     environment:
       POSTGRES_PASSWORD: postgres
     networks:
-      - db-11-30
+      - db-14-32
 
-  db-11-31:
-    image: postgis/postgis:11-3.1-alpine
+  db-15-34:
+    image: postgis/postgis:15-3.4-alpine
     environment:
       POSTGRES_PASSWORD: postgres
     networks:
-      - db-11-31
+      - db-15-34
 
-  db-12-30:
-    image: postgis/postgis:12-3.0-alpine
+  db-16-34:
+    image: postgis/postgis:16-3.4-alpine
     environment:
       POSTGRES_PASSWORD: postgres
     networks:
-      - db-12-30
+      - db-16-34
 
-  db-12-31:
-    image: postgis/postgis:12-3.1-alpine
+  db-17-36:
+    image: postgis/postgis:17-3.6-alpine
+    platform: linux/amd64
     environment:
       POSTGRES_PASSWORD: postgres
     networks:
-      - db-12-31
+      - db-17-36
 
-  db-13-30:
-    image: postgis/postgis:13-3.0-alpine
+  db-18-36:
+    image: postgis/postgis:18-3.6-alpine
+    platform: linux/amd64
     environment:
       POSTGRES_PASSWORD: postgres
     networks:
-      - db-13-30
-
-  db-13-31:
-    image: postgis/postgis:13-3.1-alpine
-    environment:
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - db-13-31
+      - db-18-36
 
 networks:
-  db-11-30:
-    name: doctrine-postgis-11-30
+  db-14-32:
+    name: doctrine-postgis-14-32
     driver: bridge
-  db-11-31:
-    name: doctrine-postgis-11-31
+  db-15-34:
+    name: doctrine-postgis-15-34
     driver: bridge
-  db-12-30:
-    name: doctrine-postgis-12-30
+  db-16-34:
+    name: doctrine-postgis-16-34
     driver: bridge
-  db-12-31:
-    name: doctrine-postgis-12-31
+  db-17-36:
+    name: doctrine-postgis-17-36
     driver: bridge
-  db-13-30:
-    name: doctrine-postgis-13-30
-    driver: bridge
-  db-13-31:
-    name: doctrine-postgis-13-31
+  db-18-36:
+    name: doctrine-postgis-18-36
     driver: bridge

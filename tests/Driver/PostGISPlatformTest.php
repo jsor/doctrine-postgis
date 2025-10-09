@@ -9,6 +9,7 @@ use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\NumberType;
 use Doctrine\DBAL\Types\Type;
 use Jsor\Doctrine\PostGIS\AbstractFunctionalTestCase;
 use Jsor\Doctrine\PostGIS\Schema\SchemaManager;
@@ -140,7 +141,11 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
         $sql = (new PostGISPlatform())->getCreateTablesSQL([$table1, $table2]);
 
         static::assertCreateTableSql($sql);
-        static::assertContains('ALTER TABLE places ADD CONSTRAINT FK_FEAF6C55DF69572F FOREIGN KEY (points_id) REFERENCES points (id) NOT DEFERRABLE INITIALLY IMMEDIATE', $sql);
+        if (class_exists(NumberType::class)) {
+            static::assertContains('ALTER TABLE places ADD CONSTRAINT FK_FEAF6C55DF69572F FOREIGN KEY (points_id) REFERENCES points (id)', $sql);
+        } else {
+            static::assertContains('ALTER TABLE places ADD CONSTRAINT FK_FEAF6C55DF69572F FOREIGN KEY (points_id) REFERENCES points (id) NOT DEFERRABLE INITIALLY IMMEDIATE', $sql);
+        }
     }
 
     public function testGetCreateTableSqlSkipsAlreadyAddedTable(): void
@@ -172,7 +177,11 @@ final class PostGISPlatformTest extends AbstractFunctionalTestCase
 
     private static function assertCreateTableSql(array $sql): void
     {
-        $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geometry geometry(GEOMETRY, 0) NOT NULL, point geometry(POINT, 0) NOT NULL, point_2d geometry(POINT, 3785) NOT NULL, point_3dz geometry(POINTZ, 3785) NOT NULL, point_3dm geometry(POINTM, 3785) NOT NULL, point_4d geometry(POINTZM, 3785) NOT NULL, point_2d_nullable geometry(POINT, 3785) DEFAULT NULL, point_2d_nosrid geometry(POINT, 0) NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
+        if (class_exists(NumberType::class)) {
+            $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geometry geometry(GEOMETRY, 0) NOT NULL, point geometry(POINT, 0) NOT NULL, point_2d geometry(POINT, 3785) NOT NULL, point_3dz geometry(POINTZ, 3785) NOT NULL, point_3dm geometry(POINTM, 3785) NOT NULL, point_4d geometry(POINTZM, 3785) NOT NULL, point_2d_nullable geometry(POINT, 3785) DEFAULT NULL, point_2d_nosrid geometry(POINT, 0) NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY (id))';
+        } else {
+            $expected = 'CREATE TABLE points (id INT NOT NULL, text TEXT NOT NULL, tsvector TEXT NOT NULL, geometry geometry(GEOMETRY, 0) NOT NULL, point geometry(POINT, 0) NOT NULL, point_2d geometry(POINT, 3785) NOT NULL, point_3dz geometry(POINTZ, 3785) NOT NULL, point_3dm geometry(POINTM, 3785) NOT NULL, point_4d geometry(POINTZM, 3785) NOT NULL, point_2d_nullable geometry(POINT, 3785) DEFAULT NULL, point_2d_nosrid geometry(POINT, 0) NOT NULL, geography geography(GEOMETRY, 4326) NOT NULL, point_geography_2d geography(POINT, 4326) NOT NULL, point_geography_2d_srid geography(POINT, 4326) NOT NULL, PRIMARY KEY(id))';
+        }
         static::assertContains($expected, $sql);
 
         static::assertContains("COMMENT ON TABLE points IS 'This is a comment for table points'", $sql);

@@ -31,7 +31,7 @@
         "doctrine/orm": "^2.19 || ^3.0",
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpunit/phpunit": "^9.6",
-        "vimeo/psalm": "^5.9",
+        "vimeo/psalm": "^6.13",
         "symfony/doctrine-bridge": "^6.4",
         "symfony/doctrine-messenger": "^6.4"
     },

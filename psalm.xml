@@ -17,4 +17,7 @@
             <file name="src/Event/ORMSchemaEventSubscriber.php" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <MissingOverrideAttribute errorLevel="suppress" />
+    </issueHandlers>
 </psalm>
