@@ -67,7 +67,33 @@ return [
     'ST_CurveToLine' => array(
     ),
     'ST_DelaunayTriangles' => array(
-    ),*/
+    ),
+    // TODO: Add ST_Subdivide - Divides geometry into smaller parts (critical for performance)
+    // 'ST_Subdivide' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_Clip - Clips geometry to a rectangle
+    // 'ST_Clip' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_ClipByBox2D - Clips geometry to a box2d
+    // 'ST_ClipByBox2D' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_VoronoiPolygons - Voronoi diagram (polygons)
+    // 'ST_VoronoiPolygons' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 3,
+    // ],
+    // TODO: Add ST_VoronoiLines - Voronoi diagram (lines)
+    // 'ST_VoronoiLines' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 3,
+    // ],
+    */
     'ST_Difference' => [
         'required_arguments' => 2,
         'total_arguments' => 2,
@@ -163,7 +189,23 @@ return [
     /*'ST_Simplify' => array(
     ),
     'ST_SimplifyPreserveTopology' => array(
-    ),*/
+    ),
+    // TODO: Add ST_LineMerge - Merges linestrings
+    // 'ST_LineMerge' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    // ],
+    // TODO: Add ST_CollectionExtract - Extracts elements from a collection
+    // 'ST_CollectionExtract' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_CollectionHomogenize - Homogenizes a collection
+    // 'ST_CollectionHomogenize' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    // ],
+    */
     'ST_Split' => [
         'required_arguments' => 2,
         'total_arguments' => 2,

@@ -12,7 +12,8 @@ $functions = array_merge(
     require __DIR__ . '/functions/geometry-outputs.php',
     require __DIR__ . '/functions/spatial-relationships-measurement.php',
     require __DIR__ . '/functions/geometry-processing.php',
-    require __DIR__ . '/functions/miscellaneous-functions.php'
+    require __DIR__ . '/functions/linear-referencing.php',
+    require __DIR__ . '/functions/miscellaneous-functions.php',
 );
 
 $functionIndex = [
@@ -51,6 +52,11 @@ $functionIndex = [
         'anchor' => 'Geometry_Processing',
         'functions' => array_keys(require __DIR__ . '/functions/geometry-processing.php'),
     ],
+    /*[
+        'title' => 'Linear Referencing',
+        'anchor' => 'Linear_Referencing',
+        'functions' => array_keys(require __DIR__ . '/functions/linear-referencing.php'),
+    ],*/
     [
         'title' => 'Miscellaneous Functions',
         'anchor' => 'Miscellaneous_Functions',
@@ -269,7 +275,7 @@ final class Configurator
 
 function normalize_versioned_groups(array $queries): array
 {
-    $postGisVersions = ['3.0', '3.1', '3.2', '3.3', '3.4'];
+    $postGisVersions = ['3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6'];
 
     $queryGroups = [];
     foreach ($queries as $query) {
