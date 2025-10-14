@@ -705,4 +705,19 @@ return [
             ],
         ],
     ],
+    // TODO: Add ST_BoundingDiagonal - Returns the diagonal of a geometry's bounding box
+    // 'ST_BoundingDiagonal' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_MinimumBoundingRadius - Returns minimum bounding radius
+    // 'ST_MinimumBoundingRadius' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    // ],
+    // TODO: Add ST_OrientedEnvelope - Returns oriented minimum bounding rectangle
+    // 'ST_OrientedEnvelope' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    // ],
 ];

@@ -667,4 +667,32 @@ return [
             ],
         ],
     ],
+    // TODO: Add ST_FrechetDistance - Fréchet distance between two geometries
+    // 'ST_FrechetDistance' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 3,
+    //     'return_type' => 'numeric',
+    // ],
+    // TODO: Add ST_MinimumClearance - Minimum clearance of a geometry
+    // 'ST_MinimumClearance' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    //     'return_type' => 'numeric',
+    // ],
+    // TODO: Add ST_MinimumClearanceLine - Line representing minimum clearance
+    // 'ST_MinimumClearanceLine' => [
+    //     'required_arguments' => 1,
+    //     'total_arguments' => 1,
+    // ],
+    // TODO: Add ST_Angle - Angle between 3 or 4 points
+    // 'ST_Angle' => [
+    //     'required_arguments' => 3,
+    //     'total_arguments' => 4,
+    //     'return_type' => 'numeric',
+    // ],
+    // TODO: Add ST_PointInsideCircle - Tests if point is inside circle (deprecated)
+    // 'ST_PointInsideCircle' => [
+    //     'required_arguments' => 5,
+    //     'total_arguments' => 5,
+    // ],
 ];

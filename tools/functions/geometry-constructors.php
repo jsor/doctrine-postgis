@@ -517,4 +517,29 @@ return [
             ],
         ],
     ],
+    // TODO: Add ST_GeneratePoints - Generates random points in a geometry
+    // 'ST_GeneratePoints' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 3,
+    // ],
+    // TODO: Add ST_PointZ - Creates a Point with Z coordinate
+    // 'ST_PointZ' => [
+    //     'required_arguments' => 3,
+    //     'total_arguments' => 3,
+    // ],
+    // TODO: Add ST_PointM - Creates a Point with M coordinate
+    // 'ST_PointM' => [
+    //     'required_arguments' => 3,
+    //     'total_arguments' => 3,
+    // ],
+    // TODO: Add ST_PointZM - Creates a Point with Z and M coordinates
+    // 'ST_PointZM' => [
+    //     'required_arguments' => 4,
+    //     'total_arguments' => 4,
+    // ],
+    // TODO: Add ST_TileEnvelope - Creates a rectangular envelope for a tile in a tile-based map
+    // 'ST_TileEnvelope' => [
+    //     'required_arguments' => 3,
+    //     'total_arguments' => 4,
+    // ],
 ];

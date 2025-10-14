@@ -121,7 +121,28 @@ return [
         ],
     ],
     /*'ST_Snap' => array(
-    ),*/
+    ),
+    // TODO: Add ST_SwapOrdinates - Swaps ordinates (coordinates)
+    // 'ST_SwapOrdinates' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_ReducePrecision - Reduces coordinate precision
+    // 'ST_ReducePrecision' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_WrapX - Wraps geometry around X axis
+    // 'ST_WrapX' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 2,
+    // ],
+    // TODO: Add ST_FilterByM - Filters points by M value
+    // 'ST_FilterByM' => [
+    //     'required_arguments' => 2,
+    //     'total_arguments' => 4,
+    // ],
+    */
     'ST_Transform' => [
         'required_arguments' => 2,
         'total_arguments' => 2,

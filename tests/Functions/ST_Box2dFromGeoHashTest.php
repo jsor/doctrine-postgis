@@ -79,6 +79,7 @@ final class ST_Box2dFromGeoHashTest extends AbstractFunctionalTestCase
 
     /**
      * @group postgis-3.6
+     * @group versioned
      */
     public function testQuery2(): void
     {
