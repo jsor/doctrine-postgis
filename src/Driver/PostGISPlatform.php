@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jsor\Doctrine\PostGIS\Driver;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\PostgreSQL120Platform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Index;
@@ -18,7 +19,12 @@ use function count;
 use function implode;
 use function sprintf;
 
-final class PostGISPlatform extends PostgreSQLPlatform
+if (!class_exists('Doctrine\DBAL\Platforms\PostgreSQL120Platform')) {
+    class_alias(PostgreSQLPlatform::class, 'Doctrine\DBAL\Platforms\PostgreSQL120Platform');
+}
+
+/** @psalm-suppress DeprecatedClass */
+final class PostGISPlatform extends PostgreSQL120Platform
 {
     protected function initializeDoctrineTypeMappings(): void
     {
@@ -32,7 +38,7 @@ final class PostGISPlatform extends PostgreSQLPlatform
 
     public function createSchemaManager(Connection $connection): PostgreSQLSchemaManager
     {
-        /** @var PostgreSQLPlatform $platform */
+        /** @var PostgreSQL120Platform $platform */
         $platform = $connection->getDatabasePlatform();
 
         return new SchemaManager($connection, $platform);
