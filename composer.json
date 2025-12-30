@@ -32,8 +32,8 @@
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpunit/phpunit": "^9.6",
         "vimeo/psalm": "^6.13",
-        "symfony/doctrine-bridge": "^6.4",
-        "symfony/doctrine-messenger": "^6.4"
+        "symfony/doctrine-bridge": "^6.4 | ^7.4 | ^8.0",
+        "symfony/doctrine-messenger": "^6.4 | ^7.4 | ^8.0"
     },
     "conflict": {
         "doctrine/orm": "<2.18"
