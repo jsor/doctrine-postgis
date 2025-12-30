@@ -199,9 +199,14 @@ abstract class AbstractFunctionalTestCase extends AbstractTestCase
 
     protected function _setupConfiguration(ORMConfiguration $config): ORMConfiguration
     {
-        $config->setProxyDir(__DIR__ . '/tmp');
-        $config->setProxyNamespace('Proxy');
         $config->setMetadataDriverImpl($this->_getMappingDriver());
+
+        if (PHP_VERSION_ID >= 80400) {
+            $config->enableNativeLazyObjects(true);
+        } else {
+            $config->setProxyDir(__DIR__ . '/tmp');
+            $config->setProxyNamespace('Proxy');
+        }
 
         return $config;
     }
