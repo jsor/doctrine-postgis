@@ -232,13 +232,15 @@ final class SchemaManager extends PostgreSQLSchemaManager
 
     protected function resolveSpatialColumnInfo(Column $column, string $tableName): void
     {
-        if (!$column->getType() instanceof PostGISType) {
+        $type = $column->getType();
+        
+        if (!$type instanceof PostGISType) {
             return;
         }
 
-        $info = match ($column->getType()::class) {
-            GeometryType::class => $this->getGeometrySpatialColumnInfo($tableName, $column->getName()),
-            GeographyType::class => $this->getGeographySpatialColumnInfo($tableName, $column->getName()),
+        $info = match (true) {
+            $type instanceof GeometryType => $this->getGeometrySpatialColumnInfo($tableName, $column->getName()),
+            $type instanceof GeographyType => $this->getGeographySpatialColumnInfo($tableName, $column->getName()),
             default => null,
         };
 
@@ -253,7 +255,7 @@ final class SchemaManager extends PostgreSQLSchemaManager
         }
 
         $column
-            ->setType(PostGISType::getType(Type::lookupName($column->getType())))
+            ->setType(PostGISType::getType(Type::lookupName($type)))
             ->setDefault($default)
             ->setPlatformOption('geometry_type', $info['type'])
             ->setPlatformOption('srid', $info['srid'])
